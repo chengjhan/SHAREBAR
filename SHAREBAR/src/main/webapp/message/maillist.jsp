@@ -8,18 +8,21 @@
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link type="text/css" href="../js/jquery-chatbox/jquery.ui.chatbox.css" rel="stylesheet" />
-<script type="text/javascript" src="../js/jquery-chatbox/jquery.ui.chatbox.js"></script>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
 
-<link type="text/css" href="../js/jquery-chatbox/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
-<script type="text/javascript" src="../js/jquery-chatbox/jquery-ui-1.8.2.custom.min.js"></script>
+<link rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css">
+<script src="js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 
-<link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
-<link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-<script src="../js/jquery-3.1.1.min.js"></script>
-<script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-<script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-<script src="../js/jquery.validate.min.js"></script>
+<link type="text/css" href="js/jquery-chatbox/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="js/jquery-chatbox/jquery-ui-1.8.2.custom.min.js"></script>
+
+<link type="text/css" href="js/jquery-chatbox/jquery.ui.chatbox.css" rel="stylesheet" />
+<script type="text/javascript" src="js/jquery-chatbox/jquery.ui.chatbox.js"></script>
+<script type="text/javascript" src="js/jquery-chatbox/chatboxManager.js"></script>
+
+<link rel="stylesheet" href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
 </head>
 <body>
