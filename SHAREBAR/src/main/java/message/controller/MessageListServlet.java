@@ -14,11 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import message.model.MessageContextBean;
 import message.model.MessageContextService;
 
-@WebServlet("/message.controller")
-public class MessageContextServlet extends HttpServlet {
+@WebServlet("/maillist.controller")
+public class MessageListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private MessageContextService messageContextService;
@@ -33,10 +32,12 @@ public class MessageContextServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String member_id = request.getParameter("member_id");
-		String item_id = request.getParameter("item_id");
 		
-		List<MessageContextBean> message = messageContextService.select(Integer.valueOf(item_id),Integer.valueOf(member_id));
-		request.setAttribute("message", message);
+		List<Object[]> share_mail = messageContextService.mailForShare(Integer.valueOf(member_id));
+		request.setAttribute("share_mail", share_mail);
+		
+		List<Object[]> request_mail = messageContextService.mailForRequest(Integer.valueOf(member_id));
+		request.setAttribute("request_mail", request_mail);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("message/maillist.jsp");
 		rd.forward(request, response);
