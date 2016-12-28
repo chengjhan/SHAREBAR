@@ -1,5 +1,11 @@
 /target/
+<<<<<<< HEAD
 /.project
 /.classpath
 /.settings/
 /Users/
+=======
+/.settings/
+/.classpath
+/.project
+>>>>>>> branch 'master' of https://github.com/EEIT90Team4/SHAREBAR.git
