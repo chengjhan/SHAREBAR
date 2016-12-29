@@ -1,0 +1,6 @@
+需要更改localhost的地方
+context.xml
+signup_success.jsp
+activateSuccess.jsp
+activateFail.jsp
+MemberService.java --> send Email的地方
