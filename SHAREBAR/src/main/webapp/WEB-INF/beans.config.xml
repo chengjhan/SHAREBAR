@@ -45,4 +45,5 @@
 	<context:component-scan base-package="followitem.model"></context:component-scan>
 	<context:component-scan base-package="message.model"></context:component-scan>
 	<context:component-scan base-package="administrator.model"></context:component-scan>
+	<context:component-scan base-package="messageBoard.model"></context:component-scan>
 </beans>

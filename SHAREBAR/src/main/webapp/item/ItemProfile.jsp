@@ -7,9 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="../js/jquery-ui-1.12.1.custom/jquery-ui.min.js">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <title>Profile Page</title>
 <script type="text/javascript">
@@ -17,7 +15,8 @@ $(function(){
 	$("#header").load("../header.jsp");
 	
 	//判斷是否追蹤
-// 	var memberid = ${user.member_no};
+
+	
 	var itemid = ${itembean.item_id}
 	var itemstatus = 0;
 	
@@ -25,8 +24,8 @@ $(function(){
 			function(data){
 		itemstatus = data;
 		if(itemstatus==1){
-			$("div>input:eq(1)").attr("value","已追蹤");
-			$("div>input:eq(1)").toggleClass("btn-success");
+			$("div>input:eq(2)").attr("value","已追蹤");
+			$("div>input:eq(2)").toggleClass("btn-success");
 		}
 	})
 	
@@ -45,6 +44,12 @@ $(function(){
 					else{change.attr("value","追蹤按鈕")}
 				})
 	})
+	//切換圖片功能
+	var showpic =null;
+	$(".item_pic").click(function(){
+		showpic=$(this).attr("src");
+		$(".show_pic").attr("src",showpic);
+	})
 	
 	
 });
@@ -56,7 +61,8 @@ $(function(){
 }
 
 #basic_info>.row{ 
-	display: table; 
+	/* 	display: table;  */
+	display: flex;
  } 
 #basic_info>.row>[class*='col-']{
 	display: table-cell;
@@ -66,6 +72,20 @@ $(function(){
 #follow_button{
 	width: 100%;
 }
+.show_pic{
+	width: 420px;
+	height:420px;
+	margin:15px;
+}
+.finger{
+	cursor:pointer;
+}
+
+
+/* .item_pic{ */
+/* 	cursor: pointer; */
+/* } */
+
 
 /* #info_div>[class*='col-']{ */
 
@@ -86,46 +106,88 @@ $(function(){
 <div class="container" id="basic_info">
 <div class="row">
 <div class="col-md-8" id="photo_div">
+	<div class="row">
+	<div class="col-md-9" >
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 		<c:if test="${stat.first}">
-			<div class="img_container">
-				<img alt="item_image" src="${root}item-image/${image.image_photo}" width="200" height="200">
-			</div>
+				<img class="show_pic" alt="item_image" src="${root}item-image/${image.image_photo}">
 		</c:if>
 	</c:forEach>
+	</div>
+	<%--   功能按鈕      --%>
+
+	<div class="col-md-3">
+	<div >
+	<c:choose>
+	<c:when test="${itembean.member_id.member_no eq user.member_no}">
+	<input type="button" value="Edit" class="btn btn-primary">
+	</c:when>
+	<c:otherwise>
+	<input type="button" value="私訊分享者" class="btn btn-primary" style="margin :15px">
+	<input type="button" value="追蹤按鈕" class="btn btn-default" style="width:80px;margin :15px" >
+	<input type="button" value="檢舉商品" class="btn btn-default" style="margin :15px">
+	</c:otherwise>
+	</c:choose>
+	</div>
+	</div>
+
+<%--   功能按鈕      --%>
+	</div>
+	<div class="row">
+	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
+<%-- 		<c:if test="${stat.first}"> --%>
+			<div class="col-md-3 thumbnail finger">
+				<img class="item_pic" alt="item_image" src="${root}item-image/${image.image_photo}" width="80" height="80">
+			</div>
+<%-- 		</c:if> --%>
+	</c:forEach>
+	</div>
 </div>
+
+
 <div class="col-md-4" id="info_div" style="vertical-align:top">
 <h1>${member.nickname}</h1>
 <span class="glyphicon glyphicon-file"></span>分享物品: <p>${itembean.item_name}</p>
 <span class="glyphicon glyphicon-map-marker"></span>地點:<p>${itembean.location}</p>
-<span class="glyphicon glyphicon-tag"></span>說明:<p>${itembean.item_description}</p>
-<div>
-<c:choose>
-<c:when test="${itembean.member_id.member_no eq user.member_no}">
-<input type="button" value="Edit" class="btn btn-primary">
-</c:when>
-<c:otherwise>
-<input type="button" value="私訊分享者" class="btn btn-primary">
-<input type="button" value="追蹤按鈕" class="btn btn-default" style="width:80px;">
-<input type="button" value="檢舉商品" class="btn btn-default">
-</c:otherwise>
-</c:choose>
+
+
 </div>
-</div>
+
 </div><!-- end of row basic info-->
+<hr>
 </div><!-- end of basic_info -->
 
+<div class="row">
+<div class="container">
+<div class="col-md-8" id="other-info">
+<ul class="nav nav-tabs">
+<li class="active"><a data-toggle="tab" href="#descrption">分享描述</a></li>
+<li><a data-toggle="tab" href="#message">討論</a></li>
+</ul>
 
-
-
-
-
-<!-- <div class="container" id="other_info"> -->
 	<div class="tab-content">
-    <div class="row">
-    <div class="">
-    
+	<div id="descrption" class="tab-pane fade in active">
+    	<div class="row">
+    	<span class="glyphicon glyphicon-tag"></span>說明:<p>${itembean.item_description}</p>
+    	 </div>
     </div>
+    <div id="message" class="tab-pane fade" style="padding:10px 0">
+    	
+    	<c:forEach var="message" items="${itembean.messageboard}" varStatus="stat">
+    	<div class="text-center">
+    	<p>${message.member_id }</p>
+    	<span>${message.message}</span>
+    	</div>
+    	<c:if test="${stat.last}"><hr/></c:if>
+    	</c:forEach>
+    	<form action="" method="post">
+    	<textarea class="form-control" style="margin:15px 0" placeholder="請輸入留言訊息"></textarea>
+    	<input class="pull-right btn btn-default" type="button" value="留言" style="width:100px">
+    	 </form>
+    	
+    	
+    </div>
+    
 <!--       <h3>Itembeam資訊</h3> -->
 <%--       <p> itemid: ${itembean.item_id}</p> --%>
 <%--       <p> itemname: ${itembean.item_id}</p> --%>
@@ -141,6 +203,28 @@ $(function(){
 <!--     </div> -->
   </div>
 </div>
+<div id="other-info">
+<h3 class="text-center" style="margin:5px 0px 20px 0px">
+<span >分享者資訊</span>
+</h3>
+	<div class="col-md-4 alert alert-info" role="alert" >	
+	<div class="row">
+	<div class="col-md-7 col-md-7 col-xs-4">
+	<a href="${root}member/profile.controller?id=${itembean.member_id.member_no}" class="alert-link">
+	<img alt="${follow.member_followed.nickname}" src="${root}profileImages/${itembean.member_id.photo}" class="img-rounded" width="155" height="155">
+	</a>
+	</div>
+	<div class="col-md-5 col-sm-5 col-xs-8">
+	<h1>${itembean.member_id.nickname}</h1>
+	<span class="glyphicon glyphicon-home"></span>Hometown<p>${itembean.member_id.country} : ${itembean.member_id.city}</p>
+	</div>
+	
+	</div>
+	</div>
+</div>
+</div>
+</div>
+
 <script type="text/javascript">
 $("#follow_button").click(function(){
 	var status = $(this).val;

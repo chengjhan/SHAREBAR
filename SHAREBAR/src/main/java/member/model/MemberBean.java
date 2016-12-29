@@ -18,6 +18,7 @@ import com.google.gson.annotations.Expose;
 import followitem.model.FollowItemsBean;
 import item.model.ItemBean;
 import message.model.MessageContextBean;
+import messageBoard.model.MessageBoardBean;
 import relationship.model.RelationshipBean;
 
 @Entity
@@ -69,6 +70,11 @@ public class MemberBean {
 	@Expose(serialize = false)
 	private Set<MessageContextBean> messageContextBeans_listener = new HashSet<MessageContextBean>();
 	//阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的	
+	
+	//新增留言板關聯 geter seter記得加
+	@OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy="member_id")
+	@OrderBy("id asc")
+	private Set<MessageBoardBean> messageboard = new HashSet<MessageBoardBean>();
 	
 	public int getMember_no() {
 		return member_no;
@@ -244,5 +250,13 @@ public class MemberBean {
 
 	public void setMessageContextBeans_listener(Set<MessageContextBean> messageContextBeans_listener) {
 		this.messageContextBeans_listener = messageContextBeans_listener;
+	}
+
+	public Set<MessageBoardBean> getMessageboard() {
+		return messageboard;
+	}
+
+	public void setMessageboard(Set<MessageBoardBean> messageboard) {
+		this.messageboard = messageboard;
 	}
 }
