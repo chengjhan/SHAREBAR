@@ -1,5 +1,7 @@
 /target/
-/Java/
-/.settings/
+/.settings
 /.classpath
 /.project
+/Git/
+/Java/
+/Project/
