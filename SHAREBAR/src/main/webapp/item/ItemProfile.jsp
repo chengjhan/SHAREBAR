@@ -24,8 +24,8 @@ $(function(){
 			function(data){
 		itemstatus = data;
 		if(itemstatus==1){
-			$("div>input:eq(2)").attr("value","已追蹤");
-			$("div>input:eq(2)").toggleClass("btn-success");
+			$('input[value="追蹤按鈕"]').attr("value","已追蹤");
+			$('input[value="追蹤按鈕"]').toggleClass("btn-success");
 		}
 	})
 	
