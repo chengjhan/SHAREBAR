@@ -68,11 +68,6 @@ public class RelationshipService {
 				relation.setMember_follow(follow);
 				relation.setMember_followed(followed);
 				relation.setRelation("follow");
-//				if (status == "follow") {
-//					relation.setRelation("unfollow");
-//				} else if (status == "unfollow") {
-//					relation.setRelation("follow");
-//				}
 				relation = relationshipDao.insert(relation);
 				if(relation != null){
 					return true;
