@@ -1,7 +1,4 @@
-/target/
 /.project
 /.classpath
 /.settings/
-/.classpath
-/.project
-/.tern-project
+/target/
