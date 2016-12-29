@@ -38,7 +38,7 @@ border-collapse:collapse;
 	
 	<div class="col-md-3">
 		<div class="list-group">
-		  <a href="gm_view05.jsp" class="list-group-item">我的信箱</a>
+		  <a href="gm_view05_2.jsp" class="list-group-item">我的信箱</a>
 		</div>
 	</div>
 	

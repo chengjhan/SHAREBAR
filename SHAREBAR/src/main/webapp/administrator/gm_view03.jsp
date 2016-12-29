@@ -53,7 +53,7 @@ border-collapse:collapse;
 				
 				
 <!-- 每頁不同的內容從這裡開始 -->
-	<form action="<c:url value="InsertReportServlet"/>" method="get">
+	<form action="<c:url value="/administrator/ReportInsertServlet"/>" method="get">
 		<table>
 			<tr>
 				<td>(5-1 , 5-2)檢舉物品</td>
@@ -67,14 +67,14 @@ border-collapse:collapse;
 			<tr>
 				<td>違規事項描述:</td>
 				<td><input type="text" name="context" value="${param.context}"></td>
-				<td align="right"><input type="submit" value="執行"></td>
+				<td align="right"><input type="submit" value="執行">${errors.system}</td>
 			</tr>			
 		</table>		
 	</form>
 	
 	<div>&nbsp</div>
 	
-	<form action="<c:url value="SelectAllReportServlet"/>" method="get">		
+	<form action="<c:url value="/administrator/ReportSelectAllServlet"/>" method="get">		
 			<tr>		
 				<td><input type="submit" value="更新檢舉物品清單"></td>			
 			</tr>			
