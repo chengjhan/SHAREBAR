@@ -28,6 +28,7 @@ import followitem.model.FollowItemsBean;
 import image.model.ImageBean;
 import member.model.MemberBean;
 import message.model.MessageContextBean;
+import messageBoard.model.MessageBoardBean;
 
 @Entity
 @Table(name = "item", catalog = "test3", schema = "dbo")
@@ -78,6 +79,11 @@ public class ItemBean {
 	@OrderBy("messageNo ASC")
 	@Expose(serialize = false)
 	private Set<MessageContextBean> MessageContextBeans_item = new HashSet<MessageContextBean>();
+	
+	//新增留言板關聯 
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "itemBean")
+	@OrderBy("id asc")
+	private Set<MessageBoardBean> messageboard = new HashSet<MessageBoardBean>();
 	@Override
 	public String toString() {
 		return "ItemBean [item_id=" + item_id + ", item_name=" + item_name + ", member_id=" + member_id + "]\n"
@@ -242,6 +248,14 @@ public class ItemBean {
 
 	public void setMessageContextBeans_item(Set<MessageContextBean> messageContextBeans_item) {
 		MessageContextBeans_item = messageContextBeans_item;
+	}
+
+	public Set<MessageBoardBean> getMessageboard() {
+		return messageboard;
+	}
+
+	public void setMessageboard(Set<MessageBoardBean> messageboard) {
+		this.messageboard = messageboard;
 	}
 
 	public static void main(String[] args) {

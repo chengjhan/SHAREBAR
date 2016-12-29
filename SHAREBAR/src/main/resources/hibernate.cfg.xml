@@ -17,5 +17,6 @@
     	<mapping class="message.model.MessageContextBean"/>
     	<mapping class="message.model.RequestListBean"/>
     	<mapping class="administrator.model.ServiceMailBean"/>
+    	<mapping class="messageBoard.model.MessageBoardBean"/>
     </session-factory>
 </hibernate-configuration>
