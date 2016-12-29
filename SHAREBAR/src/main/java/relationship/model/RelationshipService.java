@@ -67,30 +67,12 @@ public class RelationshipService {
 				relation = new RelationshipBean();
 				relation.setMember_follow(follow);
 				relation.setMember_followed(followed);
-				if (status == "follow") {
-					relation.setRelation("unfollow");
-				} else if (status == "unfollow") {
-					relation.setRelation("follow");
-				}
+				relation.setRelation("follow");
 				relation = relationshipDao.insert(relation);
 				if(relation != null){
 					return true;
 				}
 			}
-			// relation.setMember_follow(follow);
-			// relation.setMember_followed(followed);
-			// if(status == "follow"){
-			// relation.setRelation("unfollow");
-			// }else if(status == "unfollow"){
-			// relation.setRelation("follow");
-			// }else{
-			// relation.setRelation("follow");
-			// }
-			// relation = relationshipDao.insert(relation);
-			// if (relation != null) {
-			// System.out.println("relation != null");
-			// return true;
-			// }
 		}
 		return false;
 
