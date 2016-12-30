@@ -61,7 +61,9 @@ public class ItemBean {
 	private java.util.Date end_date;
 	private int block;
 	private int done;
-	private String getter_id;
+	@ManyToOne
+	@JoinColumn(name = "getter_id")
+	private MemberBean getter_id;
 	private int getter_rate;
 	private String getter_review;
 	private int giver_rate;
@@ -194,11 +196,11 @@ public class ItemBean {
 		this.done = done;
 	}
 
-	public String getGetter_id() {
+	public MemberBean getGetter_id() {
 		return getter_id;
 	}
 
-	public void setGetter_id(String getter_id) {
+	public void setGetter_id(MemberBean getter_id) {
 		this.getter_id = getter_id;
 	}
 

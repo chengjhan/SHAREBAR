@@ -37,12 +37,14 @@ public class ClassDAOHibernate implements ClassDAO {
 	}
 
 	@Override
-	public ClassBean update(int class_id, String class_name, byte[] image) {
+	public ClassBean update(int class_id, String class_name, String image, String icon, String icon_after) {
 		ClassBean bean = this.getSession().get(ClassBean.class, class_id);
 		if (bean != null) {
 			bean.setClass_id(class_id);
 			bean.setClass_name(class_name);
 			bean.setImage(image);
+			bean.setIcon(icon);
+			bean.setIcon_after(icon_after);
 		}
 		return bean;
 	}
