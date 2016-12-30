@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+    	<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+    	<property name="hibernate.show_sql">true</property>
+<!--     	<property name="hibernate.current_session_context_class">thread</property> -->
+    	
+    	<mapping class="member.model.MemberBean"/>
+    	<mapping class="relationship.model.RelationshipBean"/>
+    	<mapping class="category.model.ClassBean"/>
+    	<mapping class="image.model.ImageBean"/>
+    	<mapping class="item.model.ItemBean"/>
+    	<mapping class="followitem.model.FollowItemsBean"/>
+    	<mapping class="message.model.MessageContextBean"/>
+    	<mapping class="message.model.RequestListBean"/>
+    	<mapping class="administrator.model.ServiceMailBean"/>
+    	<mapping class="messageBoard.model.MessageBoardBean"/>
+    	<mapping class="administrator.model.ReportBean"/>
+    </session-factory>
+</hibernate-configuration>
