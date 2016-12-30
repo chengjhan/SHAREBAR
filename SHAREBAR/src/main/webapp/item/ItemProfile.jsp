@@ -41,8 +41,8 @@ $(function(){
 			function(data){
 		itemstatus = data;
 		if(itemstatus==1){
-			$('input[value="追蹤按鈕"]').attr("value","已追蹤");
-			$('input[value="追蹤按鈕"]').toggleClass("btn-success");
+			$('input[value="追蹤按鈕"]').attr("value","取消追蹤");
+			$('input[value="追蹤按鈕"]').toggleClass("btn-danger");
 		}
 	})
 	
@@ -54,9 +54,9 @@ $(function(){
 			
 			function(data){
 					change.attr("following",data);
-					change.toggleClass("btn-success");
+					change.toggleClass("btn-danger");
 					if(data==1){
-						change.attr("value","已追蹤")	
+						change.attr("value","取消追蹤")	
 					}
 					else{change.attr("value","追蹤按鈕")}
 				})
@@ -65,7 +65,10 @@ $(function(){
 	var showpic =null;
 	$(".item_pic").click(function(){
 		showpic=$(this).attr("src");
-		$(".show_pic").attr("src",showpic);
+		showpic2=$("#showpic").attr("src");
+		$("#showpic2").attr("src",showpic2);
+		$("#showpic").attr("src",showpic);
+		$("#showpic").effect( "slide", "200" );
 	})
 
 	//聊天系統
@@ -246,9 +249,10 @@ $(function(){
 	<div class="col-md-9" >
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 		<c:if test="${stat.first}">
-				<img class="show_pic" alt="item_image" src="${root}item-image/${image.image_photo}">
+				<img class="show_pic" id="showpic" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute">
 		</c:if>
 	</c:forEach>
+	<img class="show_pic" id="showpic2" alt="item_image" src="" style="z-index:1;top:0;left:15px;">
 	</div>
 	<%--   功能按鈕      --%>
 
@@ -275,8 +279,8 @@ $(function(){
 	<div class="row">
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 <%-- 		<c:if test="${stat.first}"> --%>
-			<div class="col-md-3 thumbnail finger">
-				<img class="item_pic" alt="item_image" src="${root}item-image/${image.image_photo}" width="80" height="80">
+			<div class="col-md-2 col-sm-3 col-xs-3 finger">
+				<img class="item_pic thumbnail" alt="item_image" src="${root}item-image/${image.image_photo}" width="80" height="80">
 			</div>
 <%-- 		</c:if> --%>
 	</c:forEach>
@@ -322,6 +326,7 @@ $(function(){
     	<form action="" method="post">
     	<textarea class="form-control" style="margin:15px 0" placeholder="請輸入留言訊息"></textarea>
     	<input class="pull-right btn btn-default" type="button" value="留言" style="width:100px">
+    	<span class="ui-icon ui-icon-arrowthick-1-n"></span>
     	 </form>
     	
     	
@@ -346,7 +351,7 @@ $(function(){
 <h3 class="text-center" style="margin:5px 0px 20px 0px">
 <span >分享者資訊</span>
 </h3>
-	<div class="col-md-4 alert alert-info" role="alert" >	
+	<div class="col-md-4 alert alert-info" role="alert" style="">	
 	<div class="row">
 	<div class="col-md-7 col-md-7 col-xs-4">
 	<a href="${root}member/profile.controller?id=${itembean.member_id.member_no}" class="alert-link">

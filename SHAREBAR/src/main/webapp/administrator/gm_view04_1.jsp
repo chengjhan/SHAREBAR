@@ -41,7 +41,7 @@ border-collapse:collapse;
 		  <a href="gm_view01.jsp" class="list-group-item">會員管理</a>
 		  <a href="gm_view02.jsp" class="list-group-item">物品管理</a>
 		  <a href="gm_view03.jsp" class="list-group-item">遭檢舉品項</a>
-		  <a href="gm_view04.jsp" class="list-group-item">客服信箱</a>		 
+		  <a href="gm_view04_1.jsp" class="list-group-item">客服信箱</a>		 
 		</div>
 	</div>
 	

@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="REPORT" ,catalog="EEIT90",schema="DBO")
+@Table(name="report")
 public class ReportBean {
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY )
