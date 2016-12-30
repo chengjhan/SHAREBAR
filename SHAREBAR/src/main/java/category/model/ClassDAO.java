@@ -9,7 +9,7 @@ public interface ClassDAO {
 
 	ClassBean insert(ClassBean bean);
 
-	ClassBean update(int class_id, String class_name, byte[] image);
+	ClassBean update(int class_id, String class_name, String image, String icon, String icon_after);
 
 	boolean delete(int class_id);
 
