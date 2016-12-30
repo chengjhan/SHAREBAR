@@ -23,6 +23,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.gson.annotations.Expose;
 
+import administrator.model.ReportBean;
 import category.model.ClassBean;
 import followitem.model.FollowItemsBean;
 import image.model.ImageBean;
@@ -84,6 +85,13 @@ public class ItemBean {
 	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "itemBean")
 	@OrderBy("id asc")
 	private Set<MessageBoardBean> messageboard = new HashSet<MessageBoardBean>();
+	
+	//阿典新增
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "reported_item_id")
+	private Set<ReportBean> reported_item_id = new HashSet<ReportBean>();
+	
+	
+	
 	@Override
 	public String toString() {
 		return "ItemBean [item_id=" + item_id + ", item_name=" + item_name + ", member_id=" + member_id + "]\n"
