@@ -33,7 +33,8 @@ public class ClassService {
 	public ClassBean update(ClassBean bean) {
 		ClassBean result = null;
 		if (bean != null) {
-			result = classDao.update(bean.getClass_id(), bean.getClass_name(), bean.getImage());
+			result = classDao.update(bean.getClass_id(), bean.getClass_name(), bean.getImage(), bean.getIcon(),
+					bean.getIcon_after());
 		}
 		return result;
 	}

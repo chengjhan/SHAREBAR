@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import category.model.ClassBean;
 import category.model.ClassService;
 import image.model.ImageBean;
+import member.model.MemberBean;
 
 @Service(value = "itemService")
 @Transactional
@@ -101,6 +102,22 @@ public class ItemService {
 			double northeastLng, String item_name) {
 		List<ItemBean> result = null;
 		result = itemDao.selectByBoundsByName(southwestLat, southwestLng, northeastLat, northeastLng, item_name);
+		return result;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<ItemBean> selectByNew() {
+		List<ItemBean> result = null;
+		result = itemDao.selectByNew();
+		return result;
+	}
+	
+	@Transactional
+	public ItemBean updateGetter(int item_id, MemberBean getterBean){
+		ItemBean result = null;
+		if(item_id != 0 && getterBean != null){
+			result = itemDao.updateGetter(item_id, getterBean);
+		}
 		return result;
 	}
 

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import com.google.gson.annotations.Expose;
 
+import administrator.model.ReportBean;
 import followitem.model.FollowItemsBean;
 import item.model.ItemBean;
 import message.model.MessageContextBean;
@@ -76,6 +77,10 @@ public class MemberBean {
 	@OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy="member_id")
 	@OrderBy("id asc")
 	private Set<MessageBoardBean> messageboard = new HashSet<MessageBoardBean>();
+	
+	//阿典新增
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "reporting_member_id")
+	private Set<ReportBean> reporting_member_id = new HashSet<ReportBean>();
 	
 	public int getMember_no() {
 		return member_no;

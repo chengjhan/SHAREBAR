@@ -18,5 +18,6 @@
     	<mapping class="message.model.RequestListBean"/>
     	<mapping class="administrator.model.ServiceMailBean"/>
     	<mapping class="messageBoard.model.MessageBoardBean"/>
+    	<mapping class="administrator.model.ReportBean"/>
     </session-factory>
 </hibernate-configuration>
