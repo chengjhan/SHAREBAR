@@ -17,6 +17,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import administrator.model.ReportBean;
 import administrator.model.ReportService;
+import item.model.ItemBean;
+import item.model.ItemService;
+import member.model.MemberBean;
+import member.model.MemberService;
 
 
 
@@ -25,13 +29,16 @@ public class ReportInsertServlet extends HttpServlet {
 private static final long serialVersionUID = 1L;
     
 	private ReportService reportService;
-
+	private MemberService memberService;
+	private ItemService itemService;
 
 	@Override
 	public void init() throws ServletException {
 		ServletContext application = this.getServletContext();
 		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(application);
 		reportService = (ReportService) context.getBean("reportService");
+		memberService = (MemberService) context.getBean("memberService");
+		itemService = (ItemService) context.getBean("itemService");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -87,9 +94,14 @@ private static final long serialVersionUID = 1L;
 		
 		int int_reporting_member_id = Integer.valueOf(reporting_member_id);
 		int int_reported_item_id = Integer.valueOf(reported_item_id);
+		
+		MemberBean memberBean = memberService.findById(int_reporting_member_id);
+		ItemBean itemBean = itemService.selectById(int_reported_item_id);
+		
 		ReportBean bean = new ReportBean();
-		bean.setReported_item_id(int_reported_item_id);
-		bean.setReporting_member_id(int_reporting_member_id);
+		
+		bean.setReporting_member_id(memberBean);
+		bean.setReported_item_id(itemBean);	
 		bean.setTime( new java.util.Date() );
 		bean.setContext(context);
 		

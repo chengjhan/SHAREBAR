@@ -274,6 +274,7 @@ count = 0;
                 messageSent : function(id, user, msg) {                      		
                 	if(socket.readyState != 1){startConnection();}
                     socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_id, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
+                    $.post("messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
                 }});
             	count++;			
 				} 		
@@ -300,7 +301,8 @@ count = 0;
                 	messageSent : function(id, user, msg) {          
                 		if(socket.readyState != 1){startConnection();}
                     	socket.send(JSON.stringify({content : msg, item : message.item, requester : message.requester, title : message.title, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
-                			}});
+                    	$.post("messageInsert.ajax",{content : msg, item : message.item, speaker : user_id, listener : listener_id});
+            			}});
             	
             	$.getJSON("pullMessage.ajax", {	"item":message.item, "requester":message.requester}, 
         			function(data){

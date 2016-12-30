@@ -39,19 +39,16 @@ public class PullMessageServlet extends HttpServlet {
 		// 接受資料
 		int item_id = Integer.valueOf(request.getParameter("item"));
 		int requester_id = Integer.valueOf(request.getParameter("requester"));
-		System.out.println(item_id);
-		System.out.println(requester_id);
 						
 		// 呼叫Model
 		GsonBuilder builder = new GsonBuilder();
 		builder.excludeFieldsWithoutExposeAnnotation();
 		Gson gson = builder.create();
 
-		List<MessageContextBean> result = messageContextService.select(item_id, requester_id);		
-		System.out.println(result);		
+		List<MessageContextBean> result = messageContextService.select(item_id, requester_id);			
 		
 		String json = gson.toJson(result);
-		System.out.println("JSON = " + json);
+		System.out.println("系統：讀取分享 ( "+ item_id + " ) 需求者 ( " + requester_id + " ) 聊天紀錄_JSON = " + json);
 		response.getWriter().write(json);
 	}
 

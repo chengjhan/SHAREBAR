@@ -95,29 +95,39 @@ $(function(){
 	
 	<div>&nbsp</div>
 	
+	
+	
 	<table>	
 				<tr align="center">
 					<td class="st1">&nbsp # &nbsp</td>
 					<td class="st1">&nbsp檢舉人ID&nbsp</td>
+					<td class="st1">&nbsp檢舉人帳號&nbsp</td>
+					<td class="st1">&nbsp檢舉人暱稱&nbsp</td>
 					<td class="st1">&nbsp被檢舉物ID&nbsp</td>
-					<td class="st1">&nbsp違規描述</td>
-					<td class="st1">&nbsp檢舉時間</td>
+					<td class="st1">&nbsp被檢舉物名稱&nbsp</td>
+					<td class="st1">違規描述</td>
+					<td class="st1">檢舉時間</td>
+					<td class="st1">&nbsp&nbsp封鎖&nbsp&nbsp</td>
 				</tr>
 			<c:forEach var="element3" items="${report}">
 				<c:url value="gm_view03.jsp" var="path">
 					<c:param name="report_id" value="${element3.report_id}" />
-					<c:param name="reporting_member_id" value="${element3.reporting_member_id}" />
-					<c:param name="reported_item_id" value="${element3.reported_item_id}" />
+					<c:param name="reporting_member_id" value="${element3.reporting_member_id.member_no}" />
+					<c:param name="reported_item_id" value="${element3.reported_item_id.item_id}" />
 					<c:param name="context" value="${element3.context}" />	
 					<c:param name="time" value="${element3.time}" />							
 				</c:url>
 
 				<tr>
-					<td align="center" class="st1"><a href="${path}">${element3.report_id}</a></td>
-					<td align="center" class="st1">${element3.reporting_member_id}</td>
-					<td align="center" class="st1">${element3.reported_item_id}</td>
+					<td align="center" class="st1">${element3.report_id}</td>
+					<td align="center" class="st1">${element3.reporting_member_id.member_no}</td>
+					<td align="center" class="st1">${element3.reporting_member_id.email}</td>
+					<td align="center" class="st1">${element3.reporting_member_id.nickname}</td>
+					<td align="center" class="st1">${element3.reported_item_id.item_id}</td>
+					<td align="center" class="st1">${element3.reported_item_id.item_name}</td>
 					<td class="st1">${element3.context}</td>		
-					<td class="st1">&nbsp ${element3.time} &nbsp</td>	
+					<td class="st1">&nbsp ${element3.time} &nbsp</td>
+					<td align="center" class="st1"><a href="${path}">封鎖</a></td>
 				</tr>
 			</c:forEach>		
 	</table>

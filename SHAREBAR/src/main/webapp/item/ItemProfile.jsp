@@ -170,14 +170,15 @@ $(function(){
             messageSent : function(id, user, msg) {                      		
             	if(socket.readyState != 1){startConnection();}
                 socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_id, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
-            }});
+                $.post("../messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
+                }});
 
     	count++;	
 
 		$.getJSON("../pullMessage.ajax", {	"item":item_id, "requester":requester_id}, 
 				function(data){
 					$.each(data, function(index, bean){
-					$("#" + windowcode).chatbox("option", "boxManager").addMsg(bean.memberBean_speaker.member_nickname, bean.context);
+					$("#" + windowcode).chatbox("option", "boxManager").addMsg(bean.memberBean_speaker.nickname, bean.context);
 					});
 				})
 		
