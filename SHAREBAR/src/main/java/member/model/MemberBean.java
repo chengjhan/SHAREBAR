@@ -34,6 +34,7 @@ public class MemberBean {
 	private String city;
 	private String email;
 	private String password;
+	@Expose
 	private String nickname;
 	private String facebook;
 	private String photo;

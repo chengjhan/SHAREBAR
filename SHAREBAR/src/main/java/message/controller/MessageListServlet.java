@@ -37,7 +37,7 @@ public class MessageListServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession(); 
 		MemberBean member = (MemberBean) session.getAttribute("user");
-		System.out.println("member = " + member);
+		System.out.println("系統：讀取使用者信箱" + member);
 		
 		List<Object[]> share_mail = messageContextService.mailForShare(member.getMember_no());
 		request.setAttribute("share_mail", share_mail);
