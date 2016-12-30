@@ -59,24 +59,87 @@ html, body {
 	bottom: 0px;
 }
 
-.item_div {
+.item_bean_div {
 /* 	width: 45%; */
 /* 	height: 400px; */
-/* 	float: left; */
+ 	float: left;
 /* 	margin: 0px;  */
 	background-color: #FCFCFC;
+ 	margin-bottom: 15px;
 }
 
-.photo_div {
+.item_image_div {
 	width: 100%;
 }
 
-.photo_img {
+.item_image_img {
 	width: 100%;
 }
 
 .item_info_div {
 	height: auto;
+}
+
+.item_text_div {
+	margin: 12px;
+}
+
+.item_name_p {
+	margin: 0px;
+}
+
+.item_location_p {
+	margin: 0px;
+}
+
+#id_infoimage_div {
+	width: 200px;
+	height: 200px;
+}
+
+#id_infoimage_img {
+	width: 100%;
+	height: 100%;
+}
+
+#id_infotext_div {
+	padding: 12px 5px 10px 5px;
+}
+
+.infotitle_a:link {
+	color: black;
+	text-decoration: none;
+}
+
+.infotitle_a:visited {
+	color: black;
+}
+
+.infotitle_a:hover {
+	color: black;
+	text-decoration: underline;
+}
+
+.infotitle_a:active {
+	color: black;
+}
+
+.infotext_a:link {
+	color: black;
+	text-decoration: none;
+}
+
+.infotext_a:visited {
+	color: black;
+}
+
+.infotext_a:hover {
+	color: black;
+	text-decoration: none;
+}
+
+.infotext_a:active {
+	color: black;
 }
 </style>
 </head>
@@ -388,11 +451,13 @@ html, body {
 				photo.empty();
 				var count = 1;
 				$.each(data, function(index, item){
+					
 					// 製作物品資訊陣列
-					var aItem = [item.item_name, item.classBean.class_name, item.latitude, item.longitude ];
+					var aItem = [item.item_id, item.item_name, item.classBean.class_name, item.location, item.latitude, item.longitude, item.imageBean[0].image_photo ];
 // 					alert(aItem);
 					itemArray.push(aItem);
-					// 製作物品列表
+					
+					// 製作物品資訊列表
 // 					var cell1 = $("<td></td>").text(item.item_id);
 // 					var cell2 = $("<td></td>").text(item.item_name);
 // 					var cell3 = $("<td></td>").text(item.latitude);
@@ -400,26 +465,35 @@ html, body {
 // 					var cell5 = $("<td></td>").text(item.classBean.class_name);
 // 					var row = $("<tr></tr>").append([ cell1, cell2, cell3, cell4, cell5 ]);
 // 					table.append(row);
-					// 顯示圖片列表
+
+					// 顯示物品圖片列表
 					var imageSrc = "${root}item-image/" + item.imageBean[0].image_photo;
 // 					alert(imageSrc);
-					var itemImage_img = $("<img>", {"id": "img" + count, "class": "photo_img", "src": imageSrc});
+					var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
 					var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
-					var itemImage_div = $("<div class='photo_div'></div>").append(itemImage_a);
+					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a);
 					var itemHyperlink_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "'>" + item.item_name + "</a>";
-					var itemName_p = $("<p></p>").append(itemHyperlink_a);
-					var itemInfo_div = $("<div class='item_info_div'></div>").append(itemName_p);
-					var itemBean_div = $("<div class='item_div col-sm-12 col-md-6'></div>").attr("id", "item" + count).append(itemImage_div).append(itemInfo_div);
+					var itemName_span = $("<span class='item_name_p'></span>").append(itemHyperlink_a);
+					var dot_span = $("<span></span>").append("．");
+					var itemClassName_span = $("<span></span>").append(item.classBean.class_name);
+					var itemLocation_p = $("<p class='item_location_p'></p>").append(item.location);
+					var itemText_div = $("<div class='item_text_div'></div>").append(itemName_span).append(dot_span).append(itemClassName_span).append(itemLocation_p);
+					var itemInfo_div = $("<div class='item_info_div'></div>").append(itemText_div);
+					var itemBean_div = $("<div class='item_bean_div col-sm-12 col-md-6'></div>").attr("id", "item" + count).append(itemImage_div).append(itemInfo_div);
 					itemBean_div.appendTo(photo);
+// 					itemBean_div.appendTo("$inner_left");
 					count++;
 				});
 // 				alert("itemArray.length = " + itemArray.length);
 
 				for(var i = 0; i < itemArray.length; i++){
-					var item_name = itemArray[i][0];
-					var class_name = itemArray[i][1];
-					var latitude = itemArray[i][2];
-					var longitude = itemArray[i][3];
+					var item_id = itemArray[i][0]
+					var item_name = itemArray[i][1];
+					var class_name = itemArray[i][2];
+					var location = itemArray[i][3]
+					var latitude = itemArray[i][4];
+					var longitude = itemArray[i][5];
+					var image_photo = itemArray[i][6];
 					
 					// 添加地圖標記
 					var itemLatLng = new google.maps.LatLng(latitude, longitude);
@@ -430,7 +504,55 @@ html, body {
 	    				icon: "${root}category-icon/" + class_name + ".png"
 	    			});
 					markerArray.push(marker);
+					
+					// 資訊視窗
+					var contentString =
+						'<div id="id_infowindow_div">' + 
+							'<div>' +
+								'<a href="${root}item/itemdetail.controller?id=' + item_id + '">' +
+									'<div id="id_infoimage_div">' +
+										'<img id="id_infoimage_img" src="${root}item-image/' + image_photo + '">' + 
+									'</div>' +
+								'</a>' +
+								'<div>' +
+									'<div id="id_infotext_div">' +
+										'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotitle_a">' +
+											'<div style="float:left">' +
+												'<span>' + item_name + '</span>' +
+											'</div>' +
+										'</a>' +
+										'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
+											'<div>' +
+												'<span>．</span>' +
+												'<span>' + class_name + '</span>' +	
+											'</div>' +
+										'</a>' +
+										'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
+											'<div style="padding-top:4px">' +
+												'<p style="width:190px;overflow:hidden;margin:0px">' + location + '</p>' +	
+											'</div>' +
+										'</a>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+						'</div>';
+					var infoWindow = new google.maps.InfoWindow();
+					addInfoWindow(marker, contentString);
 				}
+				
+				// 資訊視窗事件
+				function addInfoWindow(marker, contentString) {
+//			            var infoWindow = new google.maps.InfoWindow({
+//			                content: contentString
+//			            });
+		            google.maps.event.addListener(marker, 'click', function () {
+		            	if(infoWindow){
+		            		infoWindow.close();
+		            	}
+		            	infoWindow.setContent(contentString);
+		                infoWindow.open(map, marker);
+		            });
+		        }
 			});
 			
 			// 移動地圖即時變更物品
@@ -455,10 +577,12 @@ html, body {
 					photo.empty();
 					var count = 1;
 					$.each(data, function(index, item){
- 						// 製作物品經緯度陣列
-						var aItem = [item.item_name, item.classBean.class_name, item.latitude, item.longitude ];
+						
+						// 製作物品資訊陣列
+						var aItem = [item.item_id, item.item_name, item.classBean.class_name, item.location, item.latitude, item.longitude, item.imageBean[0].image_photo ];
 						itemArray.push(aItem);
-						// 製作物品列表
+						
+						// 製作物品資訊列表
 // 						var cell1 = $("<td></td>").text(item.item_id);
 // 						var cell2 = $("<td></td>").text(item.item_name);
 // 						var cell3 = $("<td></td>").text(item.latitude);
@@ -466,24 +590,35 @@ html, body {
 // 						var cell5 = $("<td></td>").text(item.classBean.class_name);
 // 						var row = $("<tr></tr>").append([ cell1, cell2, cell3, cell4, cell5 ]);
 // 						table.append(row);
-						// 顯示圖片列表
+
+						// 顯示物品圖片列表
 						var imageSrc = "${root}item-image/" + item.imageBean[0].image_photo;
 //	 					alert(imageSrc);
-						var itemImage_img = $("<img>", {"id": "img" + count, "class": "photo_img", "src": imageSrc});
+						var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
 						var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
-						var itemImage_div = $("<div class='photo_div'></div>").append(itemImage_a);
+						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a);
 						var itemHyperlink_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "'>" + item.item_name + "</a>";
-						var itemName_p = $("<p></p>").append(itemHyperlink_a);
-						var itemInfo_div = $("<div class='item_info_div'></div>").append(itemName_p);
-						var itemBean_div = $("<div class='item_div col-sm-12 col-md-6'></div>").attr("id", "item" + count).append(itemImage_div).append(itemInfo_div);
+						var itemName_span = $("<span class='item_name_p'></span>").append(itemHyperlink_a);
+						var dot_span = $("<span></span>").append("．");
+						var itemClassName_span = $("<span></span>").append(item.classBean.class_name);
+						var itemLocation_p = $("<p class='item_location_p'></p>").append(item.location);
+						var itemText_div = $("<div class='item_text_div'></div>").append(itemName_span).append(dot_span).append(itemClassName_span).append(itemLocation_p);
+						var itemInfo_div = $("<div class='item_info_div'></div>").append(itemText_div);
+						var itemBean_div = $("<div class='item_bean_div col-sm-12 col-md-6'></div>").attr("id", "item" + count).append(itemImage_div).append(itemInfo_div);
 						itemBean_div.appendTo(photo);
 						count++;
 					});
+					
 					for(var i = 0; i < itemArray.length; i++){
-						var item_name = itemArray[i][0];
-						var class_name = itemArray[i][1];
-						var latitude = itemArray[i][2];
-						var longitude = itemArray[i][3];
+						var item_id = itemArray[i][0]
+						var item_name = itemArray[i][1];
+						var class_name = itemArray[i][2];
+						var location = itemArray[i][3]
+						var latitude = itemArray[i][4];
+						var longitude = itemArray[i][5];
+						var image_photo = itemArray[i][6];
+						
+						// 添加地圖標記
 						var itemLatLng = new google.maps.LatLng(latitude, longitude);
 						var marker = new google.maps.Marker({
 		    				title: item_name,
@@ -492,7 +627,55 @@ html, body {
 		    				icon: "${root}category-icon/" + class_name + ".png"
 		    			});
 						markerArray.push(marker);
+						
+						// 資訊視窗
+						var contentString =
+							'<div id="id_infowindow_div">' + 
+								'<div>' +
+									'<a href="${root}item/itemdetail.controller?id=' + item_id + '">' +
+										'<div id="id_infoimage_div">' +
+											'<img id="id_infoimage_img" src="${root}item-image/' + image_photo + '">' + 
+										'</div>' +
+									'</a>' +
+									'<div>' +
+										'<div id="id_infotext_div">' +
+											'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotitle_a">' +
+												'<div style="float:left">' +
+													'<span>' + item_name + '</span>' +
+												'</div>' +
+											'</a>' +
+											'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
+												'<div>' +
+													'<span>．</span>' +
+													'<span>' + class_name + '</span>' +	
+												'</div>' +
+											'</a>' +
+											'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
+												'<div style="padding-top:4px">' +
+													'<p style="width:190px;overflow:hidden;margin:0px">' + location + '</p>' +	
+												'</div>' +
+											'</a>' +
+										'</div>' +
+									'</div>' +
+								'</div>' +
+							'</div>';
+						var infoWindow = new google.maps.InfoWindow();
+						addInfoWindow(marker, contentString);
 					}
+					
+					// 資訊視窗事件
+					function addInfoWindow(marker, contentString) {
+//				            var infoWindow = new google.maps.InfoWindow({
+//				                content: contentString
+//				            });
+			            google.maps.event.addListener(marker, 'click', function () {
+			            	if(infoWindow){
+			            		infoWindow.close();
+			            	}
+			            	infoWindow.setContent(contentString);
+			                infoWindow.open(map, marker);
+			            });
+			        }
 				});
 			});
 		}
