@@ -136,9 +136,6 @@ public class RelationshipDAOHibernate implements RelationshipDAO {
 		return null;
 	}
 	
-	/* (non-Javadoc)
-	 * @see model.dao.RelationshipDAO#selectByFollowed(model.member.MemberBean)
-	 */
 	@Override
 	public List<RelationshipBean> selectByFollowed(MemberBean mb){
 		Query query = this.getSession().createQuery("from RelationshipBean where member_followed = :member_followed and relation = :relation");

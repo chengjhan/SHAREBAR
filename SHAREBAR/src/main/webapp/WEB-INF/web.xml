@@ -29,14 +29,14 @@
     <url-pattern>*.do</url-pattern>
     <url-pattern>/member/userProfile.jsp</url-pattern>
   </filter-mapping>
-  <filter>
-    <filter-name>userUpdateFilter</filter-name>
-    <filter-class>filter.UserBeanUpdateFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>userUpdateFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+<!--   <filter> -->
+<!--     <filter-name>userUpdateFilter</filter-name> -->
+<!--     <filter-class>filter.UserBeanUpdateFilter</filter-class> -->
+<!--   </filter> -->
+<!--   <filter-mapping> -->
+<!--     <filter-name>userUpdateFilter</filter-name> -->
+<!--     <url-pattern>/*</url-pattern> -->
+<!--   </filter-mapping> -->
   <resource-ref>
     <res-ref-name>jdbc/xxx</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>
