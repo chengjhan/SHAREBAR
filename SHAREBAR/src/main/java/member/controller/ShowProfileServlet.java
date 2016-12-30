@@ -1,6 +1,7 @@
 package member.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import member.model.MemberBean;
 import member.model.MemberService;
+import relationship.model.RelationshipBean;
 import relationship.model.RelationshipService;
 
 @WebServlet("/member/profile.controller")
@@ -44,11 +46,15 @@ public class ShowProfileServlet extends HttpServlet {
 		System.out.println(memberNo);
 		MemberBean member = memberService.findById(memberNo);
 		String user2check = null;
-		if (user != null) {
-			if (member != null) {
+		if (member != null) {
+			List<RelationshipBean> follow = relationshipService.findFollow(member);
+			List<RelationshipBean> followed = relationshipService.findFollowed(member);
+			if (user != null) {
 				if (user.getMember_no() == member.getMember_no()) {
-					String path = request.getContextPath();
-					response.sendRedirect(path + "/member/userProfile.jsp");
+					request.getSession().setAttribute("user", member);
+					request.getSession().setAttribute("userFollow", follow);
+					request.getSession().setAttribute("userFollowed", followed);
+					request.getRequestDispatcher("/member/userProfile.jsp").forward(request, response);
 					return;
 				} else {
 					user2check = relationshipService.checkRel(user, member);
@@ -56,22 +62,27 @@ public class ShowProfileServlet extends HttpServlet {
 						user2check = "unfollow";
 					}
 					request.setAttribute("member", member);
+					request.setAttribute("memberFollow", follow);
+					request.setAttribute("memberFollowed", followed);
 					request.setAttribute("user2check", user2check);
 					request.getRequestDispatcher("/member/memberProfile.jsp").forward(request, response);
 					return;
 				}
+
 			} else {
-				String path = request.getContextPath();
-				response.sendRedirect(path + "/index.jsp");
-				return;
+				if (member != null) {
+					user2check = "unfollow";
+					request.setAttribute("member", member);
+					request.setAttribute("memberFollow", follow);
+					request.setAttribute("memberFollowed", followed);
+					request.setAttribute("user2check", user2check);
+					request.getRequestDispatcher("/member/memberProfile.jsp").forward(request, response);
+				}
 			}
-		}else{
-			if(member != null){
-				user2check = "unfollow";
-				request.setAttribute("member", member);
-				request.setAttribute("user2check", user2check);
-				request.getRequestDispatcher("/member/memberProfile.jsp").forward(request, response);				
-			}
+		} else {
+			String path = request.getContextPath();
+			response.sendRedirect(path + "/index.jsp");
+			return;
 		}
 		// String check2user = relationshipService.checkRel(member, user);
 		// System.out.println("check2user= "+check2user);
