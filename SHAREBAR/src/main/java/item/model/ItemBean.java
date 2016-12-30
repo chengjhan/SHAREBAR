@@ -60,6 +60,8 @@ public class ItemBean {
 	private java.util.Date end_date;
 	private int block;
 	private int done;
+	@ManyToOne
+	@JoinColumn(name = "getter_id")
 	private MemberBean getter_id;
 	private int getter_rate;
 	private String getter_review;
