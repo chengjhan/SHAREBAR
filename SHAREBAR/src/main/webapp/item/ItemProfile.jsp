@@ -261,7 +261,22 @@ $(function(){
 	<div >
 	<c:choose>
 	<c:when test="${itembean.member_id.member_no eq user.member_no}">
-	<input type="button" value="Edit" class="btn btn-primary">
+	
+	<c:url value="/item/UpdateItem.jsp" var="path">
+		<c:param name="item_id" value="${itembean.item_id}" />
+		<c:param name="item_name" value="${itembean.item_name}" />
+		<c:param name="location" value="${itembean.location}" />
+		<c:param name="class_name" value="${itembean.classBean.class_name}" />						
+		<c:param name="end_date" value="${itembean.end_date}" />
+		<c:param name="item_description" value="${itembean.item_description}" />
+		<c:forEach var="imageBean" items="${itembean.imageBean}" varStatus="varStatus">
+			<c:param name="image_id${varStatus.count}" value="${imageBean.image_id}" />
+		</c:forEach>
+	</c:url>
+	
+	<a href="${path}">
+		<input type="button" value="Edit" class="btn btn-primary">
+	</a>
 	</c:when>
 	<c:otherwise>
 	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :15px">
