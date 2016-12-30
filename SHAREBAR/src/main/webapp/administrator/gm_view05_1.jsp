@@ -12,16 +12,29 @@ border-collapse:collapse;
 
 }
 </style>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- <script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script> -->
+<script type="text/javascript">
+$(function(){
+	$("#header").load("../header.jsp");
+	
+	$("#footer").load("../footer.jsp");
+});
+</script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>信箱功能_會員查詢信件</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-	
+<div id="header"></div>
    <div class="container">
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
@@ -61,10 +74,9 @@ border-collapse:collapse;
 				<td>(1)會員查信:</td>
 			</tr>
 			<tr>
-				<td>會員編號:</td>
-				<td><input type="text" name="member_id" value="${param.member_id}"></td>			
-							
-				<td align="left"><input type="submit" value="顯示信件">${errors.system}</td>
+				<td>會員編號已從帳號擷取:</td>
+				<td><input type="hidden" name="member_id" value="${user.member_no}"></td>			
+				<td align="left"><input type="submit" value="更新信件">${errors.system}</td>
 			</tr>			
 		</table>		
 	</form>
@@ -109,6 +121,6 @@ border-collapse:collapse;
 <!-- 每頁不同的內容到這裡結束 -->
 			</div>
 	</div>
-	
+<div id="footer"></div>
 </body>
 </html>
