@@ -20,8 +20,8 @@ $(function(){
 	
 	//判斷是否追蹤
 
-	
-	var itemid = ${itembean.item_id}
+	var member_no = ${user.member_no};
+	var itemid = ${itembean.item_id};
 	var itemstatus = 0;
 	
 	$.get("<%=request.getContextPath()%>/followitems/itemStatus.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}"},
@@ -34,7 +34,7 @@ $(function(){
 	})
 	
 	//追隨按鈕
-	$("div>input:eq(1)").click(function(){
+	$('input[value="追蹤按鈕"]').click(function(){
 		var change = $(this);
 		var itemid = change.attr("value");
 	$.post("followItem.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}"},
@@ -51,13 +51,90 @@ $(function(){
 	//切換圖片功能
 	var showpic =null;
 	$(".item_pic").click(function(){
-		showpic=$(this).attr("src");
-		showpic2=$("#showpic").attr("src");
-		$("#showpic2").attr("src",showpic2);
-		$("#showpic").attr("src",showpic);
-		$("#showpic").effect( "slide", "200" );
+		if(!$("#showpic").is(":animated")){
+			showpic=$(this).attr("src");
+			showpic2=$("#showpic").attr("src");
+			$("#showpic2").attr("src",showpic2);
+			$("#showpic").attr("src",showpic);
+			$("#showpic").effect( "slide", "200" );
+		}
 	})
 	
+	
+	//留言websocket
+	var webSocket = null;
+	function initwebsocket(){
+		webSocket = new WebSocket('ws://localhost:8080/SHAREBAR/item/MessageBoardWebSocket');
+
+		webSocket.onopen = function(evt){
+			onOpen(evt);
+		};
+		webSocket.onclose = function(evt){
+			onClose(evt);
+		}
+		webSocket.onmessage = function(evt){
+			onMessage(evt.data);
+		}
+		webSocket.onerror = function(evt){
+			onError(evt);
+		}
+	}
+	
+	initwebsocket();
+	
+	function onOpen(evt){
+	}
+	function onClose(evt){
+		alert("websocket close")
+	}
+	function onMessage(evt){
+	var messagecontain = JSON.parse(evt);
+	var item_id = messagecontain.item_id;
+	var member_no = messagecontain.member_no;
+	var message = messagecontain.message;
+	var photo = messagecontain.photo;
+	var nickname = messagecontain.nickname;
+	$('#endline').before(
+			'<li style="margin-bottom:15px; margin-top:10px" class="newmessage">'+
+	    	'<a href="${root}member/profile.controller?id='+member_no+'"'+ 'class="pull-left">'+
+	    	'<div>'+
+	    	'<img class="img-circle" src="/SHAREBAR/profileImages/'+ photo+ '" style="width:32px;height:32px;margin-right:15px; ">'+
+	    	'</div>'+
+	    	'</a>'+
+	    	'<strong>'+nickname+'</strong>'+
+	    	'<time>${message.time}</time>'+
+	    	'<p style="overflow: hidden;">'+message+'</span>'+
+	    	'</li>'
+			)
+	$('.newmessage').show(400);		
+	}
+	function onError(evt){
+	}
+	
+	//留言版功能
+	$('#sendmessage').click(function(){
+// 		alert("click");
+	var message = $("#messageboard").val();
+	var photo ="${user.photo}";
+	var nickname = "${user.nickname}";
+	
+	
+	
+	$.post("messageBoard.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}","message":message},
+			function(data){
+		webSocket.send(JSON.stringify({
+			item_id:itemid,
+			member_no:member_no,
+			message:message,
+			photo:photo,
+			nickname:nickname
+			}))
+	});	
+	
+// 	alert("留言成功");
+	$("#messageboard").val("");
+		
+	});
 	
 });
 </script>
@@ -87,7 +164,9 @@ $(function(){
 .finger{
 	cursor:pointer;
 }
-
+.newmessage{
+	display:none;
+}
 
 /* .item_pic{ */
 /* 	cursor: pointer; */
@@ -101,6 +180,14 @@ $(function(){
 /* 	width:155; */
 /* 	height:155; */
 /* } */
+
+/*XD*/
+time{
+	margin-left: 10px;
+	font-size: small;
+	color: gray;
+}
+
 </style>
 </head>
 <body>
@@ -118,9 +205,10 @@ $(function(){
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 		<c:if test="${stat.first}">
 				<img class="show_pic" id="showpic" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute">
+				<img class="show_pic" id="showpic2" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:1;top:0;left:15px;">
 		</c:if>
 	</c:forEach>
-	<img class="show_pic" id="showpic2" alt="item_image" src="" style="z-index:1;top:0;left:15px;">
+	
 	</div>
 	<%--   功能按鈕      --%>
 
@@ -180,36 +268,24 @@ $(function(){
     	 </div>
     </div>
     <div id="message" class="tab-pane fade" style="padding:10px 0">
-    	
+    	<ul style="padding-left: 0 ; list-style-type:none;">
     	<c:forEach var="message" items="${itembean.messageboard}" varStatus="stat">
-    	<div class="text-center">
-    	<p>${message.member_id }</p>
-    	<span>${message.message}</span>
+    	<li style="display: list-item;margin-bottom:15px; margin-top:10px">
+    	<a href="${root}member/profile.controller?id=${message.member_id.member_no}" class="pull-left">
+    	<div>
+    	<img class="img-circle" src="${root}profileImages/${message.member_id.photo}" style="width:32px;height:32px;margin-right:15px; ">
     	</div>
-    	<c:if test="${stat.last}"><hr/></c:if>
+    	</a>
+    	<strong>${message.member_id.nickname}</strong>
+    	<time></time>
+    	<p style="overflow: hidden;">${message.message}</span>
+    	</li>
     	</c:forEach>
-    	<form action="" method="post">
-    	<textarea class="form-control" style="margin:15px 0" placeholder="請輸入留言訊息"></textarea>
-    	<input class="pull-right btn btn-default" type="button" value="留言" style="width:100px">
-    	<span class="ui-icon ui-icon-arrowthick-1-n"></span>
-    	 </form>
-    	
-    	
+    	<p id="endline"/>
+    	</ul>
+    	<textarea id="messageboard" class="form-control" style="margin:15px 0" placeholder="請輸入留言訊息"></textarea>
+    	<input id="sendmessage" class="pull-right btn btn-default" type="button" value="留言" style="width:100px">
     </div>
-    
-<!--       <h3>Itembeam資訊</h3> -->
-<%--       <p> itemid: ${itembean.item_id}</p> --%>
-<%--       <p> itemname: ${itembean.item_id}</p> --%>
-<%--       <p> item discription: ${itembean.item_discription}</p> --%>
-<%--       <p> item location: ${itembean.location}</p> --%>
-<%--       <p> item done: ${itembean.done}</p> --%>
-<!--       <p> 分享者資訊</p> -->
-<%--       <p> itembean: ${itembean.itemMemberbean}</p> --%>
-<%--       <p> 分享者編號: ${itembean.itemMemberbean.member_no}</p> --%>
-<%--       <p> 分享者名稱: ${itembean.itemMemberbean.nickname}</p> --%>
-<%--       <p> 分享者居住地方: ${itembean.itemMemberbean.city}</p> --%>
-      
-<!--     </div> -->
   </div>
 </div>
 <div id="other-info">

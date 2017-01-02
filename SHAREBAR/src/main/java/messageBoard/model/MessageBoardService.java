@@ -76,7 +76,7 @@ public class MessageBoardService {
 		
 		//獲得itembean、memberbean
 		MemberBean memberbean = memberservice.findById(1);
-		ItemBean itembean = itemservice.selectById(10);
+		ItemBean itembean = itemservice.selectById(14);
 		
 //		//addmessage
 //		messageBoardService.addmessage(itembean, memberbean, "我要偷椅子");
@@ -84,8 +84,8 @@ public class MessageBoardService {
 //		//delate
 //		messageBoardService.delate(5, itembean, memberbean);
 		
-		//edit
-		messageBoardService.edit(5, itembean, memberbean, "edit test");
+//		//edit
+//		messageBoardService.edit(5, itembean, memberbean, "edit test");
 		
 		
 		
