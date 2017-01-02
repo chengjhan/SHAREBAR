@@ -37,7 +37,7 @@ public class ChatServer{
 		//讀取資料
 		Integer speaker_id = (Integer) jsonObject.get("speaker") ;		
 		Integer listener_id = (Integer) jsonObject.get("listener");		
-						
+		System.out.println("系統:已接收訊息");				
 		//送出客戶端
 		connections.get(Integer.toString(speaker_id)).session.getBasicRemote().sendText(message);
 		if(null!=connections.get(Integer.toString(listener_id)))

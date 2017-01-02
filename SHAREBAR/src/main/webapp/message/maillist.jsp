@@ -27,13 +27,9 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="classblock">
-					<h3>會員編號：${user.member_no}</h3>
-					<h3>會員信箱：${user.email}</h3>
-					<h3>會員暱稱：${user.nickname}</h3>
-					<h1>Here is mail_list.</h1>
 					<ul class="nav nav-tabs">
-						<li class="active"><a data-toggle="tab" href="#share_mail">share_mail</a></li>
-						<li><a data-toggle="tab" href="#request_mail">request_mail</a></li>
+						<li class="active"><a data-toggle="tab" href="#share_mail">分享的訊息總覽</a></li>
+						<li><a data-toggle="tab" href="#request_mail">請求的訊息總覽</a></li>
 					</ul>
 					<div class="tab-content">
 						<div id="share_mail" class="tab-pane fade in active">
@@ -49,9 +45,9 @@
 											<th>time</th>											
 										</tr>
 									</thead>
-									<tbody>
+									<tbody id="shareBody">
 										<c:forEach var="share_mail" items="${share_mail}">
-											<tr>																						
+											<tr id="${share_mail[0]}&${share_mail[2]}">																						
 												<td id="status">
 												<c:if test="${ share_mail[6] == 1 && share_mail[7] == share_mail[2]}">
 														已成交
@@ -112,9 +108,9 @@
 											<th>time</th>											
 										</tr>
 									</thead>
-									<tbody>
+									<tbody id="requestBody">
 										<c:forEach var="request_mail" items="${request_mail}">
-											<tr>												
+											<tr id="${request_mail[0]}&${user.member_no}">												
 												<td id="status">
 													<c:if test="${ request_mail[6] == 1 && request_mail[7] == user.member_no}">
 														已成交
@@ -166,24 +162,25 @@
 	<div id="board"></div>
 </body>
 <script>
-socket = null;
-user_id = Number("${user.member_no}");
-user_name = "${user.nickname}";
-getNextOffset = function() { return count*215; };
-count = 0;
+var socket = null;
+var user_id = Number("${user.member_no}");
+var user_name = "${user.nickname}";
+var getNextOffset = function() { return count*215; };
+var count = 0;
 
 
 	$(function() {		
 		$("#header").load("header.jsp")
 		
 		startConnection();
-		
+
+		//點擊聊天按鈕，跳出聊天室窗
 		$('tbody #chat').click(function() {
 			var item_id = $(this).data("item");
 			var title_id = $(this).data("title");
 			var host_id = $(this).data("host");
 			var requester_id = $(this).data("requester");
-			var windowcode = item_id + "and" + requester_id;
+			var windowcode = item_id + "_" + host_id + "_" + requester_id;
 			
 			if ($("#" + windowcode).length)
 				$("#" + windowcode).chatbox("option", "boxManager").toggleBox();
@@ -197,6 +194,8 @@ count = 0;
 				})
 			;}
 		})
+		
+		//點擊提出請求、成交、拒絕按鈕
 		$('tbody #ask,#acept,#refuse').click(function() {
 			var thisBtn = $(this);
 			var title_str = thisBtn.data("title");
@@ -233,7 +232,24 @@ count = 0;
 			$(".ui-dialog-titlebar-close").hide();
 		})
 		
-		
+		//點擊聊天視窗，設為已讀
+		$("body").on("click",".ui-chatbox",function(){			
+			var item_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[0];
+			var host_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[1];
+			var requester_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[2];
+			var speaker_id = (user_id==host_id?requester_id : host_id);
+			//呼叫servlet
+			$.post("mailReaded.ajax",{item : item_id, speaker : speaker_id, listener : user_id});
+
+			})
+		//鼠標停留聊天視窗
+		$("body").on("focus",".ui-chatbox-input",function(){
+			$(this).siblings(".ui-chatbox-log").attr("data-readed","1");
+			})
+		//鼠標離開聊天視窗
+		$("body").on("blur",".ui-chatbox-input",function(){
+			$(this).siblings(".ui-chatbox-log").attr("data-readed","0");
+			})
 		
 		function startAction(thisBtn) {		
 			thisBtn.css("display","none");
@@ -261,7 +277,7 @@ count = 0;
 		}
 				
 		function messageWindow(item_id, title_id, host_id, requester_id, windowcode) {
-			var window = $("<div></div>").attr("id", windowcode);
+			var window = $("<div></div>").attr("id", windowcode).attr("data-readed",1);
 			var listener_id = (user_id==host_id?requester_id : host_id);
 			$("#board").append(window);
 			
@@ -281,15 +297,16 @@ count = 0;
 			})
              
         function addMessage(message) {
-        	message = JSON.parse(message);
+    		message = JSON.parse(message);
 			var windowcode = message.windowcode;
-            
+			var trcode = message.item + "tr" + message.requester;
+
             if ($("#" + windowcode).length){
 				$("#" + windowcode).chatbox("option", "hidden", false);
            		$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);
             }
 			else {
-				var window = $("<div></div>").attr("id", windowcode);
+				var window = $("<div></div>").attr("id", windowcode).attr("data-readed",0);
 				var listener_id = (user_id==message.speaker?message.listener : message.speaker);
 				$("#board").append(window);			
 				$("#" + windowcode).chatbox({				
@@ -300,22 +317,31 @@ count = 0;
                		offset : getNextOffset(),
                 	messageSent : function(id, user, msg) {          
                 		if(socket.readyState != 1){startConnection();}
+                		//傳送socket
                     	socket.send(JSON.stringify({content : msg, item : message.item, requester : message.requester, title : message.title, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
+                    	//寫入資料庫
                     	$.post("messageInsert.ajax",{content : msg, item : message.item, speaker : user_id, listener : listener_id});
             			}});
             	
+				//讀取歷史訊息
             	$.getJSON("pullMessage.ajax", {	"item":message.item, "requester":message.requester}, 
         			function(data){
         			$.each(data, function(index, bean){
         				$("#" + windowcode).chatbox("option", "boxManager").addMsg(bean.memberBean_speaker.nickname, bean.context);
         				});
-            		$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);
-        			})
-        		
-        		count++;
-
+            		$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);            		
+        			})       		
+        		count++;      						
             }     				
-                         
+          	//若正在關注此視窗設為已讀
+       		if( $("#" + windowcode).attr("data-readed") == 0 ){
+    			$.post("mailReaded.ajax",{item : message.item, speaker : message.speaker, listener : message.listener});
+        		}
+       		//移動訊息<tr>位置
+    		if( message.requester == user_id ){
+    			$('#requestBody').append($("#" + trcode)); 
+        		}
+    		else {$('#shareBody').append($("#" + trcode));}           
         }
 </script>
 </html>

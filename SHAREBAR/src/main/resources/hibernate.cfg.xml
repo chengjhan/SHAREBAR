@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
     	<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
-    	<property name="hibernate.show_sql">true</property>
+    	<property name="hibernate.show_sql">false</property>
 <!--     	<property name="hibernate.current_session_context_class">thread</property> -->
     	
     	<mapping class="member.model.MemberBean"/>
