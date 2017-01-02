@@ -6,30 +6,44 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-<link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
-<script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<link type="text/css" rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+<link type="text/css" rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="../js/jquery-chatbox/jquery.ui.chatbox.css" />
+
+<script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery-chatbox/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="../js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script type="text/javascript" src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/jquery-chatbox/jquery.ui.chatbox.js"></script>
+<script type="text/javascript" src="../js/jquery-chatbox/chatboxManager.js"></script>
 
 <title>Profile Page</title>
 <script type="text/javascript">
+
+socket = null;
+
+user_id = Number("${user.member_no}");
+user_name = "${user.nickname}";
+getNextOffset = function() { return count*215; };
+count = 0;
+
 $(function(){
 	$("#header").load("../header.jsp");
-	
-	//判斷是否追蹤
-
-	var member_no = ${user.member_no};
-	var itemid = ${itembean.item_id};
+	$("#footer").load("../footer.jsp");
+	//判斷是否追蹤	
+	var itemid = ${itembean.item_id}
+	var item_name = "${itembean.item_name}"
+	var item_host = ${itembean.member_id.member_no}
 	var itemstatus = 0;
 	
 	$.get("<%=request.getContextPath()%>/followitems/itemStatus.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}"},
 			function(data){
 		itemstatus = data;
 		if(itemstatus==1){
-			$('input[value="追蹤按鈕"]').attr("value","取消追蹤");
 			$('input[value="追蹤按鈕"]').toggleClass("btn-danger");
+			$('input[value="追蹤按鈕"]').attr("value","取消追蹤");
 		}
 	})
 	
@@ -60,8 +74,7 @@ $(function(){
 		}
 	})
 	
-	
-	//留言websocket
+	//留言版websocket
 	var webSocket = null;
 	function initwebsocket(){
 		webSocket = new WebSocket('ws://localhost:8080/SHAREBAR/item/MessageBoardWebSocket');
@@ -117,8 +130,8 @@ $(function(){
 	var message = $("#messageboard").val();
 	var photo ="${user.photo}";
 	var nickname = "${user.nickname}";
-	
-	
+	var itemid = ${itembean.item_id};
+	var member_no = ${user.member_no};
 	
 	$.post("messageBoard.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}","message":message},
 			function(data){
@@ -136,6 +149,127 @@ $(function(){
 		
 	});
 	
+	//聊天系統
+	//初始化步驟
+	startConnection();
+	messageWindow();
+	
+	$('#chat').click(function() {
+		var item_id = itemid;
+		var requester_id = user_id;
+		var windowcode = item_id + "and" + requester_id;		
+		$("#" + windowcode).chatbox("option", "boxManager").toggleBox();
+	})
+	
+	$('#ask').click(function() {
+		var thisBtn  = $(this);	
+		$("#dialog").text("即將對此分享提出請求，是否繼續？");		
+		$("#dialog").dialog({
+			modal:true,
+			resizable: false,
+			title: item_name,
+			closeText: "hide",
+			open: function(){
+				$(".ui-widget-overlay").bind("click", function(event,ui){
+					$("#dialog").dialog("close");
+					})
+				},				
+			buttons:{
+				"取消": function(){
+					$(this).dialog("close");
+					$("#dialog").text("");						
+					},
+				"確認": function(){
+					$(this).dialog("close");
+					$("#dialog").text("");
+					startAction(thisBtn);						
+					}
+				}
+		})
+		$(".ui-dialog-titlebar-close").hide();
+	})
+	
+	function startConnection(){
+	    var url = 'ws://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket/'+user_id;
+	    socket = new WebSocket(url);	
+	    socket.onmessage = function(event) {
+	        addMessage(event.data);
+	    };
+	}
+			
+	function startAction(thisBtn) {		
+		thisBtn.css("display","none");			
+		var action_str = thisBtn.attr("id");
+		
+		$.get("chatAction.ajax", { "action":action_str, "item":itemid, "requester":user_id }, 
+				function(data){											
+					setTimeout(function() {
+						$("#dialog").text("已提出請求。");		
+						$("#dialog").dialog({
+							modal:true,
+							resizable: false,
+							title: item_name,
+							closeText: "hide",
+							open: function(){
+								$(".ui-widget-overlay").bind("click", function(event,ui){
+									$("#dialog").dialog("close");
+									})
+								},				
+							buttons:{								
+								"確認": function(){
+									$(this).dialog("close");
+									$("#dialog").text("");						
+									}
+								}
+						})
+						$(".ui-dialog-titlebar-close").hide();
+					}, 500)						
+			});
+		}
+
+	function messageWindow() {
+		var item_id = itemid;
+		var title_id = '( ' + user_name + ' ) ' + item_name ;
+		var host_id = item_host;
+		var requester_id = user_id;
+		var windowcode = item_id + "and" + requester_id;
+		
+		var window = $("<div></div>").attr("id", windowcode);
+		var listener_id = (user_id==host_id?requester_id : host_id);
+		$("#board").append(window);
+		
+		$("#" + windowcode).chatbox({				
+			id : user_id, 
+            user : user_name,
+            title : title_id,
+            width : 200,
+            offset : getNextOffset(),
+            hidden: true,
+            messageSent : function(id, user, msg) {                      		
+            	if(socket.readyState != 1){startConnection();}
+                socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_id, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
+                $.post("../messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
+                }});
+
+    	count++;	
+
+		$.getJSON("../pullMessage.ajax", {	"item":item_id, "requester":requester_id}, 
+				function(data){
+					$.each(data, function(index, bean){
+					$("#" + windowcode).chatbox("option", "boxManager").addMsg(bean.memberBean_speaker.nickname, bean.context);
+					});
+				})
+		
+		$("#" + windowcode).chatbox("option", "hidden", true);		
+			} 
+			
+         
+    function addMessage(message) {
+    	message = JSON.parse(message);
+		var windowcode = message.windowcode;        
+		$("#" + windowcode).chatbox("option", "hidden", false);
+       	$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);
+        } 
 });
 </script>
 <style>
@@ -216,12 +350,30 @@ time{
 	<div >
 	<c:choose>
 	<c:when test="${itembean.member_id.member_no eq user.member_no}">
-	<input type="button" value="Edit" class="btn btn-primary">
+	
+	<c:url value="/item/UpdateItem.jsp" var="path">
+		<c:param name="item_id" value="${itembean.item_id}" />
+		<c:param name="item_name" value="${itembean.item_name}" />
+		<c:param name="location" value="${itembean.location}" />
+		<c:param name="class_name" value="${itembean.classBean.class_name}" />						
+		<c:param name="end_date" value="${itembean.end_date}" />
+		<c:param name="item_description" value="${itembean.item_description}" />
+		<c:forEach var="imageBean" items="${itembean.imageBean}" varStatus="varStatus">
+			<c:param name="image_id${varStatus.count}" value="${imageBean.image_id}" />
+		</c:forEach>
+	</c:url>
+	
+	<a href="${path}">
+		<input type="button" value="Edit" class="btn btn-primary">
+	</a>
 	</c:when>
 	<c:otherwise>
-	<input type="button" value="私訊分享者" class="btn btn-primary" style="margin :15px">
+	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :15px">
 	<input type="button" value="追蹤按鈕" class="btn btn-success" style="width:80px;margin :15px" >
 	<input type="button" value="檢舉商品" class="btn btn-default" style="margin :15px">
+<%-- 		<c:if test=${ itembean.done == 0 }> --%>
+			<input type="button" id="ask" value="提出分享請求" class="btn btn-default" style="margin :15px">
+<%-- 		</c:if> --%>
 	</c:otherwise>
 	</c:choose>
 	</div>
@@ -309,11 +461,8 @@ time{
 </div>
 </div>
 </div>
-
-<script type="text/javascript">
-$("#follow_button").click(function(){
-	var status = $(this).val;
-});//end of click
-</script>
+<div id="dialog"></div>
+<div id="board"></div>
+<div id="header"></div>
 </body>
 </html>

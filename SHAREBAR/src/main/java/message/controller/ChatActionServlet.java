@@ -36,11 +36,9 @@ public class ChatActionServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		
 		String action_str = request.getParameter("action");
-		System.out.println("action_str = " + action_str);
 		int item_id = Integer.valueOf(request.getParameter("item"));
-		System.out.println("item_id = " + item_id);
 		int requester_id = Integer.valueOf(request.getParameter("requester"));
-		System.out.println("item_id = " + item_id);
+		System.out.println( "系統：使用者 ( " + requester_id + " ) 對分享物 " + item_id + action_str );
 		String result = null;
 		
 		if ( null != action_str && "ask".equals(action_str))

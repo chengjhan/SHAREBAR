@@ -8,21 +8,17 @@
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="js/jquery-3.1.1.min.js"></script>
-<script src="js/jquery.validate.min.js"></script>
+<link type="text/css" rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+<link type="text/css" rel="stylesheet" href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="js/jquery-chatbox/jquery.ui.chatbox.css" />
 
-<link rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css">
-<script src="js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-
-<link type="text/css" href="js/jquery-chatbox/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
-<script type="text/javascript" src="js/jquery-chatbox/jquery-ui-1.8.2.custom.min.js"></script>
-
-<link type="text/css" href="js/jquery-chatbox/jquery.ui.chatbox.css" rel="stylesheet" />
+<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-chatbox/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script type="text/javascript" src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jquery-chatbox/jquery.ui.chatbox.js"></script>
 <script type="text/javascript" src="js/jquery-chatbox/chatboxManager.js"></script>
-
-<link rel="stylesheet" href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-<script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
 </head>
 <body>
@@ -278,6 +274,7 @@ count = 0;
                 messageSent : function(id, user, msg) {                      		
                 	if(socket.readyState != 1){startConnection();}
                     socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_id, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
+                    $.post("messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
                 }});
             	count++;			
 				} 		
@@ -304,7 +301,8 @@ count = 0;
                 	messageSent : function(id, user, msg) {          
                 		if(socket.readyState != 1){startConnection();}
                     	socket.send(JSON.stringify({content : msg, item : message.item, requester : message.requester, title : message.title, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
-                			}});
+                    	$.post("messageInsert.ajax",{content : msg, item : message.item, speaker : user_id, listener : listener_id});
+            			}});
             	
             	$.getJSON("pullMessage.ajax", {	"item":message.item, "requester":message.requester}, 
         			function(data){

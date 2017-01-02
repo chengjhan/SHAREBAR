@@ -33,7 +33,9 @@ public class ClassBean {
 	private int class_id;
 	@Expose
 	private String class_name;
-	private byte[] image;
+	private String image;
+	private String icon;
+	private String icon_after;
 	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "classBean")
 	@OrderBy("item_id ASC")
 	private Set<ItemBean> itemBean = new HashSet<ItemBean>();
@@ -59,12 +61,28 @@ public class ClassBean {
 		this.class_name = class_name;
 	}
 
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getIcon_after() {
+		return icon_after;
+	}
+
+	public void setIcon_after(String icon_after) {
+		this.icon_after = icon_after;
 	}
 
 	public Set<ItemBean> getItemBean() {

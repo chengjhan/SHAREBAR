@@ -23,6 +23,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.gson.annotations.Expose;
 
+import administrator.model.ReportBean;
 import category.model.ClassBean;
 import followitem.model.FollowItemsBean;
 import image.model.ImageBean;
@@ -60,7 +61,9 @@ public class ItemBean {
 	private java.util.Date end_date;
 	private int block;
 	private int done;
-	private String getter_id;
+	@ManyToOne
+	@JoinColumn(name = "getter_id")
+	private MemberBean getter_id;
 	private int getter_rate;
 	private String getter_review;
 	private int giver_rate;
@@ -84,6 +87,13 @@ public class ItemBean {
 	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "itemBean")
 	@OrderBy("id asc")
 	private Set<MessageBoardBean> messageboard = new HashSet<MessageBoardBean>();
+	
+	//阿典新增
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "reported_item_id")
+	private Set<ReportBean> reported_item_id = new HashSet<ReportBean>();
+	
+	
+	
 	@Override
 	public String toString() {
 		return "ItemBean [item_id=" + item_id + ", item_name=" + item_name + ", member_id=" + member_id + "]\n"
@@ -186,11 +196,11 @@ public class ItemBean {
 		this.done = done;
 	}
 
-	public String getGetter_id() {
+	public MemberBean getGetter_id() {
 		return getter_id;
 	}
 
-	public void setGetter_id(String getter_id) {
+	public void setGetter_id(MemberBean getter_id) {
 		this.getter_id = getter_id;
 	}
 

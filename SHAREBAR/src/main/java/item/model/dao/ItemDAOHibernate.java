@@ -129,6 +129,25 @@ public class ItemDAOHibernate implements ItemDAO {
 		List<ItemBean> list = query.getResultList();
 		return list;
 	}
+	
+	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<ItemBean> selectByNew() {
+		Query query = this.getSession().createQuery("from ItemBean where block=? and done=? order by post_date desc");
+		query.setParameter(0, 0);
+		query.setParameter(1, 0);
+		query.setMaxResults(20);
+		List<ItemBean> list = query.getResultList();
+		return list;
+	}
+	
+	@Override
+	public ItemBean updateGetter(int item_id, MemberBean getterBean){
+		ItemBean bean = this.getSession().get(ItemBean.class, item_id);
+		bean.setGetter_id(getterBean);
+		bean.setDone(1);
+		return bean;
+	}
 
 	@Override
 	public Set<ImageBean> selectByItem(int item_id) {

@@ -12,16 +12,29 @@ border-collapse:collapse;
 
 }
 </style>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- <script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script> -->
+<script type="text/javascript">
+$(function(){
+	$("#header").load("../header.jsp");
+	
+	$("#footer").load("../footer.jsp");
+});
+</script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>後台系統_舉報單列表</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-	
+<div id="header"></div>	
    <div class="container">
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
@@ -82,29 +95,39 @@ border-collapse:collapse;
 	
 	<div>&nbsp</div>
 	
+	
+	
 	<table>	
 				<tr align="center">
 					<td class="st1">&nbsp # &nbsp</td>
 					<td class="st1">&nbsp檢舉人ID&nbsp</td>
+					<td class="st1">&nbsp檢舉人帳號&nbsp</td>
+					<td class="st1">&nbsp檢舉人暱稱&nbsp</td>
 					<td class="st1">&nbsp被檢舉物ID&nbsp</td>
-					<td class="st1">&nbsp違規描述</td>
-					<td class="st1">&nbsp檢舉時間</td>
+					<td class="st1">&nbsp被檢舉物名稱&nbsp</td>
+					<td class="st1">違規描述</td>
+					<td class="st1">檢舉時間</td>
+					<td class="st1">&nbsp&nbsp封鎖&nbsp&nbsp</td>
 				</tr>
 			<c:forEach var="element3" items="${report}">
 				<c:url value="gm_view03.jsp" var="path">
 					<c:param name="report_id" value="${element3.report_id}" />
-					<c:param name="reporting_member_id" value="${element3.reporting_member_id}" />
-					<c:param name="reported_item_id" value="${element3.reported_item_id}" />
+					<c:param name="reporting_member_id" value="${element3.reporting_member_id.member_no}" />
+					<c:param name="reported_item_id" value="${element3.reported_item_id.item_id}" />
 					<c:param name="context" value="${element3.context}" />	
 					<c:param name="time" value="${element3.time}" />							
 				</c:url>
 
 				<tr>
-					<td align="center" class="st1"><a href="${path}">${element3.report_id}</a></td>
-					<td align="center" class="st1">${element3.reporting_member_id}</td>
-					<td align="center" class="st1">${element3.reported_item_id}</td>
+					<td align="center" class="st1">${element3.report_id}</td>
+					<td align="center" class="st1">${element3.reporting_member_id.member_no}</td>
+					<td align="center" class="st1">${element3.reporting_member_id.email}</td>
+					<td align="center" class="st1">${element3.reporting_member_id.nickname}</td>
+					<td align="center" class="st1">${element3.reported_item_id.item_id}</td>
+					<td align="center" class="st1">${element3.reported_item_id.item_name}</td>
 					<td class="st1">${element3.context}</td>		
-					<td class="st1">&nbsp ${element3.time} &nbsp</td>	
+					<td class="st1">&nbsp ${element3.time} &nbsp</td>
+					<td align="center" class="st1"><a href="${path}">封鎖</a></td>
 				</tr>
 			</c:forEach>		
 	</table>
@@ -113,6 +136,6 @@ border-collapse:collapse;
 <!-- 每頁不同的內容到這裡結束 -->
 			</div>
 	</div>
-	
+<div id="footer"></div>	
 </body>
 </html>

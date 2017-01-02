@@ -172,7 +172,7 @@ div.img_container{
 	<div id="follow" class="tab-pane fade">
 		<!-- show follow list -->
 		<div class="row">
-		<c:forEach var="follow" items="${user.member_follow_rel}">
+		<c:forEach var="follow" items="${userFollow}">
 		<c:if test="${follow.relation == 'follow'}">
 		<div class="col-md-2 col-sm-2 col-xs-4">
 		<div class="thumbnail">
@@ -195,7 +195,7 @@ div.img_container{
     <div id="followed" class="tab-pane fade">
 		<!-- show follow list -->
 		<div class="row">
-		<c:forEach var="followed" items="${user.member_followed_rel}">
+		<c:forEach var="followed" items="${userFollowed}">
 		<c:if test="${followed.relation == 'follow'}">
 		<div class="col-md-2 col-sm-2 col-xs-4">
 		<div class="thumbnail">

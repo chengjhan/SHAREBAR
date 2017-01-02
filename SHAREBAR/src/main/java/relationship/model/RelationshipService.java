@@ -95,7 +95,19 @@ public class RelationshipService {
 		List<RelationshipBean> results;
 		if (mb != null) {
 			results = relationshipDao.selectByFollow(mb);
-			if (!results.isEmpty()) {
+			if (results!=null) {
+				return results;
+			}
+		}
+		return null;
+	}
+	
+	@Transactional
+	public List<RelationshipBean> findFollowed(MemberBean mb) {
+		List<RelationshipBean> results;
+		if (mb != null) {
+			results = relationshipDao.selectByFollowed(mb);
+			if (results!=null) {
 				return results;
 			}
 		}
