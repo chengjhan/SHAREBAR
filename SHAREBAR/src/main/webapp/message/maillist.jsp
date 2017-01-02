@@ -160,6 +160,7 @@
 	</div>
 	<div id="dialog"></div>
 	<div id="board"></div>
+	<div id="footer"></div>
 </body>
 <script>
 var socket = null;
@@ -170,8 +171,8 @@ var count = 0;
 
 
 	$(function() {		
-		$("#header").load("header.jsp")
-		
+		$("#header").load("header.jsp");
+		$("#footer").load("footer.jsp");
 		startConnection();
 
 		//點擊聊天按鈕，跳出聊天室窗
@@ -264,7 +265,7 @@ var count = 0;
 						setTimeout(function() {
 							thisBtn.parent().text(data);
 							thisBtn.siblings("div").css("display","none");
-						}, 1500)						
+						}, 1000)						
 				});
 			}
 
@@ -278,7 +279,11 @@ var count = 0;
 				
 		function messageWindow(item_id, title_id, host_id, requester_id, windowcode) {
 			var window = $("<div></div>").attr("id", windowcode).attr("data-readed",1);
+			//傳送訊息用
 			var listener_id = (user_id==host_id?requester_id : host_id);
+			//設為已讀用
+			var speaker_id = (user_id==host_id?requester_id : host_id);
+			
 			$("#board").append(window);
 			
 			$("#" + windowcode).chatbox({				
@@ -292,7 +297,9 @@ var count = 0;
                     socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_id, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
                     $.post("messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
                 }});
-            	count++;			
+            count++;
+			//設為已讀
+            $.post("mailReaded.ajax",{item : item_id, speaker : speaker_id, listener : user_id});			
 				} 		
 			})
              

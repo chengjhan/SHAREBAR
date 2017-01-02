@@ -22,12 +22,12 @@
 <title>Profile Page</title>
 <script type="text/javascript">
 
-socket = null;
-
-user_id = Number("${user.member_no}");
-user_name = "${user.nickname}";
-getNextOffset = function() { return count*215; };
-count = 0;
+var socket = null;
+var user_id = Number("${user.member_no}");
+var user_name = "${user.nickname}";
+var item_status = "未提出"
+var getNextOffset = function() { return count*215; };
+var count = 0;
 
 $(function(){
 	$("#header").load("../header.jsp");
@@ -153,15 +153,54 @@ $(function(){
 	//初始化步驟
 	startConnection();
 	messageWindow();
+
+	$.get("../chatAction.ajax", { "action":"check", "item":itemid, "requester":user_id }, 
+			function(data){											
+		if( data != "未提出" ){
+			item_status = data;
+			switch (item_status){
+			case "已送出":				
+				$("#ask").toggleClass("btn-default");
+				$("#ask").attr("value","請求已送出");
+				$("#ask").attr("id","done")
+				break;
+			case "已拒絕":
+				$("#ask").toggleClass("btn-danger");
+				$("#ask").attr("value","已拒絕");
+				$("#ask").attr("id","done")
+				break;
+			case "已成交":
+				break;
+			}
+		}						
+		});
 	
 	$('#chat').click(function() {
 		var item_id = itemid;
 		var requester_id = user_id;
-		var windowcode = item_id + "and" + requester_id;		
+		var host_id = item_host;
+		var windowcode = item_id + "_" + host_id + "_" + requester_id;		
 		$("#" + windowcode).chatbox("option", "boxManager").toggleBox();
 	})
-	
+	//點擊聊天視窗，設為已讀
+	$("body").on("click",".ui-chatbox",function(){			
+		var item_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[0];
+		var host_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[1];
+		var requester_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[2];
+		var speaker_id = (user_id==host_id?requester_id : host_id);
+		//呼叫servlet
+		$.post("../mailReaded.ajax",{item : item_id, speaker : speaker_id, listener : user_id});
+		})
+	//鼠標停留聊天視窗
+	$("body").on("focus",".ui-chatbox-input",function(){
+		$(this).siblings(".ui-chatbox-log").attr("data-readed","1");
+		})
+	//鼠標離開聊天視窗
+	$("body").on("blur",".ui-chatbox-input",function(){
+		$(this).siblings(".ui-chatbox-log").attr("data-readed","0");
+		})	
 	$('#ask').click(function() {
+		if($(this).attr("id") == "done"){return};
 		var thisBtn  = $(this);	
 		$("#dialog").text("即將對此分享提出請求，是否繼續？");		
 		$("#dialog").dialog({
@@ -197,33 +236,16 @@ $(function(){
 	    };
 	}
 			
-	function startAction(thisBtn) {		
-		thisBtn.css("display","none");			
-		var action_str = thisBtn.attr("id");
-		
-		$.get("chatAction.ajax", { "action":action_str, "item":itemid, "requester":user_id }, 
+	function startAction(thisBtn) {					
+		thisBtn.attr("value","處理中");				
+		var action_str = thisBtn.attr("id");		
+		$.get("../chatAction.ajax", { "action":action_str, "item":itemid, "requester":user_id }, 
 				function(data){											
 					setTimeout(function() {
-						$("#dialog").text("已提出請求。");		
-						$("#dialog").dialog({
-							modal:true,
-							resizable: false,
-							title: item_name,
-							closeText: "hide",
-							open: function(){
-								$(".ui-widget-overlay").bind("click", function(event,ui){
-									$("#dialog").dialog("close");
-									})
-								},				
-							buttons:{								
-								"確認": function(){
-									$(this).dialog("close");
-									$("#dialog").text("");						
-									}
-								}
-						})
-						$(".ui-dialog-titlebar-close").hide();
-					}, 500)						
+						$("#ask").toggleClass("btn-default");
+						$("#ask").attr("value","請求已送出");
+						$("#ask").attr("id","done")				
+					}, 1000)						
 			});
 		}
 
@@ -232,9 +254,9 @@ $(function(){
 		var title_id = '( ' + user_name + ' ) ' + item_name ;
 		var host_id = item_host;
 		var requester_id = user_id;
-		var windowcode = item_id + "and" + requester_id;
+		var windowcode = item_id + "_" + host_id + "_" + requester_id;
 		
-		var window = $("<div></div>").attr("id", windowcode);
+		var window = $("<div></div>").attr("id", windowcode).attr("data-readed",0);
 		var listener_id = (user_id==host_id?requester_id : host_id);
 		$("#board").append(window);
 		
@@ -269,6 +291,10 @@ $(function(){
 		var windowcode = message.windowcode;        
 		$("#" + windowcode).chatbox("option", "hidden", false);
        	$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);
+      	//若正在關注此視窗設為已讀
+   		if( $("#" + windowcode).attr("data-readed") == 0 ){
+			$.post("mailReaded.ajax",{item : message.item, speaker : message.speaker, listener : message.listener});
+    		}
         } 
 });
 </script>
@@ -371,9 +397,15 @@ time{
 	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :15px">
 	<input type="button" value="追蹤按鈕" class="btn btn-success" style="width:80px;margin :15px" >
 	<input type="button" value="檢舉商品" class="btn btn-default" style="margin :15px">
-<%-- 		<c:if test=${ itembean.done == 0 }> --%>
-			<input type="button" id="ask" value="提出分享請求" class="btn btn-default" style="margin :15px">
-<%-- 		</c:if> --%>
+		<c:if test="${ itembean.done == 0 }">
+			<input type="button" id="ask" value="提出分享請求" class="btn btn-success" style="margin :15px">
+		</c:if>
+		<c:if test="${ itembean.done == 1 && item.getter_id == user_id }">
+			<input type="button" id="done" value="成交" class="btn btn-success" style="margin :15px">
+		</c:if>
+		<c:if test="${ itembean.done == 1 && item.getter_id != user_id }">
+			<input type="button" id="done" value="已鎖定" class="btn btn-danger" style="margin :15px">
+		</c:if>
 	</c:otherwise>
 	</c:choose>
 	</div>
@@ -463,6 +495,6 @@ time{
 </div>
 <div id="dialog"></div>
 <div id="board"></div>
-<div id="header"></div>
+<div id="footer"></div>
 </body>
 </html>

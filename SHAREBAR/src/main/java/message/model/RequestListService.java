@@ -36,4 +36,8 @@ public class RequestListService {
 		requestListDAO.refused(item_id, requester_id);
 		return requestListDAO.checkStatus(item_id, requester_id);
 	}
+	@Transactional
+	public String checkStatus(int item_id, int requester_id){		
+		return requestListDAO.checkStatus(item_id, requester_id);
+	}
 }
