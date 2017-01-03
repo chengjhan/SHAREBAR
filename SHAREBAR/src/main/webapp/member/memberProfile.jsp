@@ -161,11 +161,11 @@ div.img_container{
 		<p><!-- 	追蹤按鈕		 -->
 		<a class="btn btn-default followerimg" value="${item.item_id}" following="
 		<c:forEach var="relation" items="${item.follow_items}">
-		<c:if test="${relation.member_id.member_no eq user.member_no}">
-		<c:if test="${relation.status == '1' }">
-		1
-		</c:if>
-		</c:if>
+			<c:if test="${relation.member_id.member_no eq user.member_no}">
+				<c:if test="${relation.status == '1' }">
+					1
+				</c:if>
+			</c:if>
 		</c:forEach>
 		" >
 		<span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
