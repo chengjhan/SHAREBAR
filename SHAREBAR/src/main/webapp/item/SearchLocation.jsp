@@ -47,7 +47,16 @@ html, body {
 	left: 0px;
 	float: left;
 	overflow: scroll;
-/* 	margin: 0px -15px; */
+}
+
+#left_top {
+	width: 100%;
+	height: 80px;
+	padding: 15px;
+}
+
+#left_content {
+	width: 100%;
 }
 
 #map {
@@ -60,20 +69,51 @@ html, body {
 }
 
 .item_bean_div {
-/* 	width: 45%; */
-/* 	height: 400px; */
  	float: left;
-/* 	margin: 0px;  */
-	background-color: #FCFCFC;
+/* 	background-color: #FCFCFC; */
  	margin-bottom: 15px;
 }
 
 .item_image_div {
 	width: 100%;
+	z-index: 1;
+	position: relative;
 }
 
 .item_image_img {
 	width: 100%;
+}
+
+.item_member_div {
+	width: 20%;
+	height : 20%;
+	z-index: 200;
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
+	border-radius: 99em;
+	border: 2px white solid;
+}
+
+.item_member_img {
+	width:100%;
+	border-radius:99em;
+}
+
+.item_follow_div {
+	width: 15%;
+	height : 15%;
+	z-index: 200;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	border-radius: 99em;
+}
+
+.item_follow_img {
+	width:100%;
+	border-radius:99em;
+	z-index: 300;
 }
 
 .item_info_div {
@@ -92,6 +132,43 @@ html, body {
 	margin: 0px;
 }
 
+.item_name_a:link {
+	color: #444444;
+	font-size: 16px;
+	text-decoration: none;
+}
+
+.item_name_a:visited {
+	color: #444444;
+}
+
+.item_name_a:hover {
+	color: #444444;
+	text-decoration: underline;
+}
+
+.item_name_a:active {
+	color: #444444;
+}
+
+.item_text_a:link {
+	color: #888888;
+	text-decoration: none;
+}
+
+.item_text_a:visited {
+	color: #888888;
+}
+
+.item_text_a:hover {
+	color: #888888;
+	text-decoration: none;
+}
+
+.item_text_a:active {
+	color: #888888;
+}
+
 #id_infoimage_div {
 	width: 200px;
 	height: 200px;
@@ -107,39 +184,39 @@ html, body {
 }
 
 .infotitle_a:link {
-	color: black;
+	color: #444444;
 	text-decoration: none;
 }
 
 .infotitle_a:visited {
-	color: black;
+	color: #444444;
 }
 
 .infotitle_a:hover {
-	color: black;
+	color: #444444;
 	text-decoration: underline;
 }
 
 .infotitle_a:active {
-	color: black;
+	color: #444444;
 }
 
 .infotext_a:link {
-	color: black;
+	color: #888888;
 	text-decoration: none;
 }
 
 .infotext_a:visited {
-	color: black;
+	color: #888888;
 }
 
 .infotext_a:hover {
-	color: black;
+	color: #888888;
 	text-decoration: none;
 }
 
 .infotext_a:active {
-	color: black;
+	color: #888888;
 }
 </style>
 </head>
@@ -167,7 +244,7 @@ html, body {
 						<option value="itemName">物品</option>
 					</select>
 					<div class="form-group">
-						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search" style="width: 300px" /></td>
+						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="" style="width: 300px" /></td>
 					</div>
 					<button type="submit" id="id_submit" class="btn btn-default">Submit</button>
 					<table id="latlng"></table>
@@ -179,7 +256,7 @@ html, body {
 							<li class="class_li"><a href="<c:url value='/secure/login.jsp'/>"><span class="glyphicon glyphicon-log-out"></span>Login</a></li>
 						</c:when>
 						<c:otherwise>
-							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span>${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
+							<li class="class_li"><a href="<c:url value='/member/userProfile.jsp'/>"><span class="glyphicon glyphicon-user"></span>${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
 							<li class="class_li"><a href="<c:url value='/member/inbox.jsp'/>"><span class="glyphicon glyphicon-envelope"></span>Mail</a></li>
 							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
 							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span>Share</a></li>
@@ -226,7 +303,36 @@ html, body {
 			</table>
 			-->
 			<div id="left" class="col-sm-6 col-md-6">
-<!-- 				<div id="inner_left" class="row"></div> -->
+				<div id="left_top">
+					<div>
+						<div style="font-size:16px;margin-bottom:5px">
+							<div style="float:left">
+								<span>搜尋條件</span>
+								<span>．</span>
+							</div>
+							<div style="float:left">
+								<span>地區</span>
+								<span>．</span>
+							</div>
+							<div>
+								<span>${searchBar}</span>
+							</div>
+						</div>
+						<div style="font-size:14px">
+							<div style="float:left">
+								<span>現在位置 </span>
+								<span>．</span>
+								<span id="id_center_span"></span>
+							</div>
+							<div style="position:absolute;right:30px;">
+								<span>共 </span>
+								<span id="id_number_span"></span>
+								<span> 筆結果</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="left_content"></div>
 			</div>
 			<div id="map" class="col-sm-6 col-md-6"></div>
 		</div>
@@ -263,21 +369,6 @@ html, body {
 	        "Scheme"
 	    ];
 	    
-	    $(document).ready(function(){
-// 	    	物品自動完成
-// 	    	$("#id_search").on("autocompletechange", function(){
-// 				var searchBar = $("#id_search").val();
-// 				$.getJSON("searchBar.ajax", {"itemName": searchBar}, function(data){
-// 					$.each(data, function(index, item){
-// 						availableTags = [];
-// 						availableTags.push(item.item_name);	
-// 						alert(item.item_name);
-// 					});
-// 					alert(availableTags)
-// 				});
-// 			});
-	    });
-	    
 		// 切換自動完成
 		$("#id_select").on("change", function() {
 // 			alert($("#id_select").val());
@@ -288,10 +379,10 @@ html, body {
 			} else {
 				$('#id_search').autocomplete('disable');
 				var options = {
-// 			    		types: ['establishment']
-						types: ['geocode']
-// 			    		types: ['address']
-		    		};
+// 			    	types: ['establishment']
+					types: ['geocode']
+// 			    	types: ['address']
+		    	};
 				googleAutocomplete = new google.maps.places.Autocomplete(input, options);
 			}
 		});
@@ -300,45 +391,45 @@ html, body {
 		$("#id_search").on("change", function(event){
 // 			event.preventDefault();
 			var searchSelector = $("#id_select").find(":selected").val();
-			alert(searchSelector);
+// 			alert(searchSelector);
 			var searchBar = $("#id_search").val();
-			alert(searchBar);
+// 			alert(searchBar);
 			
 			// 找地區
 			if(searchSelector == "location"){
 				geocoder.geocode({ 'address': searchBar }, function(results, status) {
 			        if (status == google.maps.GeocoderStatus.OK) {
-			        	var lat = results[0].geometry.location.lat();
-						var lng = results[0].geometry.location.lng();
-						alert(lat + ", " + lng);
-						alert(results[0].geometry.viewport);
-						var bounds = results[0].geometry.viewport;
-			            var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-						var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-						var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
-						var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng, inputBounds]);
-						var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-						$("#latlng").append(trLatLnf);
+// 			        	var lat = results[0].geometry.location.lat();
+// 						var lng = results[0].geometry.location.lng();
+// 						alert(lat + ", " + lng);
+// 						alert(results[0].geometry.viewport);
+// 						var bounds = results[0].geometry.viewport;
+// 			            var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
+// 						var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
+// 						var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
+// 						var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng, inputBounds]);
+// 						var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
+// 						$("#latlng").append(trLatLnf);
 			        } else if (searchBar == "") {
-			        	alert("searchBar = null");
-			        	if (navigator.geolocation) {
-							navigator.geolocation.getCurrentPosition(success, error);
-			        	}
-			        	function success(position) {
-			        		var lat = position.coords.latitude;
-			        		var lng = position.coords.longitude;
-			     			alert(lat + ", " + lng);
-			     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
-			    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
-			    				if (status == google.maps.GeocoderStatus.OK) {
-			    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-									var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-									var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng]);
-									var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-									$("#latlng").append(trLatLnf);
-			    				}
-			    			})
-			    		}
+// 			        	alert("searchBar = null");
+// 			        	if (navigator.geolocation) {
+// 							navigator.geolocation.getCurrentPosition(success, error);
+// 			        	}
+// 			        	function success(position) {
+// 			        		var lat = position.coords.latitude;
+// 			        		var lng = position.coords.longitude;
+// 			     			alert(lat + ", " + lng);
+// 			     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
+// 			    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
+// 			    				if (status == google.maps.GeocoderStatus.OK) {
+// 			    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
+// 									var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
+// 									var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng]);
+// 									var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
+// 									$("#latlng").append(trLatLnf);
+// 			    				}
+// 			    			})
+// 			    		}
 			        } else {
 			            alert("請輸入詳細地址");
 			        }
@@ -358,7 +449,7 @@ html, body {
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
 	    					var bounds = results[0].geometry.viewport;
-	    					alert(bounds);
+// 	    					alert(bounds);
 	    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
 							var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
 							var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
@@ -388,18 +479,19 @@ html, body {
 		
 		// 地圖初始化
 		function initMap() {
+			
 			// header初始化
 			// 地區自動完成
 		    var defaultBounds = new google.maps.LatLngBounds(
-		    			new google.maps.LatLng(26, 124),
-		    			new google.maps.LatLng(23, 120)
-		    		);
+		    	new google.maps.LatLng(26, 124),
+	    		new google.maps.LatLng(23, 120)
+		    );
 		    var options = {
-//			    			bounds: defaultBounds,
-//			    			types: ['establishment']
-//			    			types: ['address']
-						types: ['geocode']
-		    		};
+//		   		bounds: defaultBounds,
+//			   	types: ['establishment']
+//		    	types: ['address']
+				types: ['geocode']
+		    };
 		    input = document.getElementById('id_search');
 			googleAutocomplete = new google.maps.places.Autocomplete(input, options);
 			geocoder = new google.maps.Geocoder();
@@ -408,11 +500,12 @@ html, body {
 			var centerLocation = {
 				lat : 23.583234,
 				lng : 120.5825975
-				}
+			}
 			map = new google.maps.Map(document.getElementById("map"), {
 				center : centerLocation,
-				zoom : 8
-				});
+				zoom : 8,
+				minZoom : 2
+			});
 			var swLat = ${swLat};
 // 			alert(swLat);
 			var swLng = ${swLng};
@@ -440,8 +533,25 @@ html, body {
 //    		});
 			
 			// 由搜尋列第一次搜尋
-			var table = $("#itemList>tbody");
-			var photo = $("#left")
+// 			var table = $("#itemList>tbody");
+			var photo = $("#left_content");
+			var number = $("#id_number_span");
+			var currentLat = ${currentLat};
+			var currentLng = ${currentLng};
+			var currentLatLng = { lat: currentLat, lng: currentLng };
+			var centerLocation = $("#id_center_span");
+			
+			// 取得搜尋地地址
+			centerLocation.empty();
+			geocoder.geocode({'location': currentLatLng}, function(results, status) {
+				if (status === google.maps.GeocoderStatus.OK) {
+					if (results[0]) {
+//						alert(results[0].formatted_address);
+						centerLocation.append(results[0].formatted_address);
+					} 
+				}
+			});
+			
 			$.getJSON("searchLocation.ajax", {
 				"swLat": swLat,
 				"swLng": swLng,
@@ -449,8 +559,9 @@ html, body {
 				"neLng": neLng
 			}, function(data){
 // 				table.empty();
-				photo.empty();
-				var count = 1;
+// 				photo.empty();
+				var count = 0;
+				
 				$.each(data, function(index, item){
 					
 					// 製作物品資訊陣列
@@ -472,26 +583,33 @@ html, body {
 // 					alert(imageSrc);
 					var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
 					var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
-					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a);
-					var itemHyperlink_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "'>" + item.item_name + "</a>";
-					var itemName_span = $("<span class='item_name_p'></span>").append(itemHyperlink_a);
+					var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
+					var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
+					var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);
+					var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
+					var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
+					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_div);
+					var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";
+					var itemName_span = $("<span class='item_name_p'></span>").append(itemItemName_a);
 					var dot_span = $("<span></span>").append("．");
-					var itemClassName_span = $("<span></span>").append(item.classBean.class_name);
-					var itemLocation_p = $("<p class='item_location_p'></p>").append(item.location);
+					var itemClassName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_text_a'>" + item.classBean.class_name + "</a>";
+					var itemClassName_span = $("<span></span>").append(itemClassName_a);
+					var itemLocation_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_text_a'>" + item.location + "</a>";
+					var itemLocation_p = $("<p class='item_location_p'></p>").append(itemLocation_a);
 					var itemText_div = $("<div class='item_text_div'></div>").append(itemName_span).append(dot_span).append(itemClassName_span).append(itemLocation_p);
 					var itemInfo_div = $("<div class='item_info_div'></div>").append(itemText_div);
-					var itemBean_div = $("<div class='item_bean_div col-sm-12 col-md-6'></div>").attr("id", "item" + count).append(itemImage_div).append(itemInfo_div);
+					var itemBean_div = $("<div class='item_bean_div col-sm-12 col-md-6'></div>").attr("id", count).append(itemImage_div).append(itemInfo_div);
 					itemBean_div.appendTo(photo);
-// 					itemBean_div.appendTo("$inner_left");
 					count++;
 				});
+				number.append(count);
 // 				alert("itemArray.length = " + itemArray.length);
 				
 				for(var i = 0; i < itemArray.length; i++){
-					var item_id = itemArray[i][0]
+					var item_id = itemArray[i][0];
 					var item_name = itemArray[i][1];
 					var class_name = itemArray[i][2];
-					var location = itemArray[i][3]
+					var location = itemArray[i][3];
 					var latitude = itemArray[i][4];
 					var longitude = itemArray[i][5];
 					var image_photo = itemArray[i][6];
@@ -504,6 +622,8 @@ html, body {
 	    				map: map,
 	    				icon: "${root}category-icon/" + class_name + ".png"
 	    			});
+					
+					// 製作地圖標記陣列
 					markerArray.push(marker);
 				
 					// 資訊視窗
@@ -517,19 +637,19 @@ html, body {
 								'</a>' +
 								'<div>' +
 									'<div id="id_infotext_div">' +
-										'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotitle_a">' +
-											'<div style="float:left">' +
-												'<span>' + item_name + '</span>' +
-											'</div>' +
-										'</a>' +
+										'<div style="float:left;padding-bottom:4px">' +
+											'<span>' +
+												'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotitle_a">' + item_name + '</a>' +
+										 	'</span>' +
+										'</div>' +	
 										'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
-											'<div>' +
+											'<div style="float:left">' +
 												'<span>．</span>' +
 												'<span>' + class_name + '</span>' +	
 											'</div>' +
 										'</a>' +
 										'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
-											'<div style="padding-top:4px">' +
+											'<div>' +
 												'<p style="width:190px;overflow:hidden;margin:0px">' + location + '</p>' +	
 											'</div>' +
 										'</a>' +
@@ -557,16 +677,43 @@ html, body {
 			});
 			
 			// 移動地圖即時變更物品
-			map.addListener('dragend', function() {
+			map.addListener('dragend', moveMap);
+// 			map.addListener('zoom_changed', moveMap);
+// 			map.addListener('idle', moveMap);
+			
+			function moveMap() {
+				// 清除所有地圖標記
 				deleteMarkers();
+				
+				// 取得地圖西南及東北經緯度
 				var bounds = map.getBounds();
 				var sw = bounds.getSouthWest();
 				var ne = bounds.getNorthEast();
 //  			console.log(ne.lat(), ne.lng());
 //  			console.log(sw.lat(), sw.lng());
-				var boundsString = "lat: " + sw.lat() + " ~ " + ne.lat() + "<br>" +
-								   "lng: " + sw.lng() + " ~ " + ne.lng();
-				$("#showBounds").html(boundsString);
+// 				var boundsString = "lat: " + sw.lat() + " ~ " + ne.lat() + "<br>" +
+// 								   "lng: " + sw.lng() + " ~ " + ne.lng();
+// 				$("#showBounds").html(boundsString);
+
+				// 取得地圖中心經緯度
+				var center = map.getCenter();
+				var centerLat = center.lat();
+				var centerLng = center.lng();
+// 				alert(centerLat + "," + centerLng);
+				var centerLatLng = { lat: centerLat, lng: centerLng }
+// 				alert(centerLatLng);
+				
+				// 取得地圖中心地址
+				centerLocation.empty();
+				geocoder.geocode({'location': centerLatLng}, function(results, status) {
+					if (status === google.maps.GeocoderStatus.OK) {
+						if (results[0]) {
+// 							alert(results[0].formatted_address);
+							centerLocation.append(results[0].formatted_address);
+						} 
+					}
+				});
+				
 				$.getJSON("searchLocation.ajax", {
 					"swLat": sw.lat(),
 					"swLng": sw.lng(),
@@ -575,7 +722,9 @@ html, body {
 				}, function(data){
 // 					table.empty();
 					photo.empty();
-					var count = 1;
+					number.empty();
+					var count = 0;
+					
 					$.each(data, function(index, item){
 						
  						// 製作物品資訊陣列
@@ -596,24 +745,32 @@ html, body {
 //	 					alert(imageSrc);
 						var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
 						var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
-						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a);
-						var itemHyperlink_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "'>" + item.item_name + "</a>";
-						var itemName_span = $("<span class='item_name_p'></span>").append(itemHyperlink_a);
+						var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
+						var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
+						var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);
+						var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
+						var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
+						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_div);
+						var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";
+						var itemName_span = $("<span class='item_name_p'></span>").append(itemItemName_a);
 						var dot_span = $("<span></span>").append("．");
-						var itemClassName_span = $("<span></span>").append(item.classBean.class_name);
-						var itemLocation_p = $("<p class='item_location_p'></p>").append(item.location);
+						var itemClassName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_text_a'>" + item.classBean.class_name + "</a>";
+						var itemClassName_span = $("<span></span>").append(itemClassName_a);
+						var itemLocation_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_text_a'>" + item.location + "</a>";
+						var itemLocation_p = $("<p class='item_location_p'></p>").append(itemLocation_a);
 						var itemText_div = $("<div class='item_text_div'></div>").append(itemName_span).append(dot_span).append(itemClassName_span).append(itemLocation_p);
 						var itemInfo_div = $("<div class='item_info_div'></div>").append(itemText_div);
-						var itemBean_div = $("<div class='item_bean_div col-sm-12 col-md-6'></div>").attr("id", "item" + count).append(itemImage_div).append(itemInfo_div);
+						var itemBean_div = $("<div class='item_bean_div col-sm-12 col-md-6'></div>").attr("id", count).append(itemImage_div).append(itemInfo_div);
 						itemBean_div.appendTo(photo);
 						count++;
 					});
+					number.append(count);
 					
 					for(var i = 0; i < itemArray.length; i++){
-						var item_id = itemArray[i][0]
+						var item_id = itemArray[i][0];
 						var item_name = itemArray[i][1];
 						var class_name = itemArray[i][2];
-						var location = itemArray[i][3]
+						var location = itemArray[i][3];
 						var latitude = itemArray[i][4];
 						var longitude = itemArray[i][5];
 						var image_photo = itemArray[i][6];
@@ -626,39 +783,41 @@ html, body {
 		    				map: map,
 		    				icon: "${root}category-icon/" + class_name + ".png"
 		    			});
+						
+						// 製作地圖標記陣列
 						markerArray.push(marker);
 						
 						// 資訊視窗
 						var contentString =
 							'<div id="id_infowindow_div">' + 
+							'<div>' +
+								'<a href="${root}item/itemdetail.controller?id=' + item_id + '">' +
+									'<div id="id_infoimage_div">' +
+										'<img id="id_infoimage_img" src="${root}item-image/' + image_photo + '">' + 
+									'</div>' +
+								'</a>' +
 								'<div>' +
-									'<a href="${root}item/itemdetail.controller?id=' + item_id + '">' +
-										'<div id="id_infoimage_div">' +
-											'<img id="id_infoimage_img" src="${root}item-image/' + image_photo + '">' + 
-										'</div>' +
-									'</a>' +
-									'<div>' +
-										'<div id="id_infotext_div">' +
-											'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotitle_a">' +
-												'<div style="float:left">' +
-													'<span>' + item_name + '</span>' +
-												'</div>' +
-											'</a>' +
-											'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
-												'<div>' +
-													'<span>．</span>' +
-													'<span>' + class_name + '</span>' +	
-												'</div>' +
-											'</a>' +
-											'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
-												'<div style="padding-top:4px">' +
-													'<p style="width:190px;overflow:hidden;margin:0px">' + location + '</p>' +	
-												'</div>' +
-											'</a>' +
-										'</div>' +
+									'<div id="id_infotext_div">' +
+										'<div style="float:left;padding-bottom:4px">' +
+											'<span>' +
+												'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotitle_a">' + item_name + '</a>' +
+										 	'</span>' +
+										'</div>' +	
+										'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
+											'<div style="float:left">' +
+												'<span>．</span>' +
+												'<span>' + class_name + '</span>' +	
+											'</div>' +
+										'</a>' +
+										'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
+											'<div>' +
+												'<p style="width:190px;overflow:hidden;margin:0px">' + location + '</p>' +	
+											'</div>' +
+										'</a>' +
 									'</div>' +
 								'</div>' +
-							'</div>';
+							'</div>' +
+						'</div>';
 						var infoWindow = new google.maps.InfoWindow();
 						addInfoWindow(marker, contentString);
 					}
@@ -677,7 +836,7 @@ html, body {
 			            });
 			        }
 				});
-			});
+			}
 		}
 		
 		// 清除所有地圖標記
@@ -701,6 +860,19 @@ html, body {
 // 			$("#header").load("../header.jsp");
 			
 			// header
+			// 物品自動完成
+// 	    	$("#id_search").on("autocompletechange", function(){
+// 				var searchBar = $("#id_search").val();
+// 				$.getJSON("searchBar.ajax", {"itemName": searchBar}, function(data){
+// 					$.each(data, function(index, item){
+// 						availableTags = [];
+// 						availableTags.push(item.item_name);	
+// 						alert(item.item_name);
+// 					});
+// 					alert(availableTags)
+// 				});
+// 			});
+			
 			// 表單驗證
 			$('#id_form').validate({
 				event: "blur",
@@ -719,23 +891,68 @@ html, body {
 			});
 			
 			// body
-			for(var i = 0; i < itemArray.length; i++){
-				var itemNo = '\"' + '#item' + i + '\"';
-				alert(itemNo);
-			}
-			$("#item1").hover(over1, out1);
-			function over1(){
-				marker1.setIcon({
-			        url: class_3c_Aft,
+			// 愛心變色
+			$(document).on("mouseover", "#id_item_follow_img", function(){
+				$(this).removeAttr("src").attr("src", "${root}item-icon/follow_a.png");
+			});
+			$(document).on("mouseout", "#id_item_follow_img", function(){
+				$(this).removeAttr("src").attr("src", "${root}item-icon/follow.png");
+			});
+			$(document).on("click", "#id_item_follow_img", function(){
+				$(this).removeAttr("src").attr("src", "${root}item-icon/followed.png");
+			});
+			
+			// 標記變色-全部變色
+// 			$(document).on("mouseover", ".item_bean_div", function(){
+// 				for(var i = 0; i < itemArray.length; i++){
+// 					var class_name = itemArray[i][2];
+// 					alert(class_name);
+// 					var marker = markerArray[i];
+// 					marker.setIcon({
+// 						url: "${root}category-icon/" + class_name + "a.png"
+// 				    });
+// 					marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
+// 				}
+// 			});
+// 			$(document).on("mouseout", ".item_bean_div", function(){
+// 				for(var i = 0; i < itemArray.length; i++){
+// 					var class_name = itemArray[i][2];
+// 					alert(class_name);
+// 					var marker = markerArray[i];
+// 					marker.setIcon({
+// 						url: "${root}category-icon/" + class_name + ".png"
+// 				    });
+// 					marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
+// 				}
+// 			});
+
+			// 標記變色-個別變色
+			$(document).on("mouseover", ".item_bean_div", function(){
+// 				alert(itemArray.length);
+				var $this = $(this);
+// 				alert($this);
+				$this_id = $this.attr("id");
+// 				alert($this_id);
+				var class_name = itemArray[$this_id][2];
+// 				alert(class_name);
+				var marker = markerArray[$this_id];
+				marker.setIcon({
+					url: "${root}category-icon/" + class_name + "a.png"
 			    });
-				marker1.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
-// 				marker2.setZIndex(1000);
-			};
-			function out1(){
-				marker1.setIcon({
-			        url: class_3c,
+				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 100);
+			});
+			$(document).on("mouseout", ".item_bean_div", function(){
+				var $this = $(this);
+				$this_id = $this.attr("id");
+// 				alert($this_id);
+				var class_name = itemArray[$this_id][2];
+// 				alert(class_name);
+				var marker = markerArray[$this_id];
+				marker.setIcon({
+					url: "${root}category-icon/" + class_name + ".png"
 			    });
-			};
+// 				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
+			});
 		});
 	</script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>

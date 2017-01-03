@@ -28,6 +28,7 @@ public class MemberBean {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Expose
 	private int member_no;
 	private String first_name;
 	private String last_name;
@@ -38,6 +39,7 @@ public class MemberBean {
 	@Expose
 	private String nickname;
 	private String facebook;
+	@Expose
 	private String photo;
 	private String description;
 	private String activate_token;
