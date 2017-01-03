@@ -579,6 +579,11 @@ html, body {
 // 					table.append(row);
 
 					// 顯示物品圖片列表
+					alert("${user.member_no}");
+					
+					
+					
+					
 					var imageSrc = "${root}item-image/" + item.imageBean[0].image_photo;
 // 					alert(imageSrc);
 					var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
@@ -586,7 +591,12 @@ html, body {
 					var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
 					var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
 					var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);
-					var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
+					var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img' value='"+ item.item_id +"' following='" + item.follow_items + "'>";
+					
+					
+					
+					
+					
 					var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
 					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_div);
 					var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";

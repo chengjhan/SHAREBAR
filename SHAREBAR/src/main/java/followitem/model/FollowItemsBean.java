@@ -14,6 +14,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.google.gson.annotations.Expose;
+
 import item.model.ItemBean;
 import member.model.MemberBean;
 
@@ -26,12 +28,13 @@ public class FollowItemsBean {
 	
 	@ManyToOne
 	@JoinColumn(name = "member_no")
+	@Expose
 	private MemberBean member_id;
 	
 	@ManyToOne
 	@JoinColumn(name = "item_id")
-	private ItemBean ItemBean;
-	
+	private ItemBean itemBean;
+	@Expose
 	private int status;
 	
 	
@@ -54,10 +57,10 @@ public class FollowItemsBean {
 		this.status = status;
 	}
 	public ItemBean getItemBean() {
-		return ItemBean;
+		return itemBean;
 	}
 	public void setItemBean(ItemBean itemBean) {
-		ItemBean = itemBean;
+		this.itemBean = itemBean;
 	}
 	
 	
