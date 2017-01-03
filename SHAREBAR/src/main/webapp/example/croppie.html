@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>croppie_modify</title>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/croppie/croppie.min.js"></script>
+<link rel="stylesheet" href="../js/croppie/croppie.css">
+<style type="text/css">
+button, a.btn {
+/* 	background-color: #189094; */
+/* 	color: white; */
+	padding: 10px 15px;
+	border-radius: 3px;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	font-size: 16px;
+	cursor: pointer;
+	text-decoration: none;
+	text-shadow: none;
+}
+
+button:focus {
+	outline: 0;
+}
+
+.file-btn {
+	position: relative;
+}
+
+.file-btn input[type="file"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+}
+
+.actions {
+	width: 450px;
+/* 	padding: 5px 0; */
+	float: left;
+}
+
+.actions button {
+	margin-right: 5px;
+}
+
+.crop {
+	position: static;
+}
+
+img {
+	max-width: 200px;
+	margin: 12.5px;
+}
+</style>
+</head>
+<body>
+	<div class="actions">
+		<div class="crop">
+			<div id="upload-demo"></div>
+		</div>
+		<div>
+			<button class="file-btn">
+				<span>上傳</span><input type="file" id="upload" value="文件" />
+			</button>
+			<button class="upload-result">確定</button>
+		</div>
+		<div id="result"></div>
+	</div>
+	<script>
+		$(function() {
+			var $uploadCrop;
+
+			function readFile(input) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						$uploadCrop.croppie('bind', {
+							url : e.target.result
+						});
+					}
+					reader.readAsDataURL(input.files[0]);
+				} else {
+					alert("Sorry - you're browser doesn't support the FileReader API");
+				}
+			}
+
+			$uploadCrop = $('#upload-demo').croppie({
+				viewport : {
+					width : 350,
+					height : 350,
+				},
+				boundary : {
+					width : 450,
+					height : 450
+				}
+			});
+
+			$('#upload').on('change', function() {
+				readFile(this);
+			});
+			$('.upload-result').on('click', function(ev) {
+				$uploadCrop.croppie('result', 'canvas').then(function(resp) {
+					popupResult({
+						src : resp
+					});
+				});
+			});
+
+			function popupResult(result) {
+				var html;
+				if (result.html) {
+					html = result.html;
+				}
+				if (result.src) {
+					html = '<img src="' + result.src + '" />';
+				}
+				$("#result").append(html);
+			}
+		});
+	</script>
+</body>
+</html>

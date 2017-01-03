@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+<!--
+	<Resource name="jdbc/project" auth="Container" type="javax.sql.DataSource"
+		maxTotal="100" maxIdle="30" maxWaitMillis="10000" username="sa"
+		password="P@ssw0rd" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		url="jdbc:sqlserver://localhost:1433;database=projectdb" />
+-->
+
+	<Resource name="jdbc/project" type="javax.sql.DataSource"
+		username="root" password="P@ssw0rd" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/projectdb" connectionProperties="useUnicode=yes;characterEncoding=utf8;"
+		maxActive="8" maxIdle="4" maxWait="5000" />
+</Context>
