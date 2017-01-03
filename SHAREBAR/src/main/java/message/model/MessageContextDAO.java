@@ -20,6 +20,10 @@ public interface MessageContextDAO {
 	List<Object[]> mailForRequest(int member);
 
 	void insert(MessageContextBean bean);
+
+	int mailUnreaded(int member_id);
+
+	void mailReaded(int item_id, int speaker_id, int listener_id);
 	
 
 }

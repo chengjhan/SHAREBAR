@@ -30,6 +30,9 @@
 		
 		List<Object[]> results = messageContextService.mailForShare(1);
 		out.println(results);
+		
+		int unReaded = messageContextService.mailUnreaded(9);
+		out.println(unReaded);
 	%>
 </body>
 </html>

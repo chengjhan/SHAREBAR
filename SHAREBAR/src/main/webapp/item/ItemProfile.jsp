@@ -22,11 +22,12 @@
 <title>Profile Page</title>
 <script type="text/javascript">
 
-socket = null;
-user_id = Number("${user.member_no}");
-user_name = "${user.nickname}";
-getNextOffset = function() { return count*215; };
-count = 0;
+var socket = null;
+var user_id = Number("${user.member_no}");
+var user_name = "${user.nickname}";
+var item_status = "未提出"
+var getNextOffset = function() { return count*215; };
+var count = 0;
 
 $(function(){
 	$("#header").load("../header.jsp");
@@ -41,13 +42,13 @@ $(function(){
 			function(data){
 		itemstatus = data;
 		if(itemstatus==1){
-			$('input[value="追蹤按鈕"]').attr("value","取消追蹤");
 			$('input[value="追蹤按鈕"]').toggleClass("btn-danger");
+			$('input[value="追蹤按鈕"]').attr("value","取消追蹤");
 		}
 	})
 	
 	//追隨按鈕
-	$("div>input:eq(1)").click(function(){
+	$('input[value="追蹤按鈕"]').click(function(){
 		var change = $(this);
 		var itemid = change.attr("value");
 	$.post("followItem.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}"},
@@ -64,26 +65,142 @@ $(function(){
 	//切換圖片功能
 	var showpic =null;
 	$(".item_pic").click(function(){
-		showpic=$(this).attr("src");
-		showpic2=$("#showpic").attr("src");
-		$("#showpic2").attr("src",showpic2);
-		$("#showpic").attr("src",showpic);
-		$("#showpic").effect( "slide", "200" );
+		if(!$("#showpic").is(":animated")){
+			showpic=$(this).attr("src");
+			showpic2=$("#showpic").attr("src");
+			$("#showpic2").attr("src",showpic2);
+			$("#showpic").attr("src",showpic);
+			$("#showpic").effect( "slide", "200" );
+		}
 	})
+	
+	//留言版websocket
+	var webSocket = null;
+	function initwebsocket(){
+		webSocket = new WebSocket('ws://localhost:8080/SHAREBAR/item/MessageBoardWebSocket');
 
+		webSocket.onopen = function(evt){
+			onOpen(evt);
+		};
+		webSocket.onclose = function(evt){
+			onClose(evt);
+		}
+		webSocket.onmessage = function(evt){
+			onMessage(evt.data);
+		}
+		webSocket.onerror = function(evt){
+			onError(evt);
+		}
+	}
+	
+	initwebsocket();
+	
+	function onOpen(evt){
+	}
+	function onClose(evt){
+		alert("websocket close")
+	}
+	function onMessage(evt){
+	var messagecontain = JSON.parse(evt);
+	var item_id = messagecontain.item_id;
+	var member_no = messagecontain.member_no;
+	var message = messagecontain.message;
+	var photo = messagecontain.photo;
+	var nickname = messagecontain.nickname;
+	$('#endline').before(
+			'<li style="margin-bottom:15px; margin-top:10px" class="newmessage">'+
+	    	'<a href="${root}member/profile.controller?id='+member_no+'"'+ 'class="pull-left">'+
+	    	'<div>'+
+	    	'<img class="img-circle" src="/SHAREBAR/profileImages/'+ photo+ '" style="width:32px;height:32px;margin-right:15px; ">'+
+	    	'</div>'+
+	    	'</a>'+
+	    	'<strong>'+nickname+'</strong>'+
+	    	'<time>${message.time}</time>'+
+	    	'<p style="overflow: hidden;">'+message+'</span>'+
+	    	'</li>'
+			)
+	$('.newmessage').show(400);		
+	}
+	function onError(evt){
+	}
+	
+	//留言版功能
+	$('#sendmessage').click(function(){
+// 		alert("click");
+	var message = $("#messageboard").val();
+	var photo ="${user.photo}";
+	var nickname = "${user.nickname}";
+	var itemid = ${itembean.item_id};
+	var member_no = ${user.member_no};
+	
+	$.post("messageBoard.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}","message":message},
+			function(data){
+		webSocket.send(JSON.stringify({
+			item_id:itemid,
+			member_no:member_no,
+			message:message,
+			photo:photo,
+			nickname:nickname
+			}))
+	});	
+	
+// 	alert("留言成功");
+	$("#messageboard").val("");
+		
+	});
+	
 	//聊天系統
 	//初始化步驟
 	startConnection();
 	messageWindow();
+
+	$.get("../chatAction.ajax", { "action":"check", "item":itemid, "requester":user_id }, 
+			function(data){											
+		if( data != "未提出" ){
+			item_status = data;
+			switch (item_status){
+			case "已送出":				
+				$("#ask").toggleClass("btn-default");
+				$("#ask").attr("value","請求已送出");
+				$("#ask").attr("id","done")
+				break;
+			case "已拒絕":
+				$("#ask").toggleClass("btn-danger");
+				$("#ask").attr("value","已拒絕");
+				$("#ask").attr("id","done")
+				break;
+			case "已成交":
+				break;
+			}
+		}						
+		});
 	
 	$('#chat').click(function() {
 		var item_id = itemid;
 		var requester_id = user_id;
-		var windowcode = item_id + "and" + requester_id;		
+		var host_id = item_host;
+		var windowcode = item_id + "_" + host_id + "_" + requester_id;		
 		$("#" + windowcode).chatbox("option", "boxManager").toggleBox();
 	})
-	
+	//點擊聊天視窗，設為已讀
+	$("body").on("click",".ui-chatbox",function(){			
+		var item_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[0];
+		var host_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[1];
+		var requester_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[2];
+		var speaker_id = (user_id==host_id?requester_id : host_id);
+		//呼叫servlet
+		$.post("../mailReaded.ajax",{item : item_id, speaker : speaker_id, listener : user_id});
+		})
+	//鼠標停留聊天視窗
+	$("body").on("focus",".ui-chatbox-input",function(){
+		$(this).siblings(".ui-chatbox-log").attr("data-readed","1");
+		})
+	//鼠標離開聊天視窗
+	$("body").on("blur",".ui-chatbox-input",function(){
+		$(this).siblings(".ui-chatbox-log").attr("data-readed","0");
+		})	
 	$('#ask').click(function() {
+		if($(this).attr("id") == "done"){return};
 		var thisBtn  = $(this);	
 		$("#dialog").text("即將對此分享提出請求，是否繼續？");		
 		$("#dialog").dialog({
@@ -119,33 +236,16 @@ $(function(){
 	    };
 	}
 			
-	function startAction(thisBtn) {		
-		thisBtn.css("display","none");			
-		var action_str = thisBtn.attr("id");
-		
-		$.get("chatAction.ajax", { "action":action_str, "item":itemid, "requester":user_id }, 
+	function startAction(thisBtn) {					
+		thisBtn.attr("value","處理中");				
+		var action_str = thisBtn.attr("id");		
+		$.get("../chatAction.ajax", { "action":action_str, "item":itemid, "requester":user_id }, 
 				function(data){											
 					setTimeout(function() {
-						$("#dialog").text("已提出請求。");		
-						$("#dialog").dialog({
-							modal:true,
-							resizable: false,
-							title: item_name,
-							closeText: "hide",
-							open: function(){
-								$(".ui-widget-overlay").bind("click", function(event,ui){
-									$("#dialog").dialog("close");
-									})
-								},				
-							buttons:{								
-								"確認": function(){
-									$(this).dialog("close");
-									$("#dialog").text("");						
-									}
-								}
-						})
-						$(".ui-dialog-titlebar-close").hide();
-					}, 500)						
+						$("#ask").toggleClass("btn-default");
+						$("#ask").attr("value","請求已送出");
+						$("#ask").attr("id","done")				
+					}, 1000)						
 			});
 		}
 
@@ -154,9 +254,9 @@ $(function(){
 		var title_id = '( ' + user_name + ' ) ' + item_name ;
 		var host_id = item_host;
 		var requester_id = user_id;
-		var windowcode = item_id + "and" + requester_id;
+		var windowcode = item_id + "_" + host_id + "_" + requester_id;
 		
-		var window = $("<div></div>").attr("id", windowcode);
+		var window = $("<div></div>").attr("id", windowcode).attr("data-readed",0);
 		var listener_id = (user_id==host_id?requester_id : host_id);
 		$("#board").append(window);
 		
@@ -191,6 +291,10 @@ $(function(){
 		var windowcode = message.windowcode;        
 		$("#" + windowcode).chatbox("option", "hidden", false);
        	$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);
+      	//若正在關注此視窗設為已讀
+   		if( $("#" + windowcode).attr("data-readed") == 0 ){
+			$.post("mailReaded.ajax",{item : message.item, speaker : message.speaker, listener : message.listener});
+    		}
         } 
 });
 </script>
@@ -220,7 +324,9 @@ $(function(){
 .finger{
 	cursor:pointer;
 }
-
+.newmessage{
+	display:none;
+}
 
 /* .item_pic{ */
 /* 	cursor: pointer; */
@@ -234,6 +340,14 @@ $(function(){
 /* 	width:155; */
 /* 	height:155; */
 /* } */
+
+/*XD*/
+time{
+	margin-left: 10px;
+	font-size: small;
+	color: gray;
+}
+
 </style>
 </head>
 <body>
@@ -251,9 +365,10 @@ $(function(){
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 		<c:if test="${stat.first}">
 				<img class="show_pic" id="showpic" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute">
+				<img class="show_pic" id="showpic2" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:1;top:0;left:15px;">
 		</c:if>
 	</c:forEach>
-	<img class="show_pic" id="showpic2" alt="item_image" src="" style="z-index:1;top:0;left:15px;">
+	
 	</div>
 	<%--   功能按鈕      --%>
 
@@ -261,15 +376,36 @@ $(function(){
 	<div >
 	<c:choose>
 	<c:when test="${itembean.member_id.member_no eq user.member_no}">
-	<input type="button" value="Edit" class="btn btn-primary">
+	
+	<c:url value="/item/UpdateItem.jsp" var="path">
+		<c:param name="item_id" value="${itembean.item_id}" />
+		<c:param name="item_name" value="${itembean.item_name}" />
+		<c:param name="location" value="${itembean.location}" />
+		<c:param name="class_name" value="${itembean.classBean.class_name}" />						
+		<c:param name="end_date" value="${itembean.end_date}" />
+		<c:param name="item_description" value="${itembean.item_description}" />
+		<c:forEach var="imageBean" items="${itembean.imageBean}" varStatus="varStatus">
+			<c:param name="image_id${varStatus.count}" value="${imageBean.image_id}" />
+		</c:forEach>
+	</c:url>
+	
+	<a href="${path}">
+		<input type="button" value="Edit" class="btn btn-primary">
+	</a>
 	</c:when>
 	<c:otherwise>
 	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :15px">
-	<input type="button" value="追蹤按鈕" class="btn btn-default" style="width:80px;margin :15px" >
+	<input type="button" value="追蹤按鈕" class="btn btn-success" style="width:80px;margin :15px" >
 	<input type="button" value="檢舉商品" class="btn btn-default" style="margin :15px">
-<%-- 		<c:if test=${ itembean.done == 0 }> --%>
-			<input type="button" id="ask" value="提出分享請求" class="btn btn-default" style="margin :15px">
-<%-- 		</c:if> --%>
+		<c:if test="${ itembean.done == 0 }">
+			<input type="button" id="ask" value="提出分享請求" class="btn btn-success" style="margin :15px">
+		</c:if>
+		<c:if test="${ itembean.done == 1 && item.getter_id == user_id }">
+			<input type="button" id="done" value="成交" class="btn btn-success" style="margin :15px">
+		</c:if>
+		<c:if test="${ itembean.done == 1 && item.getter_id != user_id }">
+			<input type="button" id="done" value="已鎖定" class="btn btn-danger" style="margin :15px">
+		</c:if>
 	</c:otherwise>
 	</c:choose>
 	</div>
@@ -316,36 +452,24 @@ $(function(){
     	 </div>
     </div>
     <div id="message" class="tab-pane fade" style="padding:10px 0">
-    	
+    	<ul style="padding-left: 0 ; list-style-type:none;">
     	<c:forEach var="message" items="${itembean.messageboard}" varStatus="stat">
-    	<div class="text-center">
-    	<p>${message.member_id }</p>
-    	<span>${message.message}</span>
+    	<li style="display: list-item;margin-bottom:15px; margin-top:10px">
+    	<a href="${root}member/profile.controller?id=${message.member_id.member_no}" class="pull-left">
+    	<div>
+    	<img class="img-circle" src="${root}profileImages/${message.member_id.photo}" style="width:32px;height:32px;margin-right:15px; ">
     	</div>
-    	<c:if test="${stat.last}"><hr/></c:if>
+    	</a>
+    	<strong>${message.member_id.nickname}</strong>
+    	<time></time>
+    	<p style="overflow: hidden;">${message.message}</span>
+    	</li>
     	</c:forEach>
-    	<form action="" method="post">
-    	<textarea class="form-control" style="margin:15px 0" placeholder="請輸入留言訊息"></textarea>
-    	<input class="pull-right btn btn-default" type="button" value="留言" style="width:100px">
-    	<span class="ui-icon ui-icon-arrowthick-1-n"></span>
-    	 </form>
-    	
-    	
+    	<p id="endline"/>
+    	</ul>
+    	<textarea id="messageboard" class="form-control" style="margin:15px 0" placeholder="請輸入留言訊息"></textarea>
+    	<input id="sendmessage" class="pull-right btn btn-default" type="button" value="留言" style="width:100px">
     </div>
-    
-<!--       <h3>Itembeam資訊</h3> -->
-<%--       <p> itemid: ${itembean.item_id}</p> --%>
-<%--       <p> itemname: ${itembean.item_id}</p> --%>
-<%--       <p> item discription: ${itembean.item_discription}</p> --%>
-<%--       <p> item location: ${itembean.location}</p> --%>
-<%--       <p> item done: ${itembean.done}</p> --%>
-<!--       <p> 分享者資訊</p> -->
-<%--       <p> itembean: ${itembean.itemMemberbean}</p> --%>
-<%--       <p> 分享者編號: ${itembean.itemMemberbean.member_no}</p> --%>
-<%--       <p> 分享者名稱: ${itembean.itemMemberbean.nickname}</p> --%>
-<%--       <p> 分享者居住地方: ${itembean.itemMemberbean.city}</p> --%>
-      
-<!--     </div> -->
   </div>
 </div>
 <div id="other-info">
@@ -371,6 +495,6 @@ $(function(){
 </div>
 <div id="dialog"></div>
 <div id="board"></div>
-<div id="header"></div>
+<div id="footer"></div>
 </body>
 </html>

@@ -48,17 +48,19 @@ public class RequestListDAOHibernate implements RequestListDAO {
 	 */
 	@Override
 	public String checkStatus(int item_id, int requester_id){
-		@SuppressWarnings("rawtypes")
-		Query query = getSession().createQuery(" FROM RequestListBean WHERE item_id = ? AND requester_id = ? ");
-		query.setParameter(0, item_id);
-		query.setParameter(1, requester_id);
-		
-		RequestListBean bean = null;
+		RequestListBean bean = null;		
 		try{
+			@SuppressWarnings("rawtypes")
+			Query query = getSession().createQuery(" FROM RequestListBean WHERE item_id = ? AND requester_id = ? ");
+			query.setParameter(0, item_id);
+			query.setParameter(1, requester_id);
+			System.out.println(query);
 			bean = (RequestListBean) query.getSingleResult();
 			return bean.getStatus();
-		}catch(NoResultException e){System.out.println("no results");}
-		return null;
+		} 
+		catch( NullPointerException e1) {System.out.println("系統:會員(" + requester_id + ")對此物品未進行請求");}
+		catch( NoResultException e2) {System.out.println("系統:同上");}
+		return "未提出";
 	}
 	
 	/* (non-Javadoc)
