@@ -24,7 +24,7 @@ import com.google.gson.annotations.Expose;
 import item.model.ItemBean;
 
 @Entity
-@Table(name = "class")
+@Table(name = "class", catalog = "test3", schema = "dbo")
 public class ClassBean {
 
 	@Id

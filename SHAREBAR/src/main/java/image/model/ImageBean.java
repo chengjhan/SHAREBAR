@@ -19,7 +19,7 @@ import com.google.gson.annotations.Expose;
 import item.model.ItemBean;
 
 @Entity
-@Table(name = "image")
+@Table(name = "image", catalog = "test3", schema = "dbo")
 public class ImageBean {
 
 	@Id

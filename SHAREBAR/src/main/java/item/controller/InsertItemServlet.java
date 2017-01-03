@@ -29,12 +29,14 @@ import image.model.ImageBean;
 import image.model.ImageService;
 import item.model.ItemBean;
 import item.model.ItemService;
+import member.model.MemberBean;
 
 @WebServlet("/item/share.controller")
 @MultipartConfig
 public class InsertItemServlet extends HttpServlet {
-	
+
 	private static final long serialVersionUID = 1L;
+
 	private ItemService itemService;
 	private ImageService imageService;
 	private ClassService classService;
@@ -57,12 +59,6 @@ public class InsertItemServlet extends HttpServlet {
 		String filename = header.substring(header.indexOf("filename=\"") + 10, header.lastIndexOf("\""));
 		return filename;
 	}
-	
-	public String getExtension(String filename) {
-		int startIndex = filename.lastIndexOf(46) + 1;
-		int endIndex = filename.length();
-		return filename.substring(startIndex, endIndex);
-	}
 
 	private void writeTo(String filename, Part part, String path) throws IOException, FileNotFoundException {
 		InputStream in = part.getInputStream();
@@ -77,6 +73,12 @@ public class InsertItemServlet extends HttpServlet {
 		out.close();
 	}
 
+	public String getExtension(String filename) {
+		int startIndex = filename.lastIndexOf(46) + 1;
+		int endIndex = filename.length();
+		return filename.substring(startIndex, endIndex);
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
@@ -86,6 +88,7 @@ public class InsertItemServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
+		MemberBean user = (MemberBean) request.getSession().getAttribute("user");
 
 		// 接受資料
 		String item_name = request.getParameter("item_name");
@@ -165,7 +168,7 @@ public class InsertItemServlet extends HttpServlet {
 		ItemBean itemBean = new ItemBean();
 		itemBean.setItem_name(item_name);
 		itemBean.setItem_description(item_description);
-		itemBean.setMember_id("aaa@aaa.com");
+		itemBean.setMember_id(user);
 		itemBean.setLocation(location);
 		ClassBean classBean = new ClassBean();
 		classBean.setClass_name(class_name);

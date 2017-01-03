@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
-  <display-name>Project03_web</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
-  <resource-ref>
-    <res-ref-name>jdbc/project</res-ref-name>
-    <res-type>javax.sql.DataSource</res-type>
-    <res-auth>Container</res-auth>
-    <res-sharing-scope>Unshareable</res-sharing-scope>
-  </resource-ref>
+  <display-name>Progect_new</display-name>
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>/WEB-INF/beans.config.xml</param-value>
@@ -26,12 +12,30 @@
     <filter-name>OpenSessionInViewFilter</filter-name>
     <filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
     <init-param>
-      <param-name>singleSession</param-name>
-      <param-value>true</param-value>
+      <param-name>sessionFactoryBeanName</param-name>
+      <param-value>sessionFactory</param-value>
     </init-param>
   </filter>
   <filter-mapping>
     <filter-name>OpenSessionInViewFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  <filter>
+    <filter-name>loginFilter</filter-name>
+    <filter-class>filter.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+    <url-pattern>/member/userProfile.jsp</url-pattern>
+  </filter-mapping>
+  <resource-ref>
+    <res-ref-name>jdbc/xxx</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Unshareable</res-sharing-scope>
+  </resource-ref>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
 </web-app>

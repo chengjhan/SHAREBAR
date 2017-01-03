@@ -23,11 +23,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.gson.annotations.Expose;
 
+import administrator.model.ReportBean;
 import category.model.ClassBean;
+import followitem.model.FollowItemsBean;
 import image.model.ImageBean;
+import member.model.MemberBean;
+import message.model.MessageContextBean;
+import messageBoard.model.MessageBoardBean;
 
 @Entity
-@Table(name = "item")
+@Table(name = "item", catalog = "test3", schema = "dbo")
 public class ItemBean {
 
 	@Id
@@ -37,8 +42,10 @@ public class ItemBean {
 	@Expose
 	private String item_name;
 	private String item_description;
+	@ManyToOne
+	@JoinColumn(name = "member_id")
 	@Expose
-	private String member_id;
+	private MemberBean member_id;
 	@Expose
 	private String location;
 	@ManyToOne
@@ -54,7 +61,9 @@ public class ItemBean {
 	private java.util.Date end_date;
 	private int block;
 	private int done;
-	private String getter_id;
+	@ManyToOne
+	@JoinColumn(name = "getter_id")
+	private MemberBean getter_id;
 	private int getter_rate;
 	private String getter_review;
 	private int giver_rate;
@@ -63,7 +72,29 @@ public class ItemBean {
 	@OrderBy("image_id ASC")
 	@Expose
 	private Set<ImageBean> imageBean = new HashSet<ImageBean>();
-
+	
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "itemBean")
+	@OrderBy("following_item_id asc")
+	@Expose
+	private Set<FollowItemsBean> follow_items = new HashSet<FollowItemsBean>();
+	
+	//阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "itemBean")
+	@OrderBy("messageNo ASC")
+	@Expose(serialize = false)
+	private Set<MessageContextBean> MessageContextBeans_item = new HashSet<MessageContextBean>();
+	
+	//新增留言板關聯 
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "itemBean")
+	@OrderBy("id asc")
+	private Set<MessageBoardBean> messageboard = new HashSet<MessageBoardBean>();
+	
+	//阿典新增
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "reported_item_id")
+	private Set<ReportBean> reported_item_id = new HashSet<ReportBean>();
+	
+	
+	
 	@Override
 	public String toString() {
 		return "ItemBean [item_id=" + item_id + ", item_name=" + item_name + ", member_id=" + member_id + "]\n"
@@ -94,11 +125,11 @@ public class ItemBean {
 		this.item_description = item_description;
 	}
 
-	public String getMember_id() {
+	public MemberBean getMember_id() {
 		return member_id;
 	}
 
-	public void setMember_id(String member_id) {
+	public void setMember_id(MemberBean member_id) {
 		this.member_id = member_id;
 	}
 
@@ -166,11 +197,11 @@ public class ItemBean {
 		this.done = done;
 	}
 
-	public String getGetter_id() {
+	public MemberBean getGetter_id() {
 		return getter_id;
 	}
 
-	public void setGetter_id(String getter_id) {
+	public void setGetter_id(MemberBean getter_id) {
 		this.getter_id = getter_id;
 	}
 
@@ -212,6 +243,30 @@ public class ItemBean {
 
 	public void setImageBean(Set<ImageBean> imageBean) {
 		this.imageBean = imageBean;
+	}
+
+	public Set<FollowItemsBean> getFollow_items() {
+		return follow_items;
+	}
+
+	public void setFollow_items(Set<FollowItemsBean> follow_items) {
+		this.follow_items = follow_items;
+	}
+
+	public Set<MessageContextBean> getMessageContextBeans_item() {
+		return MessageContextBeans_item;
+	}
+
+	public void setMessageContextBeans_item(Set<MessageContextBean> messageContextBeans_item) {
+		MessageContextBeans_item = messageContextBeans_item;
+	}
+
+	public Set<MessageBoardBean> getMessageboard() {
+		return messageboard;
+	}
+
+	public void setMessageboard(Set<MessageBoardBean> messageboard) {
+		this.messageboard = messageboard;
 	}
 
 	public static void main(String[] args) {

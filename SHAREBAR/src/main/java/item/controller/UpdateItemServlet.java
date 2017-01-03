@@ -29,6 +29,7 @@ import image.model.ImageBean;
 import image.model.ImageService;
 import item.model.ItemBean;
 import item.model.ItemService;
+import member.model.MemberBean;
 
 @WebServlet("/item/update.controller")
 @MultipartConfig
@@ -85,6 +86,7 @@ public class UpdateItemServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
+		MemberBean user = (MemberBean) request.getSession().getAttribute("user");
 
 		String temp0 = request.getParameter("item_id");
 		String item_name = request.getParameter("item_name");
@@ -215,7 +217,7 @@ public class UpdateItemServlet extends HttpServlet {
 		itemBean.setItem_id(item_id);
 		itemBean.setItem_name(item_name);
 		itemBean.setItem_description(item_description);
-		itemBean.setMember_id("aaa@aaa.com");
+		itemBean.setMember_id(user);
 		itemBean.setLocation(location);
 		ClassBean classBean = new ClassBean();
 		classBean.setClass_name(class_name);

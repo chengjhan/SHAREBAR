@@ -143,45 +143,45 @@ html, body {
 		$("#address").on("change", function(event){
 // 			event.preventDefault();
 			var searchSelector = $("#switch").find(":selected").val();
-// 			alert(searchSelector);
+			alert(searchSelector);
 			var searchBar = $("#address").val();
-// 			alert(searchBar);
+			alert(searchBar);
 			
 			// 找地區
 			if(searchSelector == "location"){
 				geocoder.geocode({ 'address': searchBar }, function(results, status) {
 			        if (status == google.maps.GeocoderStatus.OK) {
-// 			        	var lat = results[0].geometry.location.lat();
-// 						var lng = results[0].geometry.location.lng();
-// 						alert(lat + ", " + lng);
-// 						alert(results[0].geometry.viewport);
-// 						var bounds = results[0].geometry.viewport;
-// 			            var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-// 						var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-// 						var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
-// 						var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng, inputBounds]);
-// 						var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-// 						$("#latlng").append(trLatLnf);
+			        	var lat = results[0].geometry.location.lat();
+						var lng = results[0].geometry.location.lng();
+						alert(lat + ", " + lng);
+						alert(results[0].geometry.viewport);
+						var bounds = results[0].geometry.viewport;
+			            var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
+						var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
+						var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
+						var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng, inputBounds]);
+						var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
+						$("#latlng").append(trLatLnf);
 			        } else if (searchBar == "") {
-// 			        	alert("searchBar = null");
-// 			        	if (navigator.geolocation) {
-// 							navigator.geolocation.getCurrentPosition(success, error);
-// 			        	}
-// 			        	function success(position) {
-// 			        		var lat = position.coords.latitude;
-// 			        		var lng = position.coords.longitude;
-// 			     			alert(lat + ", " + lng);
-// 			     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
-// 			    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
-// 			    				if (status == google.maps.GeocoderStatus.OK) {
-// 			    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-// 									var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-// 									var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng]);
-// 									var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-// 									$("#latlng").append(trLatLnf);
-// 			    				}
-// 			    			})
-// 			    		}
+			        	alert("searchBar = null");
+			        	if (navigator.geolocation) {
+							navigator.geolocation.getCurrentPosition(success, error);
+			        	}
+			        	function success(position) {
+			        		var lat = position.coords.latitude;
+			        		var lng = position.coords.longitude;
+			     			alert(lat + ", " + lng);
+			     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
+			    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
+			    				if (status == google.maps.GeocoderStatus.OK) {
+			    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
+									var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
+									var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng]);
+									var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
+									$("#latlng").append(trLatLnf);
+			    				}
+			    			})
+			    		}
 			        } else {
 			            alert("請輸入詳細地址");
 			        }
@@ -201,7 +201,7 @@ html, body {
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
 	    					var bounds = results[0].geometry.viewport;
-// 	    					alert(bounds);
+	    					alert(bounds);
 	    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
 							var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
 							var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);

@@ -1,7 +1,7 @@
 package item.controller;
 
 import java.io.IOException;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -17,7 +17,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-//import category.model.ClassBean;
+import category.model.ClassBean;
 import item.model.ItemBean;
 import item.model.ItemService;
 
@@ -99,24 +99,24 @@ public class SearchItemNameAjax extends HttpServlet {
 		builder.excludeFieldsWithoutExposeAnnotation();
 		Gson gson = builder.create();
 		List<ItemBean> result = itemService.selectByBoundsByName(swLat, swLng, neLat, neLng, searchBar);
-//		List<ItemBean> jsonList = new ArrayList<>();
-//		for (ItemBean bean : result) {
-//			ItemBean jsonBean = new ItemBean();
-//			jsonBean.setItem_id(bean.getItem_id());
-//			jsonBean.setItem_name(bean.getItem_name());
-//			jsonBean.setMember_id(bean.getMember_id());
-//			jsonBean.setLocation(bean.getLocation());
-//			ClassBean classBean = new ClassBean();
-//			classBean.setClass_id(bean.getClassBean().getClass_id());
-//			classBean.setClass_name(bean.getClassBean().getClass_name());
-//			jsonBean.setClassBean(classBean);
-//			jsonBean.setLatitude(bean.getLatitude());
-//			jsonBean.setLongitude(bean.getLongitude());
-//			jsonBean.setEnd_date(bean.getEnd_date());
-//			jsonBean.setImageBean(bean.getImageBean());
-//			jsonList.add(jsonBean);
-//		}
-		String json = gson.toJson(result);
+		List<ItemBean> jsonList = new ArrayList<>();
+		for (ItemBean bean : result) {
+			ItemBean jsonBean = new ItemBean();
+			jsonBean.setItem_id(bean.getItem_id());
+			jsonBean.setItem_name(bean.getItem_name());
+			jsonBean.setMember_id(bean.getMember_id());
+			jsonBean.setLocation(bean.getLocation());
+			ClassBean classBean = new ClassBean();
+			classBean.setClass_id(bean.getClassBean().getClass_id());
+			classBean.setClass_name(bean.getClassBean().getClass_name());
+			jsonBean.setClassBean(classBean);
+			jsonBean.setLatitude(bean.getLatitude());
+			jsonBean.setLongitude(bean.getLongitude());
+			jsonBean.setEnd_date(bean.getEnd_date());
+			jsonBean.setImageBean(bean.getImageBean());
+			jsonList.add(jsonBean);
+		}
+		String json = gson.toJson(jsonList);
 		System.out.println("JSON = " + json);
 		response.getWriter().write(json);
 

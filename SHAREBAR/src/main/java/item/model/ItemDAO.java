@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import category.model.ClassBean;
 import image.model.ImageBean;
 import item.model.ItemBean;
+import member.model.MemberBean;
 
 public interface ItemDAO {
 
@@ -24,7 +25,7 @@ public interface ItemDAO {
 
 	List<ItemBean> selectByName(String item_name);
 
-	List<ItemBean> selectByMember(String member_id);
+//	List<ItemBean> selectByMember(String member_id);
 
 	List<ItemBean> selectByClass(int class_id);
 
@@ -34,7 +35,17 @@ public interface ItemDAO {
 			double northeastLng, String item_name);
 	
 	List<ItemBean> selectByNew();
+	
+	ItemBean updateGetter(int item_id, MemberBean getterBean);
 
 	Set<ImageBean> selectByItem(int item_id);
+
+	List<ItemBean> selectByMember(MemberBean member_id);
+
+	List<ItemBean> selectBlockItem();
+
+	ItemBean updateItemBlock(int item_id);
+
+	ItemBean clearItemBlock(int item_id);
 
 }

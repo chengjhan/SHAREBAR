@@ -46,7 +46,6 @@
 						<c:param name="item_description" value="${bean.item_description}" />
 						<c:forEach var="imageBean" items="${bean.imageBean}" varStatus="varStatus">
 							<c:param name="image_id${varStatus.count}" value="${imageBean.image_id}" />
-							<p>${imageBean.image_id}</p>
 						</c:forEach>
 					</c:url>
 					<tr>
@@ -56,9 +55,13 @@
 						<td>${bean.classBean.class_name}</td>
 						<td>${bean.end_date}</td>
 						<td>${bean.item_description}</td>
-						<c:forEach var="imageBean" items="${bean.imageBean}" varStatus="varStatus">
-							<td>${imageBean.image_photo}</td>
-						</c:forEach>
+<%-- 						<c:forEach var="imageBean" items="${bean.imageBean}" varStatus="varStatus"> --%>
+<%-- 							<td>${imageBean.image_id}</td> --%>
+<%-- 						</c:forEach> --%>
+<%-- 						<td>${imageBean.image_id1}</td> --%>
+<%-- 						<td>${imageBean.image_id2}</td> --%>
+<%-- 						<td>${imageBean.image_id3}</td> --%>
+<%-- 						<td>${imageBean.image_id4}</td> --%>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -5,6 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- GSignIn -->
+<meta name="google-signin-client_id"
+	content="113677232132-der9mtb9vq1bi5j7aj56k99bcvhj1kj2.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script><!-- GSignIn -->
 <title>Header</title>
 
 <!-- 注意！注意！注意！ -->
@@ -38,46 +42,47 @@ div#navbar {
 </head>
 <c:url value="/" var="root"></c:url>
 <body>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-					    <span class="icon-bar"></span>
-       					<span class="icon-bar"></span>
-       					<span class="icon-bar"></span>  
-				</button>
-				<a class="navbar-brand" href="<c:url value='/index.jsp'/>">SHARE BAR!</a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-			<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px">
-				<select id="id_select" name="searchSelector">
-					<option value="location">地區</option>
-					<option value="itemName">物品</option>
-				</select>
-				<div class="form-group">
-					<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search" style="width: 300px" /></td>
+		<div class="navbar navbar-light navbar-default navbar-static-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+						    <span class="icon-bar"></span>
+        					<span class="icon-bar"></span>
+        					<span class="icon-bar"></span>  
+					</button>
+					<a class="navbar-brand" href="<c:url value='/index.jsp'/>">SHARE BAR!</a>
 				</div>
-				<button type="submit" id="id_submit" class="btn btn-default">Submit</button>
-				<table id="latlng"></table>
-			</form>
-			<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
-				<c:choose>
-					<c:when test="${empty user eq true}">
-						<li class="class_li"><a href="<c:url value='/secure/signup.jsp'/>"><span class="glyphicon glyphicon-plus"></span>Sign Up</a></li>
-						<li class="class_li"><a href="<c:url value='/secure/login.jsp'/>"><span class="glyphicon glyphicon-log-out"></span>Login</a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="class_li"><a href="<c:url value='/member/userProfile.jsp'/>"><span class="glyphicon glyphicon-user"></span>${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
-						<li class="class_li"><a href="<c:url value='/member/inbox.jsp'/>"><span class="glyphicon glyphicon-envelope"></span>Mail</a></li>
-						<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
-						<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span>Share</a></li>
-					</c:otherwise>
-				</c:choose>
-			</ul>
+				<div id="navbar" class="collapse navbar-collapse">
+				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px">
+					<div class="form-group">
+						<select class="form-control" id="id_select" name="searchSelector">
+							<option value="location">地區</option>
+							<option value="itemName">物品</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search" required/></td>
+					</div>
+					<button type="submit" id="id_submit" class="btn btn-default">Submit</button>
+					<table id="latlng"></table>
+				</form>
+				<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
+					<c:choose>
+						<c:when test="${empty user eq true}">
+							<li class="class_li"><a href="<c:url value='/secure/signup.jsp'/>"><span class="glyphicon glyphicon-plus"></span> &nbsp; Sign Up</a></li>
+							<li class="class_li"><a href="<c:url value='/secure/login.jsp'/>"><span class="glyphicon glyphicon-log-out"></span> &nbsp; Login</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
+							<li class="class_li"><a href="<c:url value='/maillist.controller'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>
+							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
+							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+				</div>
 			</div>
 		</div>
-	</nav>
-	
 	<script>
 		var geocoder;
 		var googleAutocomplete;
@@ -106,8 +111,66 @@ div#navbar {
 	        "Scala",
 	        "Scheme"
 	    ];
-	    
-	    $(document).ready(function(){
+		//信箱未讀功能
+	    var user_id = Number("${user.member_no}");
+		$(function(){			
+			//檢查信箱未讀功能
+	   		checkMail();
+	   		//定時檢查
+	   		window.setInterval(function(){
+	   			checkMail();
+	   			console.log("checkMail_OK!");
+	        },3000);
+	        					
+			function checkMail(){
+					$.post("${pageContext.request.contextPath}/mailUnreaded.ajax",{user : user_id}, function(data){
+						switch (data){							
+							case "0": 
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_0.png");
+								$("#mailNumber").css("visibility","hidden");
+								break;
+							case "1":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_1.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "2":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_2.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "3":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_3.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "4":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_4.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "5":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_5.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "6":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_6.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "7":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_7.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "8":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_8.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							default:
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_9.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							}
+		
+						});
+				}
+
+			
 	    	// 物品自動完成
 // 	    	$("#id_search").on("autocompletechange", function(){
 // 				var searchBar = $("#id_search").val();
@@ -122,15 +185,15 @@ div#navbar {
 // 			});
 	    	
 	    	// 表單驗證
-			$('#id_form').validate({
-				event: "blur",
-				rules: {
-					searchBar: "required",
-				},
-				messages: {
-					searchBar: "",
-				},
-			});
+// 			$('#id_form').validate({
+// 				event: "blur",
+// 				rules: {
+// 					searchBar: "required",
+// 				},
+// 				messages: {
+// 					searchBar: "",
+// 				},
+// 			});
 	    });
 	    
 	    // 初始化
@@ -232,7 +295,7 @@ div#navbar {
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
 	    					var bounds = results[0].geometry.viewport;
-// 	    					alert(bounds);
+	    					alert(bounds);
 	    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
 							var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
 							var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
@@ -253,8 +316,8 @@ div#navbar {
 				case 3: alert("瀏覽器時間到了無法取得位置"); break;
 				default: alert("who knows"); break;
 			}
-		}
+		}	
 	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
 </body>
 </html>

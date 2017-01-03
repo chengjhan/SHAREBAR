@@ -99,7 +99,7 @@ public class ClassDAOHibernate implements ClassDAO {
 
 			// selectById
 			System.out.println(selectByIdClassBean);
-
+			
 			// selectByName
 			System.out.println(classDao.selectByName("3C"));
 

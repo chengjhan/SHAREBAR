@@ -220,7 +220,7 @@ html, body {
 				label_selected: "更換照片",
 				no_label: false
 			});
-			$.uploadPreview({
+				$.uploadPreview({
 				input_field: "#id_image_photo3",
 				preview_box: "#id_image_div3",
 				label_field: "#id_image_label3",

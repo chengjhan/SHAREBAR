@@ -581,9 +581,9 @@ html, body {
 // 					alert(imageSrc);
 					var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
 					var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
-					var itemMember_img = "<img src='${root}item-icon/member.png' class='item_member_img'>";
+					var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
 					var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
-					var itemMember_a = $("<a></a>").attr("href", "https://www.google.com.tw").append(itemMember_div);
+					var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);
 					var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
 					var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
 					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_div);
@@ -676,9 +676,9 @@ html, body {
 			});
 			
 			// 移動地圖即時變更物品
-			map.addListener('dragend', moveMap);
+// 			map.addListener('dragend', moveMap);
 // 			map.addListener('zoom_changed', moveMap);
-// 			map.addListener('idle', moveMap);
+			map.addListener('idle', moveMap);
 
 			function moveMap() {
 				// 清除所有地圖標記
@@ -745,9 +745,9 @@ html, body {
 // 	 					alert(imageSrc);
 						var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
 						var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
-						var itemMember_img = "<img src='${root}item-icon/member.png' class='item_member_img'>";
+						var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
 						var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
-						var itemMember_a = $("<a></a>").attr("href", "https://www.google.com.tw").append(itemMember_div);
+						var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);
 						var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
 						var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
 						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_div);
@@ -956,6 +956,6 @@ html, body {
 			});
 		});
 	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
 </body>
 </html>
