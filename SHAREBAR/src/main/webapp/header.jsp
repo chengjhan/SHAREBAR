@@ -5,6 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- GSignIn -->
+<meta name="google-signin-client_id"
+	content="113677232132-der9mtb9vq1bi5j7aj56k99bcvhj1kj2.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script><!-- GSignIn -->
 <title>Header</title>
 
 <!-- 注意！注意！注意！ -->
@@ -38,7 +42,7 @@ div#navbar {
 </head>
 <c:url value="/" var="root"></c:url>
 <body>
-		<nav class="navbar navbar-default">
+		<div class="navbar navbar-light navbar-default navbar-static-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -78,7 +82,7 @@ div#navbar {
 				</ul>
 				</div>
 			</div>
-		</nav>
+		</div>
 	<script>
 		var geocoder;
 		var googleAutocomplete;
@@ -256,6 +260,6 @@ div#navbar {
 			}
 		}
 	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
 </body>
 </html>

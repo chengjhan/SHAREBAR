@@ -99,9 +99,24 @@ public class MemberDAOHibernate implements MemberDAO {
 		return null;
 	}
 
+	@Override
 	public MemberBean selectByToken(String token) {
 		Query query = this.getSession().createQuery("from MemberBean where activate_token = :activate_token");
 		query.setParameter("activate_token", token);
+		MemberBean bean = null;
+		try {
+			bean = (MemberBean) query.getSingleResult();
+			return bean;
+		} catch (NoResultException e) {
+			System.out.println("no results");
+		}
+		return bean;
+	}
+	
+	@Override
+	public MemberBean selectByG(String id_token){
+		Query query = this.getSession().createQuery("from MemberBean where facebook = :facebook");
+		query.setParameter("facebook", id_token);
 		MemberBean bean = null;
 		try {
 			bean = (MemberBean) query.getSingleResult();
@@ -168,6 +183,7 @@ public class MemberDAOHibernate implements MemberDAO {
 		return null;
 	}
 
+	@Override
 	public MemberBean selctByFb(String facebookId) {
 		Query query = this.getSession().createQuery("from MemberBean where facebook = :facebook");
 		query.setParameter("facebook", facebookId);
@@ -181,6 +197,7 @@ public class MemberDAOHibernate implements MemberDAO {
 		return bean;
 	}
 
+	@Override
 	public MemberBean update2(int member_no, String firstName, String lastName, String country, String city,
 			String nickname, String description, String photo) {
 		MemberBean update = this.getSession().get(MemberBean.class, member_no);
@@ -196,6 +213,7 @@ public class MemberDAOHibernate implements MemberDAO {
 		return update;
 	}
 
+	@Override
 	public MemberBean update(int member_no, String firstName, String lastName, String country, String city,
 			String nickname, String description) {
 		MemberBean update = this.getSession().get(MemberBean.class, member_no);
@@ -210,6 +228,7 @@ public class MemberDAOHibernate implements MemberDAO {
 		return update;
 	}
 
+	@Override
 	public MemberBean updateFb(int member_no, String facebookId) {
 		MemberBean update = this.getSession().get(MemberBean.class, member_no);
 		if (update != null) {
