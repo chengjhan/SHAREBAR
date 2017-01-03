@@ -43,11 +43,18 @@
 
                     var systemMessage = false;
 
-                    if (peer) {
+                    if (peer && peer != user_name) {
                         var peerName = document.createElement("b");
                         $(peerName).text(peer + ": ");
                         e.appendChild(peerName);
-                    } else {
+                        $(e).addClass("ui-chatbox-msg");
+                    } 
+                    if (peer && peer == user_name) {
+                        var peerName = document.createElement("b");
+                        e.appendChild(peerName);
+                        $(e).addClass("ui-chatbox-speak");
+                    }
+                    else {
                         systemMessage = true;
                     }
 
@@ -55,7 +62,6 @@
                         systemMessage ? "i" : "span");
                     $(msgElement).text(msg);
                     e.appendChild(msgElement);
-                    $(e).addClass("ui-chatbox-msg");
                     $(e).css("maxWidth", $(box).width());
                     $(e).fadeIn();
                     self._scrollToBottom();
