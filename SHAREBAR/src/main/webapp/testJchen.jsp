@@ -19,8 +19,9 @@
 
 		ItemService itemService = (ItemService) context.getBean("itemService");
 		ItemBean selectByNameBean = new ItemBean();
-		selectByNameBean.setItem_name("機");
-		List<ItemBean> bean = itemService.selectByName(selectByNameBean);
+// 		selectByNameBean.setItem_name("機");
+// 		List<ItemBean> bean = itemService.selectByName(selectByNameBean);
+		List<ItemBean> bean = itemService.selectByNew();
 	%>
 	<p><%=bean%></p>
 </body>

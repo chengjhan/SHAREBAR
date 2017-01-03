@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import member.model.MemberBean;
 import message.model.MessageContextBean;
 import message.model.MessageContextDAO;
 
@@ -18,23 +17,17 @@ import message.model.MessageContextDAO;
 public class MessageContextDAOHibernate implements MessageContextDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
-	/* (non-Javadoc)
-	 * @see message.model.dao.MessageContextDAO#getSession()
-	 */
+
 	@Override
 	public Session getSession(){
 		return sessionFactory.getCurrentSession();
 	}	
-	/* (non-Javadoc)
-	 * @see message.model.dao.MessageContextDAO#select(int)
-	 */
+
 	@Override
 	public MessageContextBean select(int id){
 		return getSession().get(MessageContextBean.class,id);
 	}
-	/* (non-Javadoc)
-	 * @see message.model.dao.MessageContextDAO#select(int, int)
-	 */
+
 	@Override
 	public List<MessageContextBean> select(int item_id, int requester_id){
 		@SuppressWarnings("unchecked")
@@ -47,9 +40,7 @@ public class MessageContextDAOHibernate implements MessageContextDAO{
 		
 		return query.getResultList();
 	}
-	/* (non-Javadoc)
-	 * @see message.model.dao.MessageContextDAO#mailForShare(int)
-	 */
+
 	@Override
 	public List<Object[]> mailForShare(int member_id){
 		@SuppressWarnings("unchecked")
@@ -60,9 +51,7 @@ public class MessageContextDAOHibernate implements MessageContextDAO{
 		return query.getResultList();
 	};
 	
-	/* (non-Javadoc)
-	 * @see message.model.dao.MessageContextDAO#mailForRequest(int)
-	 */
+
 	@Override
 	public List<Object[]> mailForRequest(int member_id){
 		@SuppressWarnings("unchecked")
@@ -73,9 +62,33 @@ public class MessageContextDAOHibernate implements MessageContextDAO{
 		return query.getResultList();
 	};
 	
-	/* (non-Javadoc)
-	 * @see message.model.dao.MessageContextDAO#insert(message.model.MessageContextBean)
-	 */
+	@Override
+	public int mailUnreaded(int member_id){	
+		@SuppressWarnings("rawtypes")
+		Query query = getSession().createNativeQuery(
+				"select count(*) from ( select distinct item_id, member_id_speaker, member_id_listener, readed from messageContext where readed = 0	) a where a.member_id_listener = ?");	
+//		select count(*) 
+//		from (
+//			select distinct item_id, member_id_speaker, member_id_listener, readed
+//			from messageContext 
+//			where readed = 0	
+//		)　a
+//		where a.member_id_listener = 1
+		query.setParameter(1, member_id);	
+		return (int) query.getSingleResult();
+	};
+	
+	@Override
+	public void mailReaded(int item_id, int speaker_id, int listener_id){
+		@SuppressWarnings({ "rawtypes" })
+		Query query = getSession().createNativeQuery(
+				"UPDATE messageContext SET readed = 1 WHERE item_id = ? AND member_id_speaker = ? AND member_id_listener = ? AND readed = 0");
+		query.setParameter(1, item_id);
+		query.setParameter(2, speaker_id);
+		query.setParameter(3, listener_id);
+		query.executeUpdate();
+	};	
+	
 	@Override
 	public void insert(MessageContextBean bean){
 		getSession().save(bean);

@@ -67,7 +67,7 @@ img#user_photo{
 	height:200px;
 }
 div.img_container{
-	width: 100%;
+	width: 100px;
     height: 150px;
     padding: 0px;
     border:1px solid gray;  /* you can remove this */

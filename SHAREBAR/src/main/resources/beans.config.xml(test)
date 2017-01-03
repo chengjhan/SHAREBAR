@@ -12,7 +12,7 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"></property>
-		<property name="url" value="jdbc:sqlserver://localhost:1433;databace=test"></property>
+		<property name="url" value="jdbc:sqlserver://localhost:1433;database=test3"></property>
 		<property name="username" value="sa"></property>
 		<property name="password" value="password"></property>
 	</bean>
@@ -35,7 +35,15 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
-<!-- 	<tx:annotation-driven transaction-manager="transactionManager"/> -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<context:annotation-config></context:annotation-config>
 	<context:component-scan base-package="model"></context:component-scan>
+	<context:component-scan base-package="followitem.model"></context:component-scan>
+	<context:component-scan base-package="image.model"></context:component-scan>
+	<context:component-scan base-package="item.model"></context:component-scan>
+	<context:component-scan base-package="member.model"></context:component-scan>
+	<context:component-scan base-package="messageBoard.model"></context:component-scan>
+	<context:component-scan base-package="relationship.model"></context:component-scan>
+	
+	
 </beans>

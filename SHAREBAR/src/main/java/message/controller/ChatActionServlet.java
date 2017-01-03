@@ -49,7 +49,10 @@ public class ChatActionServlet extends HttpServlet {
 		
 		if ( null != action_str && "refuse".equals(action_str))
 			result = requestListService.refuseDemand(item_id, requester_id);
-				
+		
+		if ( null != action_str && "check".equals(action_str))
+			result = requestListService.checkStatus(item_id, requester_id);
+		
 		PrintWriter out = response.getWriter();
 		out.write(result);
 	}

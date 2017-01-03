@@ -31,8 +31,17 @@ public class MessageContextService {
 		}
 		
 		@Transactional
+		public int mailUnreaded(int member_id){
+			return messageContextDAO.mailUnreaded(member_id);
+		}
+		
+		@Transactional
+		public void mailReaded(int item_id, int speaker_id, int listener_id){
+			messageContextDAO.mailReaded(item_id, speaker_id, listener_id);
+		}
+		
+		@Transactional
 		public void insert(MessageContextBean bean){
 			messageContextDAO.insert(bean);
 		}
-	
 }

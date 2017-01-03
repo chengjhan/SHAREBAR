@@ -8,10 +8,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <script src="../js/jquery-3.1.1.min.js"></script> -->
+<meta name="google-signin-client_id"
+	content="307771007729-rmscbeafik1eh81eo2v9rtv4bb5n1tml.apps.googleusercontent.com">
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src="../js/bootstrap-validator.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script><!-- GSignIn -->
 <title>SignUp</title>
 <style type="text/css">
 html, body {
@@ -19,20 +21,6 @@ html, body {
 	margin: 0;
 	padding: 0;
 }
-
-/* #sign_up_div { */
-/* 	margin: 5px; */
-/* 	padding: 5px; */
-/* 	width:auto; */
-/* 	height:auto; */
-/* } */
-
-/* #sign_up { */
-/* 	border: 1px solid black; */
-/* 	width:600px; */
-/* 	height:auto; */
-/* } */
-
 .error {
 	color: #F00;
 	font-weight: bold;
@@ -40,6 +28,10 @@ html, body {
 #message{
 	color: #F00;
 	font-weight: bold;
+}
+div#sign_up_div{
+	margin:auto auto;
+	width:300px;
 }
 form#sign_up{ 
 	margin: 100px auto; 
@@ -53,28 +45,23 @@ img#imgPreview{
 	width: 100px;
 	height: 100px;
 }
+#g-signin2{
+	width:100%;
+}
 </style>
-
-<script>
-$(function(){
-	$("#header").load("../header.jsp");
-	
-	$("#footer").load("../footer.jsp");
-});
-</script>
 </head>
 <body>
-<%@page import="java.net.URLEncoder" %>
-<%
-    String fbURL = "http://www.facebook.com/dialog/oauth?client_id=903433963124082&redirect_uri=" + URLEncoder.encode("http://localhost:8080/Project/signin_fb.controller?")+"&scope=email";
-%>
 <div id="header"></div>
-<%-- <a id="fbsign" href="<%= fbURL %>"><img src="../img/facebookloginbutton.png" border="0" class="form-control"/></a> --%>
 	<div id="sign_up_div" class="row">
 		<form id="sign_up" data-toggle="validator" action="signup.controller" method="POST" enctype="multipart/form-data">
+			<div class="form-group">
+			<div id="g-signin2" class="g-signin2" data-onsuccess="onSignIn" data-width="240" data-height="50" data-longtitle="true">
+			</div>
+			<div id="Gerror" class="form-group">
+			</div>
 			<legend>Personal info: </legend>
 			<div class="form-group">
-			<label for="first_name">First name:</label><input type="text" class="form-control" id="first_name" name="first_name" value="${param.first_name}" autofocus required>
+			<label for="first_name">First name:</label><input type="text" class="form-control" id="first_name" name="first_name" value="${param.first_name}" required>
 			</div>
 			<div class="form-group">
 			<label for="last_name">Last name:</label><input type="text" class="form-control" id="last_name" name="last_name" value="${param.last_name}" required>
@@ -119,6 +106,9 @@ $(function(){
 	<div id="footer"></div>
 	<script>
 	$(function(){
+		$("#header").load("../header.jsp");
+		
+		//切換圖片用================================
 	    function readURL(input) {
 	        if (input.files && input.files[0]) {
 	            var reader = new FileReader();
@@ -133,7 +123,55 @@ $(function(){
 	    $("#member_photo").change(function(){
 	        readURL(this);
 	    });
+	    //========================================
+	    		    
 	});//end of ready
+	
+    function onSignIn(googleUser) {
+		var profile = googleUser.getBasicProfile();
+		var id_token = googleUser.getAuthResponse().id_token;
+		
+		console.log('profile: ' + profile);
+		console.log('id_token: ' + id_token);
+		console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		console.log('Name: ' + profile.getName());
+		console.log('Given Name: ' + profile.getGivenName());
+		console.log('Family Name: ' + profile.getFamilyName());
+		console.log('Image URL: ' + profile.getImageUrl());
+		console.log('Email: ' + profile.getEmail());
+		console.log('===========================================');
+
+		
+		$.post("tokensignin",{"id_token":id_token,"ID":profile.getId(),"Name":profile.getName(),"Given Name":profile.getGivenName(),"Family Name":profile.getFamilyName(),"Image URL":profile.getImageUrl(),"Email":profile.getEmail()},function(responseText){
+			if(responseText == "GLoginSuccess"){
+				console.log(responseText);
+				window.location = "http://localhost:8080/SHAREBAR/index.jsp";
+			}else if(responseText == "AccountExist"){
+				gapi.auth2.getAuthInstance().signOut().then(function() {
+					console.log('User signed out.');
+				});
+				$("#Gerror").empty();
+				$("#Gerror").append( "<p style='color:red'>connecting error please try other method.</p>" );
+			}else if(responseText == "GSignAndLoginSuccess"){
+				console.log(responseText);
+				window.location = "http://localhost:8080/SHAREBAR/index.jsp";
+			}else if(responseText == "InvalidIdToken"){
+				gapi.auth2.getAuthInstance().signOut().then(function() {
+					console.log('User signed out.');
+				});
+				console.log(responseText);
+				$("#Gerror").empty();
+				$("#Gerror").append( "<p style='color:red'>connecting error please try other method.</p>" );
+			}else if(responseText == "GLoginfail"){
+				gapi.auth2.getAuthInstance().signOut().then(function() {
+					console.log('User signed out.');
+				});
+				console.log(responseText);
+				$("#Gerror").empty();
+				$("#Gerror").append( "<p style='color:red'>the account with this email is already exist</p>" );
+			}
+		});
+	}
 	</script>
 </body>
 </html>
