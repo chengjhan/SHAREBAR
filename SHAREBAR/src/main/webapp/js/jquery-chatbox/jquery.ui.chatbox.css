@@ -59,9 +59,9 @@
     word-wrap: break-word;      /* IE */
 }
 .ui-chatbox-speak {
-	background-color: #9ced73;
+	background-color: #fffdcc;
 	border-radius:7px;
-    margin: 5px;
+    margin: 5px 10px;
     float: right;
     clear: both;
     /* Source: http://snipplr.com/view/10979/css-cross-browser-word-wrap */

@@ -385,7 +385,7 @@ $(function(){
 	var photo ="${user.photo}";
 	var nickname = "${user.nickname}";
 	var itemid = ${itembean.item_id};
-	var member_no = ${user.member_no};
+	var member_no = user_id;
 	
 	$.post("messageBoard.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}","message":message},
 			function(data){

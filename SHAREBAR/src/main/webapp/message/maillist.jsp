@@ -91,7 +91,8 @@
 													data-item="${share_mail[0]}"
 													data-title='${share_mail[1]}'
 													data-host="${user.member_no}"
-													data-requester="${share_mail[2]}"></td>													
+													data-requester="${share_mail[2]}"
+													data-target_name="${share_mail[3]}"></td>													
 												<td>${share_mail[1]}</td>
 												<td>${share_mail[3]}</td>
 												<td>${share_mail[4]}</td>
@@ -152,7 +153,7 @@
 													data-title="${request_mail[1]}"
 													data-item="${request_mail[0]}"						
 													data-requester="${user.member_no}"
-													data-requester_name="${user.nickname}">
+													>
 													<div id="image" style="display:none;">
 													&nbsp;&nbsp;&nbsp;<img src="img/loading_s.gif">
 													</div>
@@ -169,6 +170,7 @@
 													data-title='${request_mail[1]}'
 													data-host="${request_mail[2]}"
 													data-requester="${user.member_no}"
+													data-target_name="${request_mail[3]}"
 													></td>
 												<td>${request_mail[1]}</td>
 												<td>${request_mail[3]}</td>
@@ -285,11 +287,12 @@ var count = 0;
 			var host_id = $(this).data("host");
 			var requester_id = $(this).data("requester");
 			var windowcode = item_id + "_" + host_id + "_" + requester_id;
+			var target_str = $(this).data("target_name");
 			
 			if ($("#" + windowcode).length)
 				$("#" + windowcode).chatbox("option", "boxManager").toggleBox();
 			else{
-				messageWindow(item_id, title_id, host_id, requester_id, windowcode);
+				messageWindow(item_id, title_id, host_id, requester_id, windowcode,target_str);
 				$.getJSON("pullMessage.ajax", {	"item":item_id, "requester":requester_id}, 
 					function(data){
 						$.each(data, function(index, bean){
