@@ -506,6 +506,8 @@ html, body {
 				zoom : 8,
 				minZoom : 2
 			});
+			
+			// 由搜尋列第一次搜尋
 			var swLat = ${swLat};
 // 			alert(swLat);
 			var swLng = ${swLng};
@@ -531,8 +533,6 @@ html, body {
 //    			position: itemLatLng,
 //    			map: map
 //    		});
-			
-			// 由搜尋列第一次搜尋
 // 			var table = $("#itemList>tbody");
 			var photo = $("#left_content");
 			var number = $("#id_number_span");
@@ -587,23 +587,34 @@ html, body {
 					var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
 					var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);					
 					
+					var itemFollow_img;
+					var itemFollow_div;
+					var itemFollow_a;
+					
 					var user = ${user.member_no}
-					if(user != item.member_id.member_no){
-						var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-// 						alert(item.imageBean.length);
-						for(var i = 0; i < item.imageBean.length; i++){
-// 							alert(item.imageBean[i].image_photo);
-							if(item.follow_items[i] != null){
-// 								alert(item.follow_items[i].member_id.member_no);
-								if(user == item.follow_items[i].member_id.member_no){
-									if(item.follow_items[i].status == 1){
-										itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
+					console.log(user);
+					if(user == undefined){
+						user = 0;
+					}
+// 					alert(user)
+					if(user != 0){
+						if(user != item.member_id.member_no){
+							itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
+// 							alert(item.imageBean.length);
+							for(var i = 0; i < item.imageBean.length; i++){
+// 								alert(item.imageBean[i].image_photo);
+								if(item.follow_items[i] != null){
+// 									alert(item.follow_items[i].member_id.member_no);
+									if(user == item.follow_items[i].member_id.member_no){
+										if(item.follow_items[i].status == 1){
+											itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
+										}
 									}
 								}
 							}
+							itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
+							itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
 						}
-						var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
-						var itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
 					}
 					
 					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_a);
@@ -767,24 +778,35 @@ html, body {
 						var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
 						var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);					
 						
+						var itemFollow_img;
+						var itemFollow_div;
+						var itemFollow_a;
+						
 						var user = ${user.member_no}
-						if(user != item.member_id.member_no){
-							var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-//	 						alert(item.imageBean.length);
-							for(var i = 0; i < item.imageBean.length; i++){
-//	 							alert(item.imageBean[i].image_photo);
-								if(item.follow_items[i] != null){
-//	 								alert(item.follow_items[i].member_id.member_no);
-									if(user == item.follow_items[i].member_id.member_no){
-										if(item.follow_items[i].status == 1){
-											itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
+						console.log(user);
+						if(user == undefined){
+							user = 0;
+						}
+// 						alert(user)
+						if(user != 0){
+							if(user != item.member_id.member_no){
+								itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
+//	 							alert(item.imageBean.length);
+								for(var i = 0; i < item.imageBean.length; i++){
+//	 								alert(item.imageBean[i].image_photo);
+									if(item.follow_items[i] != null){
+//	 									alert(item.follow_items[i].member_id.member_no);
+										if(user == item.follow_items[i].member_id.member_no){
+											if(item.follow_items[i].status == 1){
+												itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
+											}
 										}
 									}
 								}
+								itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
+								itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
 							}
-							var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
-							var itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
-						}
+	 					}
 						
 						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_a);
 						var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";
