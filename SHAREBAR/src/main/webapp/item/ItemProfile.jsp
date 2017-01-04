@@ -123,8 +123,8 @@ time{
 <div class="col-lg-12 col-md-12 col-sm-6" style="margin-top:15px">
 <span class="glyphicon glyphicon-user"></span><strong>分享人：</strong>
 <p style="margin-left: 15px">${itembean.member_id.nickname}</p>
-<span class="glyphicon glyphicon-file"></span><strong id="piccount" maxpic="	<c:forEach var="test" items="${itembean.imageBean}" varStatus="stat"><c:if test="${stat.last}">${stat.count}</c:if> </c:forEach>">分享物品：</strong>
-<p style="margin-left: 20px">${itembean.item_name}</p>
+<span class="glyphicon glyphicon-gift"></span><strong id="piccount" maxpic="<c:forEach var="test" items="${itembean.imageBean}" varStatus="stat"><c:if test="${stat.last}">${stat.count}</c:if> </c:forEach>">分享物品：</strong>
+<p style="margin-left: 15px">${itembean.item_name}</p>
 <span class="glyphicon glyphicon-map-marker"></span><strong>地點：</strong>
 <p style="margin-left: 15px">${itembean.location}</p>
 <strong><hr></strong>
