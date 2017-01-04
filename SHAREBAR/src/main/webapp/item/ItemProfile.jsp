@@ -154,7 +154,7 @@ time{
 	<c:otherwise>
 	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :5px;width:100%;height:45px ">
 	<input type="button" value="追蹤按鈕" class="btn btn-success" style="margin:5px;width:100%;height:45px" >
-	<input type="button" value="檢舉商品" class="btn btn-default" style="margin:5px;width:100%;height:45px">
+	<input type="button" id="report" value="檢舉商品" class="btn btn-default" style="margin:5px;width:100%;height:45px">
 			<c:if test="${ itembean.done == 0 }">
 				<input type="button" id="ask" value="提出分享請求" class="btn btn-success" style="margin :5px;width:100%;height:45px">
 			</c:if>
@@ -544,6 +544,43 @@ $(function(){
 			$.post("mailReaded.ajax",{item : message.item, speaker : message.speaker, listener : message.listener});
     		}
         } 
+    
+    //檢舉按鈕
+	$('div #report').click(function() {
+	
+        BootstrapDialog.show({
+	        title: '檢舉這個物品',
+            message:       	 
+				$('<div>請描述檢舉原因:</div>  <input type="text" class="form-control">'),		                       		 
+            buttons: [{
+                label: '確認',
+                action: function(dialogRef) {
+                	$('.modal-dialog b').remove();                  
+					var rateMessage = dialogRef.getModalBody().find(':text').val();
+					var error = $("<b>請填寫原因&nbsp;&nbsp;&nbsp;</b>");
+					error.css("display","none");
+					if (  rateMessage.length == 0 ){
+						$('.modal-dialog .btn').before(error);
+						$('.modal-dialog b').fadeIn();							
+						}
+					else {
+						reportItem(user_id,itemid,rateMessage);					
+						dialogRef.close();
+						}
+                }
+            }]
+        });
+		})
+		
+	function reportItem(user_id,itemid,rateMessage){
+		var reporting_member_id = user_id				
+		var reported_item_id = itemid;
+		var context = rateMessage;
+		$.get("../administrator/ReportInsertServlet",{"reporting_member_id":reporting_member_id,"reported_item_id":reported_item_id,"context":context});			
+	
+	}	
+    
+    
 });
 </script>
 </body>
