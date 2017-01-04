@@ -302,7 +302,7 @@ div#navbar {
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
 	    					var bounds = results[0].geometry.viewport;
-	    					alert(bounds);
+// 	    					alert(bounds);
 	    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
 							var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
 							var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
