@@ -26,6 +26,7 @@ import org.w3c.dom.Document;
 
 import item.model.ItemBean;
 import item.model.ItemService;
+import member.model.MemberBean;
 
 @WebServlet("/item/search.controller")
 public class SearchServlet extends HttpServlet {
@@ -48,6 +49,7 @@ public class SearchServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 
 		// 接受資料
+		
 		String searchSelector = request.getParameter("searchSelector");
 		String searchBar = request.getParameter("searchBar");
 		String tempLat = request.getParameter("latitude");

@@ -73,8 +73,9 @@ public class ItemBean {
 	@Expose
 	private Set<ImageBean> imageBean = new HashSet<ImageBean>();
 	
-	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "ItemBean")
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "itemBean")
 	@OrderBy("following_item_id asc")
+	@Expose
 	private Set<FollowItemsBean> follow_items = new HashSet<FollowItemsBean>();
 	
 	//阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的阿三的

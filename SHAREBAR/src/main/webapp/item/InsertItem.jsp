@@ -115,10 +115,10 @@ html, body {
 	%>
 <%-- 	<p>${classNameList}</p> --%>
 	<div id="header"></div>
-	<div class="wrapper">
+	<div class="container-fluid">
 		<form id="id_insert_form" action="<c:url value="/item/share.controller" />" method="post" enctype="multipart/form-data">
-			<div>
-				<div id="id_image_form" class="container">
+			<div class="row">
+				<div id="id_image_form" class="container col-sm-6 col-md-6">
 					<div id="id_image_div1" class="form-group image-preview">
 						<label for="id_image_photo1" id="id_image_label1">封面照片</label>
 						<input type="file" id="id_image_photo1" name="image_photo1">
@@ -136,7 +136,7 @@ html, body {
 						<input type="file" id="id_image_photo4" name="image_photo4">
 					</div>
 				</div>
-				<div id="id_item_form" class="container">
+				<div id="id_item_form" class="container col-sm-6 col-md-6">
 					<legend>分享物品</legend>
 					<div class="form-group">
 						<label for="id_item_name">名稱</label>

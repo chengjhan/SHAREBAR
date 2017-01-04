@@ -48,99 +48,98 @@ $(function(){
 		</nav>
 	</div>
 	
+	<div class="col-md-2"></div>
 	
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="list-group">
-		  <a href="gm_view01.jsp" class="list-group-item">會員管理</a>
+		  <a href="gm_view01.jsp" class="list-group-item active">會員管理</a>
 		  <a href="gm_view02.jsp" class="list-group-item">物品管理</a>
 		  <a href="gm_view03.jsp" class="list-group-item">遭檢舉品項</a>
 		  <a href="gm_view04_1.jsp" class="list-group-item">客服信箱</a>	
-<!-- 		  <a href="gm_view05_1.jsp" class="list-group-item">前往一般使用者信箱</a>  -->
 		</div>
 	</div>
 	
-	<div class="col-md-9">
+	<div class="col-md-6">
 		    <div class="jumbotron">
-				<div class="page-header">
-					<h3>會員管理介面</h3>
-				</div>
-				
+			
 				
 <!-- 每頁不同的內容從這裡開始 -->
-			
-	<form action="<c:url value="/administrator/SelectByMemberNameServlet"/>" method="get">
-		<table>
-			<tr>
-				<td>(1)關鍵字 搜尋帳號:</td>
-				<td><input type="text" name="member_email" id="member_email" value="${param.member_email}"></td>			
-				<td align="right"><input type="submit" value="搜尋帳號"> ${errors.member_email} ${errors.system}</td>
-			</tr>			
-		</table>		
-	</form>
+	<div class="row">
+		<div class="col-sm-6">		
+			<form action="<c:url value="/administrator/SelectBlockMemberServlet"/>" method="get">
+				<table>
+					<tr>
+						<td></td>
+						<td align="right"><input type="submit" value="選取所有已封鎖會員"></td>
+					</tr>			
+				</table>		
+			</form>
+		
+			<div>&nbsp;</div>
+			<div>&nbsp;</div>	
+					
+			<form action="<c:url value="/administrator/SelectByMemberNameServlet"/>" method="get">
+				<table>
+					<tr>
+						<td>會員帳號:</td>
+						<td><input type="text" name="member_email" id="member_email" value="${param.member_email}"></td>			
+						<td align="right"><input type="submit" value="搜尋帳號"> ${errors.member_email} ${errors.system}</td>
+					</tr>			
+				</table>		
+			</form>
+		</div>
 	
-	<div>&nbsp</div>
-	
-	<form action="<c:url value="/administrator/SelectBlockMemberServlet"/>" method="get">
-		<table>
-			<tr>
-				<td>(3)選取所有已封鎖會員:</td>
-				<td align="right"><input type="submit" value="執行"></td>
-			</tr>			
-		</table>		
-	</form>
-	
-	<div>&nbsp</div>
-	
-	<form action="<c:url value="/administrator/UpdateMemberBlockServlet"/>" method="get">
-		<table>
-			<tr>
-				<td>(6)封鎖會員</td>
-			</tr>
-			<tr>
-				<td>&nbsp &nbsp 會員編號:</td>
-				<td><input type="text" name="member_no" value="${param.member_no}">${errors.member_no }</td>	
-<%-- 				<td>${errors.member_no}</td> --%>
-			
-			</tr>
-			<tr>
-				<td>&nbsp &nbsp 封鎖DATE:</td>
-				<td><input type="text" name="member_block" value="${param.member_block}">${errors.member_block }</td>
-				<td align="right"><input type="submit" value="執行">${errors.system}</td>
-			</tr>	
 
-		</table>		
-	</form>
 	
-	<div>&nbsp</div>
-	
-	<form action="<c:url value="/administrator/ClearMemberBlockServlet"/>" method="get">
-		<table>
-			<tr>
-				<td>(7)解封會員:</td>
-			</tr>
-			<tr>
-				<td> &nbsp &nbsp 會員編號:</td>
-				<td><input type="text" name="member_no" id="member_no" value="${param.member_no}"></td>	
-				<td align="right"><input type="submit" value="執行">${errors.member_no2}</td>
-			</tr>			
-		</table>		
-	</form>
-	
-	<div>&nbsp</div>
-	
+		<div class="col-sm-6">	
+			<form action="<c:url value="/administrator/UpdateMemberBlockServlet"/>" method="get">
+				<table>
+					<tr>
+						<td></td>
+					</tr>
+					<tr>
+						<td>會員編號:</td>
+						<td><input type="text" name="member_no" value="${param.member_no}">${errors.member_no }</td>				
+					</tr>
+					<tr>
+						<td>封鎖日期:</td>
+						<td><input type="text" name="member_block" value="${param.member_block}">${errors.member_block }</td>
+						<td align="right"><input type="submit" value="封鎖會員">${errors.system}</td>
+					</tr>	
+				</table>		
+			</form>
+		
+			<div>&nbsp;</div>
+		
+			<form action="<c:url value="/administrator/ClearMemberBlockServlet"/>" method="get">
+				<table>
+					<tr>
+						<td></td>
+					</tr>
+					<tr>
+						<td>會員編號:</td>
+						<td><input type="text" name="member_no" id="member_no" value="${param.member_no}"></td>	
+						<td align="right"><input type="submit" value="解封會員">${errors.member_no2}</td>
+					</tr>			
+				</table>		
+			</form>
+		</div>
+	</div>	
+<!-- ---------------------------------------------------------------------------------------------------------------------- -->
+
 	
 	<h3>搜尋會員結果</h3>
 	
 	<table>	
 	<thead>
 				<tr align="center">
-					<td class="st1">&nbsp會員編號&nbsp</td>
-					<td class="st1">&nbsp封鎖天數&nbsp</td>
-					<td class="st1">&nbsp會員帳號&nbsp</td>
-					<td class="st1">&nbsp&nbsp會員密碼&nbsp&nbsp</td>
-					<td class="st1">&nbsp會員暱稱&nbsp</td>
-					<td class="st1">&nbsp自我介紹&nbsp</td>
-					<td class="st1">&nbsp認證&nbsp</td>
+					<td class="st1">&nbsp;會員編號&nbsp;</td>
+					<td class="st1">&nbsp;封鎖天數&nbsp;</td>
+					<td class="st1">&nbsp;會員帳號&nbsp;</td>
+<!-- 					<td class="st1">&nbsp;&nbsp;會員密碼&nbsp;&nbsp;</td> -->
+					<td class="st1">&nbsp;會員暱稱&nbsp;</td>
+					<td class="st1">&nbsp;自我介紹&nbsp;</td>
+					<td class="st1">&nbsp;認證狀態&nbsp;</td>
 					
 				</tr>
 	</thead>
@@ -157,7 +156,7 @@ $(function(){
 					<td class="st1" align="center"><a href="${path}">${element1.member_no}</a></td>
 					<td class="st1" align="center">${element1.blockdate}</td>
 					<td class="st1">${element1.email}</td>
-					<td class="st1" align="center">${element1.password}</td>
+<%-- 					<td class="st1" align="center">${element1.password}</td> --%>
 					<td class="st1" align="center">${element1.nickname}</td>
 					<td class="st1" align="center">${element1.description}</td>
 					<td class="st1" align="center">${element1.certification}</td>			
@@ -196,6 +195,6 @@ $(function(){
 <!-- 每頁不同的內容到這裡結束 -->
 			</div>
 	</div>
-<div id="footer"></div>	
+
 </body>
 </html>

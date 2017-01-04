@@ -52,4 +52,5 @@ public interface ItemDAO {
 
 	List<Object[]> findGetReview(MemberBean member_no);
 
+
 }
