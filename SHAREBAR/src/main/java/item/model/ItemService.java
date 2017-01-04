@@ -183,6 +183,29 @@ public class ItemService {
 		return null;
 	}
 
+	//Three
+	@Transactional
+	public void rateToGiver(int item_id, int giver_rate, String giver_review) {
+
+
+		ItemBean selectById = itemDao.selectById(item_id);
+		if (selectById != null) {
+			if (item_id != 0) {
+				itemDao.rateToGiver(item_id, giver_rate, giver_review);
+			}
+		}
+	}
+	
+	@Transactional
+	public void rateToGetter(int item_id, int getter_rate, String getter_review) {
+
+		ItemBean selectById = itemDao.selectById(item_id);
+		if (selectById != null) {
+			if (item_id != 0) {
+				itemDao.rateToGetter(item_id, getter_rate, getter_review);
+			}
+		}
+	}
 	// public static void main(String[] args) throws ParseException {
 	// ApplicationContext context = new
 	// ClassPathXmlApplicationContext("beans.config.xml");

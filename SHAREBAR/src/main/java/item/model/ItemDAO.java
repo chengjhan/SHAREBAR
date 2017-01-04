@@ -48,9 +48,14 @@ public interface ItemDAO {
 
 	ItemBean clearItemBlock(int item_id);
 
+
 	List<Object[]> findGiveReview(MemberBean member_no);
 
 	List<Object[]> findGetReview(MemberBean member_no);
 
+	//Three
+	void rateToGiver(int item_id, int giver_rate, String giver_review);
+
+	void rateToGetter(int item_id, int getter_rate, String getter_review);
 
 }
