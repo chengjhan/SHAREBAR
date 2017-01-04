@@ -22,311 +22,7 @@
 <script type="text/javascript" src="../js/bootstrap-dialog/bootstrap-dialog.js"></script>
 
 <title>Profile Page</title>
-<script type="text/javascript">
 
-var socket = null;
-var user_id = Number("${user.member_no}");
-var user_name = "${user.nickname}";
-var item_status = "未提出"
-var getNextOffset = function() { return count*215; };
-var count = 0;
-
-$(function(){
-	$("#header").load("../header.jsp");
-	$("#footer").load("../footer.jsp");
-	//判斷是否追蹤	
-	var itemid = ${itembean.item_id}
-	var item_name = "${itembean.item_name}"
-	var item_host = ${itembean.member_id.member_no}
-	var item_hostName = "${itembean.member_id.nickname}"
-	var itemstatus = 0;
-	
-	$.get("<%=request.getContextPath()%>/followitems/itemStatus.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}"},
-			function(data){
-		itemstatus = data;
-		if(itemstatus==1){
-			$('input[value="追蹤按鈕"]').toggleClass("btn-danger");
-			$('input[value="追蹤按鈕"]').attr("value","取消追蹤");
-		}
-	})
-	
-	//追隨按鈕
-	$('input[value="追蹤按鈕"]').click(function(){
-		var change = $(this);
-		var itemid = change.attr("value");
-	$.post("followItem.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}"},
-			
-			function(data){
-					change.attr("following",data);
-					change.toggleClass("btn-danger");
-					if(data==1){
-						change.attr("value","取消追蹤")	
-					}
-					else{change.attr("value","追蹤按鈕")}
-				})
-	})
-	//切換圖片功能
-	var showpic =null;
-	$(".item_pic").click(function(){
-		if(!$("#showpic").is(":animated")){
-			showpic=$(this).attr("src");
-			showpic2=$("#showpic").attr("src");
-			$("#showpic2").attr("src",showpic2);
-			$("#showpic").attr("src",showpic);
-			$("#showpic").effect( "slide", "200" );
-			var order =  $(this).attr("order");
-			$("#showpic").attr("order",order)
-		}
-	})
-	
-	//切換圖片prev-btn next-btn
-	var thisorder =null;
-	
-	
-	$("#picgroup>span").click(function(){
-		var maxpic=$("#piccount").attr("maxpic")
-		var thisid = $(this).attr("id");
-		thisorder = $("#showpic").attr("order");
-		var ordint = parseInt(thisorder) 
-		if(!$("#showpic").is(":animated")){
-			var ordercount = ordint;
-			if("next-btn" == thisid){
-				ordercount = ordint + 1
-			}
-			if("prev-btn" == thisid){
-				ordercount = ordint - 1
-			}
-			if(ordercount>maxpic){
-				ordercount = 1;
-			}
-			if(ordercount<1){
-				ordercount = maxpic;
-			}	
-			showpic = $('img[order='+ ordercount +']').attr("src")
-			$("#showpic").attr("order",ordercount)
-			showpic2=$("#showpic").attr("src");
-			$("#showpic2").attr("src",showpic2);
-			$("#showpic").attr("src",showpic)
-			$("#showpic").effect( "slide", "200" );
-		}
-	})
-	
-	//留言版websocket
-	var webSocket = null;
-	function initwebsocket(){
-		webSocket = new WebSocket('ws://localhost:8080/SHAREBAR/item/MessageBoardWebSocket');
-
-		webSocket.onopen = function(evt){
-			onOpen(evt);
-		};
-		webSocket.onclose = function(evt){
-			onClose(evt);
-		}
-		webSocket.onmessage = function(evt){
-			onMessage(evt.data);
-		}
-		webSocket.onerror = function(evt){
-			onError(evt);
-		}
-	}
-	
-	initwebsocket();
-	
-	function onOpen(evt){
-	}
-	function onClose(evt){
-		alert("websocket close")
-	}
-	function onMessage(evt){
-	var messagecontain = JSON.parse(evt);
-	var item_id = messagecontain.item_id;
-	var member_no = messagecontain.member_no;
-	var message = messagecontain.message;
-	var photo = messagecontain.photo;
-	var nickname = messagecontain.nickname;
-	$('#endline').before(
-			'<li style="margin-bottom:15px; margin-top:10px" class="newmessage">'+
-	    	'<a href="${root}member/profile.controller?id='+member_no+'"'+ 'class="pull-left">'+
-	    	'<div>'+
-	    	'<img class="img-circle" src="/SHAREBAR/profileImages/'+ photo+ '" style="width:32px;height:32px;margin-right:15px; ">'+
-	    	'</div>'+
-	    	'</a>'+
-	    	'<strong>'+nickname+'</strong>'+
-	    	'<time>${message.time}</time>'+
-	    	'<p style="overflow: hidden;">'+message+'</span>'+
-	    	'</li>'
-			)
-	$('.newmessage').show(400);		
-	}
-	function onError(evt){
-	}
-	
-	//留言版功能
-	$('#sendmessage').click(function(){
-// 		alert("click");
-	var message = $("#messageboard").val();
-	var photo ="${user.photo}";
-	var nickname = "${user.nickname}";
-	var itemid = ${itembean.item_id};
-	var member_no = ${user.member_no};
-	
-	$.post("messageBoard.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}","message":message},
-			function(data){
-		webSocket.send(JSON.stringify({
-			item_id:itemid,
-			member_no:member_no,
-			message:message,
-			photo:photo,
-			nickname:nickname
-			}))
-	});	
-	
-// 	alert("留言成功");
-	$("#messageboard").val("");
-		
-	});
-	
-	//聊天系統
-	//初始化步驟
-	startConnection();
-	messageWindow();
-
-	$.get("../chatAction.ajax", { "action":"check", "item":itemid, "requester":user_id }, 
-			function(data){											
-		if( data != "未提出" ){
-			item_status = data;
-			switch (item_status){
-			case "已送出":				
-				$("#ask").toggleClass("btn-default");
-				$("#ask").attr("value","請求已送出");
-				$("#ask").attr("id","done")
-				break;
-			case "已拒絕":
-				$("#ask").toggleClass("btn-danger");
-				$("#ask").attr("value","已拒絕");
-				$("#ask").attr("id","done")
-				break;
-			case "已成交":
-				break;
-			}
-		}						
-		});
-	
-	$('#chat').click(function() {
-		var item_id = itemid;
-		var requester_id = user_id;
-		var host_id = item_host;
-		var windowcode = item_id + "_" + host_id + "_" + requester_id;		
-		$("#" + windowcode).chatbox("option", "boxManager").toggleBox();
-	})
-	//點擊聊天視窗，設為已讀
-	$("body").on("click",".ui-chatbox",function(){			
-		var item_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[0];
-		var host_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[1];
-		var requester_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[2];
-		var speaker_id = (user_id==host_id?requester_id : host_id);
-		//呼叫servlet
-		$.post("../mailReaded.ajax",{item : item_id, speaker : speaker_id, listener : user_id});
-		})
-	//鼠標停留聊天視窗
-	$("body").on("focus",".ui-chatbox-input",function(){
-		$(this).siblings(".ui-chatbox-log").attr("data-readed","1");
-		})
-	//鼠標離開聊天視窗
-	$("body").on("blur",".ui-chatbox-input",function(){
-		$(this).siblings(".ui-chatbox-log").attr("data-readed","0");
-		})	
-	$('#ask').click(function() {
-		if($(this).attr("id") == "done"){return};
-		var thisBtn  = $(this);	
-		
-		BootstrapDialog.show({
-			title:item_name,
-			message: "即將對此分享提出請求，是否繼續？",
-			buttons: [{
-		        label: '取消',
-		        action: function(dialogRef) {
-		        	dialogRef.close();
-		               }},
-		        {
-		        label: '確認',
-		        action: function(dialogRef) {
-		        	startAction(thisBtn);
-		        	dialogRef.close();
-		        }}]
-			})
-	})
-	
-	function startConnection(){
-	    var url = 'ws://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket/'+user_id;
-	    socket = new WebSocket(url);	
-	    socket.onmessage = function(event) {
-	        addMessage(event.data);
-	    };
-	}
-			
-	function startAction(thisBtn) {					
-		thisBtn.attr("value","處理中");				
-		var action_str = thisBtn.attr("id");		
-		$.get("../chatAction.ajax", { "action":action_str, "item":itemid, "requester":user_id }, 
-				function(data){											
-					setTimeout(function() {
-						$("#ask").toggleClass("btn-default");
-						$("#ask").attr("value","請求已送出");
-						$("#ask").attr("id","done")				
-					}, 1000)						
-			});
-		}
-
-	function messageWindow() {
-		var item_id = itemid;
-		var title_id = item_name ;
-		var host_id = item_host;
-		var requester_id = user_id;
-		var windowcode = item_id + "_" + host_id + "_" + requester_id;
-		
-		var window = $("<div></div>").attr("id", windowcode).attr("data-readed",0);
-		var listener_id = (user_id==host_id?requester_id : host_id);
-		$("#board").append(window);
-		
-		$("#" + windowcode).chatbox({				
-			id : user_id, 
-            user : user_name,
-            title : '( ' + item_hostName + ' ) ' + title_id,
-            width : 200,
-            offset : getNextOffset(),
-            hidden: true,
-            messageSent : function(id, user, msg) {                      		
-            	if(socket.readyState != 1){startConnection();}
-                socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_id, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
-                $.post("../messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
-                }});
-
-    	count++;	
-
-		$.getJSON("../pullMessage.ajax", {	"item":item_id, "requester":requester_id}, 
-				function(data){
-					$.each(data, function(index, bean){
-					$("#" + windowcode).chatbox("option", "boxManager").addMsg(bean.memberBean_speaker.nickname, bean.context);
-					});
-				})
-		
-		$("#" + windowcode).chatbox("option", "hidden", true);		
-			} 
-			
-         
-    function addMessage(message) {
-    	message = JSON.parse(message);
-		var windowcode = message.windowcode;        
-		$("#" + windowcode).chatbox("option", "hidden", false);
-       	$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);
-      	//若正在關注此視窗設為已讀
-   		if( $("#" + windowcode).attr("data-readed") == 0 ){
-			$.post("mailReaded.ajax",{item : message.item, speaker : message.speaker, listener : message.listener});
-    		}
-        } 
-});
-</script>
 <style>
 #basic_info{
 	top:100px;
@@ -542,5 +238,313 @@ time{
 <div id="dialog"></div>
 <div id="board"></div>
 <div id="footer"></div>
+<script type="text/javascript">
+
+var socket = null;
+var user_id = Number("${user.member_no}");
+var user_name = "${user.nickname}";
+var item_status = "未提出"
+var getNextOffset = function() { return count*215; };
+var count = 0;
+
+$("#header").load("../header.jsp");
+$("#footer").load("../footer.jsp");
+
+$(function(){
+	//判斷是否追蹤	
+	var itemid = ${itembean.item_id}
+	var item_name = "${itembean.item_name}"
+	var item_host = ${itembean.member_id.member_no}
+	var item_hostName = "${itembean.member_id.nickname}"
+	var itemstatus = 0;
+	
+	$.get("<%=request.getContextPath()%>/followitems/itemStatus.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}"},
+			function(data){
+		itemstatus = data;
+		if(itemstatus==1){
+			$('input[value="追蹤按鈕"]').toggleClass("btn-danger");
+			$('input[value="追蹤按鈕"]').attr("value","取消追蹤");
+		}
+	})
+	
+	//追隨按鈕
+	$('input[value="追蹤按鈕"]').click(function(){
+		var change = $(this);
+		var itemid = change.attr("value");
+	$.post("followItem.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}"},
+			
+			function(data){
+					change.attr("following",data);
+					change.toggleClass("btn-danger");
+					if(data==1){
+						change.attr("value","取消追蹤")	
+					}
+					else{change.attr("value","追蹤按鈕")}
+				})
+	})
+	//切換圖片功能
+	var showpic =null;
+	$(".item_pic").click(function(){
+		if(!$("#showpic").is(":animated")){
+			showpic=$(this).attr("src");
+			showpic2=$("#showpic").attr("src");
+			$("#showpic2").attr("src",showpic2);
+			$("#showpic").attr("src",showpic);
+			$("#showpic").effect( "slide", "200" );
+			var order =  $(this).attr("order");
+			$("#showpic").attr("order",order)
+		}
+	})
+	
+	//切換圖片prev-btn next-btn
+	var thisorder =null;
+	
+	
+	$("#picgroup>span").click(function(){
+		var maxpic=$("#piccount").attr("maxpic")
+		var thisid = $(this).attr("id");
+		thisorder = $("#showpic").attr("order");
+		var ordint = parseInt(thisorder) 
+		if(!$("#showpic").is(":animated")){
+			var ordercount = ordint;
+			if("next-btn" == thisid){
+				ordercount = ordint + 1
+			}
+			if("prev-btn" == thisid){
+				ordercount = ordint - 1
+			}
+			if(ordercount>maxpic){
+				ordercount = 1;
+			}
+			if(ordercount<1){
+				ordercount = maxpic;
+			}	
+			showpic = $('img[order='+ ordercount +']').attr("src")
+			$("#showpic").attr("order",ordercount)
+			showpic2=$("#showpic").attr("src");
+			$("#showpic2").attr("src",showpic2);
+			$("#showpic").attr("src",showpic)
+			$("#showpic").effect( "slide", "200" );
+		}
+	})
+	
+	//留言版websocket
+	var webSocket = null;
+	function initwebsocket(){
+		webSocket = new WebSocket('ws://localhost:8080/SHAREBAR/item/MessageBoardWebSocket');
+
+		webSocket.onopen = function(evt){
+			onOpen(evt);
+		};
+		webSocket.onclose = function(evt){
+			onClose(evt);
+		}
+		webSocket.onmessage = function(evt){
+			onMessage(evt.data);
+		}
+		webSocket.onerror = function(evt){
+			onError(evt);
+		}
+	}
+	
+	initwebsocket();
+	
+	function onOpen(evt){
+	}
+	function onClose(evt){
+		alert("websocket close")
+	}
+	function onMessage(evt){
+	var messagecontain = JSON.parse(evt);
+	var item_id = messagecontain.item_id;
+	var member_no = messagecontain.member_no;
+	var message = messagecontain.message;
+	var photo = messagecontain.photo;
+	var nickname = messagecontain.nickname;
+	$('#endline').before(
+			'<li style="margin-bottom:15px; margin-top:10px" class="newmessage">'+
+	    	'<a href="${root}member/profile.controller?id='+member_no+'"'+ 'class="pull-left">'+
+	    	'<div>'+
+	    	'<img class="img-circle" src="/SHAREBAR/profileImages/'+ photo+ '" style="width:32px;height:32px;margin-right:15px; ">'+
+	    	'</div>'+
+	    	'</a>'+
+	    	'<strong>'+nickname+'</strong>'+
+	    	'<time>${message.time}</time>'+
+	    	'<p style="overflow: hidden;">'+message+'</span>'+
+	    	'</li>'
+			)
+	$('.newmessage').show(400);		
+	}
+	function onError(evt){
+	}
+	
+	//留言版功能
+	$('#sendmessage').click(function(){
+// 		alert("click");
+	var message = $("#messageboard").val();
+	var photo ="${user.photo}";
+	var nickname = "${user.nickname}";
+	var itemid = ${itembean.item_id};
+	var member_no = user_id;
+	
+	$.post("messageBoard.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}","message":message},
+			function(data){
+		webSocket.send(JSON.stringify({
+			item_id:itemid,
+			member_no:member_no,
+			message:message,
+			photo:photo,
+			nickname:nickname
+			}))
+	});	
+	
+// 	alert("留言成功");
+	$("#messageboard").val("");
+		
+	});
+	
+	//聊天系統
+	//初始化步驟
+	startConnection();
+	messageWindow();
+
+	$.get("../chatAction.ajax", { "action":"check", "item":itemid, "requester":user_id }, 
+			function(data){											
+		if( data != "未提出" ){
+			item_status = data;
+			switch (item_status){
+			case "已送出":				
+				$("#ask").toggleClass("btn-default");
+				$("#ask").attr("value","請求已送出");
+				$("#ask").attr("id","done")
+				break;
+			case "已拒絕":
+				$("#ask").toggleClass("btn-danger");
+				$("#ask").attr("value","已拒絕");
+				$("#ask").attr("id","done")
+				break;
+			case "已成交":
+				break;
+			}
+		}						
+		});
+	
+	$('#chat').click(function() {
+		var item_id = itemid;
+		var requester_id = user_id;
+		var host_id = item_host;
+		var windowcode = item_id + "_" + host_id + "_" + requester_id;		
+		$("#" + windowcode).chatbox("option", "boxManager").toggleBox();
+	})
+	//點擊聊天視窗，設為已讀
+	$("body").on("click",".ui-chatbox",function(){			
+		var item_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[0];
+		var host_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[1];
+		var requester_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[2];
+		var speaker_id = (user_id==host_id?requester_id : host_id);
+		//呼叫servlet
+		$.post("../mailReaded.ajax",{item : item_id, speaker : speaker_id, listener : user_id});
+		})
+	//鼠標停留聊天視窗
+	$("body").on("focus",".ui-chatbox-input",function(){
+		$(this).siblings(".ui-chatbox-log").attr("data-readed","1");
+		})
+	//鼠標離開聊天視窗
+	$("body").on("blur",".ui-chatbox-input",function(){
+		$(this).siblings(".ui-chatbox-log").attr("data-readed","0");
+		})	
+	$('#ask').click(function() {
+		if($(this).attr("id") == "done"){return};
+		var thisBtn  = $(this);	
+		
+		BootstrapDialog.show({
+			title:item_name,
+			message: "即將對此分享提出請求，是否繼續？",
+			buttons: [{
+		        label: '取消',
+		        cssClass:'btn',
+		        action: function(dialogRef) {
+		        	dialogRef.close();
+		               }},
+		        {
+		        label: '確認',
+		        cssClass:'btn btn-warning',
+		        action: function(dialogRef) {
+		        	startAction(thisBtn);
+		        	dialogRef.close();
+		        }}]
+			})
+	})
+	
+	function startConnection(){
+	    var url = 'ws://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket/'+user_id;
+	    socket = new WebSocket(url);	
+	    socket.onmessage = function(event) {
+	        addMessage(event.data);
+	    };
+	}
+			
+	function startAction(thisBtn) {					
+		thisBtn.attr("value","處理中");				
+		var action_str = thisBtn.attr("id");		
+		$.get("../chatAction.ajax", { "action":action_str, "item":itemid, "requester":user_id }, 
+				function(data){											
+					setTimeout(function() {
+						$("#ask").toggleClass("btn-default");
+						$("#ask").attr("value","請求已送出");
+						$("#ask").attr("id","done")				
+					}, 1000)						
+			});
+		}
+
+	function messageWindow() {
+		var item_id = itemid;
+		var title_id = item_name ;
+		var host_id = item_host;
+		var requester_id = user_id;
+		var windowcode = item_id + "_" + host_id + "_" + requester_id;
+		
+		var window = $("<div></div>").attr("id", windowcode).attr("data-readed",0);
+		var listener_id = (user_id==host_id?requester_id : host_id);
+		$("#board").append(window);
+		
+		$("#" + windowcode).chatbox({				
+			id : user_id, 
+            user : user_name,
+            title : '( ' + item_hostName + ' ) ' + title_id,
+            width : 200,
+            offset : getNextOffset(),
+            hidden: true,
+            messageSent : function(id, user, msg) {                      		
+            	if(socket.readyState != 1){startConnection();}
+                socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_id, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
+                $.post("../messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
+                }});
+
+    	count++;	
+
+		$.getJSON("../pullMessage.ajax", {	"item":item_id, "requester":requester_id}, 
+				function(data){
+					$.each(data, function(index, bean){
+					$("#" + windowcode).chatbox("option", "boxManager").addMsg(bean.memberBean_speaker.nickname, bean.context);
+					});
+				})
+		
+		$("#" + windowcode).chatbox("option", "hidden", true);		
+			} 
+			
+         
+    function addMessage(message) {
+    	message = JSON.parse(message);
+		var windowcode = message.windowcode;        
+		$("#" + windowcode).chatbox("option", "hidden", false);
+       	$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);
+      	//若正在關注此視窗設為已讀
+   		if( $("#" + windowcode).attr("data-readed") == 0 ){
+			$.post("mailReaded.ajax",{item : message.item, speaker : message.speaker, listener : message.listener});
+    		}
+        } 
+});
+</script>
 </body>
 </html>

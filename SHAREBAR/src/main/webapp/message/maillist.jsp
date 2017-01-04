@@ -41,20 +41,22 @@
 						<div id="share_mail" class="tab-pane fade in active">
 							<div>&nbsp;</div>
 							<c:if test="${not empty share_mail}">
-								<table align="center" class="col-md-8 col-md-offset-2">
+								<table align="center" class="col-md-8 table table-hover">
 									<thead>
 										<tr>
-											<th>status</th>
-											<th>talk</th>
-											<th>title</th>
-											<th>resquester_id</th>
-											<th>time</th>
-											<th>rate</th>											
+											<th></th>
+											<th>狀態</th>
+											<th>互動</th>
+											<th>分享物</th>
+											<th>請求人</th>
+											<th>最後回覆時間</th>
+											<th>評價</th>											
 										</tr>
 									</thead>
 									<tbody id="shareBody">
 										<c:forEach var="share_mail" items="${share_mail}">
 											<tr id="${share_mail[0]}&${share_mail[2]}">																						
+												<td id="read"></td>
 												<td id="status">
 												<c:if test="${ share_mail[6] == 1 && share_mail[7] == share_mail[2]}">
 														已成交
@@ -65,15 +67,13 @@
 												<c:if test="${ share_mail[6] == 0 && empty share_mail[5] }">	
 												</c:if>	
 												<c:if test="${ share_mail[6] == 0 && share_mail[5] == '已送出' }">	
-													<input id="acept" type="button" value="成交"
-													style="color: black;" 
+													<input id="acept" type="button" value="成交" 	class="btn btn-warning" 
 													data-action="acept"
 													data-title="${share_mail[1]}"
 													data-item="${share_mail[0]}"						
 													data-requester="${share_mail[2]}"
 													data-requester_name="${share_mail[3]}">												
-													<input id="refuse" type="button" value="拒絕"
-													style="color: black;" 
+													<input id="refuse" type="button" value="拒絕" class="btn btn-warning" 
 													data-action="refuse"
 													data-title="${share_mail[1]}"
 													data-item="${share_mail[0]}"						
@@ -87,17 +87,25 @@
 														已拒絕
 												</c:if>
 												</td>												
-												<td><input id="chat" type="button" value="聊天" 
+												<td><input id="chat" type="button" value="聊天" class="btn btn-info"
 													data-item="${share_mail[0]}"
 													data-title='${share_mail[1]}'
 													data-host="${user.member_no}"
-													data-requester="${share_mail[2]}"></td>													
+													data-requester="${share_mail[2]}"
+													data-target_name="${share_mail[3]}"></td>													
 												<td>${share_mail[1]}</td>
 												<td>${share_mail[3]}</td>
 												<td>${share_mail[4]}</td>
 												<td>											
+												<c:if test="${ share_mail[7] != share_mail[2] && share_mail[8] eq 0 }">
+													<input id="rate" type="button" value="評價" class="btn btn-success"
+															data-item="${share_mail[0]}" 
+															data-awarder="${share_mail[3]}" 
+															data-host="${user.member_no}"
+															style="visibility:hidden;">	
+												</c:if>	
 												<c:if test="${ share_mail[7] == share_mail[2] && share_mail[8] eq 0 }">
-													<input id="rate" type="button" value="評價" 
+													<input id="rate" type="button" value="評價" class="btn btn-success"
 															data-item="${share_mail[0]}" 
 															data-awarder="${share_mail[3]}" 
 															data-host="${user.member_no}">	
@@ -115,20 +123,22 @@
 						<div id="request_mail" class="tab-pane fade">
 							<div>&nbsp;</div>
 							<c:if test="${not empty request_mail}">
-								<table align="center" class="col-md-8 col-md-offset-2">
+								<table align="center" class="col-md-8 table table-hover">
 									<thead>
 										<tr>
-											<th>status</th>
-											<th>talk</th>										
-											<th>title</th>
-											<th>host_id</th>
-											<th>time</th>
-											<th>rate</th>											
+											<th></th>
+											<th>狀態</th>
+											<th>互動</th>
+											<th>分享物</th>
+											<th>請求人</th>
+											<th>最後回覆時間</th>
+											<th>評價</th>												
 										</tr>
 									</thead>
 									<tbody id="requestBody">
 										<c:forEach var="request_mail" items="${request_mail}">
 											<tr id="${request_mail[0]}&${user.member_no}">												
+												<td id="read"></td>
 												<td id="status">
 													<c:if test="${ request_mail[6] == 1 && request_mail[7] == user.member_no}">
 														已成交
@@ -137,13 +147,13 @@
 														已被鎖定
 													</c:if>
 													<c:if test="${ request_mail[6] == 0 && empty request_mail[5] }">																						
-													<input id="ask" type="button" value="提出請求"
-													style="color: black; display:inline" 
+													<input id="ask" type="button" value="提出請求" class="btn btn-warning"
+													style="display:inline" 
 													data-action="ask"
 													data-title="${request_mail[1]}"
 													data-item="${request_mail[0]}"						
 													data-requester="${user.member_no}"
-													data-requester_name="${user.nickname}">
+													>
 													<div id="image" style="display:none;">
 													&nbsp;&nbsp;&nbsp;<img src="img/loading_s.gif">
 													</div>
@@ -155,19 +165,29 @@
 														已拒絕
 													</c:if>
 												</td>												
-												<td><input id="chat" type="button" value="聊天"
-													style="color: black;" 
+												<td><input id="chat" type="button" value="聊天" class="btn btn-info"												
 													data-item="${request_mail[0]}"
 													data-title='${request_mail[1]}'
 													data-host="${request_mail[2]}"
 													data-requester="${user.member_no}"
+													data-target_name="${request_mail[3]}"
 													></td>
 												<td>${request_mail[1]}</td>
 												<td>${request_mail[3]}</td>
 												<td>${request_mail[4]}</td>
 												<td>											
+												<c:if test="${ request_mail[7] != user.member_no && request_mail[9] eq 0 }">
+													<input id="rate" type="button" value="評價" class="btn btn-success"
+															data-item="${request_mail[0]}" 
+															data-awarder="${request_mail[3]}" 
+															data-host="${request_mail[2]}"
+															style="visibility:hidden;">
+													<div id="image" style="display:none;">
+													&nbsp;&nbsp;&nbsp;<img src="img/loading_s.gif">
+													</div>
+												</c:if>
 												<c:if test="${ request_mail[7] == user.member_no && request_mail[9] eq 0 }">
-													<input id="rate" type="button" value="評價" 
+													<input id="rate" type="button" value="評價" class="btn btn-success"
 															data-item="${request_mail[0]}" 
 															data-awarder="${request_mail[3]}" 
 															data-host="${request_mail[2]}">
@@ -267,11 +287,12 @@ var count = 0;
 			var host_id = $(this).data("host");
 			var requester_id = $(this).data("requester");
 			var windowcode = item_id + "_" + host_id + "_" + requester_id;
+			var target_str = $(this).data("target_name");
 			
 			if ($("#" + windowcode).length)
 				$("#" + windowcode).chatbox("option", "boxManager").toggleBox();
 			else{
-				messageWindow(item_id, title_id, host_id, requester_id, windowcode);
+				messageWindow(item_id, title_id, host_id, requester_id, windowcode,target_str);
 				$.getJSON("pullMessage.ajax", {	"item":item_id, "requester":requester_id}, 
 					function(data){
 						$.each(data, function(index, bean){
@@ -286,7 +307,7 @@ var count = 0;
 			var thisBtn = $(this);
 			var title_str = thisBtn.data("title");
 			var name_str = thisBtn.data("requester_name");
-
+			
 			BootstrapDialog.show({
 				title:title_str,
 				message: function(dialogRef){
@@ -301,11 +322,13 @@ var count = 0;
 					},
 				buttons: [{
 			        label: '取消',
+			        cssClass:'btn',
 			        action: function(dialogRef) {
 			        	dialogRef.close();
 			               }},
 			        {
 			        label: '確認',
+			        cssClass:'btn btn-warning',
 			        action: function(dialogRef) {
 			        	startAction(thisBtn);
 			        	dialogRef.close();
@@ -320,14 +343,15 @@ var count = 0;
 	        BootstrapDialog.show({
 		        title: '對 ' + name_str + ' 的評價',
 	            message:       	 
-					$('<label class="radio-inline"><input type="radio" name="optradio" value="3" >滿意</label><label class="radio-inline"><input type="radio" name="optradio" value="2" >不錯</label><label class="radio-inline"><input type="radio" name="optradio" value="1" >失望</label><div>&nbsp;</div><div>留下評語:</div><input type="text" class="form-control">'),		                       		 
+					$('<label class="radio-inline"><input type="radio" name="optradio" value="3" >滿意</label><label class="radio-inline"><input type="radio" name="optradio" value="2" >不錯</label><label class="radio-inline"><input type="radio" name="optradio" value="1" >失望</label><div>&nbsp;</div><div>留下評語:</div><input type="text" class="form-control" style="background-color:#fffdcc">'),		                       		 
 	            buttons: [{
 	                label: '確認',
+	                cssClass: 'btn btn-warning',
 	                action: function(dialogRef) {
 	                	$('.modal-dialog b').remove();
 	                    var rateScore = dialogRef.getModalBody().find(':checked[name="optradio"]').val();
 						var rateMessage = dialogRef.getModalBody().find(':text').val();
-						var error = $("<b>請給予評價並留下評語&nbsp;&nbsp;&nbsp;</b>");
+						var error = $("<b style='color:#ff5255'>請給予評價並留下評語&nbsp;&nbsp;&nbsp;</b>");
 						error.css("display","none");
 						if ( rateScore === undefined || rateMessage.length == 0 ){
 							$('.modal-dialog .btn').before(error);
@@ -368,9 +392,14 @@ var count = 0;
 			var action_str = thisBtn.data("action");
 			var item_id = thisBtn.data("item");
 			var requester_id = thisBtn.data("requester");
-			
+			if ( action_str == "acept"){
+				setTimeout(function() {
+					thisBtn.parent().parent().find("#rate").css("visibility","visible");
+				}, 1500)
+				}
+								
 			$.get("chatAction.ajax", { "action":action_str, "item":item_id, "requester":requester_id }, 
-					function(data){											
+					function( data ){											
 						setTimeout(function() {
 							thisBtn.parent().text(data);
 							thisBtn.siblings("div").css("display","none");
@@ -443,6 +472,7 @@ var count = 0;
             if ($("#" + windowcode).length){
 				$("#" + windowcode).chatbox("option", "hidden", false);
            		$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);
+           		$("#" + trcode).child().text("new");
             }
 			else {
 				var window = $("<div></div>").attr("id", windowcode).attr("data-readed",0);
@@ -460,8 +490,7 @@ var count = 0;
                     	socket.send(JSON.stringify({content : msg, item : message.item, requester : message.requester, title : message.title, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
                     	//寫入資料庫
                     	$.post("messageInsert.ajax",{content : msg, item : message.item, speaker : user_id, listener : listener_id});
-            			}});
-            	
+            			}});				            	
 				//讀取歷史訊息
             	$.getJSON("pullMessage.ajax", {	"item":message.item, "requester":message.requester}, 
         			function(data){
@@ -469,18 +498,26 @@ var count = 0;
         				$("#" + windowcode).chatbox("option", "boxManager").addMsg(bean.memberBean_speaker.nickname, bean.context);
         				});
             		$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);            		
-        			})       		
+        			})
+        		       		
         		count++;      						
             }     				
           	//若正在關注此視窗設為已讀
        		if( $("#" + windowcode).attr("data-readed") == 0 ){
     			$.post("mailReaded.ajax",{item : message.item, speaker : message.speaker, listener : message.listener});
+    			$("#" + trcode).child().text("");
         		}
-       		//移動訊息<tr>位置
-    		if( message.requester == user_id ){
-    			$('#requestBody').append($("#" + trcode)); 
-        		}
-    		else {$('#shareBody').append($("#" + trcode));}           
+       		//新增及移動訊息<tr>位置
+    		if( message.requester == user_id && $("#" + trcode).length )
+    			$("#" + trcode).child().text("new");
+    			$('#requestBody').append($("#" + trcode));
+        	if( message.requester != user_id && $("#" + trcode).length )		
+        		$('#shareBody').append($("#" + trcode));
+       		if( message.requester != user_id && !$("#" + trcode).length ){
+        		var newBox = $('<tr><td id="read">new</td><td id="read"></td></tr>')
+        		$('#shareBody').append(newBox);
+            	}
+        		           
         }
 	
 
