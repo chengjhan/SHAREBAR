@@ -52,19 +52,20 @@ $(function(){
 		</nav>
 	</div>
 	
+	<div class="col-md-2"></div>
 	
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<div class="list-group">
 		  <a href="gm_view01.jsp" class="list-group-item">會員管理</a>
 		  <a href="gm_view02.jsp" class="list-group-item">物品管理</a>
 		  <a href="gm_view03.jsp" class="list-group-item">遭檢舉品項</a>
-		  <a href="gm_view04_1.jsp" class="list-group-item">客服信箱</a>		 
+		  <a href="gm_view04_1.jsp" class="list-group-item active">客服信箱</a>		 
 		</div>
 	</div>
 	
 	
 	
-	<div class="col-md-9">
+	<div class="col-md-6">
 		    <div class="jumbotron">
 				
 				
@@ -100,7 +101,7 @@ $(function(){
 	
 			<div >
 				<td>信件編號:</td>
-				<td><input type="text" name="mail_id" value="${param.mail_id}" id="mail"></td>
+				<td><input type="text" name="mail_id" value="${param.mail_id}" id="mail" placeholder="請輸入信件編號"></td>
 				<div><textarea style="width:500px;height:200px;" id="reply">請輸入回覆內容...</textarea></div>							
 				<div><input  type="button" id="send" value="發送郵件"></div>	
 			</div>
@@ -123,6 +124,6 @@ $(function(){
 <!-- 每頁不同的內容到這裡結束 -->
 			</div>
 	</div>
-<div id="footer"></div>		
+	
 </body>
 </html>
