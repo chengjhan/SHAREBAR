@@ -211,11 +211,13 @@ $(function(){
 			message: "即將對此分享提出請求，是否繼續？",
 			buttons: [{
 		        label: '取消',
+		        cssClass:'btn',
 		        action: function(dialogRef) {
 		        	dialogRef.close();
 		               }},
 		        {
 		        label: '確認',
+		        cssClass:'btn btn-warning',
 		        action: function(dialogRef) {
 		        	startAction(thisBtn);
 		        	dialogRef.close();
