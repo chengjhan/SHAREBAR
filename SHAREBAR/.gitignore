@@ -1,4 +1,8 @@
 /target/
+/.settings
 /.classpath
 /.project
-/.settings
+/Git/
+/Java/
+/Project/
+/Work/
