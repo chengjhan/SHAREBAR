@@ -49,11 +49,12 @@ $(function(){
 #basic_info>.row>[class*='col-']{
  	display: table-cell;
  	float: none; 
-	vertical-align:center;
+/* 	vertical-align:center; */
 	flex: 1; /* additionally, equal width */
 	padding: 1em;
-	border: solid;
+/* 	border: solid; */
 	horizontal-align:center;
+	text-align:center;
 }
 img.follow_list{
 	width:100%;
@@ -62,14 +63,37 @@ img.follow_list{
 img#user_photo{
 	width:200px;
 	height:200px;
+	margin: auto auto;
 }
 div.img_container{
 	width: 100%;
-    height: 150px;
     padding: 0px;
-    border:1px solid gray;  /* you can remove this */
+    border:1px solid #ffffff;  /* you can remove this */
     box-sizing:border-box; /* you can remove this */
     display:inline-block;
+}
+
+div#review_div{
+	background-color:#FFFFFF;
+	border: 2px solid #F2F2F2;
+	border-radius: 16px!important;
+}
+
+.review_class{
+	word-wrap:break-word;
+	padding:3px;
+	margin:5px auto;
+	width:100%;
+	height:65px;
+}
+
+.review_img_div{
+	height:100%;
+}
+
+.review_img{
+	float: left;
+    margin: 5px 5px;
 }
 
 /* XD */
@@ -87,7 +111,6 @@ div.img_container{
 	position: relative;
 	right: 0px;
 	bottom: 30px;
-/* 	height: 30px; */
 }
 
 
@@ -102,38 +125,43 @@ div.img_container{
 <div id="header"></div>
 <div class="container" id="basic_info">
 <div class="row">
-<div class="col-md-2" id="photo_div">
+<div class="col-md-6 col-sm-6 col-xs-12" id="photo_div">
 <img class="img-rounded" alt='member_photo' src='${root}profileImages/${member.photo}' width="200" height="200"/>
+<c:if test="${member.certification eq 1}">
+<div><img id="email_certi" src="${root}/certificationPhoto/Accept-32.png" width="16" height="16">certification</div>
+</c:if>
 </div>
-<div class="col-md-2" id="profile_button">
-<c:choose>
-<c:when test="${user2check eq 'follow'}"><input id="follow_button" type="button" class="btn btn-default" follow_status="follow" value="unfollow" member_no="${member.member_no }"></c:when>
-<c:when test="${user2check eq 'unfollow'}"><input id="follow_button" type="button" class="btn btn-default" follow_status="unfollow" value="follow" member_no="${member.member_no }"></c:when>
-</c:choose>
 
-<%-- <c:choose> --%>
-<%-- <c:when test="${empty user2check}"><a class="btn btn-default" href="<c:url value='/member/follow.controller?id=${member.member_no}&status=${user2check}'/>">Follow</a><br></c:when> --%>
-<%-- <c:when test="${user2check=='unfollow'}"><a class="btn btn-default" href="<c:url value='/member/follow.controller?id=${member.member_no}&status=${user2check}'/>">Follow</a><br></c:when> --%>
-<%-- <c:when test="${user2check=='follow'}"><a class="btn btn-default" href="<c:url value='/member/follow.controller?id=${member.member_no}&status=${user2check}'/>">UnFollow</a><br></c:when> --%>
-<%-- </c:choose> --%>
-<%-- <a class="btn btn-default" href="<c:url value='/member/follow.controller'/>">Follow</a><br> --%>
-<%-- <a class="btn btn-default" href="<c:url value='/member/block.controller'/>">Block</a> --%>
-</div>
-<div class="col-md-2" id="info_div" style="vertical-align:top">
+<div class="col-md-6 col-sm-6 col-xs-12" id="info_div" style="vertical-align:top">
 <h1>${member.nickname}</h1>
 <span class="glyphicon glyphicon-file"></span>Self-introduction: <p>${member.description}</p>
 <span class="glyphicon glyphicon-home"></span>Hometown<p>${member.country} : ${member.city}</p>
+<div>
+<c:choose>
+<c:when test="${user2check eq 'follow'}"><input id="follow_button" type="button" class="btn btn-danger" follow_status="follow" value="unfollow" member_no="${member.member_no }" style="width:100px"></c:when>
+<c:when test="${user2check eq 'unfollow'}"><input id="follow_button" type="button" class="btn btn-default" follow_status="unfollow" value="follow" member_no="${member.member_no }" style="width:100px"></c:when>
+</c:choose>
 </div>
-<div class="col-md-6" id="review_div">
-
 </div>
 </div><!-- end of row basic info-->
-
-<hr>
-
 </div><!-- end of basic_info -->
+<hr>
 <div class="container" id="other_info">
-
+<div class="row">
+<div id="review_div_col" class="col-md-3 col-sm-3 col-xs-12">
+<fieldset>
+<legend>Reviews</legend>
+<ul class="nav nav-tabs">
+<li class="active"><a data-toggle="tab" href="#Share">Share</a></li>
+<li><a data-toggle="tab" href="#Get">Get</a></li>
+</ul>
+<div class="tab-content">
+<div id="Share" class="tab-pane fade in active"></div>
+<div id="Get" class="tab-pane fade in"></div>
+</div><!-- end of tab-content -->
+</fieldset>
+</div>
+<div id="member_content_col" class="col-md-9 col-sm-9 col-xs-12">
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" href="#items">Items</a></li>
 <li><a data-toggle="tab" href="#follow">Follow</a></li>
@@ -144,7 +172,7 @@ div.img_container{
     <div id="items" class="tab-pane fade in active">
       	<div class="row">
 		<c:forEach var="item" items="${member.member_items}">
-		<div class="col-md-2 col-sm-2 col-xs-4">
+		<div class="col-md-2 col-sm-3 col-xs-4">
 		<div class="thumbnail box">
 		<a href="${root}item/itemdetail.controller?id=${item.item_id}">
 		<c:forEach var="image" items="${item.imageBean}" varStatus="stat">
@@ -173,7 +201,7 @@ div.img_container{
 		<div class="row"> <!-- show follow list -->
 		<c:forEach var="follow" items="${memberFollow}">
 		<c:if test="${follow.relation == 'follow'}">
-		<div class="col-md-2 col-sm-2 col-xs-4">
+		<div class="col-md-2 col-sm-3 col-xs-4">
 		<div class="thumbnail">
 		<a href="${root}member/profile.controller?id=${follow.member_followed.member_no}">
 		<div class="img_container">
@@ -195,7 +223,7 @@ div.img_container{
 		<div class="row">
 		<c:forEach var="followed" items="${memberFollowed}">
 		<c:if test="${followed.relation == 'follow'}">
-		<div class="col-md-2 col-sm-2 col-xs-4">
+		<div class="col-md-2 col-sm-3 col-xs-4">
 		<div class="thumbnail">
 		<a href="${root}member/profile.controller?id=${followed.member_follow.member_no}">
 		<div class="img_container">
@@ -212,8 +240,10 @@ div.img_container{
 		</div><!-- end of row -->
 		<!-- end of show follow list -->
     </div>
-  </div>
-</div>
+  </div><!-- end of tab content -->
+  </div><!-- end of tab content col -->
+</div><!-- end of #other_info.row -->
+</div><!-- end of other_info -->
 <script type="text/javascript">
 $("#follow_button").click(function(){
 	var button = $(this);
@@ -227,6 +257,7 @@ $("#follow_button").click(function(){
 				console.log("success");
 				button.attr("follow_status","unfollow");
 				button.val("follow");
+				button.attr("class","btn btn-default");
 			}else{
 				console.log("fail");
 			}
@@ -238,13 +269,101 @@ $("#follow_button").click(function(){
 				console.log("success");
 				button.attr("follow_status","follow");
 				button.val("unfollow");
+				button.attr("class","btn btn-danger");
 			}else if(data == "nonLogin"){
 				alert("you have to login first!");
 			}
 		});//end of get
 	}
-
 });//end of click
+var asgiverReviews = JSON.parse('<%=request.getAttribute("memberasGiver")%>');
+var asgetterReviews = JSON.parse('<%= request.getAttribute("memberasGetter")%>');
+if(asgiverReviews.Count != 0){
+	$.each(asgiverReviews.giverReviews,function(index,giverReview){
+		var getterId = giverReview.getterID;
+		var getterPhoto = giverReview.getterPhoto;
+		var myRate = giverReview.giverRate;
+		var myReview = giverReview.giverReview;
+//	 	console.log(giverId+" "+giverPhoto+" "+myRate+" "+myReview);
+		if(myRate==3){
+		$("div#Share").append(
+				"<div class='review_class' style='background-color:#9FF781'>"
+				+"<a href='${root}member/profile.controller?id="+getterId+"' class='pull-left'>"
+				+"<div class='review_img_div' >"
+				+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
+				+"</div>"
+				+"</a>"
+				+myReview
+				+"</div>"
+				);
+		}else if(myRate==2){
+			$("div#Share").append(
+					"<div class='review_class' style='background-color:#F2F2F2'>"
+					+"<a href='${root}member/profile.controller?id="+getterId+"' class='pull-left'>"
+					+"<div class='review_img_div' >"
+					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
+					+"</div>"
+					+"</a>"
+					+myReview
+					+"</div>"
+					);
+		}else if(myRate==1){
+			$("div#Share").append(
+					"<div class='review_class' style='background-color:#F6CED8'>"
+					+"<a href='${root}member/profile.controller?id="+getterId+"' class='pull-left'>"
+					+"<div class='review_img_div' >"
+					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
+					+"</div>"
+					+"</a>"
+					+myReview
+					+"</div>"
+					);
+		}
+	});
+	}
+if(asgetterReviews.Count != 0){
+$.each(asgetterReviews.getterReviews,function(index,getterReview){
+	var giverId = getterReview.giverID;
+	var giverPhoto = getterReview.giverPhoto;
+	var myRate = getterReview.getterRate;
+	var myReview = getterReview.getterReview;
+// 	console.log(giverId+" "+giverPhoto+" "+myRate+" "+myReview);
+	if(myRate==3){
+	$("div#Get").append(
+			"<div class='review_class' style='background-color:#9FF781'>"
+			+"<a href='${root}member/profile.controller?id="+giverId+"' class='pull-left'>"
+			+"<div class='review_img_div' >"
+			+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
+			+"</div>"
+			+"</a>"
+			+myReview
+			+"</div>"
+			);
+	}else if(myRate==2){
+		$("div#Get").append(
+				"<div class='review_class' style='background-color:#F2F2F2'>"
+				+"<a href='${root}member/profile.controller?id="+giverId+"' class='pull-left'>"
+				+"<div class='review_img_div' >"
+				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
+				+"</div>"
+				+"</a>"
+				+myReview
+				+"</div>"
+				);
+	}else if(myRate==1){
+		$("div#Get").append(
+				"<div class='review_class' style='background-color:#F6CED8'>"
+				+"<a href='${root}member/profile.controller?id="+giverId+"' class='pull-left'>"
+				+"<div class='review_img_div' >"
+				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
+				+"</div>"
+				+"</a>"
+				+myReview
+				+"</div>"
+				);
+	}
+});
+}
 </script>
 </body>
 </html>

@@ -73,12 +73,18 @@ public class LoginServlet extends HttpServlet {
 			return;
 		} else {
 			if (bean.getBlockdate() != null) {
-				if(new java.util.Date().after(bean.getBlockdate())){
+				if (new java.util.Date().after(bean.getBlockdate())) {
 					if (bean.getCertification() == 1) {
 						HttpSession session = request.getSession();
 						session.setAttribute("user", bean);
 						String path = request.getContextPath();
-						response.sendRedirect(path + "/index.jsp");
+						String from = (String) request.getSession().getAttribute("from");
+						if (from != null) {
+							from = from.substring(from.lastIndexOf("SHAREBAR/")+9);
+							response.sendRedirect(path + "/"+from);
+						} else {
+							response.sendRedirect(path + "/index.jsp");
+						}
 						return;
 					} else {
 						errors.put("system", "you nead to activate your account.");
@@ -86,12 +92,18 @@ public class LoginServlet extends HttpServlet {
 						return;
 					}
 				}
-			}else{
+			} else {
 				if (bean.getCertification() == 1) {
 					HttpSession session = request.getSession();
 					session.setAttribute("user", bean);
 					String path = request.getContextPath();
-					response.sendRedirect(path + "/index.jsp");
+					String from = (String) request.getSession().getAttribute("from");
+					if (from != null) {
+						from = from.substring(from.lastIndexOf("SHAREBAR/")+9);
+						response.sendRedirect(path + "/"+from);
+					} else {
+						response.sendRedirect(path + "/index.jsp");
+					}
 					return;
 				} else {
 					errors.put("system", "you nead to activate your account.");
@@ -102,7 +114,7 @@ public class LoginServlet extends HttpServlet {
 		}
 
 	}
-	
+
 	protected String getMD5(String input) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");

@@ -162,6 +162,25 @@ public class ItemService {
 		}
 		return null;
 	}
+	
+	//Lin for profile page reviews
+	@Transactional
+	public List<Object[]> selectGiveReview(MemberBean member_no){
+		List<Object[]> results = itemDao.findGiveReview(member_no);
+		if(results!=null){
+			return results;
+		}
+		return null;
+	}
+	
+	@Transactional
+	public List<Object[]> selectGetReview(MemberBean member_no){
+		List<Object[]> results = itemDao.findGetReview(member_no);
+		if(results!=null){
+			return results;
+		}
+		return null;
+	}
 
 	// public static void main(String[] args) throws ParseException {
 	// ApplicationContext context = new

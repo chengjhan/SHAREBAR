@@ -48,4 +48,8 @@ public interface ItemDAO {
 
 	ItemBean clearItemBlock(int item_id);
 
+	List<Object[]> findGiveReview(MemberBean member_no);
+
+	List<Object[]> findGetReview(MemberBean member_no);
+
 }
