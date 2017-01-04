@@ -196,6 +196,18 @@ public class ItemDAOHibernate implements ItemDAO {
 			bean.setBlock(0);	
 		return bean;
 	}
+	@Override
+	public void rateToGiver(int item_id, int giver_rate, String giver_review) {
+		ItemBean bean = this.getSession().get(ItemBean.class,  item_id);
+		bean.setGiver_rate(giver_rate);
+		bean.setGiver_review(giver_review);
+	}
+	@Override
+	public void rateToGetter(int item_id, int getter_rate, String getter_review) {
+		ItemBean bean = this.getSession().get(ItemBean.class,  item_id);
+		bean.setGetter_rate(getter_rate);
+		bean.setGetter_review(getter_review);
+	}
 
 //	public static void main(String[] args) throws ParseException {
 //		ApplicationContext context = new ClassPathXmlApplicationContext("beans.config.xml");
