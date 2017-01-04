@@ -438,7 +438,7 @@ var count = 0;
 		    };
 		}
 				
-		function messageWindow(item_id, title_id, host_id, requester_id, windowcode) {
+		function messageWindow(item_id, title_id, host_id, requester_id, windowcode, target_str) {
 			var window = $("<div></div>").attr("id", windowcode).attr("data-readed",1);
 			//傳送訊息用
 			var listener_id = (user_id==host_id?requester_id : host_id);
@@ -450,7 +450,7 @@ var count = 0;
 			$("#" + windowcode).chatbox({				
 				id : user_id, 
                 user : user_name,
-                title : '( ' + listener_id + ' ) ' + title_id,
+                title : '( ' + target_str + ' ) ' + title_id,
                 width : 200,
                 offset : getNextOffset(),
                 messageSent : function(id, user, msg) {                      		
@@ -481,7 +481,7 @@ var count = 0;
 				$("#" + windowcode).chatbox({				
 					id : user_id, 
                 	user : user_name,
-                	title : '( ' + listener_id + ' ) ' + message.title,
+                	title : '( ' + message.user + ' ) ' + message.title,
                 	width : 200,
                		offset : getNextOffset(),
                 	messageSent : function(id, user, msg) {          
