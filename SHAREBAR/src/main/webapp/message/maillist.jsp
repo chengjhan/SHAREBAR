@@ -30,8 +30,12 @@
 					<ul class="nav nav-tabs">
 						<li class="active"><a data-toggle="tab" href="#share_mail">分享的訊息總覽</a></li>
 						<li><a data-toggle="tab" href="#request_mail">請求的訊息總覽</a></li>
+						<li><a data-toggle="tab" href="#service_mail">我的信箱</a></li>
+						<li><a data-toggle="tab" href="#write_mail">寫信給客服人員</a></li>
 					</ul>
 					<div class="tab-content">
+						
+						
 						<div id="share_mail" class="tab-pane fade in active">
 							<div>&nbsp;</div>
 							<c:if test="${not empty share_mail}">
@@ -153,6 +157,46 @@
 								</table>
 							</c:if>
 						</div>
+						
+						<div id="service_mail" class="tab-pane fade">
+												
+							
+							<table align="center" class="col-md-8 col-md-offset-2">	
+										<tr align="center">
+											<td class="st1">&nbsp;信件編號&nbsp;</td>
+<!-- 											<td class="st1">&nbsp;會員ID&nbsp;</td>			 -->
+											<td class="st1">&nbsp;發信時間&nbsp;</td>			
+											<td class="st1">&nbsp;信件內容&nbsp;</td>
+											<td class="st1">&nbsp;回覆時間&nbsp;</td>
+											<td class="st1">&nbsp;客服回覆&nbsp;</td>
+										</tr>
+									<c:forEach var="element4" items="${service_mail}">
+										<c:url value="gm_view05_1.jsp" var="path">
+											<c:param name="mail_id" value="${element4.mail_id}" />
+<%-- 											<c:param name="member_id" value="${element4.member_id}" /> --%>
+											<c:param name="time" value="${element4.time}" />
+											<c:param name="context" value="${element4.context}" />
+											<c:param name="reply_time" value="${element4.reply_time}" />
+											<c:param name="gm_reply_context" value="${element4.gm_reply_context}" />				
+										</c:url>
+						
+										<tr>
+											<td align="center"  class="st1">${element4.mail_id}</td>
+<%-- 											<td align="center"  class="st1">${element4.member_id}</td> --%>
+											<td class="st1">&nbsp; ${element4.time} &nbsp;</td>
+											<td class="st1">${element4.context}</td>
+											<td class="st1">&nbsp; ${element4.reply_time} &nbsp;</td>
+											<td class="st1">${element4.gm_reply_context}</td>													
+										</tr>
+									</c:forEach>		
+							</table>						
+						</div>
+						
+						<div id="write_mail" class="tab-pane fade">							
+								<div><textarea style="width:500px;height:200px;" id="mailcontext">請輸入信件內容...</textarea></div>
+								<div><input  type="button" id="send" value="發送郵件"></div>	
+						</div>
+																		
 					</div>
 				</div>
 			</div>
@@ -170,11 +214,25 @@ var getNextOffset = function() { return count*215; };
 var count = 0;
 
 
+
 	$(function() {		
 		$("#header").load("header.jsp");
 		$("#footer").load("footer.jsp");
 		startConnection();
-
+		
+		
+		//阿典新增
+		$('body #send').click(function(){
+				alert("信件已寄出");				
+			var member_id = user_id;
+			var context = $("#mailcontext").val();
+// 				alert(member_id);
+// 				alert(context);
+			$.get("administrator/MailInsertServlet",{"member_id":member_id,"context":context}
+			);			
+		})
+		
+		
 		//點擊聊天按鈕，跳出聊天室窗
 		$('tbody #chat').click(function() {
 			var item_id = $(this).data("item");
@@ -350,5 +408,9 @@ var count = 0;
         		}
     		else {$('#shareBody').append($("#" + trcode));}           
         }
+	
+
+	
+	
 </script>
 </html>

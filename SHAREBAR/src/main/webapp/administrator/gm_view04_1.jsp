@@ -62,9 +62,9 @@ $(function(){
 	
 	<div class="col-md-9">
 		    <div class="jumbotron">
-				<div class="page-header">
-					<h3>信箱介面</h3>
-				</div>
+				
+				
+				
 		
 	<ul class="nav nav-tabs">
         <li class="active"><a href="gm_view04_1.jsp">查詢信件</a></li>
@@ -72,40 +72,42 @@ $(function(){
     </ul>		
     
 <!-- 每頁不同的內容從這裡開始 -->
-	<div>&nbsp</div>
-	
-	<form action="<c:url value="/administrator/MailSelectMemberNoServlet"/>" method="get">
-		<table>
-			<tr>
-				<td>(1)會員編號:</td>
-				<td><input type="text" name="member_id" value="${param.member_id}"></td>			
-				<td align="right"><input type="submit" value="搜尋郵件">${errors.system}</td>
-			</tr>			
-		</table>		
-	</form>
-	
-	<div>&nbsp</div>
+	<div>&nbsp;</div>
 	
 	<form action="<c:url value="/administrator/MailSelectAllServlet"/>" method="get">
 		<table>
 			<tr>
-				<td>(2)管理員察看客服信件:</td>						
-				<td align="right"><input type="submit" value="搜尋所有郵件">${errors.system2}</td>
+				<td></td>						
+				<td align="right"><input type="submit" value="更新會員郵件">${errors.system2}</td>
 			</tr>			
 		</table>		
 	</form>
 	
-	<div>&nbsp</div>
+	<div>&nbsp;</div>
+	
+	<form action="<c:url value="/administrator/MailSelectMemberNoServlet"/>" method="get">
+		<table>
+			<tr>
+				<td>會員編號:</td>
+				<td><input type="text" name="member_id" value="${param.member_id}"></td>			
+				<td align="right"><input type="submit" value="搜尋指定郵件">${errors.system}</td>
+			</tr>			
+		</table>		
+	</form>
+	
+	<div>&nbsp;</div>
+	
+	
 	
 	<h3>搜尋信件結果</h3>
 	<table>	
 				<tr align="center">
-					<td class="st1">&nbsp信件編號&nbsp</td>
-					<td class="st1">&nbsp會員ID&nbsp</td>
-					<td class="st1">&nbsp投訴時間&nbsp</td>			
-					<td class="st1">&nbsp信件內容&nbsp</td>
-					<td class="st1">&nbsp回覆時間&nbsp</td>
-					<td class="st1">&nbsp客服回覆&nbsp</td>
+					<td class="st1">&nbsp;信件編號&nbsp;</td>
+					<td class="st1">&nbsp;會員ID&nbsp;</td>
+					<td class="st1">&nbsp;投訴時間&nbsp;</td>			
+					<td class="st1">&nbsp;信件內容&nbsp;</td>
+					<td class="st1">&nbsp;回覆時間&nbsp;</td>
+					<td class="st1">&nbsp;客服回覆&nbsp;</td>
 					
 				</tr>
 			<c:forEach var="element4" items="${mail}">
@@ -121,9 +123,9 @@ $(function(){
 				<tr>
 					<td align="center"  class="st1"><a href="${path}">${element4.mail_id}</a></td>
 					<td align="center"  class="st1">${element4.member_id}</td>		
-					<td class="st1">&nbsp ${element4.time} &nbsp</td>	
+					<td class="st1">&nbsp; ${element4.time} &nbsp;</td>	
 					<td class="st1">${element4.context}</td>
-					<td class="st1">&nbsp ${element4.reply_time} &nbsp</td>	
+					<td class="st1">&nbsp; ${element4.reply_time} &nbsp;</td>	
 					<td class="st1">${element4.gm_reply_context}</td>		
 				</tr>
 			</c:forEach>		

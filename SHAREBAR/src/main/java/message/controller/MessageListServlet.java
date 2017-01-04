@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import administrator.model.ServiceMailBean;
+import administrator.model.ServiceMailService;
 import member.model.MemberBean;
 import message.model.MessageContextService;
 
@@ -23,12 +25,15 @@ public class MessageListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private MessageContextService messageContextService;
+	private ServiceMailService serviceMailService;
 
 	@Override
 	public void init() throws ServletException {
 		ServletContext application = this.getServletContext();
 		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(application);
 		messageContextService = (MessageContextService) context.getBean("messageContextService");
+		//阿典新增
+		serviceMailService = (ServiceMailService) context.getBean("serviceMailService");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,6 +49,11 @@ public class MessageListServlet extends HttpServlet {
 		
 		List<Object[]> request_mail = messageContextService.mailForRequest(member.getMember_no());
 		request.setAttribute("request_mail", request_mail);
+		
+		//阿典新增
+		List<ServiceMailBean> serviceMailBean = serviceMailService.selectMemberMail(member.getMember_no());
+		request.setAttribute("service_mail", serviceMailBean);
+		
 		
 		RequestDispatcher rd = request.getRequestDispatcher("message/maillist.jsp");
 		rd.forward(request, response);

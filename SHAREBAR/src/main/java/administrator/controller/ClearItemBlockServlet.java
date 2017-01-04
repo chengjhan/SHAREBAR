@@ -2,6 +2,7 @@ package administrator.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -80,7 +81,9 @@ public class ClearItemBlockServlet extends HttpServlet {
 		ItemBean itembean = itemService.clearItemBlock(int_item_id); 
 		System.out.println(itembean);
 		if(itembean!=null){
-			
+		
+		List<ItemBean> itemBean = itemService.selectBlockItem();
+		request.setAttribute("item", itemBean);
 		RequestDispatcher rd = request.getRequestDispatcher("gm_view02.jsp");
 		rd.forward(request, response);
 		return;

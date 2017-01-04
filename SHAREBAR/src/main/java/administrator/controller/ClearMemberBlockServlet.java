@@ -46,7 +46,7 @@ public class ClearMemberBlockServlet extends HttpServlet {
 		request.setAttribute("errors", errors);
 		String temp = request.getParameter("member_no");
 		if (temp == null || temp.length() == 0) {
-			errors.put("member_no", "memberNo is required");
+			errors.put("member_no2", "memberNo is required");
 		}
 		if (!errors.isEmpty()) {
 			RequestDispatcher rd = request.getRequestDispatcher("gm_view01.jsp");
@@ -59,7 +59,7 @@ public class ClearMemberBlockServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			errors.put("member_no", "please input a number");
+			errors.put("member_no2", "please input a number");
 		}
 		if (!errors.isEmpty()) {
 			RequestDispatcher rd = request.getRequestDispatcher("gm_view01.jsp");
