@@ -71,6 +71,40 @@ $(function(){
 			$("#showpic2").attr("src",showpic2);
 			$("#showpic").attr("src",showpic);
 			$("#showpic").effect( "slide", "200" );
+			var order =  $(this).attr("order");
+			$("#showpic").attr("order",order)
+		}
+	})
+	
+	//切換圖片prev-btn next-btn
+	var thisorder =null;
+	
+	
+	$("#picgroup>span").click(function(){
+		var maxpic=$("#piccount").attr("maxpic")
+		var thisid = $(this).attr("id");
+		thisorder = $("#showpic").attr("order");
+		var ordint = parseInt(thisorder) 
+		if(!$("#showpic").is(":animated")){
+			var ordercount = ordint;
+			if("next-btn" == thisid){
+				ordercount = ordint + 1
+			}
+			if("prev-btn" == thisid){
+				ordercount = ordint - 1
+			}
+			if(ordercount>maxpic){
+				ordercount = 1;
+			}
+			if(ordercount<1){
+				ordercount = maxpic;
+			}	
+			showpic = $('img[order='+ ordercount +']').attr("src")
+			$("#showpic").attr("order",ordercount)
+			showpic2=$("#showpic").attr("src");
+			$("#showpic2").attr("src",showpic2);
+			$("#showpic").attr("src",showpic)
+			$("#showpic").effect( "slide", "200" );
 		}
 	})
 	
@@ -317,9 +351,9 @@ $(function(){
 	width: 100%;
 }
 .show_pic{
-	width: 420px;
-	height:420px;
-	margin:15px;
+	width: 100%;
+/* 	height:420px; */
+/* 	margin:15px; */
 }
 .finger{
 	cursor:pointer;
@@ -347,6 +381,11 @@ time{
 	font-size: small;
 	color: gray;
 }
+.nav>li:hover{
+/* 	background-color: #A9D3FF; */
+}
+
+
 
 </style>
 </head>
@@ -357,23 +396,51 @@ time{
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <c:url value="/" var="root"></c:url>
 <div id="header"></div>
-<div class="container" id="basic_info">
+<div class="container">
 <div class="row">
-<div class="col-md-8" id="photo_div">
+<div class="col-md-7" id="photo_div">
 	<div class="row">
-	<div class="col-md-9" >
+	<div style="margin:20px">
+	<div  id="picgroup" class="img-rounded" style="position:relative;width:60%;height:60%;margin:0 auto;">
+	<span id="prev-btn" class="glyphicon glyphicon-chevron-left finger pull-left" style="position:absolute;font-size:350%;left:0;left:-80px;top:calc(50% - 20px);"></span>
+	<span id="next-btn" class="glyphicon glyphicon-chevron-right finger pull-right" style="position:absolute;font-size:350%;right:0;right:-80px;top:calc(50% - 20px);"></span>
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 		<c:if test="${stat.first}">
-				<img class="show_pic" id="showpic" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute">
-				<img class="show_pic" id="showpic2" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:1;top:0;left:15px;">
+				<img class="show_pic img-responsive" id="showpic" alt="item_image" order="1" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute;">
+				<img class="show_pic img-responsive" id="showpic2" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:1;position:relative;">
 		</c:if>
 	</c:forEach>
+	</div>
 	
 	</div>
-	<%--   功能按鈕      --%>
 
-	<div class="col-md-3">
-	<div >
+	</div>
+	<div class="row">
+	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
+			<div class="col-md-3 col-sm-3 hidden-xs finger">
+			<div class="thumbnail">
+				<img class="item_pic" order="${stat.count}" alt="item_image" src="${root}item-image/${image.image_photo}" width="80" height="auto">
+			</div>
+			</div>
+	</c:forEach>
+	</div>
+</div>
+
+
+<div class="col-md-5" style="vertical-align:top">
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-6" style="margin-top:15px">
+<span class="glyphicon glyphicon-user"></span><strong>分享人：</strong>
+<p style="margin-left: 15px">${itembean.member_id.nickname}</p>
+<span class="glyphicon glyphicon-file"></span><strong id="piccount" maxpic="	<c:forEach var="test" items="${itembean.imageBean}" varStatus="stat"><c:if test="${stat.last}">${stat.count}</c:if> </c:forEach>">分享物品：</strong>
+<p style="margin-left: 20px">${itembean.item_name}</p>
+<span class="glyphicon glyphicon-map-marker"></span><strong>地點：</strong>
+<p style="margin-left: 15px">${itembean.location}</p>
+<strong><hr></strong>
+</div>
+
+	<%--   功能按鈕      --%>
+	<div class="col-lg-12 col-md-12 col-sm-6 text-center">
 	<c:choose>
 	<c:when test="${itembean.member_id.member_no eq user.member_no}">
 	
@@ -390,56 +457,37 @@ time{
 	</c:url>
 	
 	<a href="${path}">
-		<input type="button" value="Edit" class="btn btn-primary">
+		<input type="button" value="Edit" class="btn btn-primary" style="margin:5px;width:100%">
 	</a>
 	</c:when>
 	<c:otherwise>
-	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :15px">
-	<input type="button" value="追蹤按鈕" class="btn btn-success" style="width:80px;margin :15px" >
-	<input type="button" value="檢舉商品" class="btn btn-default" style="margin :15px">
-		<c:if test="${ itembean.done == 0 }">
-			<input type="button" id="ask" value="提出分享請求" class="btn btn-success" style="margin :15px">
-		</c:if>
+	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :5px;width:100%;height:45px ">
+	<input type="button" value="追蹤按鈕" class="btn btn-success" style="margin:5px;width:100%;height:45px" >
+	<input type="button" value="檢舉商品" class="btn btn-default" style="margin:5px;width:100%;height:45px">
+			<c:if test="${ itembean.done == 0 }">
+				<input type="button" id="ask" value="提出分享請求" class="btn btn-success" style="margin :5px;width:100%;height:45px">
+			</c:if>
 		<c:if test="${ itembean.done == 1 && item.getter_id == user_id }">
-			<input type="button" id="done" value="成交" class="btn btn-success" style="margin :15px">
+			<input type="button" id="done" value="成交" class="btn btn-success" style="margin :5px;width:100%;height:45px">
 		</c:if>
 		<c:if test="${ itembean.done == 1 && item.getter_id != user_id }">
-			<input type="button" id="done" value="已鎖定" class="btn btn-danger" style="margin :15px">
+			<input type="button" id="done" value="已鎖定" class="btn btn-danger" style="margin :5px;width:100%;height:45px">
 		</c:if>
 	</c:otherwise>
 	</c:choose>
 	</div>
-	</div>
-
 <%--   功能按鈕      --%>
-	</div>
-	<div class="row">
-	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
-<%-- 		<c:if test="${stat.first}"> --%>
-			<div class="col-md-2 col-sm-3 col-xs-3 finger">
-				<img class="item_pic thumbnail" alt="item_image" src="${root}item-image/${image.image_photo}" width="80" height="80">
-			</div>
-<%-- 		</c:if> --%>
-	</c:forEach>
-	</div>
+
 </div>
-
-
-<div class="col-md-4" id="info_div" style="vertical-align:top">
-<h1>${member.nickname}</h1>
-<span class="glyphicon glyphicon-file"></span>分享物品: <p>${itembean.item_name}</p>
-<span class="glyphicon glyphicon-map-marker"></span>地點:<p>${itembean.location}</p>
-
-
 </div>
 
 </div><!-- end of row basic info-->
-<hr>
+
 </div><!-- end of basic_info -->
 
-<div class="row">
 <div class="container">
-<div class="col-md-8" id="other-info">
+<div class="row">
+<div class="col-md-7" id="other-info">
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" href="#descrption">分享描述</a></li>
 <li><a data-toggle="tab" href="#message">討論</a></li>
@@ -447,9 +495,13 @@ time{
 
 	<div class="tab-content">
 	<div id="descrption" class="tab-pane fade in active">
-    	<div class="row">
-    	<span class="glyphicon glyphicon-tag"></span>說明:<p>${itembean.item_description}</p>
-    	 </div>
+    	<ul style="padding-left:15px ; list-style-type:none;">
+    	<li style="display: list-item;margin-bottom:15px; margin-top:25px">
+    	<span class="glyphicon glyphicon-tag"></span>
+    	<strong>說明:</strong>
+    	<p style="padding-left:20px">${itembean.item_description}</p>
+    	</li>
+		</ul>
     </div>
     <div id="message" class="tab-pane fade" style="padding:10px 0">
     	<ul style="padding-left: 0 ; list-style-type:none;">
@@ -468,28 +520,27 @@ time{
     	<p id="endline"/>
     	</ul>
     	<textarea id="messageboard" class="form-control" style="margin:15px 0" placeholder="請輸入留言訊息"></textarea>
-    	<input id="sendmessage" class="pull-right btn btn-default" type="button" value="留言" style="width:100px">
+    	<div class="text-right">
+    	<input id="sendmessage" class="btn btn-default" type="button" value="留言" style="width:100px">
+		</div>    
     </div>
   </div>
 </div>
-<div id="other-info">
+<div id="other-info" class="col-md-5">
 <h3 class="text-center" style="margin:5px 0px 20px 0px">
-<span >分享者資訊</span>
+<strong>分享者資訊</strong>
 </h3>
-	<div class="col-md-4 alert alert-info" role="alert" style="">	
-	<div class="row">
-	<div class="col-md-7 col-md-7 col-xs-4">
-	<a href="${root}member/profile.controller?id=${itembean.member_id.member_no}" class="alert-link">
-	<img alt="${follow.member_followed.nickname}" src="${root}profileImages/${itembean.member_id.photo}" class="img-rounded" width="155" height="155">
-	</a>
-	</div>
-	<div class="col-md-5 col-sm-5 col-xs-8">
-	<h1>${itembean.member_id.nickname}</h1>
-	<span class="glyphicon glyphicon-home"></span>Hometown<p>${itembean.member_id.country} : ${itembean.member_id.city}</p>
-	</div>
-	
-	</div>
-	</div>
+<div class="alert alert-info" role="alert" style="height:170px">	
+<a href="${root}member/profile.controller?id=${itembean.member_id.member_no}" class="alert-link">
+<div>
+<img alt="${follow.member_followed.nickname}" src="${root}profileImages/${itembean.member_id.photo}" class="img-rounded pull-left" width="120" height="120" style="margin-right:45px">
+</div>
+</a>
+<div style="margin-top:10px">
+<h4>${itembean.member_id.nickname}</h1>
+<span class="glyphicon glyphicon-home"></span>Hometown<p>${itembean.member_id.country} : ${itembean.member_id.city}</p>
+</div>
+</div>
 </div>
 </div>
 </div>
