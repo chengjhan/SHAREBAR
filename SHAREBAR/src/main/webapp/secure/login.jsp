@@ -99,6 +99,9 @@ function onSignIn(googleUser) {
 	$.post("tokensignin",{"id_token":id_token,"ID":profile.getId(),"Name":profile.getName(),"Given Name":profile.getGivenName(),"Family Name":profile.getFamilyName(),"Image URL":profile.getImageUrl(),"Email":profile.getEmail()},function(responseText){
 		if(responseText == "GLoginSuccess"){
 			console.log(responseText);
+			gapi.auth2.getAuthInstance().signOut().then(function() {
+				console.log('User signed out.');
+			});
 			window.location = "<%=from%>";
 		}else if(responseText == "AccountExist"){
 			gapi.auth2.getAuthInstance().signOut().then(function() {
@@ -108,6 +111,9 @@ function onSignIn(googleUser) {
 			$("#Gerror").append( "<p style='color:red'>connecting error please try other method.</p>" );
 		}else if(responseText == "GSignAndLoginSuccess"){
 			console.log(responseText);
+			gapi.auth2.getAuthInstance().signOut().then(function() {
+				console.log('User signed out.');
+			});
 			window.location = "<%=from%>";
 		}else if(responseText == "InvalidIdToken"){
 			gapi.auth2.getAuthInstance().signOut().then(function() {
