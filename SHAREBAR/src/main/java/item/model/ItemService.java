@@ -1,19 +1,12 @@
 package item.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import category.model.ClassBean;
-import category.model.ClassService;
 import image.model.ImageBean;
 import member.model.MemberBean;
 
@@ -169,7 +162,28 @@ public class ItemService {
 		}
 		return null;
 	}
+	
+	@Transactional
+	public void rateToGiver(int item_id, int giver_rate, String giver_review) {
 
+		ItemBean selectById = itemDao.selectById(item_id);
+		if (selectById != null) {
+			if (item_id != 0) {
+				itemDao.rateToGiver(item_id, giver_rate, giver_review);
+			}
+		}
+	}
+	
+	@Transactional
+	public void rateToGetter(int item_id, int getter_rate, String getter_review) {
+
+		ItemBean selectById = itemDao.selectById(item_id);
+		if (selectById != null) {
+			if (item_id != 0) {
+				itemDao.rateToGetter(item_id, getter_rate, getter_review);
+			}
+		}
+	}
 	// public static void main(String[] args) throws ParseException {
 	// ApplicationContext context = new
 	// ClassPathXmlApplicationContext("beans.config.xml");

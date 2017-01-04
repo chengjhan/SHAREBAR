@@ -9,10 +9,29 @@
 %>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="refresh" content="3; url=<c:url value='/index.jsp'/>" />
+<!-- GSignIn -->
+<meta name="google-signin-client_id"
+	content="113677232132-der9mtb9vq1bi5j7aj56k99bcvhj1kj2.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script><!-- GSignIn -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <title>Logout</title>
 </head>
 <body>
 <h1>you have log out already</h1>
+<script type="text/javascript">
+function onLoad() {
+    gapi.load('auth2', function() {
+      gapi.auth2.init();
+    });
+ }
+$(function(){
+	setTimeout(function(){
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function() {
+			console.log('User signed out.');
+		});
+		window.location = "http://localhost:8080/SHAREBAR/index.jsp"}, 3000);
+});
+</script>
 </body>
 </html>

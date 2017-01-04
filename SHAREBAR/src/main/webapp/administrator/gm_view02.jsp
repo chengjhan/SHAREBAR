@@ -60,58 +60,59 @@ $(function(){
 	
 	<div class="col-md-9">
 		    <div class="jumbotron">
-				<div class="page-header">
-					<h3>物品管理介面</h3>
-				</div>
+			
 				
 				
 <!-- 每頁不同的內容從這裡開始 -->
-
+	
+	<form action="<c:url value="/administrator/SelectBlockItemServlet"/>" method="get">
+		<table>
+			<tr>
+				<td></td>
+				<td align="right"><input type="submit" value="選取所有封鎖物品">${errors.system2}</td>
+			</tr>			
+		</table>		
+	</form>
+	
+	<div>&nbsp;</div>
+	
+	
 	<form action="<c:url value="/administrator/SelectByItemNameServlet"/>" method="get">
 		<table>
 			<tr>
-				<td>(2)搜尋指定編號物品:</td>
+				<td>物品編號:</td>
 				<td><input type="text" name="item_id" value="${param.item_id}"></td>				
 				<td align="right"><input type="submit" value="搜尋物品">${errors.item_id} ${errors.system}</td>
 			</tr>			
 		</table>		
 	</form>
 	
-	<div>&nbsp</div>
+	<div>&nbsp;</div>
 	
-	<form action="<c:url value="/administrator/SelectBlockItemServlet"/>" method="get">
-		<table>
-			<tr>
-				<td>(4)選取所有已封鎖物品:</td>
-				<td align="right"><input type="submit" value="執行">${errors.system2}</td>
-			</tr>			
-		</table>		
-	</form>
-	
-	<div>&nbsp</div>
+
 	
 	<form action="<c:url value="/administrator/UpdateItemBlockServlet"/>" method="get">
 		<table>
 			<tr>
-				<td>(8)封鎖物品:</td>
+				<td></td>
 				<td>物品編號:</td>
 				<td><input type="text" name="item_id" value="${param.item_id}"></td>	
 
-				<td align="right"><input type="submit" value="執行">${errors.system3}</td>
+				<td align="right"><input type="submit" value="封鎖物品">${errors.system3}</td>
 			</tr>			
 		</table>		
 	</form>
 	
-	<div>&nbsp</div>
+	<div>&nbsp;</div>
 	
 	<form action="<c:url value="/administrator/ClearItemBlockServlet"/>" method="get">
 		<table>
 			<tr>
-				<td>(9)解封物品:</td>
+				<td></td>
 				<td>物品編號:</td>
 				<td><input type="text" name="item_id" value="${param.item_id}"></td>	
 
-				<td align="right"><input type="submit" value="執行">${errors.system4}</td>
+				<td align="right"><input type="submit" value="解封物品">${errors.system4}</td>
 			</tr>			
 		</table>		
 	</form>
@@ -122,12 +123,12 @@ $(function(){
 	<h3>搜尋物品結果</h3>
 	<table>	
 				<tr align="center">
-					<td class="st1">&nbsp&nbsp物品編號&nbsp&nbsp</td>
-					<td class="st1">&nbsp&nbsp物品名稱&nbsp&nbsp</td>
-					<td class="st1">&nbsp&nbsp描述介紹&nbsp&nbsp</td>
-					<td class="st1">&nbsp&nbsp經度&nbsp&nbsp</td>
-					<td class="st1">&nbsp&nbsp緯度&nbsp&nbsp</td>
-					<td class="st1">&nbsp未封鎖0/封鎖1&nbsp</td>
+					<td class="st1">&nbsp;&nbsp;物品編號&nbsp;&nbsp;</td>
+					<td class="st1">&nbsp;&nbsp;物品名稱&nbsp;&nbsp;</td>
+					<td class="st1">&nbsp;&nbsp;描述介紹&nbsp;&nbsp;</td>
+					<td class="st1">&nbsp;&nbsp;經度&nbsp;&nbsp;</td>
+					<td class="st1">&nbsp;&nbsp;緯度&nbsp;&nbsp;</td>
+					<td class="st1">&nbsp;未封鎖0/封鎖1&nbsp;</td>
 				</tr>
 				
 				

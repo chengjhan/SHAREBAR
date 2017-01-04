@@ -60,32 +60,30 @@ $(function(){
 	
 	<div class="col-md-9">
 		    <div class="jumbotron">
-				<div class="page-header">
-					<h3>舉報清單</h3>
-				</div>
+			
 				
 				
 <!-- 每頁不同的內容從這裡開始 -->
-	<form action="<c:url value="/administrator/ReportInsertServlet"/>" method="get">
-		<table>
-			<tr>
-				<td>(5-1 , 5-2)檢舉物品</td>
-			</tr>
-			<tr>
-				<td>舉報人:</td>
-				<td><input type="text" name="reporting_member_id" value="${param.reporting_member_id}"></td>
-			</tr>
-				<td>被檢舉物編號:</td>
-				<td><input type="text" name="reported_item_id" value="${param.reported_item_id}"></td>
-			<tr>
-				<td>違規事項描述:</td>
-				<td><input type="text" name="context" value="${param.context}"></td>
-				<td align="right"><input type="submit" value="執行">${errors.system}</td>
-			</tr>			
-		</table>		
-	</form>
+
+<%-- 	<form action="<c:url value="/administrator/ReportInsertServlet"/>" method="get"> --%>
+<!-- 		<table> -->
+<!-- 			<tr> -->
+<!-- 				<td>(5-1 , 5-2)檢舉物品</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td>舉報人:</td> -->
+<%-- 				<td><input type="text" name="reporting_member_id" value="${param.reporting_member_id}"></td> --%>
+<!-- 			</tr> -->
+<!-- 				<td>被檢舉物編號:</td> -->
+<%-- 				<td><input type="text" name="reported_item_id" value="${param.reported_item_id}"></td> --%>
+<!-- 			<tr> -->
+<!-- 				<td>違規事項描述:</td> -->
+<%-- 				<td><input type="text" name="context" value="${param.context}"></td> --%>
+<%-- 				<td align="right"><input type="submit" value="執行">${errors.system}</td> --%>
+<!-- 			</tr>			 -->
+<!-- 		</table>		 -->
+<!-- 	</form> -->
 	
-	<div>&nbsp</div>
 	
 	<form action="<c:url value="/administrator/ReportSelectAllServlet"/>" method="get">		
 			<tr>		
@@ -93,21 +91,21 @@ $(function(){
 			</tr>			
 	</form>
 	
-	<div>&nbsp</div>
+	<div>&nbsp;</div>
 	
 	
 	
 	<table>	
 				<tr align="center">
-					<td class="st1">&nbsp # &nbsp</td>
-					<td class="st1">&nbsp檢舉人ID&nbsp</td>
-					<td class="st1">&nbsp檢舉人帳號&nbsp</td>
-					<td class="st1">&nbsp檢舉人暱稱&nbsp</td>
-					<td class="st1">&nbsp被檢舉物ID&nbsp</td>
-					<td class="st1">&nbsp被檢舉物名稱&nbsp</td>
+					<td class="st1">&nbsp; # &nbsp;</td>
+					<td class="st1">&nbsp;檢舉人ID&nbsp;</td>
+					<td class="st1">&nbsp;檢舉人帳號&nbsp;</td>
+					<td class="st1">&nbsp;檢舉人暱稱&nbsp;</td>
+					<td class="st1">&nbsp;被檢舉物ID&nbsp;</td>
+					<td class="st1">&nbsp;被檢舉物名稱&nbsp;</td>
 					<td class="st1">違規描述</td>
 					<td class="st1">檢舉時間</td>
-					<td class="st1">&nbsp&nbsp封鎖&nbsp&nbsp</td>
+<!-- 					<td class="st1">&nbsp;&nbsp;封鎖&nbsp;&nbsp;</td> -->
 				</tr>
 			<c:forEach var="element3" items="${report}">
 				<c:url value="gm_view03.jsp" var="path">
@@ -126,8 +124,8 @@ $(function(){
 					<td align="center" class="st1">${element3.reported_item_id.item_id}</td>
 					<td align="center" class="st1">${element3.reported_item_id.item_name}</td>
 					<td class="st1">${element3.context}</td>		
-					<td class="st1">&nbsp ${element3.time} &nbsp</td>
-					<td align="center" class="st1"><a href="${path}">封鎖</a></td>
+					<td class="st1">&nbsp; ${element3.time} &nbsp;</td>
+<%-- 					<td align="center" class="st1"><a href="${path}">封鎖</a></td> --%>
 				</tr>
 			</c:forEach>		
 	</table>

@@ -133,9 +133,9 @@ public class ItemDAOHibernate implements ItemDAO {
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<ItemBean> selectByNew() {
-		Query query = this.getSession().createQuery("from ItemBean where block=? and done=? order by post_date desc");
-		query.setParameter(0, 0);
-		query.setParameter(1, 0);
+		Query query = this.getSession().createQuery("from ItemBean where block= :block and done = :done order by post_date desc");
+		query.setParameter("block", 0);
+		query.setParameter("done", 0);
 		query.setMaxResults(20);
 		List<ItemBean> list = query.getResultList();
 		return list;
@@ -195,6 +195,18 @@ public class ItemDAOHibernate implements ItemDAO {
 		ItemBean bean = this.getSession().get(ItemBean.class,  item_id);
 			bean.setBlock(0);	
 		return bean;
+	}
+	@Override
+	public void rateToGiver(int item_id, int giver_rate, String giver_review) {
+		ItemBean bean = this.getSession().get(ItemBean.class,  item_id);
+		bean.setGiver_rate(giver_rate);
+		bean.setGiver_review(giver_review);
+	}
+	@Override
+	public void rateToGetter(int item_id, int getter_rate, String getter_review) {
+		ItemBean bean = this.getSession().get(ItemBean.class,  item_id);
+		bean.setGetter_rate(getter_rate);
+		bean.setGetter_review(getter_review);
 	}
 
 //	public static void main(String[] args) throws ParseException {

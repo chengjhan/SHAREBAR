@@ -47,4 +47,6 @@ public interface MemberDAO {
 
 	public List<MemberBean> selectBlockMember();
 
+	public MemberBean selectByG(String id_token);
+
 }

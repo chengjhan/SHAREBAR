@@ -5,6 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- GSignIn -->
+<meta name="google-signin-client_id"
+	content="113677232132-der9mtb9vq1bi5j7aj56k99bcvhj1kj2.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script><!-- GSignIn -->
 <title>Header</title>
 
 <!-- 注意！注意！注意！ -->
@@ -38,7 +42,7 @@ div#navbar {
 </head>
 <c:url value="/" var="root"></c:url>
 <body>
-		<nav class="navbar navbar-default">
+		<div class="navbar navbar-light navbar-default navbar-static-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -59,7 +63,7 @@ div#navbar {
 					<div class="form-group">
 						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search" required/></td>
 					</div>
-					<button type="submit" id="id_submit" class="btn btn-default">Submit</button>
+						<button type="submit" id="id_submit" class="btn btn-default">Submit</button>
 					<table id="latlng"></table>
 				</form>
 				<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
@@ -68,9 +72,16 @@ div#navbar {
 							<li class="class_li"><a href="<c:url value='/secure/signup.jsp'/>"><span class="glyphicon glyphicon-plus"></span> &nbsp; Sign Up</a></li>
 							<li class="class_li"><a href="<c:url value='/secure/login.jsp'/>"><span class="glyphicon glyphicon-log-out"></span> &nbsp; Login</a></li>
 						</c:when>
+						<c:when test="${user.member_no eq 1}">
+							<li class="class_li"><a href="<c:url value='/administrator/gm_view01.jsp'/>"><span class="glyphicon glyphicon-wrench"></span> &nbsp; Administrator</a></li>
+							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
+							<li class="class_li"><a href="<c:url value='/maillist.controller'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
+							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
+							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
+						</c:when>
 						<c:otherwise>
 							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
-							<li class="class_li"><a href="<c:url value='/maillist.controller'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>
+							<li class="class_li"><a href="<c:url value='/maillist.controller'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
 							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
 							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
 						</c:otherwise>
@@ -78,7 +89,7 @@ div#navbar {
 				</ul>
 				</div>
 			</div>
-		</nav>
+		</div>
 	<script>
 		var geocoder;
 		var googleAutocomplete;
@@ -233,45 +244,45 @@ div#navbar {
 		$("#id_search").on("change", function(event){
 // 			event.preventDefault();
 			var searchSelector = $("#id_select").find(":selected").val();
-			alert(searchSelector);
+// 			alert(searchSelector);
 			var searchBar = $("#id_search").val();
-			alert(searchBar);
+// 			alert(searchBar);
 			
 			// 找地區
 			if(searchSelector == "location"){
 				geocoder.geocode({ 'address': searchBar }, function(results, status) {
 			        if (status == google.maps.GeocoderStatus.OK) {
-			        	var lat = results[0].geometry.location.lat();
-						var lng = results[0].geometry.location.lng();
-						alert(lat + ", " + lng);
-						alert(results[0].geometry.viewport);
-						var bounds = results[0].geometry.viewport;
-			            var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-						var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-						var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
-						var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng, inputBounds]);
-						var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-						$("#latlng").append(trLatLnf);
+// 			        	var lat = results[0].geometry.location.lat();
+// 						var lng = results[0].geometry.location.lng();
+// 						alert(lat + ", " + lng);
+// 						alert(results[0].geometry.viewport);
+// 						var bounds = results[0].geometry.viewport;
+// 			            var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
+// 						var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
+// 						var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
+// 						var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng, inputBounds]);
+// 						var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
+// 						$("#latlng").append(trLatLnf);
 			        } else if (searchBar == "") {
-			        	alert("searchBar = null");
-			        	if (navigator.geolocation) {
-							navigator.geolocation.getCurrentPosition(success, error);
-			        	}
-			        	function success(position) {
-			        		var lat = position.coords.latitude;
-			        		var lng = position.coords.longitude;
-			     			alert(lat + ", " + lng);
-			     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
-			    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
-			    				if (status == google.maps.GeocoderStatus.OK) {
-			    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-									var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-									var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng]);
-									var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-									$("#latlng").append(trLatLnf);
-			    				}
-			    			})
-			    		}
+// 			        	alert("searchBar = null");
+// 			        	if (navigator.geolocation) {
+// 							navigator.geolocation.getCurrentPosition(success, error);
+// 			        	}
+// 			        	function success(position) {
+// 			        		var lat = position.coords.latitude;
+// 			        		var lng = position.coords.longitude;
+// 			     			alert(lat + ", " + lng);
+// 			     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
+// 			    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
+// 			    				if (status == google.maps.GeocoderStatus.OK) {
+// 			    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
+// 									var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
+// 									var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng]);
+// 									var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
+// 									$("#latlng").append(trLatLnf);
+// 			    				}
+// 			    			})
+// 			    		}
 			        } else {
 			            alert("請輸入詳細地址");
 			        }
@@ -291,7 +302,7 @@ div#navbar {
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
 	    					var bounds = results[0].geometry.viewport;
-	    					alert(bounds);
+// 	    					alert(bounds);
 	    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
 							var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
 							var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
@@ -314,6 +325,6 @@ div#navbar {
 			}
 		}	
 	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
 </body>
 </html>

@@ -96,7 +96,23 @@ public class MemberService {
 		bean.setBlockdate(null);
 		// System.out.println("bean= " + bean);
 		return memberDao.insert(bean);
-
+	}
+	
+	@Transactional
+	public MemberBean GSignUp(String GId, String email, String nickname,String FirstName, String LastName, String photo, String password){
+		MemberBean bean = new MemberBean();
+		bean.setEmail(email);
+		bean.setPassword("0000");
+		bean.setFacebook(GId);
+		bean.setNickname(nickname);
+		bean.setFirst_name(FirstName);
+		bean.setLast_name(LastName);
+		bean.setPhoto(photo);
+		bean.setSigndate(new java.util.Date());
+		bean.setBlockdate(null);
+		bean.setCertification(1);
+		bean.setPassword(password);
+		return memberDao.insert(bean);
 	}
 
 	@Transactional
@@ -154,7 +170,16 @@ public class MemberService {
 			return bean;
 		}
 		return null;
-
+	}
+	
+	@Transactional
+	public MemberBean findByG(String Gid_token){
+		MemberBean bean = null;
+		bean = memberDao.selectByG(Gid_token);
+		if(bean!=null){
+			return bean;
+		}
+		return null;
 	}
 
 	@Transactional

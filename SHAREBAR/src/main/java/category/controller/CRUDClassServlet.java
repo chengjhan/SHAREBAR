@@ -1,7 +1,5 @@
 package category.controller;
 
-//import java.io.BufferedInputStream;
-//import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -78,6 +76,8 @@ public class CRUDClassServlet extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 
 		// 接受資料
+		String class_action = request.getParameter("class_action");
+		String tempClass_id = request.getParameter("class_id");
 		String class_name = request.getParameter("class_name");
 		Part image = request.getPart("image");
 		String imageFilename = getFilename(image);
@@ -86,22 +86,30 @@ public class CRUDClassServlet extends HttpServlet {
 		Part icon_after = request.getPart("icon_after");
 		String icon_afterFilename = getFilename(icon_after);
 
+		System.out.println(class_action);
 		System.out.println(class_name);
 
 		// 驗證資料
 		Map<String, String> errors = new HashMap<String, String>();
 		request.setAttribute("errors", errors);
+		if ("修改".equals(class_action) || "刪除".equals(class_action)) {
+			if (tempClass_id == null || tempClass_id.length() == 0) {
+				errors.put("class_name", "必填");
+			}
+		}
 		if (class_name == null || class_name.length() == 0) {
 			errors.put("class_name", "必填");
 		}
-		if (imageFilename == null) {
-			errors.put("image", "必填");
-		}
-		if (iconFilename == null) {
-			errors.put("icon", "必填");
-		}
-		if (icon_afterFilename == null) {
-			errors.put("icon_after", "必填");
+		if ("修改".equals(class_action)) {
+			if (imageFilename == null) {
+				errors.put("image", "必填");
+			}
+			if (iconFilename == null) {
+				errors.put("icon", "必填");
+			}
+			if (icon_afterFilename == null) {
+				errors.put("icon_after", "必填");
+			}
 		}
 		if (errors != null && !errors.isEmpty()) {
 			RequestDispatcher rd = request.getRequestDispatcher("/category/CRUDClass.jsp");
@@ -110,6 +118,14 @@ public class CRUDClassServlet extends HttpServlet {
 		}
 
 		// 轉換資料
+		int class_id = 0;
+		if (tempClass_id != null && tempClass_id.length() != 0) {
+			try {
+				class_id = Integer.parseInt(tempClass_id);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+		}
 		// image --> byte[] --> 資料庫
 //		InputStream inputStream = image.getInputStream();
 //		ByteArrayOutputStream byteArrayOutputStream = null;
@@ -127,9 +143,9 @@ public class CRUDClassServlet extends HttpServlet {
 		// 呼叫Model
 		String path_image = request.getServletContext().getRealPath("/category-image/");
 		String path_icon = request.getServletContext().getRealPath("/category-icon/");
-		
+
 		String newImageFilename = class_name + "." + getExtension(iconFilename);
-		writeTo(newImageFilename, icon, path_image);
+		writeTo(newImageFilename, image, path_image);
 
 		String newIconFilename = class_name + "." + getExtension(iconFilename);
 		writeTo(newIconFilename, icon, path_icon);
@@ -138,23 +154,49 @@ public class CRUDClassServlet extends HttpServlet {
 		writeTo(newIcon_afterFilename, icon_after, path_icon);
 
 		ClassBean bean = new ClassBean();
+		bean.setClass_id(class_id);
 		bean.setClass_name(class_name);
-//		bean.setImage(byteArrayOutputStream.toByteArray());
+		// bean.setImage(byteArrayOutputStream.toByteArray());
 		bean.setImage(newImageFilename);
 		bean.setIcon(newIconFilename);
 		bean.setIcon_after(newIcon_afterFilename);
 		System.out.println(bean);
-		ClassBean result = classService.insert(bean);
 
 		// 根據Model的執行結果，顯示View
-		if (result != null) {
-			RequestDispatcher rd = request.getRequestDispatcher("/category/UpdateClassSuccess.jsp");
-			rd.forward(request, response);
-			return;
-		} else {
-			RequestDispatcher rd = request.getRequestDispatcher("/category/CRUDClass.jsp");
-			rd.forward(request, response);
-			return;
+		if ("新增".equals(class_action)) {
+			ClassBean result = classService.insert(bean);
+			if (result != null) {
+				RequestDispatcher rd = request.getRequestDispatcher("/category/CRUDClass.jsp");
+				rd.forward(request, response);
+				return;
+			} else {
+				RequestDispatcher rd = request.getRequestDispatcher("/category/CRUDClass.jsp");
+				rd.forward(request, response);
+				return;
+			}
+
+		} else if ("修改".equals(class_action)) {
+			ClassBean result = classService.update(bean);
+			if (result != null) {
+				RequestDispatcher rd = request.getRequestDispatcher("/category/CRUDClass.jsp");
+				rd.forward(request, response);
+				return;
+			} else {
+				RequestDispatcher rd = request.getRequestDispatcher("/category/CRUDClass.jsp");
+				rd.forward(request, response);
+				return;
+			}
+		} else if ("刪除".equals(class_action)) {
+			Boolean result = classService.delete(bean);
+			if (result) {
+				RequestDispatcher rd = request.getRequestDispatcher("/category/CRUDClass.jsp");
+				rd.forward(request, response);
+				return;
+			} else {
+				RequestDispatcher rd = request.getRequestDispatcher("/category/CRUDClass.jsp");
+				rd.forward(request, response);
+				return;
+			}
 		}
 	}
 
