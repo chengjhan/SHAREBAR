@@ -48,4 +48,8 @@ public interface ItemDAO {
 
 	ItemBean clearItemBlock(int item_id);
 
+	void rateToGiver(int item_id, int giver_rate, String giver_review);
+
+	void rateToGetter(int item_id, int getter_rate, String getter_review);
+
 }

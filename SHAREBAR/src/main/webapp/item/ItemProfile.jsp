@@ -10,6 +10,7 @@
 <link type="text/css" rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
 <link type="text/css" rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <link type="text/css" rel="stylesheet" href="../js/jquery-chatbox/jquery.ui.chatbox.css" />
+<link type="text/css" rel="stylesheet" href="../js/bootstrap-dialog/bootstrap-dialog.css" />
 
 <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery-chatbox/jquery-1.12.4.js"></script>
@@ -18,6 +19,7 @@
 <script type="text/javascript" src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/jquery-chatbox/jquery.ui.chatbox.js"></script>
 <script type="text/javascript" src="../js/jquery-chatbox/chatboxManager.js"></script>
+<script type="text/javascript" src="../js/bootstrap-dialog/bootstrap-dialog.js"></script>
 
 <title>Profile Page</title>
 <script type="text/javascript">
@@ -36,6 +38,7 @@ $(function(){
 	var itemid = ${itembean.item_id}
 	var item_name = "${itembean.item_name}"
 	var item_host = ${itembean.member_id.member_no}
+	var item_hostName = "${itembean.member_id.nickname}"
 	var itemstatus = 0;
 	
 	$.get("<%=request.getContextPath()%>/followitems/itemStatus.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}"},
@@ -202,30 +205,22 @@ $(function(){
 	$('#ask').click(function() {
 		if($(this).attr("id") == "done"){return};
 		var thisBtn  = $(this);	
-		$("#dialog").text("即將對此分享提出請求，是否繼續？");		
-		$("#dialog").dialog({
-			modal:true,
-			resizable: false,
-			title: item_name,
-			closeText: "hide",
-			open: function(){
-				$(".ui-widget-overlay").bind("click", function(event,ui){
-					$("#dialog").dialog("close");
-					})
-				},				
-			buttons:{
-				"取消": function(){
-					$(this).dialog("close");
-					$("#dialog").text("");						
-					},
-				"確認": function(){
-					$(this).dialog("close");
-					$("#dialog").text("");
-					startAction(thisBtn);						
-					}
-				}
-		})
-		$(".ui-dialog-titlebar-close").hide();
+		
+		BootstrapDialog.show({
+			title:item_name,
+			message: "即將對此分享提出請求，是否繼續？",
+			buttons: [{
+		        label: '取消',
+		        action: function(dialogRef) {
+		        	dialogRef.close();
+		               }},
+		        {
+		        label: '確認',
+		        action: function(dialogRef) {
+		        	startAction(thisBtn);
+		        	dialogRef.close();
+		        }}]
+			})
 	})
 	
 	function startConnection(){
@@ -251,7 +246,7 @@ $(function(){
 
 	function messageWindow() {
 		var item_id = itemid;
-		var title_id = '( ' + user_name + ' ) ' + item_name ;
+		var title_id = item_name ;
 		var host_id = item_host;
 		var requester_id = user_id;
 		var windowcode = item_id + "_" + host_id + "_" + requester_id;
@@ -263,7 +258,7 @@ $(function(){
 		$("#" + windowcode).chatbox({				
 			id : user_id, 
             user : user_name,
-            title : title_id,
+            title : '( ' + item_hostName + ' ) ' + title_id,
             width : 200,
             offset : getNextOffset(),
             hidden: true,

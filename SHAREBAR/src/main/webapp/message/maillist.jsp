@@ -11,6 +11,7 @@
 <link type="text/css" rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
 <link type="text/css" rel="stylesheet" href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <link type="text/css" rel="stylesheet" href="js/jquery-chatbox/jquery.ui.chatbox.css" />
+<link type="text/css" rel="stylesheet" href="js/bootstrap-dialog/bootstrap-dialog.css" />
 
 <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="js/jquery-chatbox/jquery-1.12.4.js"></script>
@@ -19,6 +20,7 @@
 <script type="text/javascript" src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jquery-chatbox/jquery.ui.chatbox.js"></script>
 <script type="text/javascript" src="js/jquery-chatbox/chatboxManager.js"></script>
+<script type="text/javascript" src="js/bootstrap-dialog/bootstrap-dialog.js"></script>
 
 </head>
 <body>
@@ -42,7 +44,8 @@
 											<th>talk</th>
 											<th>title</th>
 											<th>resquester_id</th>
-											<th>time</th>											
+											<th>time</th>
+											<th>rate</th>											
 										</tr>
 									</thead>
 									<tbody id="shareBody">
@@ -80,15 +83,25 @@
 														已拒絕
 												</c:if>
 												</td>												
-												<td><input id="chat" type="button" value="聊天"
-													style="color: black;" 
+												<td><input id="chat" type="button" value="聊天" 
 													data-item="${share_mail[0]}"
-													data-title='( ${share_mail[3]} ) ${share_mail[1]}'
+													data-title='${share_mail[1]}'
 													data-host="${user.member_no}"
 													data-requester="${share_mail[2]}"></td>													
 												<td>${share_mail[1]}</td>
 												<td>${share_mail[3]}</td>
-												<td>${share_mail[4]}</td>											
+												<td>${share_mail[4]}</td>
+												<td>											
+												<c:if test="${ share_mail[7] == share_mail[2] && share_mail[8] eq 0 }">
+													<input id="rate" type="button" value="評價" 
+															data-item="${share_mail[0]}" 
+															data-awarder="${share_mail[3]}" 
+															data-host="${user.member_no}">	
+												</c:if>												
+												<c:if test="${ share_mail[7] == share_mail[2] && share_mail[8] ne 0 }">
+														已評價
+												</c:if>
+												</td>											
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -105,7 +118,8 @@
 											<th>talk</th>										
 											<th>title</th>
 											<th>host_id</th>
-											<th>time</th>											
+											<th>time</th>
+											<th>rate</th>											
 										</tr>
 									</thead>
 									<tbody id="requestBody">
@@ -140,13 +154,27 @@
 												<td><input id="chat" type="button" value="聊天"
 													style="color: black;" 
 													data-item="${request_mail[0]}"
-													data-title='( ${request_mail[3]} ) ${request_mail[1]}'
+													data-title='${request_mail[1]}'
 													data-host="${request_mail[2]}"
 													data-requester="${user.member_no}"
 													></td>
 												<td>${request_mail[1]}</td>
 												<td>${request_mail[3]}</td>
 												<td>${request_mail[4]}</td>
+												<td>											
+												<c:if test="${ request_mail[7] == user.member_no && request_mail[9] eq 0 }">
+													<input id="rate" type="button" value="評價" 
+															data-item="${request_mail[0]}" 
+															data-awarder="${request_mail[3]}" 
+															data-host="${request_mail[2]}">
+													<div id="image" style="display:none;">
+													&nbsp;&nbsp;&nbsp;<img src="img/loading_s.gif">
+													</div>	
+												</c:if>												
+												<c:if test="${ request_mail[7] == user.member_no && request_mail[9] ne 0 }">
+														已評價
+												</c:if>
+												</td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -158,7 +186,6 @@
 			</div>
 		</div>
 	</div>
-	<div id="dialog"></div>
 	<div id="board"></div>
 	<div id="footer"></div>
 </body>
@@ -201,37 +228,61 @@ var count = 0;
 			var thisBtn = $(this);
 			var title_str = thisBtn.data("title");
 			var name_str = thisBtn.data("requester_name");
-			if(thisBtn.data("action") == "ask")				
-				$("#dialog").text("即將對此分享提出請求，是否繼續？");
-			if(thisBtn.data("action") == "acept")				
-				$("#dialog").text("即將同意 " + name_str + "的請求，是否繼續？");
-			if(thisBtn.data("action") == "refuse")				
-				$("#dialog").text("即將拒絕 " + name_str + "的請求，是否繼續？");
-			
-			$("#dialog").dialog({
-				modal:true,
-				resizable: false,
-				title: title_str,
-				closeText: "hide",
-				open: function(){
-					$(".ui-widget-overlay").bind("click", function(event,ui){
-						$("#dialog").dialog("close");
-						})
-					},				
-				buttons:{
-					"取消": function(){
-						$(this).dialog("close");
-						$("#dialog").text("");						
-						},
-					"確認": function(){
-						$(this).dialog("close");
-						$("#dialog").text("");
-						startAction(thisBtn);						
-						}
-					}
-			})
-			$(".ui-dialog-titlebar-close").hide();
+
+			BootstrapDialog.show({
+				title:title_str,
+				message: function(dialogRef){
+					var actionVal = $('<div></div>');
+					if (thisBtn.data("action") == "ask")
+						actionVal.text("即將對此分享提出請求，是否繼續？");
+					if (thisBtn.data("action") == "acept")
+						actionVal.text("即將同意 " + name_str + " 的請求，是否繼續？");
+					if (thisBtn.data("action") == "refuse")
+						actionVal.text("即將拒絕 " + name_str + " 的請求，是否繼續？");
+					return actionVal;
+					},
+				buttons: [{
+			        label: '取消',
+			        action: function(dialogRef) {
+			        	dialogRef.close();
+			               }},
+			        {
+			        label: '確認',
+			        action: function(dialogRef) {
+			        	startAction(thisBtn);
+			        	dialogRef.close();
+			        }}]
+				})			
 		})
+		
+		//評價按鈕
+		$('tbody #rate').click(function() {
+			var thisBtn = $(this);
+			var name_str = thisBtn.data("awarder"); 
+	        BootstrapDialog.show({
+		        title: '對 ' + name_str + ' 的評價',
+	            message:       	 
+					$('<label class="radio-inline"><input type="radio" name="optradio" value="3" >滿意</label><label class="radio-inline"><input type="radio" name="optradio" value="2" >不錯</label><label class="radio-inline"><input type="radio" name="optradio" value="1" >失望</label><div>&nbsp;</div><div>留下評語:</div><input type="text" class="form-control">'),		                       		 
+	            buttons: [{
+	                label: '確認',
+	                action: function(dialogRef) {
+	                	$('.modal-dialog b').remove();
+	                    var rateScore = dialogRef.getModalBody().find(':checked[name="optradio"]').val();
+						var rateMessage = dialogRef.getModalBody().find(':text').val();
+						var error = $("<b>請給予評價並留下評語&nbsp;&nbsp;&nbsp;</b>");
+						error.css("display","none");
+						if ( rateScore === undefined || rateMessage.length == 0 ){
+							$('.modal-dialog .btn').before(error);
+							$('.modal-dialog b').fadeIn();							
+							}
+						else {
+							startRate( thisBtn, rateScore, rateMessage );
+							dialogRef.close();
+							}
+	                }
+	            }]
+	        });
+			})
 		
 		//點擊聊天視窗，設為已讀
 		$("body").on("click",".ui-chatbox",function(){			
@@ -269,6 +320,29 @@ var count = 0;
 				});
 			}
 
+		function startRate( thisBtn, rateScore, rateMessage ){
+			thisBtn.css("display","none");
+			thisBtn.siblings("div").css("display","inline");
+			var item_id = thisBtn.data("item");
+			var host_id = thisBtn.data("host");
+			if ( host_id == user_id )
+				$.post("rateInsert.ajax", { "item":item_id, "target":"getter", "rateScore":rateScore, "rateMessage":rateMessage }, 
+						function(data){											
+							setTimeout(function() {							
+								thisBtn.siblings("div").css("display","none");
+								thisBtn.parent().text("已評價");
+							}, 1000)						
+					});
+			else
+				$.post("rateInsert.ajax", { "item":item_id, "target":"giver", "rateScore":rateScore, "rateMessage":rateMessage }, 
+						function(data){											
+							setTimeout(function() {							
+								thisBtn.siblings("div").css("display","none");
+								thisBtn.parent().text("已評價");
+							}, 1000)						
+					});	
+			}
+		
         function startConnection(){
 		    var url = 'ws://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket/'+user_id;
 		    socket = new WebSocket(url);	
@@ -289,7 +363,7 @@ var count = 0;
 			$("#" + windowcode).chatbox({				
 				id : user_id, 
                 user : user_name,
-                title : title_id,
+                title : '( ' + listener_id + ' ) ' + title_id,
                 width : 200,
                 offset : getNextOffset(),
                 messageSent : function(id, user, msg) {                      		
@@ -319,7 +393,7 @@ var count = 0;
 				$("#" + windowcode).chatbox({				
 					id : user_id, 
                 	user : user_name,
-                	title : message.title,
+                	title : '( ' + listener_id + ' ) ' + message.title,
                 	width : 200,
                		offset : getNextOffset(),
                 	messageSent : function(id, user, msg) {          
