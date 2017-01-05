@@ -8,6 +8,7 @@
 <title>修改分享物資訊</title>
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel=stylesheet type="text/css" href="../css/share.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
@@ -115,9 +116,9 @@ html, body {
 	%>
 <%-- 	<p>${classNameList}</p> --%>
 	<div id="header"></div>
-	<div class="wrapper">
+	<div class="container-fluid">
 		<form id="id_update_form" action="<c:url value="/item/update.controller" />" method="post" enctype="multipart/form-data">
-			<div>
+			<div class="row">
 				<div id="id_image_form" class="container">
 					<div id="id_image_div1" class="form-group image-preview">
 						<label for="id_image_photo1" id="id_image_label1">封面照片</label>
@@ -140,7 +141,7 @@ html, body {
 						<input type="text" name="image_id4" value="${param.image_id4}" style='display:none'>
 					</div>
 				</div>
-				<div id="id_item_form" class="container">
+				<div id="id_item_form" class="container col-sm-6 col-md-6 share-clean">
 					<legend>修改分享物資訊</legend>
 					<div style='display:none'>
 						<input type="text" name="item_id" value="${param.item_id}">
@@ -171,7 +172,7 @@ html, body {
 						<textarea id="id_item_description" name="item_description" class="form-control" placeholder="50字以內">${param.item_description}</textarea>
 					</div>
 					<div class="form-group">
-						<input type="submit" id="id_submit" class="btn btn-default" value="修改">
+						<input type="submit" id="id_submit" class="btn btn-primary" value="修改">
 						<span id="span_error"></span>
 					</div>
 				</div>
@@ -194,7 +195,6 @@ html, body {
 			</div>
 		</div>
 	</div>
-	
 	<script>
 		var geocoder;
 		var lat;
@@ -218,6 +218,7 @@ html, body {
 		
 		$(function() {
 			$("#header").load("../header.jsp");
+			$("#footer").load("../footer.jsp");
 			
 			// 日期選擇器
 			$("#id_end_date").datepicker({
@@ -330,5 +331,6 @@ html, body {
 		})
 	</script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
+	<div id="footer"></div>
 </body>
 </html>
