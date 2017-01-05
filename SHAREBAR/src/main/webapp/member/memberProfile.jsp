@@ -52,7 +52,7 @@ $(function(){
 #basic_info>.row>[class*='col-']{
  	display: table-cell;
  	float: none; 
-/* 	vertical-align:center; */
+	vertical-align:center;
 	flex: 1; /* additionally, equal width */
 	padding: 1em;
 /* 	border: solid; */
@@ -104,13 +104,18 @@ div#review_sum_div{
     width: 35%;
     height: 20px;
     position: absolute;
-    background-color: #f5f5f5;
-    text-align: right;
-        
+    background-color: #ffffff;
+    text-align: right;  
 }
 .showpoint{
 	display:inline;
 	margin:auto 3px;
+}
+div.progress{
+    top: -1px;
+    width: 90%;
+    position: absolute;
+    height: 5px;
 }
 
 /* XD */
@@ -142,14 +147,14 @@ div#review_sum_div{
 <div id="header"></div>
 <div class="container" id="basic_info">
 <div class="row">
-<div class="col-md-6 col-sm-6 col-xs-12" id="photo_div">
+<div class="col-md-6 col-sm-12 col-xs-12" id="photo_div">
 <img class="img-rounded" alt='member_photo' src='${root}profileImages/${member.photo}' width="200" height="200"/>
 <c:if test="${member.certification eq 1}">
 <div><img id="email_certi" src="${root}/certificationPhoto/Accept-32.png" width="16" height="16">certification</div>
 </c:if>
 </div>
 
-<div class="col-md-6 col-sm-6 col-xs-12" id="info_div" style="vertical-align:top">
+<div class="col-md-6 col-sm-12 col-xs-12" id="info_div" style="vertical-align:top">
 <h1>${member.nickname}</h1>
 <span class="glyphicon glyphicon-file"></span>Self-introduction: <p>${member.description}</p>
 <span class="glyphicon glyphicon-home"></span>Hometown<p>${member.country} : ${member.city}</p>
@@ -165,7 +170,11 @@ div#review_sum_div{
 <hr>
 <div class="container" id="other_info">
 <div class="row">
-<div id="review_div_col" class="col-md-3 col-sm-4 col-xs-12">
+<div id="review_div" class="col-md-3 col-sm-4 col-xs-12">
+<div id="review_progress" class="progress">
+  <div id="review_progress_bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+  </div>
+</div>
 <div id="review_sum_div"><span id="show_good_span" class="glyphicon glyphicon-thumbs-up"></span>  <span id="show_normal_span" class="glyphicon glyphicon-minus"></span>  <span id="show_bad_span" class="glyphicon glyphicon-thumbs-down"></span></div>
 <fieldset>
 <legend>Reviews</legend>
@@ -179,7 +188,7 @@ div#review_sum_div{
 </div><!-- end of tab-content -->
 </fieldset>
 </div>
-<div id="member_content_col" class="col-md-9 col-sm-4 col-xs-12">
+<div id="member_content_col" class="col-md-9 col-sm-8 col-xs-12">
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" href="#items">Items</a></li>
 <li><a data-toggle="tab" href="#follow">Follow</a></li>
@@ -307,6 +316,10 @@ var asgetterReviews = JSON.parse('<%= request.getAttribute("memberasGetter")%>')
 var goodpoint = asgiverReviews.good + asgetterReviews.good;
 var normalpoint = asgiverReviews.normal + asgetterReviews.normal;
 var badpoint = asgiverReviews.bad + asgetterReviews.bad;
+var total = asgiverReviews.Count + asgetterReviews.Count;
+var goodpercent = Math.floor(goodpoint/total*100);
+$("#review_progress_bar").attr("style","width:"+goodpercent+"%");
+$("#review_progress_bar").attr("aria-valuenow",goodpercent);
 $("#show_good_span").append("<p class='showpoint'>"+goodpoint+"</p>");
 $("#show_normal_span").append("<p class='showpoint'>"+normalpoint+"</p>");
 $("#show_bad_span").append("<p class='showpoint'>"+badpoint+"</p>");
