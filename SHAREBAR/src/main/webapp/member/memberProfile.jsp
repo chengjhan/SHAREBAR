@@ -26,6 +26,9 @@ $(function(){
 	$("p > a").click(function(){
 		var change = $(this);
 		var itemid = change.attr("value");
+		if(Number("${user.member_no}") == ""){
+			location.assign('http://localhost:8080/SHAREBAR/secure/login.jsp');
+		}
 	$.get("followItem.do",{"MemberID":"${user.member_no}","ItemID":$(this).attr("value")},
 			
 			function(data){
