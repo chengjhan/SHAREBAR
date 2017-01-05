@@ -115,10 +115,10 @@ html, body {
 	%>
 <%-- 	<p>${classNameList}</p> --%>
 	<div id="header"></div>
-	<div class="container-fluid">
+	<div class="wrapper">
 		<form id="id_insert_form" action="<c:url value="/item/share.controller" />" method="post" enctype="multipart/form-data">
-			<div class="row">
-				<div id="id_image_form" class="container col-sm-6 col-md-6">
+			<div>
+				<div id="id_image_form" class="container">
 					<div id="id_image_div1" class="form-group image-preview">
 						<label for="id_image_photo1" id="id_image_label1">封面照片</label>
 						<input type="file" id="id_image_photo1" name="image_photo1">
@@ -136,7 +136,7 @@ html, body {
 						<input type="file" id="id_image_photo4" name="image_photo4">
 					</div>
 				</div>
-				<div id="id_item_form" class="container col-sm-6 col-md-6">
+				<div id="id_item_form" class="container">
 					<legend>分享物品</legend>
 					<div class="form-group">
 						<label for="id_item_name">名稱</label>
@@ -170,6 +170,22 @@ html, body {
 				</div>
 			</div>
 		</form>
+	</div>
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog" style="width:300px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">分享物品</h4>
+				</div>
+				<div class="modal-body">
+					<p>新增成功</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">確定</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	
 	<script>
@@ -220,7 +236,7 @@ html, body {
 				label_selected: "更換照片",
 				no_label: false
 			});
-				$.uploadPreview({
+			$.uploadPreview({
 				input_field: "#id_image_photo3",
 				preview_box: "#id_image_div3",
 				label_field: "#id_image_label3",
@@ -294,6 +310,17 @@ html, body {
 				}
 			});
 		});
+		
+		// 成功訊息
+		$("#id_insert_form").on("submit", function(){
+			var id_item_name = $("#id_item_name").val();
+			var id_class_name = $("#id_class_name").val();
+			var id_location = $("#id_location").val();
+			var id_image_photo1 = $("#id_image_photo1").val();
+			if(id_item_name != "" && id_class_name != "" && id_location != "" && id_image_photo1 != ""){
+				$("#myModal").modal();
+			}
+		})
 	</script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
 </body>

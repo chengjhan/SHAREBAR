@@ -214,14 +214,10 @@ public class InsertItemServlet extends HttpServlet {
 
 		// 根據Model的執行結果，顯示View
 		if (result != null && result1 != null) {
-			RequestDispatcher rd = request.getRequestDispatcher("/item/InsertItemSuccess.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/member/profile.controller?id=" + user.getMember_no());
 			rd.forward(request, response);
 			return;
-		} else {
-			RequestDispatcher rd = request.getRequestDispatcher("/item/InsertItem.jsp");
-			rd.forward(request, response);
-			return;
-		}
+		} 
 	}
 
 }

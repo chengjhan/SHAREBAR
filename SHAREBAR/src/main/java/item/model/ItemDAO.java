@@ -34,6 +34,9 @@ public interface ItemDAO {
 	List<ItemBean> selectByBoundsByName(double southwestLat, double southwestLng, double northeastLat,
 			double northeastLng, String item_name);
 	
+	List<ItemBean> selectByBoundsByClass(double southwestLat, double southwestLng, double northeastLat,
+			double northeastLng, int class_id);
+	
 	List<ItemBean> selectByNew();
 	
 	ItemBean updateGetter(int item_id, MemberBean getterBean);

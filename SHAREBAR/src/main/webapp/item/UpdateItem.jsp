@@ -178,6 +178,22 @@ html, body {
 			</div>
 		</form>
 	</div>
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog" style="width:300px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">修改分享物資訊</h4>
+				</div>
+				<div class="modal-body">
+					<p>修改成功</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">確定</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	<script>
 		var geocoder;
@@ -301,6 +317,17 @@ html, body {
 				}
 			});
 		});
+		
+		// 成功訊息
+		$("#id_update_form").on("submit", function(){
+			var id_item_name = $("#id_item_name").val();
+			var id_class_name = $("#id_class_name").val();
+			var id_location = $("#id_location").val();
+			var id_image_photo1 = $("#id_image_photo1").val();
+			if(id_item_name != "" && id_class_name != "" && id_location != "" && id_image_photo1 != ""){
+				$("#myModal").modal();
+			}
+		})
 	</script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
 </body>

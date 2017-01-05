@@ -116,11 +116,11 @@
 		</div>
 		<div class="col-md-2">
 			<div class="list-group">
-			  <a href="../administrator/gm_view01.jsp" class="list-group-item active">會員管理</a>
+			  <a href="../administrator/gm_view01.jsp" class="list-group-item">會員管理</a>
 			  <a href="../administrator/gm_view02.jsp" class="list-group-item">物品管理</a>
 			  <a href="../administrator/gm_view03.jsp" class="list-group-item">遭檢舉品項</a>
 			  <a href="../administrator/gm_view04_1.jsp" class="list-group-item">客服信箱</a>
-			  <a href="../category/CRUDClass.jsp" class="list-group-item">分類管理</a>	
+			  <a href="../category/CRUDClass.jsp" class="list-group-item active">分類管理</a>	
 			</div>
 		</div>
 		
