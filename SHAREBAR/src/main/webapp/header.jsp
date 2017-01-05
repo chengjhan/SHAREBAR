@@ -75,13 +75,13 @@ div#navbar {
 						<c:when test="${user.member_no eq 1}">
 							<li class="class_li"><a href="<c:url value='/administrator/gm_view01.jsp'/>"><span class="glyphicon glyphicon-wrench"></span> &nbsp; Administrator</a></li>
 							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
-							<li class="class_li"><a href="<c:url value='/maillist.controller'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
+							<li class="class_li"><a href="<c:url value='/maillist.do'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
 							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
 							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
 						</c:when>
 						<c:otherwise>
 							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
-							<li class="class_li"><a href="<c:url value='/maillist.controller'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
+							<li class="class_li"><a href="<c:url value='/maillist.do'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
 							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
 							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
 						</c:otherwise>
@@ -130,7 +130,7 @@ div#navbar {
 	        },3000);
 	        					
 			function checkMail(){
-					$.post("${pageContext.request.contextPath}/mailUnreaded.ajax",{user : user_id}, function(data){
+					$.post("${pageContext.request.contextPath}/mailUnreaded.controller",{user : user_id}, function(data){
 						switch (data){							
 							case "0": 
 								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_0.png");

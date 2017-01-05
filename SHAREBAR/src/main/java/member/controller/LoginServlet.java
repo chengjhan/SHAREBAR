@@ -79,12 +79,14 @@ public class LoginServlet extends HttpServlet {
 						session.setAttribute("user", bean);
 						String path = request.getContextPath();
 						String from = (String) request.getSession().getAttribute("from");
+						String target = (String) request.getSession().getAttribute("target");
 						if (from != null) {
-							from = from.substring(from.lastIndexOf("SHAREBAR/")+9);
-							response.sendRedirect(path + "/"+from);
+							from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+							response.sendRedirect(path + "/" + from);
 						} else {
 							response.sendRedirect(path + "/index.jsp");
 						}
+
 						return;
 					} else {
 						errors.put("system", "you nead to activate your account.");
@@ -98,12 +100,15 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("user", bean);
 					String path = request.getContextPath();
 					String from = (String) request.getSession().getAttribute("from");
+					String target = (String) request.getSession().getAttribute("target");
+
 					if (from != null) {
-						from = from.substring(from.lastIndexOf("SHAREBAR/")+9);
-						response.sendRedirect(path + "/"+from);
+						from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+						response.sendRedirect(path + "/" + from);
 					} else {
 						response.sendRedirect(path + "/index.jsp");
 					}
+
 					return;
 				} else {
 					errors.put("system", "you nead to activate your account.");
