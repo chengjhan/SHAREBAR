@@ -97,7 +97,10 @@ public class ShowProfileServlet extends HttpServlet {
 			}else{
 				asGiver = new JSONObject();
 				asGiver.put("giverReviews","");
-				asGiver.put("Count",0);
+				asGiver.put("Count",resultsCount);
+				asGiver.put("good", goodpoint);
+				asGiver.put("normal", normalpoint);
+				asGiver.put("bad", badpoint);
 			}
 			// giverReviews json complete
 			
@@ -134,10 +137,16 @@ public class ShowProfileServlet extends HttpServlet {
 				asGetter = new JSONObject();
 				asGetter.put("getterReviews", getJa);
 				asGetter.put("Count", resultsCount);
+				asGetter.put("good", goodpoint);
+				asGetter.put("normal", normalpoint);
+				asGetter.put("bad", badpoint);
 			}else{
 				asGetter = new JSONObject();
 				asGetter.put("getterReviews","");
-				asGetter.put("Count",0);
+				asGetter.put("Count",resultsCount);
+				asGetter.put("good", goodpoint);
+				asGetter.put("normal", normalpoint);
+				asGetter.put("bad", badpoint);
 			}
 			// getterReviews json complete
 			

@@ -6,11 +6,11 @@
 <html>
 <style>
 
-.st1{
-border:1px solid black;
-border-collapse:collapse;
+/* .st1{ */
+/* border:1px solid black; */
+/* border-collapse:collapse; */
 
-}
+/* } */
 </style>
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -35,18 +35,23 @@ $(function(){
 
 <body>
 <div id="header"></div>
-   <div class="container">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-
-					<a class="navbar-brand" href="#">後台管理系統</a>
-				</div>			
-			</div>
-			<!-- /.container-fluid -->
-		</nav>
+	<div class="row">
+		<div class="col-md-2"></div>
+	    <div class="col-md-8">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+	
+						<a class="navbar-brand" href="#">後台管理系統</a>
+					</div>			
+				</div>
+				<!-- /.container-fluid -->
+			</nav>
+		</div>
+		<div class="col-md-2"></div>
 	</div>
+	
 	
 	<div class="col-md-2"></div>
 	
@@ -55,12 +60,13 @@ $(function(){
 		  <a href="gm_view01.jsp" class="list-group-item active">會員管理</a>
 		  <a href="gm_view02.jsp" class="list-group-item">物品管理</a>
 		  <a href="gm_view03.jsp" class="list-group-item">遭檢舉品項</a>
-		  <a href="gm_view04_1.jsp" class="list-group-item">客服信箱</a>	
+		  <a href="gm_view04_1.jsp" class="list-group-item">客服信箱</a>
+		  <a href="../category/CRUDClass.jsp" class="list-group-item">分類管理</a>	
 		</div>
 	</div>
 	
 	<div class="col-md-6">
-		    <div class="jumbotron">
+<!-- 		    <div class="jumbotron"> -->
 			
 				
 <!-- 每頁不同的內容從這裡開始 -->
@@ -70,7 +76,7 @@ $(function(){
 				<table>
 					<tr>
 						<td></td>
-						<td align="right"><input type="submit" value="選取所有已封鎖會員"></td>
+						<td align="right"><input type="submit" value="選取所有已封鎖會員" class="btn btn-default"></td>
 					</tr>			
 				</table>		
 			</form>
@@ -81,9 +87,9 @@ $(function(){
 			<form action="<c:url value="/administrator/SelectByMemberNameServlet"/>" method="get">
 				<table>
 					<tr>
-						<td>會員帳號:</td>
-						<td><input type="text" name="member_email" id="member_email" value="${param.member_email}"></td>			
-						<td align="right"><input type="submit" value="搜尋帳號"> ${errors.member_email} ${errors.system}</td>
+<!-- 						<td><label>會員帳號:&nbsp;</label></td> -->
+						<td><input type="text" name="member_email" id="member_email" value="${param.member_email}"  class="form-control" placeholder="會員帳號"></td>			
+						<td align="right"><input type="submit" value="搜尋帳號" class="btn btn-default"> ${errors.member_email} ${errors.system}</td>
 					</tr>			
 				</table>		
 			</form>
@@ -98,13 +104,13 @@ $(function(){
 						<td></td>
 					</tr>
 					<tr>
-						<td>會員編號:</td>
-						<td><input type="text" name="member_no" value="${param.member_no}">${errors.member_no }</td>				
+<!-- 						<td><label>會員編號:&nbsp;</label></td> -->
+						<td><input type="text" name="member_no" value="${param.member_no}" class="form-control" placeholder="會員編號">${errors.member_no }</td>				
 					</tr>
 					<tr>
-						<td>封鎖日期:</td>
-						<td><input type="text" name="member_block" value="${param.member_block}">${errors.member_block }</td>
-						<td align="right"><input type="submit" value="封鎖會員">${errors.system}</td>
+<!-- 						<td><label>封鎖日期:&nbsp;</label></td> -->
+						<td><input type="text" name="member_block" value="${param.member_block}" class="form-control" placeholder="輸入日期:yyyy-mm-dd">${errors.member_block }</td>
+						<td align="right"><input type="submit" value="封鎖會員" class="btn btn-danger">${errors.system}</td>
 					</tr>	
 				</table>		
 			</form>
@@ -117,9 +123,9 @@ $(function(){
 						<td></td>
 					</tr>
 					<tr>
-						<td>會員編號:</td>
-						<td><input type="text" name="member_no" id="member_no" value="${param.member_no}"></td>	
-						<td align="right"><input type="submit" value="解封會員">${errors.member_no2}</td>
+<!-- 						<td><label>會員編號:&nbsp;</label></td> -->
+						<td><input type="text" name="member_no" id="member_no" value="${param.member_no}" class="form-control" placeholder="會員編號"></td>	
+						<td align="right"><input type="submit" value="解封會員" class="btn btn-success">${errors.member_no2}</td>
 					</tr>			
 				</table>		
 			</form>
@@ -128,21 +134,21 @@ $(function(){
 <!-- ---------------------------------------------------------------------------------------------------------------------- -->
 
 	
-	<h3>搜尋會員結果</h3>
-	
-	<table>	
-	<thead>
+<!-- 	<h3>搜尋會員結果</h3> -->
+	<div>&nbsp;</div>
+	<table class="table table-striped">	
+<!-- 	<thead> -->
 				<tr align="center">
-					<td class="st1">&nbsp;會員編號&nbsp;</td>
-					<td class="st1">&nbsp;封鎖天數&nbsp;</td>
-					<td class="st1">&nbsp;會員帳號&nbsp;</td>
+					<td class="st1">會員編號</td>
+					<td class="st1">封鎖日期</td>
+					<td class="st1">會員帳號</td>
 <!-- 					<td class="st1">&nbsp;&nbsp;會員密碼&nbsp;&nbsp;</td> -->
-					<td class="st1">&nbsp;會員暱稱&nbsp;</td>
-					<td class="st1">&nbsp;自我介紹&nbsp;</td>
-					<td class="st1">&nbsp;認證狀態&nbsp;</td>
+					<td class="st1">會員暱稱</td>
+					<td class="st1">自我介紹</td>
+					<td class="st1">認證狀態</td>
 					
 				</tr>
-	</thead>
+<!-- 	</thead> -->
 			<c:if test="${not empty members}">
 			<c:forEach var="element1" items="${members}">
 				<c:url value="gm_view01.jsp" var="path">
@@ -193,7 +199,7 @@ $(function(){
 	
 
 <!-- 每頁不同的內容到這裡結束 -->
-			</div>
+<!-- 			</div> -->
 	</div>
 
 </body>

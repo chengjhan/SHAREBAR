@@ -98,6 +98,20 @@ div#review_div{
 	float: left;
     margin: 5px 5px;
 }
+div#review_sum_div{
+	top: 5px;
+    right: 5px;
+    width: 35%;
+    height: 20px;
+    position: absolute;
+    background-color: #f5f5f5;
+    text-align: right;
+        
+}
+.showpoint{
+	display:inline;
+	margin:auto 3px;
+}
 
 /* XD */
 .textellipsis{
@@ -152,6 +166,7 @@ div#review_div{
 <div class="container" id="other_info">
 <div class="row">
 <div id="review_div_col" class="col-md-3 col-sm-3 col-xs-12">
+<div id="review_sum_div"><span id="show_good_span" class="glyphicon glyphicon-thumbs-up"></span>  <span id="show_normal_span" class="glyphicon glyphicon-minus"></span>  <span id="show_bad_span" class="glyphicon glyphicon-thumbs-down"></span></div>
 <fieldset>
 <legend>Reviews</legend>
 <ul class="nav nav-tabs">
@@ -289,6 +304,12 @@ $("#follow_button").click(function(){
 });//end of click
 var asgiverReviews = JSON.parse('<%=request.getAttribute("memberasGiver")%>');
 var asgetterReviews = JSON.parse('<%= request.getAttribute("memberasGetter")%>');
+var goodpoint = asgiverReviews.good + asgetterReviews.good;
+var normalpoint = asgiverReviews.normal + asgetterReviews.normal;
+var badpoint = asgiverReviews.bad + asgetterReviews.bad;
+$("#show_good_span").append("<p class='showpoint'>"+goodpoint+"</p>");
+$("#show_normal_span").append("<p class='showpoint'>"+normalpoint+"</p>");
+$("#show_bad_span").append("<p class='showpoint'>"+badpoint+"</p>");
 if(asgiverReviews.Count != 0){
 	$.each(asgiverReviews.giverReviews,function(index,giverReview){
 		var getterId = giverReview.getterID;
@@ -298,7 +319,7 @@ if(asgiverReviews.Count != 0){
 //	 	console.log(giverId+" "+giverPhoto+" "+myRate+" "+myReview);
 		if(myRate==3){
 		$("div#Share").append(
-				"<div class='review_class' style='background-color:#9FF781'>"
+				"<div class='review_class' style='background-color:#CFF6D0'>"
 				+"<a href='${root}member/profile.controller?id="+getterId+"' class='pull-left'>"
 				+"<div class='review_img_div' >"
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
@@ -320,7 +341,7 @@ if(asgiverReviews.Count != 0){
 					);
 		}else if(myRate==1){
 			$("div#Share").append(
-					"<div class='review_class' style='background-color:#F6CED8'>"
+					"<div class='review_class' style='background-color:#F5BAAC'>"
 					+"<a href='${root}member/profile.controller?id="+getterId+"' class='pull-left'>"
 					+"<div class='review_img_div' >"
 					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
@@ -330,7 +351,15 @@ if(asgiverReviews.Count != 0){
 					+"</div>"
 					);
 		}
-	});
+	});//end of each
+	}else if(asgiverReviews.Count == 0){
+		$("div#Share").append(
+				"<div class='review_class' style='background-color:#FFFFFF'>"
+				+"<p>"
+				+"no comment...."
+				+"</p>"
+				+"</div>"
+		);
 	}
 if(asgetterReviews.Count != 0){
 $.each(asgetterReviews.getterReviews,function(index,getterReview){
@@ -341,7 +370,7 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 // 	console.log(giverId+" "+giverPhoto+" "+myRate+" "+myReview);
 	if(myRate==3){
 	$("div#Get").append(
-			"<div class='review_class' style='background-color:#9FF781'>"
+			"<div class='review_class' style='background-color:#CFF6D0'>"
 			+"<a href='${root}member/profile.controller?id="+giverId+"' class='pull-left'>"
 			+"<div class='review_img_div' >"
 			+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
@@ -363,7 +392,7 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 				);
 	}else if(myRate==1){
 		$("div#Get").append(
-				"<div class='review_class' style='background-color:#F6CED8'>"
+				"<div class='review_class' style='background-color:#F5BAAC'>"
 				+"<a href='${root}member/profile.controller?id="+giverId+"' class='pull-left'>"
 				+"<div class='review_img_div' >"
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
@@ -373,7 +402,15 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 				+"</div>"
 				);
 	}
-});
+});//end of each
+}else if(asgetterReviews.Count == 0){
+	$("div#Get").append(
+			"<div class='review_class' style='background-color:#FFFFFF'>"
+			+"<p>"
+			+"no comment...."
+			+"</p>"
+			+"</div>"
+	);
 }
 </script>
 </body>
