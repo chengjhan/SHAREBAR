@@ -790,9 +790,9 @@ html, body {
 //	 						alert(user)
 						} else if(user != 0){
 							if(user != item.member_id.member_no){
-//	 							alert(item.member_id.member_no)
+// 	 							alert(item.member_id.member_no)
 								itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-//	 							alert(item.member_id.member_no + "," + item.follow_items.length)
+// 	 							alert(item.member_id.member_no + "," + item.follow_items.length)
 								for(var i = 0; i < item.follow_items.length; i++){
 									if(item.follow_items[i] != null){
 //	 									alert(item.follow_items[i].member_id.member_no);
