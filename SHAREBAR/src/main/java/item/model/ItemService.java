@@ -99,6 +99,14 @@ public class ItemService {
 	}
 	
 	@Transactional(readOnly = true)
+	public List<ItemBean> selectByBoundsByClass(double southwestLat, double southwestLng, double northeastLat,
+			double northeastLng, int class_id) {
+		List<ItemBean> result = null;
+		result = itemDao.selectByBoundsByClass(southwestLat, southwestLng, northeastLat, northeastLng, class_id);
+		return result;
+	}
+	
+	@Transactional(readOnly = true)
 	public List<ItemBean> selectByNew() {
 		List<ItemBean> result = null;
 		result = itemDao.selectByNew();

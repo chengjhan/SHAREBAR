@@ -80,16 +80,13 @@ public class LoginServlet extends HttpServlet {
 						String path = request.getContextPath();
 						String from = (String) request.getSession().getAttribute("from");
 						String target = (String) request.getSession().getAttribute("target");
-						if (target != null) {
-							response.sendRedirect(path + target);
+						if (from != null) {
+							from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+							response.sendRedirect(path + "/" + from);
 						} else {
-							if (from != null) {
-								from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-								response.sendRedirect(path + "/" + from);
-							} else {
-								response.sendRedirect(path + "/index.jsp");
-							}
+							response.sendRedirect(path + "/index.jsp");
 						}
+
 						return;
 					} else {
 						errors.put("system", "you nead to activate your account.");
@@ -104,16 +101,14 @@ public class LoginServlet extends HttpServlet {
 					String path = request.getContextPath();
 					String from = (String) request.getSession().getAttribute("from");
 					String target = (String) request.getSession().getAttribute("target");
-					if (target != null) {
-						response.sendRedirect(path + target);
+
+					if (from != null) {
+						from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+						response.sendRedirect(path + "/" + from);
 					} else {
-						if (from != null) {
-							from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-							response.sendRedirect(path + "/" + from);
-						} else {
-							response.sendRedirect(path + "/index.jsp");
-						}
+						response.sendRedirect(path + "/index.jsp");
 					}
+
 					return;
 				} else {
 					errors.put("system", "you nead to activate your account.");
