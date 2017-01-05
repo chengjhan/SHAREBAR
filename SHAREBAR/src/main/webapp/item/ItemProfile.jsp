@@ -23,6 +23,8 @@
 
 <title>Profile Page</title>
 
+<link rel=stylesheet type="text/css" href="../css/share.css">
+
 <style>
 #basic_info{
 	top:100px;
@@ -89,7 +91,8 @@ time{
 <div id="header"></div>
 <div class="container">
 <div class="row">
-<div class="col-md-7" id="photo_div">
+<div class="col-md-7">
+<div class="">
 	<div class="row">
 	<div style="margin:20px">
 	<div  id="picgroup" class="img-rounded" style="position:relative;width:60%;height:60%;margin:0 auto;">
@@ -116,11 +119,13 @@ time{
 	</c:forEach>
 	</div>
 </div>
+</div>
 
 
-<div class="col-md-5" style="vertical-align:top">
+<div class="col-md-5 share-clean" style="vertical-align:top">
 <div class="row">
 <div class="col-lg-12 col-md-12 col-sm-6" style="margin-top:15px">
+
 <span class="glyphicon glyphicon-user"></span><strong>分享人：</strong>
 <a href="${root}member/profile.controller?id=${itembean.member_id.member_no}" class="alert-link">
 <p style="margin-left: 15px">${itembean.member_id.nickname}</p>
@@ -130,6 +135,7 @@ time{
 <span class="glyphicon glyphicon-map-marker"></span><strong>地點：</strong>
 <p style="margin-left: 15px">${itembean.location}</p>
 <strong><hr></strong>
+
 </div>
 
 	<%--   功能按鈕      --%>
@@ -250,6 +256,7 @@ var user_name = "${user.nickname}";
 var item_status = "未提出"
 var getNextOffset = function() { return count*215; };
 var count = 0;
+var checklogin = "http://localhost:8080${root}secure/login.jsp";
 
 $("#header").load("../header.jsp");
 $("#footer").load("../footer.jsp");
@@ -274,7 +281,7 @@ $(function(){
 	//追隨按鈕
 	$('input[value="追蹤按鈕"]').click(function(){
 		if(user_id == ""){
-			location.assign('http://localhost:8080/SHAREBAR/secure/login.jsp');
+			location.assign(checklogin);
 		}
 		var change = $(this);
 		var itemid = change.attr("value");
@@ -389,7 +396,7 @@ $(function(){
 	$('#sendmessage').click(function(){
 // 		alert("click");
 		if(user_id == ""){
-			location.assign('http://localhost:8080/SHAREBAR/secure/login.jsp');
+			location.assign(checklogin);
 		}
 	var message = $("#messageboard").val();
 	var photo ="${user.photo}";
@@ -440,6 +447,9 @@ $(function(){
 		});
 	
 	$('#chat').click(function() {
+		if(user_id == ""){
+			location.assign(checklogin);
+		}
 		var item_id = itemid;
 		var requester_id = user_id;
 		var host_id = item_host;
@@ -466,7 +476,9 @@ $(function(){
 	$('#ask').click(function() {
 		if($(this).attr("id") == "done"){return};
 		var thisBtn  = $(this);	
-		
+		if(user_id == ""){
+			location.assign(checklogin);
+		}
 		BootstrapDialog.show({
 			title:item_name,
 			message: "即將對此分享提出請求，是否繼續？",
