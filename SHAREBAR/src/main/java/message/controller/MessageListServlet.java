@@ -20,7 +20,7 @@ import administrator.model.ServiceMailService;
 import member.model.MemberBean;
 import message.model.MessageContextService;
 
-@WebServlet("/maillist.controller")
+@WebServlet("/maillist.do")
 public class MessageListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     

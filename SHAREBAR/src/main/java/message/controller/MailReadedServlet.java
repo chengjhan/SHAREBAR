@@ -15,7 +15,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import message.model.MessageContextService;
 
-@WebServlet("/mailReaded.ajax")
+@WebServlet("/mailReaded.do")
 public class MailReadedServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

@@ -33,6 +33,7 @@ public class LoginFilter implements Filter {
 			System.out.println("start of loginFilter");
 			HttpServletRequest req = (HttpServletRequest) request;
 			HttpServletResponse resp = (HttpServletResponse) response;
+//			req.getSession().setAttribute("target", target);
 			// String servletPath = req.getServletPath();
 			// System.out.println("111--->"+servletPath);
 

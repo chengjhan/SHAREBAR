@@ -79,11 +79,16 @@ public class LoginServlet extends HttpServlet {
 						session.setAttribute("user", bean);
 						String path = request.getContextPath();
 						String from = (String) request.getSession().getAttribute("from");
-						if (from != null) {
-							from = from.substring(from.lastIndexOf("SHAREBAR/")+9);
-							response.sendRedirect(path + "/"+from);
+						String target = (String) request.getSession().getAttribute("target");
+						if (target != null) {
+							response.sendRedirect(path + target);
 						} else {
-							response.sendRedirect(path + "/index.jsp");
+							if (from != null) {
+								from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+								response.sendRedirect(path + "/" + from);
+							} else {
+								response.sendRedirect(path + "/index.jsp");
+							}
 						}
 						return;
 					} else {
@@ -98,11 +103,16 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("user", bean);
 					String path = request.getContextPath();
 					String from = (String) request.getSession().getAttribute("from");
-					if (from != null) {
-						from = from.substring(from.lastIndexOf("SHAREBAR/")+9);
-						response.sendRedirect(path + "/"+from);
+					String target = (String) request.getSession().getAttribute("target");
+					if (target != null) {
+						response.sendRedirect(path + target);
 					} else {
-						response.sendRedirect(path + "/index.jsp");
+						if (from != null) {
+							from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+							response.sendRedirect(path + "/" + from);
+						} else {
+							response.sendRedirect(path + "/index.jsp");
+						}
 					}
 					return;
 				} else {
