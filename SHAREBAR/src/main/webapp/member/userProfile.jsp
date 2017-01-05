@@ -139,7 +139,7 @@ div#review_sum_div{
 <hr>
 <div class="container" id="other_info">
 <div id="other_info_row" class="row">
-<div id="review_div" class="col-md-3 col-sm-3 col-xs-12">
+<div id="review_div" class="col-md-3 col-sm-4 col-xs-12">
 <div id="review_sum_div"><span id="show_good_span" class="glyphicon glyphicon-thumbs-up"></span>  <span id="show_normal_span" class="glyphicon glyphicon-minus"></span>  <span id="show_bad_span" class="glyphicon glyphicon-thumbs-down"></span></div>
 <fieldset>
 <div id="review_summary"></div>
@@ -153,7 +153,7 @@ div#review_sum_div{
 </div><!-- end of tab-content -->
 </fieldset>
 </div><!-- end of #review_div -->
-<div class="col-md-9 col-sm-9 col-xs-12">
+<div class="col-md-9 col-sm-8 col-xs-12">
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" href="#items">Items</a></li>
 <li><a data-toggle="tab" href="#follow">Follow</a></li>

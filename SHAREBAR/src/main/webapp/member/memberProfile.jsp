@@ -165,7 +165,7 @@ div#review_sum_div{
 <hr>
 <div class="container" id="other_info">
 <div class="row">
-<div id="review_div_col" class="col-md-3 col-sm-3 col-xs-12">
+<div id="review_div_col" class="col-md-3 col-sm-4 col-xs-12">
 <div id="review_sum_div"><span id="show_good_span" class="glyphicon glyphicon-thumbs-up"></span>  <span id="show_normal_span" class="glyphicon glyphicon-minus"></span>  <span id="show_bad_span" class="glyphicon glyphicon-thumbs-down"></span></div>
 <fieldset>
 <legend>Reviews</legend>
@@ -179,7 +179,7 @@ div#review_sum_div{
 </div><!-- end of tab-content -->
 </fieldset>
 </div>
-<div id="member_content_col" class="col-md-9 col-sm-9 col-xs-12">
+<div id="member_content_col" class="col-md-9 col-sm-4 col-xs-12">
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" href="#items">Items</a></li>
 <li><a data-toggle="tab" href="#follow">Follow</a></li>
@@ -316,7 +316,6 @@ if(asgiverReviews.Count != 0){
 		var getterPhoto = giverReview.getterPhoto;
 		var myRate = giverReview.giverRate;
 		var myReview = giverReview.giverReview;
-//	 	console.log(giverId+" "+giverPhoto+" "+myRate+" "+myReview);
 		if(myRate==3){
 		$("div#Share").append(
 				"<div class='review_class' style='background-color:#CFF6D0'>"
