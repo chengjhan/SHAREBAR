@@ -6,11 +6,11 @@
 <html>
 <style>
 
-.st1{
-border:1px solid black;
-border-collapse:collapse;
+/* .st1{ */
+/* border:1px solid black; */
+/* border-collapse:collapse; */
 
-}
+/* } */
 </style>
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -34,20 +34,23 @@ $(function(){
 </head>
 
 <body>
-<div id="header"></div>		
-   <div class="container">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-
-					<a class="navbar-brand" href="#">後台管理系統</a>
-				</div>			
+<div id="header"></div>	
+	<div class="row">
+		<div class="col-md-2"></div>
+		   <div class="col-md-8">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<!-- Brand and toggle get grouped for better mobile display -->
+						<div class="navbar-header">
+		
+							<a class="navbar-brand" href="#">後台管理系統</a>
+						</div>			
+					</div>
+					<!-- /.container-fluid -->
+				</nav>
 			</div>
-			<!-- /.container-fluid -->
-		</nav>
+		<div class="col-md-2"></div>
 	</div>
-	
 	
 	<div class="col-md-2"></div>
 	
@@ -56,14 +59,15 @@ $(function(){
 		  <a href="gm_view01.jsp" class="list-group-item">會員管理</a>
 		  <a href="gm_view02.jsp" class="list-group-item">物品管理</a>
 		  <a href="gm_view03.jsp" class="list-group-item">遭檢舉品項</a>
-		  <a href="gm_view04_1.jsp" class="list-group-item active">客服信箱</a>		 
+		  <a href="gm_view04_1.jsp" class="list-group-item active">客服信箱</a>
+		  <a href="../category/CRUDClass.jsp" class="list-group-item">分類管理</a>			 		 		 
 		</div>
 	</div>
 	
 	
 	
-	<div class="col-md-6">
-		    <div class="jumbotron">
+	<div class="col-md-7">
+<!-- 		    <div class="jumbotron"> -->
 				
 				
 				
@@ -80,7 +84,7 @@ $(function(){
 		<table>
 			<tr>
 				<td></td>						
-				<td align="right"><input type="submit" value="更新會員郵件">${errors.system2}</td>
+				<td align="right"><input type="submit" value="更新會員郵件" class="btn btn-success">${errors.system2}</td>
 			</tr>			
 		</table>		
 	</form>
@@ -90,9 +94,9 @@ $(function(){
 	<form action="<c:url value="/administrator/MailSelectMemberNoServlet"/>" method="get">
 		<table>
 			<tr>
-				<td>會員編號:</td>
-				<td><input type="text" name="member_id" value="${param.member_id}"></td>			
-				<td align="right"><input type="submit" value="搜尋指定郵件">${errors.system}</td>
+<!-- 				<td>會員編號:</td> -->
+				<td><input type="text" name="member_id" value="${param.member_id}" class="form-control" placeholder="會員編號"></td>			
+				<td align="right"><input type="submit" value="搜尋指定郵件" class="btn btn-default">${errors.system}</td>
 			</tr>			
 		</table>		
 	</form>
@@ -101,15 +105,15 @@ $(function(){
 	
 	
 	
-	<h3>搜尋信件結果</h3>
-	<table>	
+<!-- 	<h3>搜尋信件結果</h3> -->
+	<table class="table table-striped">	
 				<tr align="center">
-					<td class="st1">&nbsp;信件編號&nbsp;</td>
-					<td class="st1">&nbsp;會員ID&nbsp;</td>
-					<td class="st1">&nbsp;投訴時間&nbsp;</td>			
-					<td class="st1">&nbsp;信件內容&nbsp;</td>
-					<td class="st1">&nbsp;回覆時間&nbsp;</td>
-					<td class="st1">&nbsp;客服回覆&nbsp;</td>
+					<td class="st1">信件編號</td>
+					<td class="st1">會員ID</td>
+					<td class="st1">投訴時間</td>			
+					<td class="st1">信件內容</td>
+					<td class="st1">回覆時間</td>
+					<td class="st1">客服回覆</td>
 					
 				</tr>
 			<c:forEach var="element4" items="${mail}">
@@ -135,7 +139,7 @@ $(function(){
 	
 
 <!-- 每頁不同的內容到這裡結束 -->
-			</div>
+<!-- 			</div> -->
 	</div>
 
 </body>
