@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+body{
+	background-color: #fafffd;
+}
+.share-block{
+	background-color:#f4f1bb;
+}
+.share-clean{
+	background-color:#fff;
+	-moz-border-radius:20px;
+	padding:10px;
+}

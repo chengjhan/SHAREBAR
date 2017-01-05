@@ -163,8 +163,30 @@ public class ItemService {
 		return null;
 	}
 	
+
+	//Lin for profile page reviews
+	@Transactional
+	public List<Object[]> selectGiveReview(MemberBean member_no){
+		List<Object[]> results = itemDao.findGiveReview(member_no);
+		if(results!=null){
+			return results;
+		}
+		return null;
+	}
+	
+	@Transactional
+	public List<Object[]> selectGetReview(MemberBean member_no){
+		List<Object[]> results = itemDao.findGetReview(member_no);
+		if(results!=null){
+			return results;
+		}
+		return null;
+	}
+
+	//Three
 	@Transactional
 	public void rateToGiver(int item_id, int giver_rate, String giver_review) {
+
 
 		ItemBean selectById = itemDao.selectById(item_id);
 		if (selectById != null) {

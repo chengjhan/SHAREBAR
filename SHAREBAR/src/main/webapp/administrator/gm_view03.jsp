@@ -6,11 +6,11 @@
 <html>
 <style>
 
-.st1{
-border:1px solid black;
-border-collapse:collapse;
+/* .st1{ */
+/* border:1px solid black; */
+/* border-collapse:collapse; */
 
-}
+/* } */
 </style>
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -34,18 +34,22 @@ $(function(){
 </head>
 
 <body>
-<div id="header"></div>	
-   <div class="container">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-
-					<a class="navbar-brand" href="#">後台管理系統</a>
-				</div>			
+<div id="header"></div>
+	<div class="row">
+		<div class="col-md-2"></div>
+		   <div class="col-md-8">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<!-- Brand and toggle get grouped for better mobile display -->
+						<div class="navbar-header">
+		
+							<a class="navbar-brand" href="#">後台管理系統</a>
+						</div>			
+					</div>
+					<!-- /.container-fluid -->
+				</nav>
 			</div>
-			<!-- /.container-fluid -->
-		</nav>
+		<div class="col-md-2"></div>
 	</div>
 	
 	<div class="col-md-2"></div>
@@ -55,12 +59,13 @@ $(function(){
 		  <a href="gm_view01.jsp" class="list-group-item">會員管理</a>
 		  <a href="gm_view02.jsp" class="list-group-item">物品管理</a>
 		  <a href="gm_view03.jsp" class="list-group-item active">遭檢舉品項</a>
-		  <a href="gm_view04_1.jsp" class="list-group-item">客服信箱</a>		 
+		  <a href="gm_view04_1.jsp" class="list-group-item">客服信箱</a>
+		  <a href="../category/CRUDClass.jsp" class="list-group-item">分類管理</a>			 		 
 		</div>
 	</div>
 	
-	<div class="col-md-6">
-		    <div class="jumbotron">
+	<div class="col-md-7">
+<!-- 		    <div class="jumbotron"> -->
 			
 				
 				
@@ -88,22 +93,22 @@ $(function(){
 	
 	<form action="<c:url value="/administrator/ReportSelectAllServlet"/>" method="get">		
 					
-				<input type="submit" value="更新檢舉物品清單">			
+				<input type="submit" value="更新檢舉物品清單" class="btn btn-default" >			
 						
 	</form>
 	
 	<div>&nbsp;</div>
 	
 	
-	<h3>搜尋結果</h3>
-	<table>	
+<!-- 	<h3>搜尋結果</h3> -->
+	<table class="table table-striped">	
 				<tr align="center">
-					<td class="st1">&nbsp; # &nbsp;</td>
-					<td class="st1">&nbsp;檢舉人ID&nbsp;</td>
-					<td class="st1">&nbsp;檢舉人帳號&nbsp;</td>
-					<td class="st1">&nbsp;檢舉人暱稱&nbsp;</td>
-					<td class="st1">&nbsp;被檢舉物ID&nbsp;</td>
-					<td class="st1">&nbsp;被檢舉物名稱&nbsp;</td>
+					<td class="st1">#</td>
+					<td class="st1">MemberID</td>
+					<td class="st1">檢舉人帳號</td>
+					<td class="st1">檢舉人暱稱</td>
+					<td class="st1">ItemID</td>
+					<td class="st1">被檢舉物名稱</td>
 					<td class="st1">違規描述</td>
 					<td class="st1">檢舉時間</td>
 <!-- 					<td class="st1">&nbsp;&nbsp;封鎖&nbsp;&nbsp;</td> -->
@@ -120,7 +125,7 @@ $(function(){
 				<tr>
 					<td align="center" class="st1">${element3.report_id}</td>
 					<td align="center" class="st1">${element3.reporting_member_id.member_no}</td>
-					<td align="center" class="st1">${element3.reporting_member_id.email}</td>
+					<td                class="st1">${element3.reporting_member_id.email}</td>
 					<td align="center" class="st1">${element3.reporting_member_id.nickname}</td>
 					<td align="center" class="st1">${element3.reported_item_id.item_id}</td>
 					<td align="center" class="st1">${element3.reported_item_id.item_name}</td>
@@ -133,7 +138,7 @@ $(function(){
 	
 
 <!-- 每頁不同的內容到這裡結束 -->
-			</div>
+<!-- 			</div> -->
 	</div>
 
 </body>

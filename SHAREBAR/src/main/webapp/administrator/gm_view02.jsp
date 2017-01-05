@@ -6,11 +6,11 @@
 <html>
 <style>
 
-.st1{
-border:1px solid black;
-border-collapse:collapse;
+/* .st1{ */
+/* border:1px solid black; */
+/* border-collapse:collapse; */
 
-}
+/* } */
 </style>
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -35,18 +35,23 @@ $(function(){
 
 <body>
 <div id="header"></div>
-   <div class="container">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-
-					<a class="navbar-brand" href="#">後台管理系統</a>
-				</div>			
-			</div>
-			<!-- /.container-fluid -->
-		</nav>
+	<div class="row">
+		<div class="col-md-2"></div>
+	    <div class="col-md-8">
+			<nav class="navbar navbar-default">
+				<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+	
+						<a class="navbar-brand" href="#">後台管理系統</a>
+					</div>			
+				</div>
+				<!-- /.container-fluid -->
+			</nav>
+		</div>
+		<div class="col-md-2"></div>
 	</div>
+	
 	
 	<div class="col-md-2"></div>
 	
@@ -55,12 +60,13 @@ $(function(){
 		  <a href="gm_view01.jsp" class="list-group-item">會員管理</a>
 		  <a href="gm_view02.jsp" class="list-group-item active">物品管理</a>
 		  <a href="gm_view03.jsp" class="list-group-item">遭檢舉品項</a>
-		  <a href="gm_view04_1.jsp" class="list-group-item">客服信箱</a>		 
+		  <a href="gm_view04_1.jsp" class="list-group-item">客服信箱</a>
+		  <a href="../category/CRUDClass.jsp" class="list-group-item">分類管理</a>			 
 		</div>
 	</div>
 	
 	<div class="col-md-6">
-		    <div class="jumbotron">
+<!-- 		    <div class="jumbotron"> -->
 			
 				
 				
@@ -73,7 +79,7 @@ $(function(){
 				<table>
 					<tr>
 						<td></td>
-						<td align="right"><input type="submit" value="選取所有封鎖物品">${errors.system2}</td>
+						<td align="right"><input type="submit" value="選取所有封鎖物品" class="btn btn-default">${errors.system2}</td>
 					</tr>			
 				</table>		
 			</form>
@@ -84,9 +90,9 @@ $(function(){
 			<form action="<c:url value="/administrator/SelectByItemNameServlet"/>" method="get">
 				<table>
 					<tr>
-						<td>物品編號:</td>
-						<td><input type="text" name="item_id" value="${param.item_id}"></td>				
-						<td align="right"><input type="submit" value="搜尋物品">${errors.item_id} ${errors.system}</td>
+<!-- 						<td>物品編號:</td> -->
+						<td><input type="text" name="item_id" value="${param.item_id}" class="form-control" placeholder="物品編號"></td>				
+						<td align="right"><input type="submit" value="搜尋物品" class="btn btn-default">${errors.item_id} ${errors.system}</td>
 						<td></td>
 					</tr>			
 				</table>		
@@ -100,10 +106,10 @@ $(function(){
 				<table>
 					<tr>
 						<td></td>
-						<td>物品編號:</td>
-						<td><input type="text" name="item_id" value="${param.item_id}"></td>	
+<!-- 						<td>物品編號:</td> -->
+						<td><input type="text" name="item_id" value="${param.item_id}" class="form-control" placeholder="物品編號"></td>	
 		
-						<td align="right"><input type="submit" value="封鎖物品">${errors.system3}</td>
+						<td align="right"><input type="submit" value="封鎖物品" class="btn btn-danger">${errors.system3}</td>
 					</tr>			
 				</table>		
 			</form>
@@ -114,10 +120,10 @@ $(function(){
 				<table>
 					<tr>
 						<td></td>
-						<td>物品編號:</td>
-						<td><input type="text" name="item_id" value="${param.item_id}"></td>	
+<!-- 						<td>物品編號:</td> -->
+						<td><input type="text" name="item_id" value="${param.item_id}" class="form-control" placeholder="物品編號"></td>	
 		
-						<td align="right"><input type="submit" value="解封物品">${errors.system4}</td>
+						<td align="right"><input type="submit" value="解封物品" class="btn btn-success">${errors.system4}</td>
 					</tr>			
 				</table>		
 			</form>
@@ -127,16 +133,16 @@ $(function(){
 		</div>
 	</div>
 <!-- ----------------------------------------------------------------------------------------------------- -->
-	
-	<h3>搜尋物品結果</h3>
-	<table>	
+	<div>&nbsp;</div>
+<!-- 	<h3>搜尋物品結果</h3> -->
+	<table class="table table-striped">	
 				<tr align="center">
-					<td class="st1">&nbsp;&nbsp;物品編號&nbsp;&nbsp;</td>
-					<td class="st1">&nbsp;&nbsp;物品名稱&nbsp;&nbsp;</td>
-					<td class="st1">&nbsp;&nbsp;描述介紹&nbsp;&nbsp;</td>
-					<td class="st1">&nbsp;&nbsp;經度&nbsp;&nbsp;</td>
-					<td class="st1">&nbsp;&nbsp;緯度&nbsp;&nbsp;</td>
-					<td class="st1">&nbsp;未封鎖0/封鎖1&nbsp;</td>
+					<td class="st1">物品編號</td>
+					<td class="st1">物品名稱</td>
+					<td class="st1">描述介紹</td>
+					<td class="st1">經度</td>
+					<td class="st1">緯度</td>
+					<td class="st1">未封鎖0/封鎖1</td>
 				</tr>
 				
 				
@@ -182,7 +188,7 @@ $(function(){
 	
 
 <!-- 每頁不同的內容到這裡結束 -->
-			</div>
+<!-- 			</div> -->
 	</div>
 	
 </body>
