@@ -74,7 +74,7 @@ div#review_div{
 div#review_sum_div{
 	top: 5px;
     right: 5px;
-    width: 35%;
+    width: 40%;
     height: 20px;
     position: absolute;
     background-color: #ffffff;
