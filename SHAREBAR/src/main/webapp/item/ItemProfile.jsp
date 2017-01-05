@@ -122,7 +122,9 @@ time{
 <div class="row">
 <div class="col-lg-12 col-md-12 col-sm-6" style="margin-top:15px">
 <span class="glyphicon glyphicon-user"></span><strong>分享人：</strong>
+<a href="${root}member/profile.controller?id=${itembean.member_id.member_no}" class="alert-link">
 <p style="margin-left: 15px">${itembean.member_id.nickname}</p>
+</a>
 <span class="glyphicon glyphicon-gift"></span><strong id="piccount" maxpic="<c:forEach var="test" items="${itembean.imageBean}" varStatus="stat"><c:if test="${stat.last}">${stat.count}</c:if> </c:forEach>">分享物品：</strong>
 <p style="margin-left: 15px">${itembean.item_name}</p>
 <span class="glyphicon glyphicon-map-marker"></span><strong>地點：</strong>
@@ -205,14 +207,14 @@ time{
     	</a>
     	<strong>${message.member_id.nickname}</strong>
     	<time></time>
-    	<p style="overflow: hidden;">${message.message}</span>
+    	<p style="overflow-x: hidden;overflow-y:auto;">${message.message}</span>
     	</li>
     	</c:forEach>
     	<p id="endline"/>
     	</ul>
     	<textarea id="messageboard" class="form-control" style="margin:15px 0" placeholder="請輸入留言訊息"></textarea>
     	<div class="text-right">
-    	<input id="sendmessage" class="btn btn-default" type="button" value="留言" style="width:100px">
+    	<input id="sendmessage" class="btn btn-default" type="button" value="留言" style="width:100px" maxlength="30">
 		</div>    
     </div>
   </div>
@@ -239,6 +241,8 @@ time{
 <div id="board"></div>
 <div id="footer"></div>
 <script type="text/javascript">
+
+// location.replace('http://localhost:8080/SHAREBAR/secure/login.jsp');
 
 var socket = null;
 var user_id = Number("${user.member_no}");
@@ -269,6 +273,9 @@ $(function(){
 	
 	//追隨按鈕
 	$('input[value="追蹤按鈕"]').click(function(){
+		if(user_id == ""){
+			location.assign('http://localhost:8080/SHAREBAR/secure/login.jsp');
+		}
 		var change = $(this);
 		var itemid = change.attr("value");
 	$.post("followItem.do",{"MemberID":"${user.member_no}","ItemID":"${itembean.item_id}"},
@@ -370,7 +377,7 @@ $(function(){
 	    	'</a>'+
 	    	'<strong>'+nickname+'</strong>'+
 	    	'<time>${message.time}</time>'+
-	    	'<p style="overflow: hidden;">'+message+'</span>'+
+	    	'<p style="overflow-x: hidden;overflow-y:auto">'+message+'</span>'+
 	    	'</li>'
 			)
 	$('.newmessage').show(400);		
@@ -381,6 +388,9 @@ $(function(){
 	//留言版功能
 	$('#sendmessage').click(function(){
 // 		alert("click");
+		if(user_id == ""){
+			location.assign('http://localhost:8080/SHAREBAR/secure/login.jsp');
+		}
 	var message = $("#messageboard").val();
 	var photo ="${user.photo}";
 	var nickname = "${user.nickname}";

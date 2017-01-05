@@ -124,11 +124,6 @@ public class GSignServlet extends HttpServlet {
 
 		MemberBean mb1 = memberService.findByG(userId);
 		if (mb1 != null) {
-			System.out.println("mb1!=null");
-		} else {
-			System.out.println("mb1==null");
-		}
-		if (mb1 != null) {
 			if (mb1.getFacebook() != null) {
 				if (mb1.getFacebook().equals(userId)) {
 					System.out.println("login...");

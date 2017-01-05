@@ -26,6 +26,10 @@ div#g-signin2{
 }
 </style>
 </head>
+<%
+String from = request.getHeader("Referer"); 
+session.setAttribute("from",from);
+%>
 <body>
 <div id="header"></div>
 <div id="login_div">
@@ -95,7 +99,10 @@ function onSignIn(googleUser) {
 	$.post("tokensignin",{"id_token":id_token,"ID":profile.getId(),"Name":profile.getName(),"Given Name":profile.getGivenName(),"Family Name":profile.getFamilyName(),"Image URL":profile.getImageUrl(),"Email":profile.getEmail()},function(responseText){
 		if(responseText == "GLoginSuccess"){
 			console.log(responseText);
-			window.location = "http://localhost:8080/SHAREBAR/index.jsp";
+			gapi.auth2.getAuthInstance().signOut().then(function() {
+				console.log('User signed out.');
+			});
+			window.location = "<%=from%>";
 		}else if(responseText == "AccountExist"){
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
@@ -104,7 +111,10 @@ function onSignIn(googleUser) {
 			$("#Gerror").append( "<p style='color:red'>connecting error please try other method.</p>" );
 		}else if(responseText == "GSignAndLoginSuccess"){
 			console.log(responseText);
-			window.location = "http://localhost:8080/SHAREBAR/index.jsp";
+			gapi.auth2.getAuthInstance().signOut().then(function() {
+				console.log('User signed out.');
+			});
+			window.location = "<%=from%>";
 		}else if(responseText == "InvalidIdToken"){
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
