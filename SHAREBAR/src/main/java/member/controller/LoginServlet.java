@@ -52,13 +52,13 @@ public class LoginServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		Map<String, String> errors = new HashMap<String, String>();
 		request.setAttribute("errors", errors);
-		if(request.getSession().getAttribute("user")!=null){
+		if (request.getSession().getAttribute("user") != null) {
 			String path = request.getContextPath();
 			String from = (String) request.getSession().getAttribute("from");
 			if (from != null) {
 				from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
 				response.sendRedirect(path + "/" + from);
-			}else{
+			} else {
 				response.sendRedirect(path + "/index.jsp");
 			}
 		}
@@ -92,7 +92,11 @@ public class LoginServlet extends HttpServlet {
 						String target = (String) request.getSession().getAttribute("target");
 						if (from != null) {
 							from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-							response.sendRedirect(path + "/" + from);
+							if (!from.equals("secure/login.jsp") && !from.equals("secure/signup.jsp")) {
+								response.sendRedirect(path + "/" + from);
+							} else {
+								response.sendRedirect(path + "/index.jsp");
+							}
 						} else {
 							response.sendRedirect(path + "/index.jsp");
 						}
@@ -114,7 +118,12 @@ public class LoginServlet extends HttpServlet {
 
 					if (from != null) {
 						from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-						response.sendRedirect(path + "/" + from);
+						System.out.println(from);
+						if (!from.equals("secure/login.jsp") && !from.equals("secure/signup.jsp")) {
+							response.sendRedirect(path + "/" + from);
+						} else {
+							response.sendRedirect(path + "/index.jsp");
+						}
 					} else {
 						response.sendRedirect(path + "/index.jsp");
 					}

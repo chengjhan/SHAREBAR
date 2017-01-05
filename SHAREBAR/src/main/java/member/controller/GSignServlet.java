@@ -107,16 +107,7 @@ public class GSignServlet extends HttpServlet {
 			out.write("alreadyLogin");
 			return;
 		}
-		// GoogleIdTokenVerifier verifier = new
-		// GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
-		// .setAudience(Collections
-		// .singletonList("307771007729-rmscbeafik1eh81eo2v9rtv4bb5n1tml.apps.googleusercontent.com"))
-		// // Or, if multiple clients access the backend:
-		// // .setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2,
-		// // CLIENT_ID_3))
-		// .build();
 
-		// (Receive idTokenString by HTTPS POST)
 		String idTokenString = request.getParameter("id_token");
 		String userId = request.getParameter("ID");
 		String name = request.getParameter("Name");
@@ -160,77 +151,6 @@ public class GSignServlet extends HttpServlet {
 				return;
 			}
 		}
-
-		// GoogleIdToken idToken = null;
-		// try {
-		// idToken = verifier.verify(idTokenString);
-		// } catch (GeneralSecurityException e) {
-		// e.printStackTrace();
-		// }
-		// if (idToken != null) {
-		// Payload payload = idToken.getPayload();
-		//
-		// // Print user identifier
-		// String userId = payload.getSubject();
-		// System.out.println("User ID: " + userId);
-		//
-		// // Get profile information from payload
-		// String email = payload.getEmail();
-		// boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-		// String name = (String) payload.get("name");
-		// String pictureUrl = (String) payload.get("picture");
-		// String locale = (String) payload.get("locale");
-		// String familyName = (String) payload.get("family_name");
-		// String givenName = (String) payload.get("given_name");
-		//
-		// // Use or store profile information
-		// // ...
-		// System.out.println("payload= " + payload);
-		// System.out.println("email= " + email);
-		// System.out.println("emailVerified= " + emailVerified);
-		// System.out.println("name= " + name);
-		// System.out.println("pictureUrl= " + pictureUrl);
-		// System.out.println("local= " + locale);
-		// System.out.println("familyName= " + familyName);
-		// System.out.println("givenName= " + givenName);
-		//
-		// MemberBean mb1 = memberService.findByEmail(email);
-		// if(mb1!=null){
-		// System.out.println("mb1!=null");
-		// }else{
-		// System.out.println("mb1==null");
-		// }
-		// if(mb1!=null){
-		// if(mb1.getFacebook().equals(userId)){
-		// System.out.println("login...");
-		// request.getSession().setAttribute("user", mb1);
-		// out.write("GLoginSuccess");
-		// return;
-		// }else if(mb1.getFacebook()==null){
-		// System.out.println("login fail, account exist...");
-		// out.write("AccountExist");
-		// return;
-		// }
-		// }else{
-		// MemberBean result = memberService.GSignUp(userId, email, givenName,
-		// familyName,
-		// getMD5(email)+"."+pictureUrl.substring(pictureUrl.lastIndexOf(".")));
-		// if(result!=null){
-		// saveImage(pictureUrl,
-		// rootpath+getMD5(email)+"."+pictureUrl.substring(pictureUrl.lastIndexOf(".")));
-		// request.getSession().setAttribute("user", result);
-		// System.out.println("sign and login...");
-		// out.write("GSignAndLoginSuccess");
-		// return;
-		// }
-		// }
-		//
-		//
-		// } else {
-		// System.out.println("Invalid ID token.");
-		// out.write("InvalidIdToken");
-		// return;
-		// }
 	}
 
 }
