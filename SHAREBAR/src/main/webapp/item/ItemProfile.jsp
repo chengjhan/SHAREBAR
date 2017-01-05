@@ -486,20 +486,24 @@ $(function(){
 			
 	function startAction(thisBtn) {					
 		thisBtn.attr("value","處理中");				
-		var action_str = thisBtn.attr("id");		
+		var action_str = thisBtn.attr("id");
+				
 		$.get("../chatAction.ajax", { "action":action_str, "item":itemid, "requester":user_id }, 
 				function(data){											
 					setTimeout(function() {
 						$("#ask").toggleClass("btn-default");
 						$("#ask").attr("value","請求已送出");
-						$("#ask").attr("id","done")				
+						$("#ask").attr("id","done");
+						var msg = "對你的分享進行了請求。";
+						var windowcode = itemid + "_" + item_host + "_" + user_id; 
+						socket.send(JSON.stringify({content : msg, item : itemid, requester : user_id, title : item_name, speaker : user_id, listener : item_host, user : user_name, windowcode : windowcode}));			
 					}, 1000)						
 			});
 		}
 
 	function messageWindow() {
 		var item_id = itemid;
-		var title_id = item_name ;
+		var title_str = item_name ;
 		var host_id = item_host;
 		var requester_id = user_id;
 		var windowcode = item_id + "_" + host_id + "_" + requester_id;
@@ -511,13 +515,13 @@ $(function(){
 		$("#" + windowcode).chatbox({				
 			id : user_id, 
             user : user_name,
-            title : '( ' + item_hostName + ' ) ' + title_id,
+            title : '( ' + item_hostName + ' ) ' + title_str,
             width : 200,
             offset : getNextOffset(),
             hidden: true,
             messageSent : function(id, user, msg) {                      		
             	if(socket.readyState != 1){startConnection();}
-                socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_id, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
+                socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_str, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
                 $.post("../messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
                 }});
 
