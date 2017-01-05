@@ -129,6 +129,11 @@ function onSignIn(googleUser) {
 			console.log(responseText);
 			$("#Gerror").empty();
 			$("#Gerror").append( "<p style='color:red'>the account with this email is already exist</p>" );
+		}else if(responseText == "alreadyLogin"){
+			gapi.auth2.getAuthInstance().signOut().then(function() {
+				console.log('User signed out.');
+			});
+			window.location = "<%=from%>";
 		}
 	});
 }

@@ -103,6 +103,10 @@ public class GSignServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		String rootpath = request.getServletContext().getRealPath("/profileImages/");
+		if(request.getSession().getAttribute("user")!=null){
+			out.write("alreadyLogin");
+			return;
+		}
 		// GoogleIdTokenVerifier verifier = new
 		// GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
 		// .setAudience(Collections

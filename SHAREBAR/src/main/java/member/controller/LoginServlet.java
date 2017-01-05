@@ -52,6 +52,16 @@ public class LoginServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		Map<String, String> errors = new HashMap<String, String>();
 		request.setAttribute("errors", errors);
+		if(request.getSession().getAttribute("user")!=null){
+			String path = request.getContextPath();
+			String from = (String) request.getSession().getAttribute("from");
+			if (from != null) {
+				from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+				response.sendRedirect(path + "/" + from);
+			}else{
+				response.sendRedirect(path + "/index.jsp");
+			}
+		}
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
