@@ -466,7 +466,9 @@ html, body {
 				case 3: alert("瀏覽器時間到了無法取得位置"); break;
 				default: alert("who knows"); break;
 			}
-		}	
+		}
+		
+//===============================================================================================================================
 
 		// 這裡開始是body
 		var map;
@@ -504,17 +506,17 @@ html, body {
 			});
 			
 			// 由搜尋列第一次搜尋
-			var swLat = ${swLat};
+			var swLat = ${param.swLat};
 // 			alert(swLat);
-			var swLng = ${swLng};
+			var swLng = ${param.swLng};
 // 			alert(swLng);
 			var swMarker = new google.maps.Marker({
    				position: {lat: swLat, lng: swLng},
 //    			map: map
    			});
-			var neLat = ${neLat};
+			var neLat = ${param.neLat};
 // 			alert(neLat);
-			var neLng = ${neLng};
+			var neLng = ${param.neLng};
 // 			alert(neLng);
 			var neMarker = new google.maps.Marker({
    				position: {lat: neLat, lng: neLng},
@@ -531,10 +533,10 @@ html, body {
 //    		});
 // 			var table = $("#itemList>tbody");
 			var photo = $("#left_content")
-			var searchBar = "${searchBar}";
+			var class_id = "${param.id}";
 			var number = $("#id_number_span");
-			var currentLat = ${currentLat};
-			var currentLng = ${currentLng};
+			var currentLat = ${param.lat};
+			var currentLng = ${param.lng};
 			var currentLatLng = { lat: currentLat, lng: currentLng };
 			var centerLocation = $("#id_center_span");
 			
@@ -549,8 +551,8 @@ html, body {
 				}
 			});
 			
-			$.getJSON("searchItemName.ajax", {
-				"searchBar": searchBar,
+			$.getJSON("searchClassName.ajax", {
+				"class_id": class_id,
 				"swLat": swLat,
 				"swLng": swLng,
 				"neLat": neLat,
@@ -581,41 +583,12 @@ html, body {
 // 					alert(imageSrc);
 					var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
 					var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
-					var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
+					var itemMember_img = "<img src='${root}item-icon/member.png' class='item_member_img'>";
 					var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
-					var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);					
-					
-					var itemFollow_img;
-					var itemFollow_div;
-					var itemFollow_a;
-					
-					var user = ${user.member_no}
-					console.log(user);
-					if(user == undefined){
-						user = 0;
-					}
-//						alert(user)
-					if(user != 0){
-						if(user != item.member_id.member_no){
-							itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-// 							alert(item.imageBean.length);
-							for(var i = 0; i < item.imageBean.length; i++){
-// 								alert(item.imageBean[i].image_photo);
-								if(item.follow_items[i] != null){
-// 									alert(item.follow_items[i].member_id.member_no);
-									if(user == item.follow_items[i].member_id.member_no){
-										if(item.follow_items[i].status == 1){
-											itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
-										}
-									}
-								}
-							}
-							itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
-							itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
-						}
- 					}
-					
-					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_a);
+					var itemMember_a = $("<a></a>").attr("href", "https://www.google.com.tw").append(itemMember_div);
+					var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
+					var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
+					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_div);
 					var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";
 					var itemName_span = $("<span class='item_name_p'></span>").append(itemItemName_a);
 					var dot_span = $("<span></span>").append("．");
@@ -705,9 +678,9 @@ html, body {
 			});
 			
 			// 移動地圖即時變更物品
-// 			map.addListener('dragend', moveMap);
+			map.addListener('dragend', moveMap);
 // 			map.addListener('zoom_changed', moveMap);
-			map.addListener('idle', moveMap);
+// 			map.addListener('idle', moveMap);
 
 			function moveMap() {
 				// 清除所有地圖標記
@@ -742,8 +715,8 @@ html, body {
 					}
 				});
 				
-				$.getJSON("searchItemName.ajax", {
-					"searchBar": searchBar,
+				$.getJSON("searchClassName.ajax", {
+					"class_id": class_id,
 					"swLat": sw.lat(),
 					"swLng": sw.lng(),
 					"neLat": ne.lat(),
@@ -774,41 +747,12 @@ html, body {
 // 	 					alert(imageSrc);
 						var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
 						var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
-						var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
+						var itemMember_img = "<img src='${root}item-icon/member.png' class='item_member_img'>";
 						var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
-						var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);					
-						
-						var itemFollow_img;
-						var itemFollow_div;
-						var itemFollow_a;
-						
-						var user = ${user.member_no}
-						console.log(user);
-						if(user == undefined){
-							user = 0;
-						}
-// 						alert(user)
-						if(user != 0){
-							if(user != item.member_id.member_no){
-								itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-//	 							alert(item.imageBean.length);
-								for(var i = 0; i < item.imageBean.length; i++){
-//	 								alert(item.imageBean[i].image_photo);
-									if(item.follow_items[i] != null){
-//	 									alert(item.follow_items[i].member_id.member_no);
-										if(user == item.follow_items[i].member_id.member_no){
-											if(item.follow_items[i].status == 1){
-												itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
-											}
-										}
-									}
-								}
-								itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
-								itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
-							}
-	 					}
-						
-						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_a);
+						var itemMember_a = $("<a></a>").attr("href", "https://www.google.com.tw").append(itemMember_div);
+						var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
+						var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
+						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_div);
 						var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";
 						var itemName_span = $("<span class='item_name_p'></span>").append(itemItemName_a);
 						var dot_span = $("<span></span>").append("．");
@@ -950,6 +894,17 @@ html, body {
 			});
 			
 			// body
+			// 愛心變色
+			$(document).on("mouseover", "#id_item_follow_img", function(){
+				$(this).removeAttr("src").attr("src", "${root}item-icon/follow_a.png");
+			});
+			$(document).on("mouseout", "#id_item_follow_img", function(){
+				$(this).removeAttr("src").attr("src", "${root}item-icon/follow.png");
+			});
+			$(document).on("click", "#id_item_follow_img", function(){
+				$(this).removeAttr("src").attr("src", "${root}item-icon/followed.png");
+			});
+			
 			// 標記變色-全部變色
 // 			$(document).on("mouseover", ".item_bean_div", function(){
 // 				for(var i = 0; i < itemArray.length; i++){
@@ -1001,44 +956,8 @@ html, body {
 			    });
 				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 			});
-			
-			// 追蹤按鈕-愛心變色
-			$(document).on("mouseover", "#id_item_follow_img", function(){
-				if($(this).attr("src") == "${root}item-icon/follow.png"){
-					$(this).removeAttr("src").attr("src", "${root}item-icon/follow_a.png");					
-				}
-			});
-			$(document).on("mouseout", "#id_item_follow_img", function(){
-				if($(this).attr("src") == "${root}item-icon/follow_a.png"){
-					$(this).removeAttr("src").attr("src", "${root}item-icon/follow.png");					
-				}
-			});
-			$(document).on("click", "#id_item_follow_img", function(){
-				if($(this).attr("src") == "${root}item-icon/follow_a.png" || $(this).attr("src") == "${root}item-icon/follow.png"){
-					$(this).removeAttr("src").attr("src", "${root}item-icon/followed.png");					
-				}else{
-					$(this).removeAttr("src").attr("src", "${root}item-icon/follow.png");
-				}
-			});
-			
-			// 追蹤按鈕-修改資料庫
-			$(document).on("click", ".id_item_follow_a", function(){
-				var $this = $(this);
-				var item_id = $this.attr("value");
-				$.get("followItem.do", {
-					"MemberID": "${user.member_no}",
-					"ItemID": item_id
-				},
-				function(data){
-// 					if(data == 1) {
-// 						$("$this a").attr("img", "${root}item-icon/followed.png");
-// 					} else {
-// 						$("$this a").attr("img", "${root}item-icon/follow.png");
-// 					}
-				});
-			});
 		});
 	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
 </body>
 </html>

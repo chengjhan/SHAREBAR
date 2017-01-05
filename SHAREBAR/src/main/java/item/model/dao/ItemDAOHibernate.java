@@ -132,6 +132,23 @@ public class ItemDAOHibernate implements ItemDAO {
 	
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public List<ItemBean> selectByBoundsByClass(double southwestLat, double southwestLng, double northeastLat,
+			double northeastLng, int class_id) {
+		Query query = this.getSession().createQuery(
+				"from ItemBean where (latitude>? and latitude<?) and (longitude>? and longitude<?) and block=? and done=? and class_id=? order by post_date desc");
+		query.setParameter(0, southwestLat);
+		query.setParameter(1, northeastLat);
+		query.setParameter(2, southwestLng);
+		query.setParameter(3, northeastLng);
+		query.setParameter(4, 0);
+		query.setParameter(5, 0);
+		query.setParameter(6, class_id);
+		List<ItemBean> list = query.getResultList();
+		return list;
+	}
+	
+	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<ItemBean> selectByNew() {
 		Query query = this.getSession().createQuery("from ItemBean where block= :block and done = :done order by post_date desc");
 		query.setParameter("block", 0);

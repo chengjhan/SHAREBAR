@@ -239,7 +239,7 @@ html, body {
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px">
-					<select id="id_select" name="searchSelector">
+					<select id="id_select" name="searchSelector" class="form-control">
 						<option value="location">地區</option>
 						<option value="itemName">物品</option>
 					</select>
