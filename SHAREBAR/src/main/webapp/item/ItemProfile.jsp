@@ -94,8 +94,8 @@ time{
 <div class="col-md-7">
 <div class="">
 	<div class="row">
-	<div style="margin:20px">
-	<div  id="picgroup" class="img-rounded" style="position:relative;width:60%;height:60%;margin:0 auto;">
+	<div style="margin-bottom:20px">
+	<div  id="picgroup" class="img-rounded" style="position:relative;width:70%;height:70%;margin:0 auto;">
 	<span id="prev-btn" class="glyphicon glyphicon-chevron-left finger pull-left" style="position:absolute;font-size:350%;left:0;left:-80px;top:calc(50% - 20px);"></span>
 	<span id="next-btn" class="glyphicon glyphicon-chevron-right finger pull-right" style="position:absolute;font-size:350%;right:0;right:-80px;top:calc(50% - 20px);"></span>
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
@@ -122,8 +122,8 @@ time{
 </div>
 
 
-<div class="col-md-5 share-clean" style="vertical-align:top">
-<div class="row">
+<div class="col-md-5" style="vertical-align:top">
+<div class="row share-clean" style="margin-left:0;margin-right:0">
 <div class="col-lg-12 col-md-12 col-sm-6" style="margin-top:15px">
 
 <span class="glyphicon glyphicon-user"></span><strong>分享人：</strong>
@@ -156,22 +156,23 @@ time{
 	</c:url>
 	
 	<a href="${path}">
-		<input type="button" value="Edit" class="btn btn-primary" style="margin:5px;width:100%">
+		<input type="button" value="Edit" class="btn btn-primary" style="width:100%">
 	</a>
 	</c:when>
 	<c:otherwise>
-	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :5px;width:100%;height:45px ">
-	<input type="button" value="追蹤按鈕" class="btn btn-success" style="margin:5px;width:100%;height:45px" >
-	<input type="button" id="report" value="檢舉商品" class="btn btn-default" style="margin:5px;width:100%;height:45px">
+	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :5px 0;width:49%;height:45px ">
 			<c:if test="${ itembean.done == 0 }">
-				<input type="button" id="ask" value="提出分享請求" class="btn btn-success" style="margin :5px;width:100%;height:45px">
-			</c:if>
+			<input type="button" id="ask" value="提出分享請求" class="btn btn-success" style="margin :5px 0;width:49%;height:45px">
+		</c:if>
 		<c:if test="${ itembean.done == 1 && item.getter_id == user_id }">
-			<input type="button" id="done" value="成交" class="btn btn-success" style="margin :5px;width:100%;height:45px">
+			<input type="button" id="done" value="成交" class="btn btn-success" style="margin :5px 0;width:49%;height:45px">
 		</c:if>
 		<c:if test="${ itembean.done == 1 && item.getter_id != user_id }">
-			<input type="button" id="done" value="已鎖定" class="btn btn-danger" style="margin :5px;width:100%;height:45px">
+			<input type="button" id="done" value="已鎖定" class="btn btn-danger" style="margin :5px 0;width:49%;height:45px">
 		</c:if>
+	<input type="button" value="追蹤按鈕" class="btn btn-success" style="margin:5px 0;width:100%;height:45px" >
+	<input type="button" id="report" value="檢舉商品" class="btn btn-danger" style="margin:5px 0;width:100%;height:45px">
+
 	</c:otherwise>
 	</c:choose>
 	</div>
@@ -184,9 +185,10 @@ time{
 
 </div><!-- end of basic_info -->
 
-<div class="container">
+<div class="container" style="margin-top:30px">
 <div class="row">
-<div class="col-md-7" id="other-info">
+<div class="col-md-7">
+<div class="share-clean">
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" href="#descrption">分享描述</a></li>
 <li><a data-toggle="tab" href="#message">討論</a></li>
@@ -225,11 +227,12 @@ time{
     </div>
   </div>
 </div>
+</div>
 <div id="other-info" class="col-md-5">
-<h3 class="text-center" style="margin:5px 0px 20px 0px">
+<h3 class="text-center" style="margin:15px 0px 10px 0px">
 <strong>分享者資訊</strong>
 </h3>
-<div class="alert alert-info" role="alert" style="height:170px">	
+<div class="share-clean" role="alert" style="height:170px">	
 <a href="${root}member/profile.controller?id=${itembean.member_id.member_no}" class="alert-link">
 <div>
 <img alt="${follow.member_followed.nickname}" src="${root}profileImages/${itembean.member_id.photo}" class="img-rounded pull-left" width="120" height="120" style="margin-right:45px">

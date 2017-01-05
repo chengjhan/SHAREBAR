@@ -8,6 +8,7 @@
 <title>刊登分享物</title>
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel=stylesheet type="text/css" href="../css/share.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
@@ -116,6 +117,8 @@ html, body {
 <%-- 	<p>${classNameList}</p> --%>
 	<div id="header"></div>
 	<div class="container-fluid">
+	
+	
 		<form id="id_insert_form" action="<c:url value="/item/share.controller" />" method="post" enctype="multipart/form-data">
 			<div class="row">
 				<div id="id_image_form" class="container col-sm-6 col-md-6">
@@ -136,7 +139,7 @@ html, body {
 						<input type="file" id="id_image_photo4" name="image_photo4">
 					</div>
 				</div>
-				<div id="id_item_form" class="container col-sm-6 col-md-6">
+				<div id="id_item_form" class="container col-sm-6 col-md-6 share-clean">
 					<legend>分享物品</legend>
 					<div class="form-group">
 						<label for="id_item_name">名稱</label>
@@ -164,14 +167,14 @@ html, body {
 						<textarea id="id_item_description" name="item_description" class="form-control" placeholder="50字以內"></textarea>
 					</div>
 					<div class="form-group">
-						<input type="submit" id="id_submit" class="btn btn-default" value="刊登">
+						<input type="submit" id="id_submit" class="btn btn-primary" value="刊登">
 						<span id="span_error"></span>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
-	
+	<div id="footer"></div>
 	<script>
 		var geocoder;
 		var lat;
@@ -195,6 +198,7 @@ html, body {
 		
 		$(function() {
 			$("#header").load("../header.jsp");
+			$("#footer").load("../footer.jsp");
 			
 			// 日期選擇器
 			$("#id_end_date").datepicker({
