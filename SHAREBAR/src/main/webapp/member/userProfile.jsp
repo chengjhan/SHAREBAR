@@ -12,33 +12,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <title>Profile Page</title>
-<script type="text/javascript">
-$(function(){
-	$("#header").load("../header.jsp");
-	
-	//follow item function
-	$('div.box').hover(over);
-	var change = $(this);
-	function over(){
-		if(($(this).find('a.followerimg').attr("following")) == 1){
-			$(this).find('a.followerimg').toggleClass('btn-danger');	
-		}
-	}
-	
-	//追隨按鈕
-	$("p > a").click(function(){
-		var change = $(this);
-		var itemid = change.attr("value");
-	$.get("followItem.do",{"MemberID":"${user.member_no}","ItemID":$(this).attr("value")},
-			
-			function(data){
-					change.attr("following",data);
-					change.toggleClass("btn-danger");
-				})
-		
-	})
-});
-</script>
 <style>
 #basic_info{
 	top:150px;
@@ -55,8 +28,9 @@ $(function(){
 	vertical-align:center;
 	flex: 1; /* additionally, equal width */
 	padding: 1em;
-	border: solid;
+/* 	border: solid; */
 	horizontal-align:center;
+	text-align:center;
 }
 img.follow_list{
 	width:100%;
@@ -65,25 +39,46 @@ img.follow_list{
 img#user_photo{
 	width:200px;
 	height:200px;
+	margin: auto auto;
 }
 div.img_container{
-	width: 100px;
-    height: 150px;
+	width: 100%;
     padding: 0px;
-    border:1px solid gray;  /* you can remove this */
+    border:1px solid #ffffff;  /* you can remove this */
     box-sizing:border-box; /* you can remove this */
     display:inline-block;
 }
+
+div#review_div{
+	background-color:#FFFFFF;
+	border: 2px solid #F2F2F2;
+	border-radius: 16px!important;
+}
+
+.review_class{
+	word-wrap:break-word;
+	padding:3px;
+	margin:5px auto;
+	width:100%;
+	height:65px;
+}
+
+.review_img_div{
+	height:100%;
+}
+
+.review_img{
+	float: left;
+    margin: 5px 5px;
+}
+
 
 /* XD */
 .textellipsis{
 	 text-overflow:ellipsis;
 	 overflow:hidden;
 	 white-space: nowrap;
-}
-
-
-	
+}	
 	/* 快速追蹤按鈕 顯示*/
 .box:hover .btn{display:block;}
 .box .btn{display:none;}
@@ -106,37 +101,46 @@ div.img_container{
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <c:url value="/" var="root"></c:url>
-<%
-
-%>
 <div id="header"></div>
 <div class="container" id="basic_info">
 <div class="row" id="basic_info_row">
-<div class="col-md-2 col-sm-2 col-xs-2" id="photo_div">
+
+<div class="col-md-6 col-sm-6 col-xs-12" id="photo_div">
 <img class="img-rounded" id="user_photo" alt='user_photo' src='${root}profileImages/${user.photo}' width="100%" height="100%"/>
 <c:if test="${user.certification eq 1}">
-<!-- <div id="email_certi"><p>certification</p></div> -->
 <div><img id="email_certi" src="${root}/certificationPhoto/Accept-32.png" width="16" height="16">certification</div>
 </c:if>
-</div>
-<div class="col-md-2 col-sm-2 col-xs-2" id="profile_button">
-<a class="btn btn-default" href="<c:url value='/member/changeInfo.jsp'/>">Edit</a>
-</div>
-<div class="col-md-2 col-sm-2 col-xs-2" id="info_div" style="vertical-align:top">
+</div><!-- end of #photo_div -->
+
+<div class="col-md-6 col-sm-6 col-xs-12" id="info_div" style="vertical-align:top">
+<div>
 <h1>${user.nickname}</h1>
 <span class="glyphicon glyphicon-file"></span>Self-introduction: <p>${user.description}</p>
 <span class="glyphicon glyphicon-home"></span>Hometown<p>${user.country} : ${user.city}</p>
 </div>
-<div class="col-md-6 col-sm-6 col-xs-6" id="review_div">
-
+<div>
+<a id="editbtn" class="btn btn-default" href="<c:url value='/member/changeInfo.jsp'/>" style="width:100px">Edit</a>
 </div>
+</div><!-- end of #info_div -->
 </div><!-- end of row basic info-->
-
-<hr>
-
 </div><!-- end of basic_info -->
+<hr>
 <div class="container" id="other_info">
-
+<div id="other_info_row" class="row">
+<div id="review_div" class="col-md-3 col-sm-3 col-xs-12">
+<fieldset>
+<div id="review_summary"></div>
+<ul class="nav nav-tabs">
+<li class="active"><a data-toggle="tab" href="#Share">Share</a></li>
+<li><a data-toggle="tab" href="#Get">Get</a></li>
+</ul>
+<div class="tab-content">
+<div id="Share" class="tab-pane fade in active"></div>
+<div id="Get" class="tab-pane fade in"></div>
+</div><!-- end of tab-content -->
+</fieldset>
+</div><!-- end of #review_div -->
+<div class="col-md-9 col-sm-9 col-xs-12">
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" href="#items">Items</a></li>
 <li><a data-toggle="tab" href="#follow">Follow</a></li>
@@ -144,12 +148,11 @@ div.img_container{
 <li><a data-toggle="tab" href="#followitems">FolloweItems</a></li>
 </ul>
 	<div class="tab-content">
-	
 	<div id="items" class="tab-pane fade in active">
     	<!-- show follow list -->
 		<div class="row">
 		<c:forEach var="item" items="${user.member_items}">
-		<div class="col-md-2 col-sm-2 col-xs-4">
+		<div class="col-md-2 col-sm-3 col-xs-4">
 		<div class="thumbnail">
 		<a href="${root}item/itemdetail.controller?id=${item.item_id}">
 		<c:forEach var="image" items="${item.imageBean}" varStatus="stat">
@@ -174,7 +177,7 @@ div.img_container{
 		<div class="row">
 		<c:forEach var="follow" items="${userFollow}">
 		<c:if test="${follow.relation == 'follow'}">
-		<div class="col-md-2 col-sm-2 col-xs-4">
+		<div class="col-md-2 col-sm-3 col-xs-4">
 		<div class="thumbnail">
 		<a href="${root}member/profile.controller?id=${follow.member_followed.member_no}">
 		<div class="img_container">
@@ -197,7 +200,7 @@ div.img_container{
 		<div class="row">
 		<c:forEach var="followed" items="${userFollowed}">
 		<c:if test="${followed.relation == 'follow'}">
-		<div class="col-md-2 col-sm-2 col-xs-4">
+		<div class="col-md-2 col-sm-3 col-xs-4">
 		<div class="thumbnail">
 		<a href="${root}member/profile.controller?id=${followed.member_follow.member_no}">
 		<div class="img_container">
@@ -220,7 +223,7 @@ div.img_container{
 		<div class="row">
 		<c:forEach var="followitems" items="${user.follow_items}">
 		<c:if test="${followitems.status eq 1}">
-		<div class="col-md-2 col-sm-2 col-xs-4">
+		<div class="col-md-2 col-sm-3 col-xs-4">
 		<div class="thumbnail box">
 		<a href="${root}item/itemdetail.controller?id=${followitems.itemBean.item_id}">
 		<c:forEach var="image" items="${followitems.itemBean.imageBean}" varStatus="stat">
@@ -245,11 +248,126 @@ div.img_container{
 		</c:forEach>
 		</div><!-- end of row -->
 	</div><!-- end of show follow list -->
-
 </div><!-- end of tab content -->
-</div>
-<script>
-
+</div><!-- end of tab div -->
+</div><!-- end of #other_info_row -->
+</div><!-- end of #other_info_div -->
+<script type="text/javascript">
+$("#header").load("../header.jsp");
+	
+$(function(){
+	//follow item function
+	$('div.box').hover(over);
+	var change = $(this);
+	function over(){
+		if(($(this).find('a.followerimg').attr("following")) == 1){
+			$(this).find('a.followerimg').toggleClass('btn-danger');	
+		}
+	}
+	
+	//追隨按鈕
+	$("p > a").click(function(){
+		var change = $(this);
+		var itemid = change.attr("value");
+	$.get("followItem.do",{"MemberID":"${user.member_no}","ItemID":$(this).attr("value")},
+			
+			function(data){
+					change.attr("following",data);
+					change.toggleClass("btn-danger");
+				})
+		
+	})
+});
+var asgiverReviews = JSON.parse('<%=session.getAttribute("userasGiver")%>');
+var asgetterReviews = JSON.parse('<%= session.getAttribute("userasGetter")%>');
+if(asgiverReviews.Count != 0){
+	$.each(asgiverReviews.giverReviews,function(index,giverReview){
+		var getterId = giverReview.getterID;
+		var getterPhoto = giverReview.getterPhoto;
+		var myRate = giverReview.giverRate;
+		var myReview = giverReview.giverReview;
+//	 	console.log(giverId+" "+giverPhoto+" "+myRate+" "+myReview);
+		if(myRate==3){
+		$("div#Share").append(
+				"<div class='review_class' style='background-color:#9FF781'>"
+				+"<a href='${root}member/profile.controller?id="+getterId+"' class='pull-left'>"
+				+"<div class='review_img_div' >"
+				+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
+				+"</div>"
+				+"</a>"
+				+myReview
+				+"</div>"
+				);
+		}else if(myRate==2){
+			$("div#Share").append(
+					"<div class='review_class' style='background-color:#F2F2F2'>"
+					+"<a href='${root}member/profile.controller?id="+getterId+"' class='pull-left'>"
+					+"<div class='review_img_div' >"
+					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
+					+"</div>"
+					+"</a>"
+					+myReview
+					+"</div>"
+					);
+		}else if(myRate==1){
+			$("div#Share").append(
+					"<div class='review_class' style='background-color:#F6CED8'>"
+					+"<a href='${root}member/profile.controller?id="+getterId+"' class='pull-left'>"
+					+"<div class='review_img_div' >"
+					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
+					+"</div>"
+					+"</a>"
+					+myReview
+					+"</div>"
+					);
+		}
+	});
+	}
+if(asgetterReviews.Count != 0){
+$.each(asgetterReviews.getterReviews,function(index,getterReview){
+	var giverId = getterReview.giverID;
+	var giverPhoto = getterReview.giverPhoto;
+	var myRate = getterReview.getterRate;
+	var myReview = getterReview.getterReview;
+// 	console.log(giverId+" "+giverPhoto+" "+myRate+" "+myReview);
+	if(myRate==3){
+	$("div#Get").append(
+			"<div class='review_class' style='background-color:#9FF781'>"
+			+"<a href='${root}member/profile.controller?id="+giverId+"' class='pull-left'>"
+			+"<div class='review_img_div' >"
+			+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
+			+"</div>"
+			+"</a>"
+			+myReview
+			+"</div>"
+			);
+	}else if(myRate==2){
+		$("div#Get").append(
+				"<div class='review_class' style='background-color:#F2F2F2'>"
+				+"<a href='${root}member/profile.controller?id="+giverId+"' class='pull-left'>"
+				+"<div class='review_img_div' >"
+				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
+				+"</div>"
+				+"</a>"
+				+myReview
+				+"</div>"
+				);
+	}else if(myRate==1){
+		$("div#Get").append(
+				"<div class='review_class' style='background-color:#F6CED8'>"
+				+"<a href='${root}member/profile.controller?id="+giverId+"' class='pull-left'>"
+				+"<div class='review_img_div' >"
+				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
+				+"</div>"
+				+"</a>"
+				+myReview
+				+"</div>"
+				);
+	}
+});
+}
+// console.log("giverReviews:"+asgiverReviews.giverReviews);
+// console.log("getterReviews:"+asgetterReviews.getterReviews);
 </script>
 </body>
 </html>

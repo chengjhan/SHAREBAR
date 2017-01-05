@@ -196,6 +196,35 @@ public class ItemDAOHibernate implements ItemDAO {
 			bean.setBlock(0);	
 		return bean;
 	}
+
+	
+	//Lin for profile page reviews
+	@Override
+	public List<Object[]> findGiveReview(MemberBean member_no){
+		Session session = this.getSession();
+		Query query = session.createQuery("select item.getter_id, item.giver_rate, item.giver_review from ItemBean as item where item.member_id = :member_id and item.giver_review is not null");
+		query.setParameter("member_id", member_no);
+		List<Object[]> results = query.getResultList();
+		if(!results.isEmpty()){
+			return results;
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Object[]> findGetReview(MemberBean member_no){
+		Session session = this.getSession();
+		Query query = session.createQuery("select item.member_id, item.getter_rate, item.getter_review from ItemBean as item where item.getter_id = :getter_id and item.getter_review is not null");
+		query.setParameter("getter_id", member_no);
+		List<Object[]> results = query.getResultList();
+		if(!results.isEmpty()){
+			return results;
+		}
+		return null;
+	}
+	
+
+	//Three
 	@Override
 	public void rateToGiver(int item_id, int giver_rate, String giver_review) {
 		ItemBean bean = this.getSession().get(ItemBean.class,  item_id);
