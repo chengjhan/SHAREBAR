@@ -11,6 +11,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<link rel=stylesheet type="text/css" href="../css/share.css">
 <title>Profile Page</title>
 <style>
 #basic_info{
@@ -74,15 +75,21 @@ div#review_div{
 div#review_sum_div{
 	top: 5px;
     right: 5px;
-    width: 35%;
+    width: 40%;
     height: 20px;
     position: absolute;
-    background-color: #f5f5f5;
-    text-align: right;text-align: right;
+    background-color: #ffffff;
+    text-align: right;
 }
 .showpoint{
 	display:inline;
 	margin:auto 3px;
+}
+div.progress{
+    top: -1px;
+    width: 90%;
+    position: absolute;
+    height: 5px;
 }
 
 /* XD */
@@ -117,14 +124,14 @@ div#review_sum_div{
 <div class="container" id="basic_info">
 <div class="row" id="basic_info_row">
 
-<div class="col-md-6 col-sm-6 col-xs-12" id="photo_div">
+<div class="col-md-6 col-sm-12 col-xs-12" id="photo_div">
 <img class="img-rounded" id="user_photo" alt='user_photo' src='${root}profileImages/${user.photo}' width="100%" height="100%"/>
 <c:if test="${user.certification eq 1}">
 <div><img id="email_certi" src="${root}/certificationPhoto/Accept-32.png" width="16" height="16">certification</div>
 </c:if>
 </div><!-- end of #photo_div -->
 
-<div class="col-md-6 col-sm-6 col-xs-12" id="info_div" style="vertical-align:top">
+<div class="col-md-6 col-sm-12 col-xs-12" id="info_div" style="vertical-align:top">
 <div>
 <h1>${user.nickname}</h1>
 <span class="glyphicon glyphicon-file"></span>Self-introduction: <p>${user.description}</p>
@@ -139,10 +146,16 @@ div#review_sum_div{
 <hr>
 <div class="container" id="other_info">
 <div id="other_info_row" class="row">
-<div id="review_div" class="col-md-3 col-sm-3 col-xs-12">
+<div id="review_div" class="col-md-3 col-sm-4 col-xs-12">
+
+<div id="review_progress" class="progress">
+  <div id="review_progress_bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+  </div>
+</div>
+
 <div id="review_sum_div"><span id="show_good_span" class="glyphicon glyphicon-thumbs-up"></span>  <span id="show_normal_span" class="glyphicon glyphicon-minus"></span>  <span id="show_bad_span" class="glyphicon glyphicon-thumbs-down"></span></div>
 <fieldset>
-<div id="review_summary"></div>
+<legend>Reviews</legend>
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" href="#Share">Share</a></li>
 <li><a data-toggle="tab" href="#Get">Get</a></li>
@@ -153,7 +166,7 @@ div#review_sum_div{
 </div><!-- end of tab-content -->
 </fieldset>
 </div><!-- end of #review_div -->
-<div class="col-md-9 col-sm-9 col-xs-12">
+<div class="col-md-9 col-sm-8 col-xs-12">
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" href="#items">Items</a></li>
 <li><a data-toggle="tab" href="#follow">Follow</a></li>
@@ -290,12 +303,16 @@ $(function(){
 				})
 		
 	})
-});
+});//end of ready
 var asgiverReviews = JSON.parse('<%=session.getAttribute("userasGiver")%>');
 var asgetterReviews = JSON.parse('<%= session.getAttribute("userasGetter")%>');
 var goodpoint = asgiverReviews.good + asgetterReviews.good;
 var normalpoint = asgiverReviews.normal + asgetterReviews.normal;
 var badpoint = asgiverReviews.bad + asgetterReviews.bad;
+var total = asgiverReviews.Count + asgetterReviews.Count;
+var goodpercent = Math.floor(goodpoint/total*100);
+$("#review_progress_bar").attr("style","width:"+goodpercent+"%");
+$("#review_progress_bar").attr("aria-valuenow",goodpercent);$
 $("#show_good_span").append("<p class='showpoint'>"+goodpoint+"</p>");
 $("#show_normal_span").append("<p class='showpoint'>"+normalpoint+"</p>");
 $("#show_bad_span").append("<p class='showpoint'>"+badpoint+"</p>");

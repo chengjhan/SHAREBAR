@@ -84,6 +84,7 @@ $(function(){
 	
 });
 </script>
+<link rel=stylesheet type="text/css" href="css/share.css">
 <title>Home Page</title>
 </head>
 <body>

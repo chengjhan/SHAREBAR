@@ -1,7 +1,6 @@
 package item.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -17,12 +16,11 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import category.model.ClassBean;
 import item.model.ItemBean;
 import item.model.ItemService;
 
-@WebServlet("/item/searchItemName.ajax")
-public class SearchItemNameAjax extends HttpServlet {
+@WebServlet("/item/searchClassName.ajax")
+public class SearchClassNameAjax extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,26 +40,27 @@ public class SearchItemNameAjax extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 
 		// 接受資料
-		String searchBar = request.getParameter("searchBar");
+		String tempClass_id = request.getParameter("class_id");
 		String temp_swLat = request.getParameter("swLat");
 		String temp_swLng = request.getParameter("swLng");
 		String temp_neLat = request.getParameter("neLat");
 		String temp_neLng = request.getParameter("neLng");
 
-		System.out.println(searchBar);
-		System.out.println(temp_swLat);
-		System.out.println(temp_swLng);
-		System.out.println(temp_neLat);
-		System.out.println(temp_neLng);
-
 		// 驗證資料
 
 		// 轉換資料
+		int class_id = 0;
+		if (tempClass_id != null && tempClass_id.length() != 0) {
+			try {
+				class_id = Integer.parseInt(tempClass_id);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+		}
 		double swLat = 0;
 		if (temp_swLat != null && temp_swLat.length() != 0) {
 			try {
 				swLat = Double.parseDouble(temp_swLat);
-				request.setAttribute("swLat", swLat);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
@@ -70,7 +69,6 @@ public class SearchItemNameAjax extends HttpServlet {
 		if (temp_swLng != null && temp_swLng.length() != 0) {
 			try {
 				swLng = Double.parseDouble(temp_swLng);
-				request.setAttribute("swLng", swLng);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
@@ -79,7 +77,6 @@ public class SearchItemNameAjax extends HttpServlet {
 		if (temp_neLat != null && temp_neLat.length() != 0) {
 			try {
 				neLat = Double.parseDouble(temp_neLat);
-				request.setAttribute("neLat", neLat);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
@@ -88,7 +85,6 @@ public class SearchItemNameAjax extends HttpServlet {
 		if (temp_neLng != null && temp_neLng.length() != 0) {
 			try {
 				neLng = Double.parseDouble(temp_neLng);
-				request.setAttribute("neLng", neLng);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
@@ -98,24 +94,7 @@ public class SearchItemNameAjax extends HttpServlet {
 		GsonBuilder builder = new GsonBuilder();
 		builder.excludeFieldsWithoutExposeAnnotation();
 		Gson gson = builder.create();
-		List<ItemBean> result = itemService.selectByBoundsByName(swLat, swLng, neLat, neLng, searchBar);
-//		List<ItemBean> jsonList = new ArrayList<>();
-//		for (ItemBean bean : result) {
-//			ItemBean jsonBean = new ItemBean();
-//			jsonBean.setItem_id(bean.getItem_id());
-//			jsonBean.setItem_name(bean.getItem_name());
-//			jsonBean.setMember_id(bean.getMember_id());
-//			jsonBean.setLocation(bean.getLocation());
-//			ClassBean classBean = new ClassBean();
-//			classBean.setClass_id(bean.getClassBean().getClass_id());
-//			classBean.setClass_name(bean.getClassBean().getClass_name());
-//			jsonBean.setClassBean(classBean);
-//			jsonBean.setLatitude(bean.getLatitude());
-//			jsonBean.setLongitude(bean.getLongitude());
-//			jsonBean.setEnd_date(bean.getEnd_date());
-//			jsonBean.setImageBean(bean.getImageBean());
-//			jsonList.add(jsonBean);
-//		}
+		List<ItemBean> result = itemService.selectByBoundsByClass(swLat, swLng, neLat, neLng, class_id);
 		String json = gson.toJson(result);
 		System.out.println("JSON = " + json);
 		response.getWriter().write(json);
