@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:url value="/" var="root"></c:url>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -95,14 +97,16 @@ function onSignIn(googleUser) {
 	console.log('Email: ' + profile.getEmail());
 	console.log('===========================================');
 
-	
+	var from = "${from}";
+	window.alert(from);
 	$.post("tokensignin",{"id_token":id_token,"ID":profile.getId(),"Name":profile.getName(),"Given Name":profile.getGivenName(),"Family Name":profile.getFamilyName(),"Image URL":profile.getImageUrl(),"Email":profile.getEmail()},function(responseText){
 		if(responseText == "GLoginSuccess"){
 			console.log(responseText);
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
 			});
-			window.location = "<%=from%>";
+			if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+			else{window.location="${root}"}		
 		}else if(responseText == "AccountExist"){
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
@@ -114,7 +118,8 @@ function onSignIn(googleUser) {
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
 			});
-			window.location = "<%=from%>";
+			if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+			else{window.location="${root}"}	
 		}else if(responseText == "InvalidIdToken"){
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
@@ -129,6 +134,12 @@ function onSignIn(googleUser) {
 			console.log(responseText);
 			$("#Gerror").empty();
 			$("#Gerror").append( "<p style='color:red'>the account with this email is already exist</p>" );
+		}else if(responseText == "alreadyLogin"){
+			gapi.auth2.getAuthInstance().signOut().then(function() {
+				console.log('User signed out.');
+			});
+			if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+			else{window.location="${root}"}	
 		}
 	});
 }

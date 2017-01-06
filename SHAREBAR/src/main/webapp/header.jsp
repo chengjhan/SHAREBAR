@@ -177,30 +177,6 @@ div#navbar {
 						});
 				}
 
-			
-	    	// 物品自動完成
-// 	    	$("#id_search").on("autocompletechange", function(){
-// 				var searchBar = $("#id_search").val();
-// 				$.getJSON("searchBar.ajax", {"itemName": searchBar}, function(data){
-// 					$.each(data, function(index, item){
-// 						availableTags = [];
-// 						availableTags.push(item.item_name);	
-// 						alert(item.item_name);
-// 					});
-// 					alert(availableTags)
-// 				});
-// 			});
-	    	
-	    	// 表單驗證
-// 			$('#id_form').validate({
-// 				event: "blur",
-// 				rules: {
-// 					searchBar: "required",
-// 				},
-// 				messages: {
-// 					searchBar: "",
-// 				},
-// 			});
 	    });
 	    
 	    // 初始化

@@ -594,17 +594,17 @@ html, body {
 					console.log(user);
 					if(user == undefined){
 						user = 0;
-					}
-//						alert(user)
-					if(user != 0){
+// 						alert(user)
+					} else if(user != 0){
 						if(user != item.member_id.member_no){
+// 							alert(item.member_id.member_no)
 							itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-// 							alert(item.imageBean.length);
-							for(var i = 0; i < item.imageBean.length; i++){
-// 								alert(item.imageBean[i].image_photo);
+// 							alert(item.member_id.member_no + "," + item.follow_items.length)
+							for(var i = 0; i < item.follow_items.length; i++){
 								if(item.follow_items[i] != null){
 // 									alert(item.follow_items[i].member_id.member_no);
 									if(user == item.follow_items[i].member_id.member_no){
+// 										alert(item.follow_items[i].status)
 										if(item.follow_items[i].status == 1){
 											itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
 										}
@@ -614,7 +614,7 @@ html, body {
 							itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
 							itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
 						}
- 					}
+					}
 					
 					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_a);
 					var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";
@@ -787,17 +787,17 @@ html, body {
 						console.log(user);
 						if(user == undefined){
 							user = 0;
-						}
-// 						alert(user)
-						if(user != 0){
+//	 						alert(user)
+						} else if(user != 0){
 							if(user != item.member_id.member_no){
+// 	 							alert(item.member_id.member_no)
 								itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-//	 							alert(item.imageBean.length);
-								for(var i = 0; i < item.imageBean.length; i++){
-//	 								alert(item.imageBean[i].image_photo);
+// 	 							alert(item.member_id.member_no + "," + item.follow_items.length)
+								for(var i = 0; i < item.follow_items.length; i++){
 									if(item.follow_items[i] != null){
 //	 									alert(item.follow_items[i].member_id.member_no);
 										if(user == item.follow_items[i].member_id.member_no){
+//	 										alert(item.follow_items[i].status)
 											if(item.follow_items[i].status == 1){
 												itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
 											}
@@ -807,7 +807,7 @@ html, body {
 								itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
 								itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
 							}
-	 					}
+						}
 						
 						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_a);
 						var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";

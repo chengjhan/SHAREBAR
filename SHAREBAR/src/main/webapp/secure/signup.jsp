@@ -53,6 +53,11 @@ img#imgPreview{
 <%
 String from = request.getHeader("Referer"); 
 session.setAttribute("from",from);
+// if(session.getAttribute("user")!=null){
+// 	from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+// 	String path = request.getContextPath();
+// 	response.sendRedirect(path + "/" + from);
+// }
 %>
 <body>
 <div id="header"></div>
@@ -152,7 +157,8 @@ session.setAttribute("from",from);
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				window.location = "<%=from%>";
+				if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+				else{window.location="${root}"}	
 			}else if(responseText == "AccountExist"){
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
@@ -164,7 +170,8 @@ session.setAttribute("from",from);
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				window.location = "<%=from%>";
+				if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+				else{window.location="${root}"}	
 			}else if(responseText == "InvalidIdToken"){
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
@@ -179,6 +186,12 @@ session.setAttribute("from",from);
 				console.log(responseText);
 				$("#Gerror").empty();
 				$("#Gerror").append( "<p style='color:red'>the account with this email is already exist</p>" );
+			}else if(responseText == "alreadyLogin"){
+				gapi.auth2.getAuthInstance().signOut().then(function() {
+					console.log('User signed out.');
+				});
+				if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+				else{window.location="${root}"}	
 			}
 		});
 	}
