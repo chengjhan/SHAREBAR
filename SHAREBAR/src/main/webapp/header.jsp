@@ -190,7 +190,6 @@ div#navbar {
 						});
 				}
 
-			
 	    	// 物品自動完成
 // 	    	$("#id_search").on("autocompletechange", function(){
 // 				var searchBar = $("#id_search").val();
