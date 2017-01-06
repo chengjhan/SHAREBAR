@@ -36,13 +36,14 @@ public class AccountCheck extends HttpServlet {
 		String account = request.getParameter("account");
 		String msg;
 		boolean exist = memberService.checkAccount(account);
-		System.out.println(exist);
+//		System.out.println(exist);
 		if(exist){
 			msg = "exist";
 		}else{
 			msg = "none";
 		}
 		out.write(msg);
+		return;
 	}
 
 

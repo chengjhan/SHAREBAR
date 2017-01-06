@@ -91,6 +91,10 @@ div.progress{
     position: absolute;
     height: 5px;
 }
+p.review_p{
+	font-family:cursive;
+	margin:10px 10px;
+}
 
 /* XD */
 .textellipsis{
@@ -278,6 +282,8 @@ div.progress{
 </div><!-- end of tab div -->
 </div><!-- end of #other_info_row -->
 </div><!-- end of #other_info_div -->
+
+
 <script type="text/javascript">
 $("#header").load("../header.jsp");
 	
@@ -331,7 +337,9 @@ if(asgiverReviews.Count != 0){
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
 				+"</div>"
 				+"</a>"
+				+"<p class='review_p'>"
 				+myReview
+				+"</p>"
 				+"</div>"
 				);
 		}else if(myRate==2){
@@ -342,7 +350,9 @@ if(asgiverReviews.Count != 0){
 					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
 					+"</div>"
 					+"</a>"
+					+"<p class='review_p'>"
 					+myReview
+					+"</p>"
 					+"</div>"
 					);
 		}else if(myRate==1){
@@ -353,7 +363,9 @@ if(asgiverReviews.Count != 0){
 					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
 					+"</div>"
 					+"</a>"
+					+"<p class='review_p'>"
 					+myReview
+					+"</p>"
 					+"</div>"
 					);
 		}
@@ -361,7 +373,9 @@ if(asgiverReviews.Count != 0){
 	}else if(asgiverReviews.Count == 0){
 		$("div#Share").append(
 				"<div class='review_class' style='background-color:#FFFFFF'>"
-				+""
+				+"<p>"
+				+"no comment...."
+				+"</p>"
 				+"</div>"
 		);
 	}
@@ -380,7 +394,9 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 			+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
 			+"</div>"
 			+"</a>"
+			+"<p class='review_p'>"
 			+myReview
+			+"</p>"
 			+"</div>"
 			);
 	}else if(myRate==2){
@@ -391,7 +407,9 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
 				+"</div>"
 				+"</a>"
+				+"<p class='review_p'>"
 				+myReview
+				+"</p>"
 				+"</div>"
 				);
 	}else if(myRate==1){
@@ -402,7 +420,9 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
 				+"</div>"
 				+"</a>"
+				+"<p class='review_p'>"
 				+myReview
+				+"</p>"
 				+"</div>"
 				);
 	}
@@ -410,11 +430,13 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 }else if(asgetterReviews.Count == 0){
 	$("div#Get").append(
 			"<div class='review_class' style='background-color:#FFFFFF'>"
-			+"no coment"
+			+"<p>"
+			+"no comment...."
+			+"</p>"
 			+"</div>"
 	);
 }
-// console.log("getterReviews:"+asgetterReviews.getterReviews);
+}
 </script>
 </body>
 </html>

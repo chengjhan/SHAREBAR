@@ -48,6 +48,10 @@ img#imgPreview{
 #g-signin2{
 	width:100%;
 }
+.with-errors{
+	font-family: Arial, Helvetica, sans-serif;
+	color:red;
+}
 </style>
 </head>
 <%
@@ -83,39 +87,90 @@ session.setAttribute("from",from);
 			</div>
 			<legend>Sign Up:</legend>
 			<div class="form-group">
-			<label for="member_email">Account name(email):</label><input type="email" class="form-control" id="member_email" name="member_email" placeholder="Email" value="${param.memberemail}" data-error="Bruh, that email address is invalid" required/>${errors.id}
-			<div class="help-block with-errors"></div>
+			<label for="member_email">Account name(email):</label>
+			<div class="input-group">
+			<input type="email" class="form-control" id="member_email" name="member_email" placeholder="Email" value="${param.memberemail}" data-error="Bruh, that email address is invalid" required/>
+			<div class="input-group-addon"><span id="act_check" class="glyphicon glyphicon-question-sign"></span></div>
+			</div>
+			<div class="help-block with-errors">${errors.id}</div>
 			</div>
 			<div class="form-group">
-			<label for="password">Password:</label><input type="password" class="form-control" id="password" name="password" data-minlength="8" placeholder="Password" data-error="Minimum of 8 characters"required>${errors.password}
-			<div class="help-block with-errors"></div>
+			<label for="password">Password:</label><input type="password" class="form-control" id="password" name="password" data-minlength="8" placeholder="Password" data-error="Minimum of 8 characters"required>
+			<div class="help-block with-errors">${errors.password}</div>
 			</div>
 			<div class="form-group">
 			<label for="confirm_password">confirm_password:</label> <input type="password" class="form-control" id="confirm_password" name="confirm_password" data-match="#password" data-error="woops, doen't match password" required>
 			<div class="help-block with-errors"></div>
 			</div>
 			<div class="form-group">
-			<label for="member_nickname">Presented name:</label></label><input type="text" class="form-control" id="member_nickname" name="member_nickname" value="${param.member_nickname}" data-error="This is what other user would see" required>${errors.nickname}
-			<div class="help-block with-errors"></div>
+			<label for="member_nickname">Presented name:</label></label><input type="text" class="form-control" id="member_nickname" name="member_nickname" value="${param.member_nickname}" data-error="This is what other user would see" required>
+			<div class="help-block with-errors">${errors.nickname}</div>
 			</div>
 			<div class="form-group">
-			<label for="member_description">Description:</label><textarea type="text" class="form-control" id="member_description" name="member_description" value="${param.member_description}" maxlength="50" data-error="Please introduce yourself" required></textarea>${errors.description}
-			<div class="help-block with-errors"></div>
+			<label for="member_description">Description:</label><textarea type="text" class="form-control" id="member_description" name="member_description" maxlength="50" data-error="Please introduce yourself" required>${param.member_description}</textarea>
+			<div class="help-block with-errors">${errors.description}</div>
 			</div>
 			<div class="form-group">
-			<label for="member_photo">Image:</label><input type="file" class="form-control-file" id="member_photo" name="member_photo" accept="image/x-png" data-error="Please input a png file" required>${errors.photo}<br><br><br>
+			<label for="member_photo">Image:</label><input type="file" class="form-control-file" id="member_photo" name="member_photo" accept="image/x-png" data-error="Please input a png file" required><br>
 			<img id="imgPreview"alt="your image" src="profilePerson.png" >
+			<div class="help-block with-errors">${errors.photo}</div>
 			</div>
 			<div class="form-group">
-			<button type="submit" class="btn btn-primary">Send</button> <button type="reset" class="btn btn-primary">Reset</button>
+			<button id="submitbtn" type="submit" class="btn btn-primary">Send</button> <button type="reset" class="btn btn-primary">Reset</button>
 			</div>
 			<div id="message">${errors.system}</div>
+			<div id="ajaxCheck" style="color:red"></div>
 		</form>
 	</div>
 	<div id="footer"></div>
 	<script>
+	$("#header").load("../header.jsp");
+	
+	$("#submitbtn").click(function(event){
+		var stat = $("#act_check").attr("account");
+		if(stat=="exist"){
+			event.preventDefault();
+			$("#ajaxCheck").html("<p style='font-weight:bold'>This account is already exist, please change your email.</p>")
+		}
+	});//end of click
+		
 	$(function(){
-		$("#header").load("../header.jsp");
+		//check account
+		$("#member_email").change(function(){
+			var emailID = $("#member_email").val();
+			var validmail = validateEmail(emailID);
+			var image = $("#act_check");
+			if(validmail){
+				$.get("AccountCheck",{"account":emailID},function(data){
+					console.log("data="+data);
+					if(data == "exist"){
+						image
+						.removeClass("glyphicon-question-sign")
+						.removeClass("glyphicon-ok-sign")
+						.addClass("glyphicon-remove-sign");
+						image.attr("account","exist");
+					}else if(data == "none"){
+						image
+						.removeClass("glyphicon-question-sign")
+						.removeClass("glyphicon-remove-sign")
+						.addClass("glyphicon-ok-sign");
+						image.attr("account","none")
+					}else{
+						image
+						.removeClass("glyphicon-remove-sign")
+						.removeClass("glyphicon-ok-sign")
+						.addClass("glyphicon-question-sign");
+					}
+				})//end of $.get
+			}else{
+				image
+				.removeClass("glyphicon-remove-sign")
+				.removeClass("glyphicon-ok-sign")
+				.addClass("glyphicon-question-sign");
+			}
+		});//end of focusout
+		
+		
 		
 		//切換圖片用================================
 	    function readURL(input) {
@@ -195,6 +250,13 @@ session.setAttribute("from",from);
 			}
 		});
 	}
+	
+    function validateEmail(email) {
+    	  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    	  return re.test(email);
+    	}
+
+    
 	</script>
 </body>
 </html>

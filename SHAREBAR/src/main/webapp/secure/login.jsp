@@ -58,8 +58,8 @@ session.setAttribute("from",from);
 </form>
 </div>
 <script>
+$("#header").load("../header.jsp");
 $(function(){
-	$("#header").load("../header.jsp");
 });//end of ready
 // 	function onSignIn(googleUser) {
 // 		var profile = googleUser.getBasicProfile();
@@ -99,7 +99,6 @@ function onSignIn(googleUser) {
 	console.log('===========================================');
 
 	var from = "${from}";
-	window.alert(from);
 	$.post("tokensignin",{"id_token":id_token,"ID":profile.getId(),"Name":profile.getName(),"Given Name":profile.getGivenName(),"Family Name":profile.getFamilyName(),"Image URL":profile.getImageUrl(),"Email":profile.getEmail()},function(responseText){
 		if(responseText == "GLoginSuccess"){
 			console.log(responseText);
@@ -144,6 +143,7 @@ function onSignIn(googleUser) {
 		}
 	});
 }
+// console.log("${from}");
 </script>
 </body>
 </html>
