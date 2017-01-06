@@ -104,10 +104,12 @@
 												<td>${share_mail[4]}</td>
 												<td>											
 												<c:if test="${ share_mail[7] != share_mail[2] && share_mail[8] eq 0 }">
-													<input id="rate" type="button" value="評價" class="btn btn-success" style="visibility:hidden;">	
+													<input id="rate" type="button" value="評價" class="btn btn-success" style="visibility:hidden;">
+													<div id="image" style="display:none;">&nbsp;&nbsp;&nbsp;<img src="img/loading_s.gif"></div>	
 												</c:if>	
 												<c:if test="${ share_mail[7] == share_mail[2] && share_mail[8] eq 0 }">
-													<input id="rate" type="button" value="評價" class="btn btn-success">	
+													<input id="rate" type="button" value="評價" class="btn btn-success">
+													<div id="image" style="display:none;">&nbsp;&nbsp;&nbsp;<img src="img/loading_s.gif"></div>	
 												</c:if>												
 												<c:if test="${ share_mail[7] == share_mail[2] && share_mail[8] ne 0 }">
 														已評價
@@ -579,10 +581,18 @@ var count = 0;
                         '</tr>');                		                	                		
         		$("#" + trcode).fadeOut();
         		$('#shareLine').after(newBox);
-        		if( message.content == "對你的分享進行了請求。")
-        			$("#" + trcode).find('#acept,#refuse').css("display","inline");
     			setTimeout( function(){$("#" + trcode).fadeIn(400)} , 50 )
-            	}      		           
+            	}
+
+    		if( message.content == "對你的分享進行了請求。")
+    			$("#" + trcode).find('#acept,#refuse').css("display","inline"); 
+    		if( message.content == "很抱歉，我拒絕了請求。"){
+    			$("#" + trcode).find('#status').text("");
+    			$("#" + trcode).find('#status').text("已拒絕"); } 
+    		if( message.content == "恭喜！我們成交了。"){
+    			$("#" + trcode).find('#status').text("");
+				$("#" + trcode).find('#status').text("已成交");
+    			$("#" + trcode).find('#rate').css("visibility","visible"); }      		           
         }	
 </script>
 </html>
