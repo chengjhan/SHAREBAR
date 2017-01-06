@@ -42,7 +42,7 @@ div#navbar {
 </head>
 <c:url value="/" var="root"></c:url>
 <body>
-		<div class="navbar navbar-light navbar-default navbar-static-top">
+		<div class="navbar navbar-light navbar-default navbar-static-top" style="height:56px">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -54,16 +54,29 @@ div#navbar {
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px">
-					<div class="form-group">
-						<select class="form-control" id="id_select" name="searchSelector">
-							<option value="location">地區</option>
-							<option value="itemName">物品</option>
-						</select>
+					<div class="input-group">
+						<div class="form-group">
+							<select id="id_select" name="searchSelector" class="form-control" style="width:75px">
+								<option value="location">地區</option>
+								<option value="itemName">物品</option>
+							</select>
+						</div>
+						<div class="form-group">
+	    					<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search">
+	  					</div>
+	  					<div class="form-group">
+	    					<div class="input-group-btn">
+	      						<button id="id_submit" class="btn btn-default" type="submit" style="height:34px">
+	        						<i class="glyphicon glyphicon-search"></i>
+	      						</button>
+	    					</div>
+	    				</div>
 					</div>
-					<div class="form-group">
-						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search" required/></td>
-					</div>
-						<button type="submit" id="id_submit" class="btn btn-default">Submit</button>
+					
+<!-- 					<div class="form-group"> -->
+<!-- 						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search"/></td> -->
+<!-- 					</div> -->
+<!-- 						<button type="submit" id="id_submit" class="btn btn-default">Submit</button> -->
 					<table id="latlng"></table>
 				</form>
 				<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
@@ -177,6 +190,42 @@ div#navbar {
 						});
 				}
 
+	    	// 物品自動完成
+// 	    	$("#id_search").on("autocompletechange", function(){
+// 				var searchBar = $("#id_search").val();
+// 				$.getJSON("searchBar.ajax", {"itemName": searchBar}, function(data){
+// 					$.each(data, function(index, item){
+// 						availableTags = [];
+// 						availableTags.push(item.item_name);	
+// 						alert(item.item_name);
+// 					});
+// 					alert(availableTags)
+// 				});
+// 			});
+	    	
+	    	// 表單驗證
+	    	$('#id_form').on("submit", function(event){
+	    		var searchBar = $("#id_search").val(); 
+	    		if (searchBar == ""){
+	    			event.preventDefault();
+	    		}
+	    	});
+	    	
+// 			$('#id_form').validate({
+// 				event: "blur",
+// 				rules: {
+// 					searchBar: "required",
+// 				},
+// 				highlight: function (element) {
+		           	
+// 		        },
+// 		        unhighlight: function (element) {
+		            
+// 		        },
+// 				messages: {
+// 					searchBar: "",
+// 				},
+// 			});
 	    });
 	    
 	    // 初始化

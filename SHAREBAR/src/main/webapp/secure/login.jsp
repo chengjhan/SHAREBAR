@@ -11,6 +11,7 @@
 	content="307771007729-rmscbeafik1eh81eo2v9rtv4bb5n1tml.apps.googleusercontent.com">
 <script src="../js/jquery-3.1.1.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel=stylesheet type="text/css" href="../css/share.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script><!-- GSignIn -->
 <title>Login</title>

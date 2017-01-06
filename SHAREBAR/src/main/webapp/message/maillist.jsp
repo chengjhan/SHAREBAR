@@ -227,9 +227,12 @@
 							</table>						
 						</div>
 						
-						<div id="write_mail" class="tab-pane fade">							
-								<div><textarea style="width:500px;height:200px;" id="mailcontext">請輸入信件內容...</textarea></div>
-								<div><input  type="button" id="send" value="發送郵件"></div>	
+						<div id="write_mail" class="tab-pane fade">
+							
+								<div>&nbsp;</div>					
+								<div><textarea style="width:500px;height:200px;" id="mailcontext">請輸入信件內容...</textarea></div>	
+								<div>&nbsp;</div>								
+								<div style="padding-left:418px"><input  type="button" id="send" value="發送郵件" class="btn btn-success" ></div>									
 						</div>
 																		
 					</div>
