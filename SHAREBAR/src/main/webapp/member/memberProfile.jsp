@@ -13,7 +13,7 @@
 <title>Profile Page</title>
 <script type="text/javascript">
 $(function(){
-	$("#header").load("../header.jsp");
+// 	$("#header").load("../header.jsp");
 	
 	//XD
 	$('div.box').hover(over);
@@ -150,6 +150,7 @@ p.review_p{
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <c:url value="/" var="root"></c:url>
+<jsp:include page="../header.jsp"></jsp:include>
 <div id="header"></div>
 <div class="container" id="basic_info">
 <div class="row">

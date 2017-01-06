@@ -34,7 +34,8 @@ String from = request.getHeader("Referer");
 session.setAttribute("from",from);
 %>
 <body>
-<div id="header"></div>
+<!-- <div id="header"></div> -->
+<c:import url="../header.jsp"></c:import>
 <div id="login_div">
 <form id="login_form" method="POST" action="login.controller">
 <div class="form-group">
@@ -57,33 +58,10 @@ session.setAttribute("from",from);
 <div class="error">${errors.system}</div>
 </form>
 </div>
-<script>
-$("#header").load("../header.jsp");
-$(function(){
-});//end of ready
-// 	function onSignIn(googleUser) {
-// 		var profile = googleUser.getBasicProfile();
-// 		var id_token = googleUser.getAuthResponse().id_token;
-		
-// 		console.log('profile: ' + profile);
-// 		console.log('id_token: ' + id_token);
-// 		console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-// 		console.log('Name: ' + profile.getName());
-// 		console.log('Given Name: ' + profile.getGivenName());
-// 		console.log('Family Name: ' + profile.getFamilyName());
-// 		console.log('Image URL: ' + profile.getImageUrl());
-// 		console.log('Email: ' + profile.getEmail());
-// 		console.log('===========================================');
-// 	}
 
-// 	function signOut() {
-// 		var auth2 = gapi.auth2.getAuthInstance();
-// 		auth2.signOut().then(function() {
-// 			console.log('User signed out.');
-// 		});
-// 	}
-</script>
 <script>
+var from = "${from}";
+if(from!=="undefined"){from = from.substring(from.lastIndexOf("SHAREBAR/")+9);console.log(from)}
 function onSignIn(googleUser) {
 	var profile = googleUser.getBasicProfile();
 	var id_token = googleUser.getAuthResponse().id_token;
@@ -98,14 +76,13 @@ function onSignIn(googleUser) {
 	console.log('Email: ' + profile.getEmail());
 	console.log('===========================================');
 
-	var from = "${from}";
 	$.post("tokensignin",{"id_token":id_token,"ID":profile.getId(),"Name":profile.getName(),"Given Name":profile.getGivenName(),"Family Name":profile.getFamilyName(),"Image URL":profile.getImageUrl(),"Email":profile.getEmail()},function(responseText){
 		if(responseText == "GLoginSuccess"){
-			console.log(responseText);
+// 			console.log(responseText);
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
 			});
-			if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+			if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
 			else{window.location="${root}"}		
 		}else if(responseText == "AccountExist"){
 			gapi.auth2.getAuthInstance().signOut().then(function() {
@@ -114,36 +91,35 @@ function onSignIn(googleUser) {
 			$("#Gerror").empty();
 			$("#Gerror").append( "<p style='color:red'>connecting error please try other method.</p>" );
 		}else if(responseText == "GSignAndLoginSuccess"){
-			console.log(responseText);
+// 			console.log(responseText);
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
 			});
-			if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+			if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
 			else{window.location="${root}"}	
 		}else if(responseText == "InvalidIdToken"){
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
 			});
-			console.log(responseText);
+// 			console.log(responseText);
 			$("#Gerror").empty();
 			$("#Gerror").append( "<p style='color:red'>connecting error please try other method.</p>" );
 		}else if(responseText == "GLoginfail"){
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
 			});
-			console.log(responseText);
+// 			console.log(responseText);
 			$("#Gerror").empty();
 			$("#Gerror").append( "<p style='color:red'>the account with this email is already exist</p>" );
 		}else if(responseText == "alreadyLogin"){
 			gapi.auth2.getAuthInstance().signOut().then(function() {
 				console.log('User signed out.');
 			});
-			if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+			if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
 			else{window.location="${root}"}	
 		}
 	});
 }
-// console.log("${from}");
 </script>
 </body>
 </html>

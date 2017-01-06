@@ -124,7 +124,8 @@ p.review_p{
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <c:url value="/" var="root"></c:url>
-<div id="header"></div>
+<!-- <div id="header"></div> -->
+<jsp:include page="../header.jsp"></jsp:include>
 <div class="container" id="basic_info">
 <div class="row" id="basic_info_row">
 
@@ -285,7 +286,7 @@ p.review_p{
 
 
 <script type="text/javascript">
-$("#header").load("../header.jsp");
+// $("#header").load("../header.jsp");
 	
 $(function(){
 	//follow item function
