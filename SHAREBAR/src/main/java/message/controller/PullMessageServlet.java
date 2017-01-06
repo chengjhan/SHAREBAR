@@ -19,7 +19,7 @@ import com.google.gson.GsonBuilder;
 import message.model.MessageContextBean;
 import message.model.MessageContextService;
 
-@WebServlet("/pullMessage.do")
+@WebServlet("/pullMessage.ajax")
 public class PullMessageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

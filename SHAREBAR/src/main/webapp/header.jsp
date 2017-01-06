@@ -130,7 +130,7 @@ div#navbar {
 	        },3000);
 	        					
 			function checkMail(){
-					$.post("${pageContext.request.contextPath}/mailUnreaded.do",{user : user_id}, function(data){
+					$.post("${pageContext.request.contextPath}/mailUnreaded.ajax",{user : user_id}, function(data){
 						switch (data){							
 							case "0": 
 								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_0.png");

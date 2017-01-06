@@ -24,7 +24,14 @@
 
 <style>
   .ui-effects-transfer {
-    border: 1px dotted black;
+    border: 1px solid #e3e3e3;
+    background-color:#e3e3e3;
+    opacity: 0.5;
+    filter:alpha(opacity=50); 
+  }
+  #read{
+  	color: #ff302e;
+  	font-weight:bold;
   }
 </style>
 </head>
@@ -49,7 +56,7 @@
 								<table align="center" class="col-md-8 table table-hover">
 									<thead>
 										<tr>
-											<th></th>
+											<th style="width: 50px"></th>
 											<th>狀態</th>
 											<th>互動</th>
 											<th>分享物</th>
@@ -59,14 +66,20 @@
 										</tr>
 									</thead>
 									<tbody id="shareBody">
+										<tr id="shareLine""></tr>
 										<c:forEach var="share_mail" items="${share_mail}">
 											<tr id="${share_mail[0]}tr${share_mail[2]}"
 												data-item="${share_mail[0]}"
 												data-title="${share_mail[1]}"
 												data-host="${user.member_no}"																		
 												data-requester="${share_mail[2]}"
-												data-target_name="${share_mail[3]}">																						
-												<td id="read"></td>
+												data-target_name="${share_mail[3]}"
+												data-readed="${share_mail[10]}">																						
+												<td id="read">
+													<c:if test="${ share_mail[10] == 0}">
+														new
+													</c:if>
+												</td>
 												<td id="status">
 												<c:if test="${ share_mail[6] == 1 && share_mail[7] == share_mail[2]}">
 														已成交
@@ -112,7 +125,7 @@
 								<table align="center" class="col-md-8 table table-hover">
 									<thead>
 										<tr>
-											<th></th>
+											<th style="width: 50px"></th>
 											<th>狀態</th>
 											<th>互動</th>
 											<th>分享物</th>
@@ -122,14 +135,20 @@
 										</tr>
 									</thead>
 									<tbody id="requestBody">
-										<c:forEach var="request_mail" items="${request_mail}">
+										<tr id="requestLine"></tr>
+										<c:forEach var="request_mail" items="${request_mail}">											
 											<tr id="${request_mail[0]}tr${user.member_no}"
 												data-item="${request_mail[0]}"
 												data-title="${request_mail[1]}"
 												data-host="${request_mail[2]}"
 												data-requester="${user.member_no}"
-												data-target_name="${request_mail[2]}">												
-												<td id="read"></td>
+												data-target_name="${request_mail[2]}"
+												data-readed="${request_mail[10]}">											
+												<td id="read">
+													<c:if test="${ request_mail[10] == 0}">
+														new
+													</c:if>
+												</td>
 												<td id="status">
 													<c:if test="${ request_mail[6] == 1 && request_mail[7] == user.member_no}">
 														已成交
@@ -175,7 +194,7 @@
 						<div id="service_mail" class="tab-pane fade">
 												
 							
-							<table align="center" class="col-md-8 col-md-offset-2">	
+							<table align="center" class="col-md-8 table table-striped">	
 										<tr align="center">
 											<td class="st1">&nbsp;信件編號&nbsp;</td>
 <!-- 											<td class="st1">&nbsp;會員ID&nbsp;</td>			 -->
@@ -247,7 +266,7 @@ var count = 0;
 		
 		
 		//點擊聊天按鈕，跳出聊天室窗
-		$('tbody #chat').click(function() {
+		$('tbody').on("click","#chat",function() {
 
 			var thisBtn = $(this);
 			var thisTr = $(this).closest('tr');
@@ -259,22 +278,24 @@ var count = 0;
 			var target_str = thisTr.data("target_name");
 
 			var windowcode = item_id + "_" + host_id + "_" + requester_id;
-			
+			var trcode = item_id + "tr" + requester_id;
 			if ($("#" + windowcode).length)
 				$("#" + windowcode).chatbox("option", "boxManager").toggleBox();
 			else{
 				messageWindow( item_id, title_str, host_id, requester_id, windowcode, target_str );
-				$.getJSON("pullMessage.do", {	"item":item_id, "requester":requester_id}, 
+				$.getJSON("pullMessage.ajax", {	"item":item_id, "requester":requester_id}, 
 					function(data){
 						$.each(data, function(index, bean){
 						$("#" + windowcode).chatbox("option", "boxManager").addMsg(bean.memberBean_speaker.nickname, bean.context);
-					});
+					});		
 				})
+				$("#" + trcode).find('#read').text("");
 			;}
 		})
 		
-		//點擊提出請求、成交、拒絕按鈕
-		$('tbody #ask,#acept,#refuse').click(function() {
+		//點擊提出請求、成交、拒絕按鈕		
+		$('tbody').on("click","#ask,#acept,#refuse",function() {
+			
 			var thisBtn = $(this);
 			var thisTr = $(this).closest('tr');
 			var title_str = thisTr.data("title");
@@ -308,8 +329,8 @@ var count = 0;
 				})			
 		})
 		
-		//評價按鈕
-		$('tbody #rate').click(function() {
+		//評價按鈕		
+		$('tbody').on("click", "#rate", function() {
 			var thisBtn = $(this);
 			var thisTr = $(this).closest('tr');			
 			var target_str = thisTr.data("target_name"); 
@@ -345,8 +366,10 @@ var count = 0;
 			var host_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[1];
 			var requester_id = $(this).find(".ui-chatbox-log").attr("id").split("_")[2];
 			var speaker_id = (user_id==host_id?requester_id : host_id);
+			var trcode = item_id + "tr" + requester_id;
+			$("#" + trcode).find('#read').text("");
 			//呼叫servlet
-			$.post("mailReaded.do",{item : item_id, speaker : speaker_id, listener : user_id});
+			$.post("mailReaded.ajax",{item : item_id, speaker : speaker_id, listener : user_id});
 
 			})
 		//鼠標停留聊天視窗
@@ -376,20 +399,23 @@ var count = 0;
 			if ( action_str == "ask"){
 				var msg = "對你的分享進行了請求。";
 				socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_str, speaker : user_id, listener : listener_id, user : user_name, windowcode : windowcode}));
+				$.post("messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
 			}
 			if ( action_str == "refuse"){
 				var msg = "很抱歉，我拒絕了請求。";
 				socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_str, speaker : user_id, listener : listener_id, user : user_name, windowcode : windowcode}));
+				$.post("messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
 			}			
 			if ( action_str == "acept"){
 				var msg = "恭喜！我們成交了。";
 				socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_str, speaker : user_id, listener : listener_id, user : user_name, windowcode : windowcode}));
+				$.post("messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
 				setTimeout(function() {
 					thisBtn.parent().parent().find("#rate").css("visibility","visible");
 				}, 1500)
 				}
 								
-			$.get("chatAction.do", { "action":action_str, "item":item_id, "requester":requester_id }, 
+			$.get("chatAction.ajax", { "action":action_str, "item":item_id, "requester":requester_id }, 
 					function( data ){											
 						setTimeout(function() {
 							thisBtn.parent().text(data);
@@ -405,7 +431,7 @@ var count = 0;
 			var host_id = thisTr.data("host");
 
 			if ( host_id == user_id )
-				$.post("rateInsert.do", { "item":item_id, "target":"getter", "rateScore":rateScore, "rateMessage":rateMessage }, 
+				$.post("rateInsert.ajax", { "item":item_id, "target":"getter", "rateScore":rateScore, "rateMessage":rateMessage }, 
 						function(data){											
 							setTimeout(function() {							
 								thisBtn.siblings("div").css("display","none");
@@ -413,7 +439,7 @@ var count = 0;
 							}, 1000)						
 					});
 			else
-				$.post("rateInsert.do", { "item":item_id, "target":"giver", "rateScore":rateScore, "rateMessage":rateMessage }, 
+				$.post("rateInsert.ajax", { "item":item_id, "target":"giver", "rateScore":rateScore, "rateMessage":rateMessage }, 
 						function(data){											
 							setTimeout(function() {							
 								thisBtn.siblings("div").css("display","none");
@@ -448,11 +474,11 @@ var count = 0;
                 messageSent : function(id, user, msg) {                      		
                 	if(socket.readyState != 1){startConnection();}
                     socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_str, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
-                    $.post("messageInsert.do",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
+                    $.post("messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
                 }});
             count++;
 			//設為已讀
-            $.post("mailReaded.do",{item : item_id, speaker : speaker_id, listener : user_id});			
+            $.post("mailReaded.ajax",{item : item_id, speaker : speaker_id, listener : user_id});			
 				} 		
 			})
              
@@ -460,10 +486,15 @@ var count = 0;
     		message = JSON.parse(message);
 			var windowcode = message.windowcode;
 			var trcode = message.item + "tr" + message.requester;
-
+			var item_id = message.item;
+			var host_id = user_id;
+			var requester_id = message.requester;
+			var title_str = message.title;
+			var target_str = message.user;
+// 			content : msg, item : item_id, requester : requester_id, title : title_str, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
             if ($("#" + windowcode).length){
 				$("#" + windowcode).chatbox("option", "hidden", false);
-           		$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);
+           		$("#" + windowcode).chatbox("option", "boxManager").addMsg(target_str, message.content);
             }
 			else {
 				var window = $("<div></div>").attr("id", windowcode).attr("data-readed",0);
@@ -472,30 +503,30 @@ var count = 0;
 				$("#" + windowcode).chatbox({				
 					id : user_id, 
                 	user : user_name,
-                	title : '( ' + message.user + ' ) ' + message.title,
+                	title : '( ' + target_str + ' ) ' + title_str,
                 	width : 200,
                		offset : getNextOffset(),
                 	messageSent : function(id, user, msg) {          
                 		if(socket.readyState != 1){startConnection();}
                 		//傳送socket
-                    	socket.send(JSON.stringify({content : msg, item : message.item, requester : message.requester, title : message.title, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
+                    	socket.send(JSON.stringify({content : msg, item : item_id, requester : requester_id, title : title_str, speaker : user_id, listener : listener_id, user : user, windowcode : windowcode}));
                     	//寫入資料庫
-                    	$.post("messageInsert.do",{content : msg, item : message.item, speaker : user_id, listener : listener_id});
+                    	$.post("messageInsert.ajax",{content : msg, item : item_id, speaker : user_id, listener : listener_id});
             			}});				            	
 				//讀取歷史訊息
-            	$.getJSON("pullMessage.do", {	"item":message.item, "requester":message.requester}, 
+            	$.getJSON("pullMessage.ajax", {	"item":item_id, "requester":requester_id}, 
         			function(data){
         			$.each(data, function(index, bean){
         				$("#" + windowcode).chatbox("option", "boxManager").addMsg(bean.memberBean_speaker.nickname, bean.context);
         				});
-            		$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);            		
+            		$("#" + windowcode).chatbox("option", "boxManager").addMsg(target_str, message.content);            		
         			})
         		       		
         		count++;      						
             }     				
           	//若正在關注此視窗設為已讀
        		if( $("#" + windowcode).attr("data-readed") == 1 ){
-    			$.post("mailReaded.do",{item : message.item, speaker : message.speaker, listener : message.listener});
+    			$.post("mailReaded.ajax",{item : item_id, speaker : message.speaker, listener : message.listener});
     			$("#" + trcode).find('#read').text("");
         		}
        		else {
@@ -503,27 +534,55 @@ var count = 0;
        			$("#" + trcode).find('#read').text("new");
        			}
        		//新增及移動訊息<tr>位置
-    		
-    		if( message.requester == user_id && $("#" + trcode).length )
-    			$("#" + trcode).css("visibility","hidden")
-    			$("#" + trcode).transfer({to: $('#requestBody tr'), duration: 1000});
-    			$('#requestBody').prepend($("#" + trcode));
-
-        	if( message.requester != user_id && $("#" + trcode).length )		
-        		$("#" + trcode).css("visibility","hidden")
-        		$("#" + trcode).transfer({to: $('#shareBody tr'), duration: 1000});
-        		$('#shareBody').prepend($("#" + trcode));
-       		if( message.requester != user_id && ($("#" + trcode).length ? false : true) ){
-        		var newBox = $('<tr id=' + trcode + '><td id="read">new</td><td id="read"></td></tr>')
-        		newBox.hide();
-        		$('#shareBody').prepend(newBox);
-        		newBox.effect("slide","200");
-            	}
-        		           
-        }
-	
-
-	
-	
+         	if( requester_id == user_id && $("#" + trcode).length ){	
+				if ( $('#requestLine').next().attr("id") != trcode ){					
+	        		$("#" + trcode).fadeOut(400); 
+	        		$("#" + trcode).transfer({to: $('#requestLine').next(), duration: 550});      		
+	        		setTimeout(function() {	        										
+	        			$('#requestLine').after($("#" + trcode));
+	        			setTimeout( function(){$("#" + trcode).fadeIn(400)} , 50 )
+								}, 450)
+				}
+         	}
+        	if( requester_id !== user_id && $("#" + trcode).length ){	
+				if ( $('#shareLine').next().attr("id") != trcode ){					
+	        		$("#" + trcode).fadeOut(400); 
+	        		$("#" + trcode).transfer({to: $('#shareLine').next(), duration: 550});      		
+	        		setTimeout(function() {	        										
+	        			$('#shareLine').after($("#" + trcode));
+	        			setTimeout( function(){$("#" + trcode).fadeIn(400)} , 50 )
+								}, 450)
+				}
+        	}    		
+			if( requester_id !== user_id && $("#" + trcode).length?false:true ){
+				var dateTime = new Date();
+        		var newBox = $('<tr id= ' + trcode + 
+                			' data-item= ' + item_id + 
+                			' data-title= ' + title_str + 
+                			' data-host= ' + host_id + 
+                			' data-requester= ' + requester_id +
+                			' data-target_name= ' + target_str +
+                			' data-readed= 0 >' +
+                			'<td id="read">new</td>' + 
+                			'<td id="status">' + 
+                				'<input id="acept" style="display:none;" type="button" value="成交" 	class="btn btn-warning" data-action="acept">' +												
+								'<input id="refuse" style="display:none;" type="button" value="拒絕" class="btn btn-warning" data-action="refuse">' +
+								'<div id="image" style="display:none;">&nbsp;&nbsp;&nbsp;<img src="img/loading_s.gif"></div>' + 
+                			'</td>' + 
+                			'<td><input id="chat" type="button" value="聊天" class="btn btn-info"></td>' +
+                			'<td>' + title_str + '</td>' +
+                			'<td>' + target_str + '</td>' +
+                			'<td>' + dateTime.toLocaleString() + '</td>' +
+                			'<td>' + 
+                				'<input id="rate" type="button" value="評價" class="btn btn-success" style="visibility:hidden;">' +
+                			'</td>' +
+                        '</tr>');                		                	                		
+        		$("#" + trcode).fadeOut();
+        		$('#shareLine').after(newBox);
+        		if( message.content == "對你的分享進行了請求。")
+        			$("#" + trcode).find('#acept,#refuse').css("display","inline");
+    			setTimeout( function(){$("#" + trcode).fadeIn(400)} , 50 )
+            	}      		           
+        }	
 </script>
 </html>

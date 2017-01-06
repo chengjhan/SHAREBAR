@@ -20,7 +20,7 @@ import message.model.MessageContextBean;
 import message.model.MessageContextService;
 import message.model.RequestListService;
 
-@WebServlet("/messageInsert.do")
+@WebServlet("/messageInsert.ajax")
 public class MessageInsertServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
