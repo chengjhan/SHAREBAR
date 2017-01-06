@@ -114,9 +114,9 @@ session.setAttribute("from",from);
 	</div>
 	<div id="footer"></div>
 	<script>
-	$(function(){
-		$("#header").load("../header.jsp");
+	$("#header").load("../header.jsp");
 		
+	$(function(){
 		//切換圖片用================================
 	    function readURL(input) {
 	        if (input.files && input.files[0]) {
