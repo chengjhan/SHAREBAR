@@ -178,8 +178,8 @@ p.review_p{
 <div class="row">
 <div id="review_div" class="col-md-3 col-sm-4 col-xs-12">
 <div id="review_progress" class="progress">
-  <div id="review_progress_bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
-  </div>
+<div id="review_progress_bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+</div>
 </div>
 <div id="review_sum_div"><span id="show_good_span" class="glyphicon glyphicon-thumbs-up"></span>  <span id="show_normal_span" class="glyphicon glyphicon-minus"></span>  <span id="show_bad_span" class="glyphicon glyphicon-thumbs-down"></span></div>
 <fieldset>
@@ -285,17 +285,43 @@ p.review_p{
   </div><!-- end of tab content col -->
 </div><!-- end of #other_info.row -->
 </div><!-- end of other_info -->
+
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
+<!-- login dialog -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Alert!</h4>
+      </div>
+      <div class="modal-body">
+        This function need to login first.<br>
+        Do you want to login?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button id="ModalLogin" type="button" class="btn btn-primary">Login</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- login dialog -->
+
 <script type="text/javascript">
 $("#follow_button").click(function(){
 	var button = $(this);
 	var status = button.attr("follow_status");
 	var member_no = button.attr("member_no");
-	console.log("follow status: "+status);
-	console.log("member no: "+member_no);
+// 	console.log("follow status: "+status);
+// 	console.log("member no: "+member_no);
 	if(status == "follow"){
 		$.post("FollowChange.do",{"id":member_no,"status":status},function(data){
 			if(data == "success"){
-				console.log("success");
+// 				console.log("success");
 				button.attr("follow_status","unfollow");
 				button.val("follow");
 				button.attr("class","btn btn-default");
@@ -307,16 +333,22 @@ $("#follow_button").click(function(){
 	if(status == "unfollow"){
 		$.post("FollowChange.do",{"id":member_no,"status":status},function(data){
 			if(data == "success"){
-				console.log("success");
+// 				console.log("success");
 				button.attr("follow_status","follow");
 				button.val("unfollow");
 				button.attr("class","btn btn-danger");
 			}else if(data == "nonLogin"){
-				alert("you have to login first!");
+// 				alert("you have to login first!");
+				$('#myModal').modal('show');
 			}
 		});//end of get
 	}
 });//end of click
+
+$("#ModalLogin").click(function(){
+	window.location="${root}secure/login.jsp";
+});
+
 var asgiverReviews = JSON.parse('<%=request.getAttribute("memberasGiver")%>');
 var asgetterReviews = JSON.parse('<%= request.getAttribute("memberasGetter")%>');
 var goodpoint = asgiverReviews.good + asgetterReviews.good;

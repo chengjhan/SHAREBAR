@@ -24,7 +24,7 @@ div.img_container{
 	width:75%;
 	height:100%;
 }
-li{
+li.flexisel_li{
 	text-align:center;
 	vertical-align:center;
 }
@@ -87,7 +87,7 @@ pageContext.setAttribute("items",beans);
 <div id="flexisel_container">
 <ul id="flexiselDemo1"> 
 	<c:forEach var="item" items="${items}">
-		<li>
+		<li class="flexisel_li">
 		<div class="thumbnail item_list">
 		<figure class="item_container" style="width:87%">
 		<a href="${root}item/itemdetail.controller?id=${item.item_id}">

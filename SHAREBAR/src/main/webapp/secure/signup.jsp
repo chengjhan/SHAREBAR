@@ -128,14 +128,14 @@ session.setAttribute("from",from);
 	
 	$("#submitbtn").click(function(event){
 		var stat = $("#act_check").attr("account");
-		if(stat!="none"){
+		if(stat=="exist"){
 			event.preventDefault();
 			$("#ajaxCheck").html("<p style='font-weight:bold'>This account is already exist, please change your email.</p>")
 		}
 	});//end of click
 		
 	$(function(){
-		
+		//check account
 		$("#member_email").change(function(){
 			var emailID = $("#member_email").val();
 			var validmail = validateEmail(emailID);
@@ -162,6 +162,11 @@ session.setAttribute("from",from);
 						.addClass("glyphicon-question-sign");
 					}
 				})//end of $.get
+			}else{
+				image
+				.removeClass("glyphicon-remove-sign")
+				.removeClass("glyphicon-ok-sign")
+				.addClass("glyphicon-question-sign");
 			}
 		});//end of focusout
 		

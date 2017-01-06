@@ -282,6 +282,8 @@ p.review_p{
 </div><!-- end of tab div -->
 </div><!-- end of #other_info_row -->
 </div><!-- end of #other_info_div -->
+
+
 <script type="text/javascript">
 $("#header").load("../header.jsp");
 	
@@ -371,7 +373,9 @@ if(asgiverReviews.Count != 0){
 	}else if(asgiverReviews.Count == 0){
 		$("div#Share").append(
 				"<div class='review_class' style='background-color:#FFFFFF'>"
-				+""
+				+"<p>"
+				+"no comment...."
+				+"</p>"
 				+"</div>"
 		);
 	}
@@ -426,11 +430,13 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 }else if(asgetterReviews.Count == 0){
 	$("div#Get").append(
 			"<div class='review_class' style='background-color:#FFFFFF'>"
-			+"no coment"
+			+"<p>"
+			+"no comment...."
+			+"</p>"
 			+"</div>"
 	);
 }
-// console.log("getterReviews:"+asgetterReviews.getterReviews);
+}
 </script>
 </body>
 </html>

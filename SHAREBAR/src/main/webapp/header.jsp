@@ -42,7 +42,7 @@ div#navbar {
 </head>
 <c:url value="/" var="root"></c:url>
 <body>
-		<div class="navbar navbar-light navbar-default navbar-static-top" style="height:56px">
+		<div class="navbar navbar-light navbar-default navbar-static-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
