@@ -32,6 +32,12 @@ div#g-signin2{
 <%
 String from = request.getHeader("Referer"); 
 session.setAttribute("from",from);
+String temp = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+if(temp.equals("secure/login.jsp") || temp.equals("secure/signup.jsp")){
+	
+}else{
+session.setAttribute("from",from);	
+}
 %>
 <body>
 <!-- <div id="header"></div> -->

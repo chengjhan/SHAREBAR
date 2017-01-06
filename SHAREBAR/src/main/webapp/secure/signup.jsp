@@ -58,8 +58,13 @@ img#imgPreview{
 </style>
 </head>
 <%
-String from = request.getHeader("Referer"); 
-session.setAttribute("from",from);
+String from = request.getHeader("Referer");
+String temp = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+if(temp.equals("secure/login.jsp") || temp.equals("secure/signup.jsp")){
+	
+}else{
+session.setAttribute("from",from);	
+}
 %>
 <body>
 <jsp:include page="../header.jsp"></jsp:include>
@@ -210,7 +215,7 @@ session.setAttribute("from",from);
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.alert("${from}");window.location = "${from}";}
+				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
 				else{window.location="${root}"}	
 			}else if(responseText == "AccountExist"){
 				gapi.auth2.getAuthInstance().signOut().then(function() {
@@ -223,7 +228,7 @@ session.setAttribute("from",from);
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.alert("${from}");window.location = "${from}";}
+				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
 				else{window.location="${root}"}	
 			}else if(responseText == "InvalidIdToken"){
 				gapi.auth2.getAuthInstance().signOut().then(function() {
@@ -243,7 +248,7 @@ session.setAttribute("from",from);
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.alert("${from}");window.location = "${from}";}
+				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
 				else{window.location="${root}"}	
 			}
 		});
