@@ -119,6 +119,11 @@ div.progress{
     height: 5px;
 }
 
+p.review_p{
+	font-family:cursive;
+	margin:10px 10px;
+}
+
 /* XD */
 .textellipsis{
 	 text-overflow:ellipsis;
@@ -338,7 +343,9 @@ if(asgiverReviews.Count != 0){
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
 				+"</div>"
 				+"</a>"
+				+"<p class='review_p'>"
 				+myReview
+				+"</p>"
 				+"</div>"
 				);
 		}else if(myRate==2){
@@ -349,7 +356,9 @@ if(asgiverReviews.Count != 0){
 					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
 					+"</div>"
 					+"</a>"
+					+"<p class='review_p'>"
 					+myReview
+					+"</p>"
 					+"</div>"
 					);
 		}else if(myRate==1){
@@ -360,7 +369,9 @@ if(asgiverReviews.Count != 0){
 					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
 					+"</div>"
 					+"</a>"
+					+"<p class='review_p'>"
 					+myReview
+					+"</p>"
 					+"</div>"
 					);
 		}
@@ -389,7 +400,9 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 			+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
 			+"</div>"
 			+"</a>"
+			+"<p class='review_p'>"
 			+myReview
+			+"</p>"
 			+"</div>"
 			);
 	}else if(myRate==2){
@@ -400,7 +413,9 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
 				+"</div>"
 				+"</a>"
+				+"<p class='review_p'>"
 				+myReview
+				+"</p>"
 				+"</div>"
 				);
 	}else if(myRate==1){
@@ -411,7 +426,9 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
 				+"</div>"
 				+"</a>"
+				+"<p class='review_p'>"
 				+myReview
+				+"</p>"
 				+"</div>"
 				);
 	}

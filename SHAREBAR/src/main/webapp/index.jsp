@@ -42,6 +42,13 @@ div.item_list{
 div.item_descrip{
 	margin-left:25px;
 }
+.nbs-flexisel-item img{
+    max-width: 95%;
+    cursor: pointer;
+    position: relative;
+    margin: 10px;
+}
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
