@@ -331,6 +331,7 @@ html, body {
 			var id_image_photo1 = $("#id_image_photo1").val();
 			if(id_item_name != "" && id_class_name != "" && id_location != "" && id_image_photo1 != ""){
 				$("#myModal").modal();
+				$(this).submit();
 			}
 		})
 	</script>

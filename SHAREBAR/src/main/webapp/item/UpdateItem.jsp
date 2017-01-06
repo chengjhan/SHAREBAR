@@ -161,7 +161,7 @@ html, body {
 					</div>
 					<label for="id_location">地點</label>
 					<div class="form-group input-group">
-						<input type="text" id="id_location" name="location" class="form-control" placeholder="地區，地址">
+						<input type="text" id="id_location" name="location" class="form-control" placeholder="地區，地址" value="${param.location}">
 						<span class="input-group-addon"><i id="id_location_search" class="glyphicon glyphicon-search"></i></span>
 						<span class="input-group-addon"><i id="id_location_ok" class="glyphicon glyphicon-remove"></i></span>
 <!-- 						<div class="input-group-btn"> -->
@@ -336,6 +336,7 @@ html, body {
 			var id_image_photo1 = $("#id_image_photo1").val();
 			if(id_item_name != "" && id_class_name != "" && id_location != "" && id_image_photo1 != ""){
 				$("#myModal").modal();
+				$(this).submit();
 			}
 		})
 	</script>
