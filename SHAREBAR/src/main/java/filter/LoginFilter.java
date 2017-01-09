@@ -30,7 +30,7 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-			System.out.println("start of loginFilter");
+//			System.out.println("start of loginFilter");
 			HttpServletRequest req = (HttpServletRequest) request;
 			HttpServletResponse resp = (HttpServletResponse) response;
 //			req.getSession().setAttribute("target", target);
@@ -38,12 +38,12 @@ public class LoginFilter implements Filter {
 			// System.out.println("111--->"+servletPath);
 
 			if (checkLogin(req)) {
-				System.out.println("222--->需要Login, 已經Login");
+//				System.out.println("222--->需要Login, 已經Login");
 				chain.doFilter(request, response);
 			} else {
 				HttpSession session = req.getSession();
 				session.setAttribute("target", req.getServletPath());
-				System.out.println("333--->需要Login,尚未Login,ServletPath=" + req.getServletPath());
+//				System.out.println("333--->需要Login,尚未Login,ServletPath=" + req.getServletPath());
 				boolean ajax = "XMLHttpRequest".equals(req.getHeader("X-Requested-With"));
 				if (ajax) {
 					System.out.println("in filter");

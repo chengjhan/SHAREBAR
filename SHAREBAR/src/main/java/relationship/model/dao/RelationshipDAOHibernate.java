@@ -111,7 +111,7 @@ public class RelationshipDAOHibernate implements RelationshipDAO {
 		try {
 			rel = (RelationshipBean) query.getSingleResult();
 			if(rel != null){
-				System.out.println(rel);
+//				System.out.println(rel);
 				return rel;
 			}
 		} catch (NoResultException e) {

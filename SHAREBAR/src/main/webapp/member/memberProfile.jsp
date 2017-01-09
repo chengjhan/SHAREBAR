@@ -235,7 +235,7 @@ p.review_p{
 			</c:if>
 		</c:forEach>
 		<div class="caption">
-		<p class="textellipsis">${item.item_name}:${item.item_id}:${item.member_id.nickname}</p>
+		<p class="textellipsis">${item.item_name}</p>
 		</div>
 		</a>
 		<p><!-- 	追蹤按鈕		 -->
@@ -268,7 +268,7 @@ p.review_p{
 		<img alt="${follow.member_followed.nickname}" src="${root}profileImages/${follow.member_followed.photo}" class="follow_list contentIan">
 		</div>
 		<div class="caption">
-		<p>${follow.member_followed.nickname}:${follow.member_followed.member_no}</p>
+		<p>${follow.member_followed.nickname}</p>
 		</div>
 		</a>
 		</div>
@@ -290,7 +290,7 @@ p.review_p{
 		<img alt="${followed.member_follow.nickname}" src="${root}profileImages/${followed.member_follow.photo}" class="follow_list contentIan">
 		</div>
 		<div class="caption">
-		<p>${followed.member_follow.nickname}:${followed.member_follow.member_no}</p>
+		<p>${followed.member_follow.nickname}</p>
 		</div>
 		</a>
 		</div>
