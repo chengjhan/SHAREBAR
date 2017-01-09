@@ -215,7 +215,9 @@ public class InsertItemServlet extends HttpServlet {
 		// 根據Model的執行結果，顯示View
 		if (result != null && result1 != null) {
 			System.out.println("會員編號" + user.getMember_no());
-			response.sendRedirect("/item/itemdetail.controller?id=" + itemBean.getItem_id());
+			String root = request.getContextPath();
+//			response.sendRedirect(root + "/item/itemdetail.controller?id=" + itemBean.getItem_id());
+			response.sendRedirect(root + "/member/profile.controller?id=" + user.getMember_no());
 //			RequestDispatcher rd = request.getRequestDispatcher("/item/itemdetail.controller?id=" + itemBean.getItem_id());
 //			rd.forward(request, response);
 			return;
