@@ -5,9 +5,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>SHARE BAR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<link rel="shortcut icon" href="<c:url value='favicon.ico'/>" type="image/x-icon" />
 <link type="text/css" rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
 <link type="text/css" rel="stylesheet" href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <link type="text/css" rel="stylesheet" href="js/jquery-chatbox/jquery.ui.chatbox.css" />
@@ -36,7 +36,7 @@
 </style>
 </head>
 <body>
-	<div id="header"></div>
+<c:import url="../header.jsp"></c:import>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
@@ -241,7 +241,7 @@
 		</div>
 	</div>
 	<div id="board"></div>
-	<div id="footer"></div>
+<c:import url="../footer.jsp"></c:import>
 </body>
 <script>
 var socket = null;

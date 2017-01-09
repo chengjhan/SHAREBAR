@@ -45,12 +45,13 @@ div#navbar {
 		<div class="navbar navbar-light navbar-default navbar-static-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
+					
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
 						    <span class="icon-bar"></span>
         					<span class="icon-bar"></span>
         					<span class="icon-bar"></span>  
 					</button>
-					<a class="navbar-brand" href="<c:url value='/index.jsp'/>">SHARE BAR!</a>
+					<a class="navbar-brand" href="<c:url value='/index.jsp'/>"><img src="<c:url value='/img/SHAREBAR.png'/>" style="height: 32x; width: 32px; float:left; position:relative; bottom:5px; right:0px;">&nbsp;&nbsp;SHARE BAR!</a>
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px">
