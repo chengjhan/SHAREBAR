@@ -51,7 +51,7 @@ public class ShowProfileServlet extends HttpServlet {
 		MemberBean user = (MemberBean) request.getSession().getAttribute("user");
 		String temp = request.getParameter("id");
 		int memberNo = Integer.valueOf(temp);
-		System.out.println(memberNo);
+//		System.out.println(memberNo);
 		MemberBean member = memberService.findById(memberNo);
 		String user2check = null;
 		if (member != null) {

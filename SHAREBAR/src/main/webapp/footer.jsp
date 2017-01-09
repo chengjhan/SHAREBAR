@@ -35,7 +35,8 @@
 </style>
 </head>
 <body>
-<footer id="id_footer" class="panel-footer" style="margin-top:30px;background-color:white"> 
+<footer> 
+<div id="id_footer" class="panel-footer" style="margin-top:30px;background-color:white">
 <div class="container-fluid" >
 <div class="row">
 <div class="col-lg-3 col-sm-3 text-center">
@@ -64,8 +65,7 @@
 </div>
 </div>
 </div>
-</footer>
-
+</div>
 <div class="panel-footer" style="background-color:#98c1d9;height:60px">
 <div class="container">
 <div class="pull-left">
@@ -79,6 +79,7 @@ Copyright 2017 ©
 </div>
 </div>
 </div>
+</footer>
 <script type="text/javascript">
 $(function(){
 	 $('[data-toggle="tooltip"]').tooltip();  
