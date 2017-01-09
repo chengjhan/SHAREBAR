@@ -89,8 +89,8 @@
 // 			request.setAttribute("image", base64Encoded);
 // 		}
 	%>
-	
-   <div id="header"></div>
+<c:import url="../header.jsp"></c:import>
+<!--    <div id="header"></div> -->
    <div class="row">
    		<div class="col-md-2">
 		</div>
@@ -216,9 +216,9 @@
 	
 	</div>
 	<script>
-		$(function(){
-			$("#header").load("../header.jsp");
-		});
+// 		$(function(){
+// 			$("#header").load("../header.jsp");
+// 		});
 	
 		$(function() {
 			

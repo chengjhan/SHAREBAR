@@ -56,7 +56,6 @@
 }
 
 
-
 /* .item_pic{ */
 /* 	cursor: pointer; */
 /* } */

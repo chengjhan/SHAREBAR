@@ -50,11 +50,7 @@ div.list-group{
 	horizontal-align:center;
 }
 </style>
-<script>
-// $(function(){
-// 	$("#header").load("../header.jsp");
-// });
-</script>
+
 </head>
 <body>
 <c:url value="/" var="root"></c:url>

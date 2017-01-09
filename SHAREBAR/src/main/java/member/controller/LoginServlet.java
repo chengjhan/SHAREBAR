@@ -118,7 +118,7 @@ public class LoginServlet extends HttpServlet {
 
 					if (from != null) {
 						from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-						System.out.println(from);
+//						System.out.println(from);
 						if (!from.equals("secure/login.jsp") && !from.equals("secure/signup.jsp") && from.trim().length()!=0 && from!=null) {
 							response.sendRedirect(path + "/" + from);
 						} else {

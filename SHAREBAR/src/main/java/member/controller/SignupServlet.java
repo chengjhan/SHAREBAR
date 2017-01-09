@@ -199,7 +199,7 @@ public class SignupServlet extends HttpServlet {
 			return;
 		}else{
 //			System.out.println(bean.getMember_email());
-			System.out.println(rootpath+getMD5(member_email)+"."+fileExtend);
+//			System.out.println(rootpath+getMD5(member_email)+"."+fileExtend);
 			writeTo(getMD5(member_email)+"."+fileExtend, filePart, rootpath);
 			sendActivatedMail(bean.getEmail());
 			String path = request.getContextPath();
