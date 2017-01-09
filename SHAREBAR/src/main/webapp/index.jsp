@@ -86,17 +86,20 @@ List<ItemBean> beans = itemService.selectByNew();
 pageContext.setAttribute("items",beans);
 pageContext.setAttribute("classes",classBeans);
 %>
+
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 <script>
-if (navigator.geolocation) {
-	navigator.geolocation.getCurrentPosition(success, error);
-}
-console.log(bounds);
+// if (navigator.geolocation) {
+// 	navigator.geolocation.getCurrentPosition(success, error);
+// }
+// console.log(bounds);
 </script>
+
 <%-- <jsp:include page="header.jsp"></jsp:include> --%>
 <!-- <div id="header"></div> -->
 
+<div class="wrap">
 
 <div id="flexisel_container" style="height:300px">
 <ul id="classflexi"> 
@@ -116,6 +119,9 @@ console.log(bounds);
 	</c:forEach>                                                        
 </ul>
 </div>
+
+
+
 
 
 
@@ -145,7 +151,7 @@ console.log(bounds);
 	</c:forEach>                                                        
 </ul>
 </div>
-<c:import url="/footer.jsp"></c:import>
+
 <script type="text/javascript">
 $(function(){
     $("#itemflexi").flexisel({
@@ -210,5 +216,7 @@ $(function(){
 	
 });
 </script>
+<</div>
+<c:import url="/footer.jsp"></c:import>
 </body>
 </html>

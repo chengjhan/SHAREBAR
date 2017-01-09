@@ -1,7 +1,8 @@
 @CHARSET "UTF-8";
 
 body{
-	background-color: #f2f2f2;	
+	background-color: #f2f2f2;
+	height:69%;
     font-family:cursive , Microsoft YaHei , Arial , PMingLiU , MingLiU;
 }
 /* share bar 顏色 */
@@ -13,7 +14,12 @@ body{
   color: #137eda;
   background-color: transparent;
 }
-
+.wrap{
+	min-height:100%
+}
+html{
+height:100%;
+}
 
 .share-block{
 	background-color:#f4f1bb;

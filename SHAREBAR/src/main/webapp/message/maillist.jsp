@@ -26,6 +26,7 @@
 <style>
   body{
     font-family:cursive , Microsoft YaHei , Arial , PMingLiU , MingLiU;
+	height: 58.5px;
 	}
   .ui-effects-transfer {
     border: 1px solid #305388;
@@ -36,15 +37,17 @@
   #read{
   	color: #ff302e;
   	font-weight:bold;
-  	}
+  }
   .table-hover > tbody > tr:hover {
   	color: white;
   	background-color: #637897;
 	}
+>>>>>>> branch 'master' of https://github.com/EEIT90Team4/SHAREBAR.git
 </style>
 </head>
 <body>
 <c:import url="../header.jsp"></c:import>
+	<div class="wrap">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
@@ -248,7 +251,8 @@
 			</div>
 		</div>
 	</div>
-	<div id="board" style="height: 300px"></div>
+	</div>
+	<div id="board"></div>
 <c:import url="../footer.jsp"></c:import>
 </body>
 <script>
