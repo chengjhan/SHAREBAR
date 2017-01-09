@@ -92,6 +92,7 @@
 	%>
 <c:import url="../header.jsp"></c:import>
 <!--    <div id="header"></div> -->
+	<div class="container">
    <div class="row">
    		<div class="col-md-2">
 		</div>
@@ -251,5 +252,6 @@
 			});
 		});
 	</script>
+	</div>
 </body>
 </html>
