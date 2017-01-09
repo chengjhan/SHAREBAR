@@ -26,7 +26,7 @@
 
 <!-- 以下name請勿再使用 -->
 <!-- searchSelector, searchBar -->
-<link rel=stylesheet type="text/css" href="css/share.css">
+<link rel=stylesheet type="text/css" href="<%=request.getContextPath()%>/css/share.css">
 <style>
 div#navbar {
 	width: 100%;
