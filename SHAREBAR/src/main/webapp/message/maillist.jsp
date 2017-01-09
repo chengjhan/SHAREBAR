@@ -209,16 +209,16 @@
 							
 							<table align="center" class="col-md-8 table table-striped">	
 										<tr align="center">
-											<td class="st1">&nbsp;信件編號&nbsp;</td>
+<!-- 											<td class="st1">#</td> -->
 <!-- 											<td class="st1">&nbsp;會員ID&nbsp;</td>			 -->
-											<td class="st1">&nbsp;發信時間&nbsp;</td>			
-											<td class="st1">&nbsp;信件內容&nbsp;</td>
-											<td class="st1">&nbsp;回覆時間&nbsp;</td>
-											<td class="st1">&nbsp;客服回覆&nbsp;</td>
+											<td class="st1">發信時間</td>			
+											<td class="st1">信件內容</td>
+											<td class="st1">回覆時間</td>
+											<td class="st1">客服回覆</td>
 										</tr>
 									<c:forEach var="element4" items="${service_mail}">
 										<c:url value="gm_view05_1.jsp" var="path">
-											<c:param name="mail_id" value="${element4.mail_id}" />
+<%-- 											<c:param name="mail_id" value="${element4.mail_id}" /> --%>
 <%-- 											<c:param name="member_id" value="${element4.member_id}" /> --%>
 											<c:param name="time" value="${element4.time}" />
 											<c:param name="context" value="${element4.context}" />
@@ -227,7 +227,7 @@
 										</c:url>
 						
 										<tr>
-											<td align="center"  class="st1">${element4.mail_id}</td>
+<%-- 											<td align="center"  class="st1">${element4.mail_id}</td> --%>
 <%-- 											<td align="center"  class="st1">${element4.member_id}</td> --%>
 											<td class="st1">&nbsp; ${element4.time} &nbsp;</td>
 											<td class="st1">${element4.context}</td>

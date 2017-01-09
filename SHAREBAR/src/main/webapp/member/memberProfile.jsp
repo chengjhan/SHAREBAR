@@ -124,24 +124,6 @@ p.review_p{
 	margin:10px 10px;
 }
 
-.boxIan {
-    position: relative;
-    width:    100%; /* desired width */
-}
-.boxIan:before {
-    content:     "";
-    display:     block;
-    padding-top: 100%; /* initial ratio of 1:1*/
-}
-
-.contentIan {
-    position: absolute;
-    top:      0;
-    left:     0;
-    bottom:   0;
-    right:    0;
-}
-
 /* XD */
 .textellipsis{
 	 text-overflow:ellipsis;
