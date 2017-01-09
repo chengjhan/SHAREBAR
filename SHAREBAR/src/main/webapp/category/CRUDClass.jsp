@@ -216,6 +216,7 @@
 	</div>
 	
 	</div>
+	<c:import url="/footer.jsp"></c:import>
 	<script>
 // 		$(function(){
 // 			$("#header").load("../header.jsp");

@@ -1,8 +1,10 @@
 @CHARSET "UTF-8";
 
 body{
+<<<<<<< HEAD
 	background-color: #f2f2f2;
 	height:60%;
+    font-family:cursive , Microsoft YaHei , Arial , PMingLiU , MingLiU;
 }
 /* share bar 顏色 */
 .navbar-default .navbar-brand {

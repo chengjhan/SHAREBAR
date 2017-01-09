@@ -35,6 +35,7 @@
 </head>
 
 <body>
+<c:url value="/" var="root"></c:url>
 <c:import url="../header.jsp"></c:import>
 <!-- <div id="header"></div> -->
 	<div class="row">
@@ -54,6 +55,7 @@
 		<div class="col-md-2"></div>
 	</div>
 	
+	<div class="row" >
 	<div class="col-md-2"></div>
 	
 	<div class="col-md-2">
@@ -126,11 +128,11 @@
 
 				<tr>
 					<td align="center" class="st1">${element3.report_id}</td>
-					<td align="center" class="st1">${element3.reporting_member_id.member_no}</td>
-					<td                class="st1">${element3.reporting_member_id.email}</td>
-					<td align="center" class="st1">${element3.reporting_member_id.nickname}</td>
-					<td align="center" class="st1">${element3.reported_item_id.item_id}</td>
-					<td align="center" class="st1">${element3.reported_item_id.item_name}</td>
+					<td align="center" class="st1"><a href="${root}member/profile.controller?id=${element3.reporting_member_id.member_no}">${element3.reporting_member_id.member_no}</a></td>
+					<td                class="st1"><a href="${root}member/profile.controller?id=${element3.reporting_member_id.member_no}">${element3.reporting_member_id.email}</a></td>
+					<td align="center" class="st1"><a href="${root}member/profile.controller?id=${element3.reporting_member_id.member_no}">${element3.reporting_member_id.nickname}</a></td>
+					<td align="center" class="st1"><a href="${root}item/itemdetail.controller?id=${element3.reported_item_id.item_id}">${element3.reported_item_id.item_id}</a></td>
+					<td align="center" class="st1"><a href="${root}item/itemdetail.controller?id=${element3.reported_item_id.item_id}">${element3.reported_item_id.item_name}</a></td>
 					<td class="st1">${element3.context}</td>		
 					<td class="st1">&nbsp; ${element3.time} &nbsp;</td>
 <%-- 					<td align="center" class="st1"><a href="${path}">封鎖</a></td> --%>
@@ -142,6 +144,8 @@
 <!-- 每頁不同的內容到這裡結束 -->
 <!-- 			</div> -->
 	</div>
-
+	</div>
+<div style="height:330px"></div>
+<c:import url="/footer.jsp"></c:import>
 </body>
 </html>
