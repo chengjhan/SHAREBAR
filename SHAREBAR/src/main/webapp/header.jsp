@@ -60,7 +60,7 @@ div#navbar {
 					
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
-				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px;padding:0px;padding-top:4px">
+				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px;padding:0px;padding-top:4px;padding-bottom:5px">
 					<div class="input-group">
 						<div class="form-group">
 							<select id="id_select" name="searchSelector" class="form-control" style="width:75px;height: 40px">
@@ -111,9 +111,7 @@ div#navbar {
 			</div>
 		</div>
 	<script>
-	        		var lat;
-	        		var lng;
-	        		var bounds;
+
 		var geocoder;
 		var googleAutocomplete;
 		var headerInput;
@@ -332,13 +330,13 @@ div#navbar {
 			}
 		});
 	        	function success(position) {
-	        		lat = position.coords.latitude;
-	        		lng = position.coords.longitude;
+	        		var lat = position.coords.latitude;
+	        		var lng = position.coords.longitude;
 // 	     			alert(lat + ", " + lng);
 	     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
-	    					bounds = results[0].geometry.viewport;
+	    					var bounds = results[0].geometry.viewport;
 // 	    					alert(bounds);
 	    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
 							var inputLng = $("<input name='longitude' style='display:none'>").val(lng);

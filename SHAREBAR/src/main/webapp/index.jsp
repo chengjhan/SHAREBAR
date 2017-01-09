@@ -6,16 +6,22 @@
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- <link rel="stylesheet" -->
+<!-- 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 <!-- <link rel="stylesheet" href="js/Carousel-Plugin-flexisel/css/style.css"> -->
 <link rel="stylesheet" href="js/slick/slick.css">
 <link rel="stylesheet" href="js/slick/slick-theme.css">
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<!-- <script -->
+<!--   src="https://code.jquery.com/jquery-3.1.1.min.js" -->
+<!--   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" -->
+<!--   crossorigin="anonymous"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
 <script src="js/slick/slick.js"></script>
 <!-- <script src="js/Carousel-Plugin-flexisel/js/jquery.flexisel.js"></script> -->
 <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script> -->
@@ -158,4 +164,6 @@ $(".item_slide").slick({
 </script>
 <c:import url="/footer.jsp"></c:import>
 </body>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+
 </html>
