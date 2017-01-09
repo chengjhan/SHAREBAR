@@ -280,6 +280,7 @@ div.progress{
   </div><!-- end of tab content col -->
 </div><!-- end of #other_info.row -->
 </div><!-- end of other_info -->
+<c:import url="../footer.jsp"></c:import>
 <script type="text/javascript">
 $("#follow_button").click(function(){
 	var button = $(this);

@@ -129,5 +129,6 @@ pageContext.setAttribute("items",beans);
 	</c:forEach>                                                        
 </ul>
 </div>
+<c:import url="/footer.jsp"></c:import>
 </body>
 </html>
