@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert and update</title>
+<link rel="shortcut icon" href="<c:url value='/favicon.ico'/>" type="image/x-icon" />
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
@@ -89,8 +90,8 @@
 // 			request.setAttribute("image", base64Encoded);
 // 		}
 	%>
-	
-   <div id="header"></div>
+<c:import url="../header.jsp"></c:import>
+<!--    <div id="header"></div> -->
    <div class="row">
    		<div class="col-md-2">
 		</div>
@@ -216,9 +217,9 @@
 	
 	</div>
 	<script>
-		$(function(){
-			$("#header").load("../header.jsp");
-		});
+// 		$(function(){
+// 			$("#header").load("../header.jsp");
+// 		});
 	
 		$(function() {
 			

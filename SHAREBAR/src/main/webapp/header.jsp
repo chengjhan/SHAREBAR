@@ -26,7 +26,7 @@
 
 <!-- 以下name請勿再使用 -->
 <!-- searchSelector, searchBar -->
-
+<link rel=stylesheet type="text/css" href="css/share.css">
 <style>
 div#navbar {
 	width: 100%;
@@ -42,28 +42,42 @@ div#navbar {
 </head>
 <c:url value="/" var="root"></c:url>
 <body>
-		<div class="navbar navbar-light navbar-default navbar-static-top">
+		<div class="navbar navbar-light navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
+					
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
 						    <span class="icon-bar"></span>
         					<span class="icon-bar"></span>
         					<span class="icon-bar"></span>  
 					</button>
-					<a class="navbar-brand" href="<c:url value='/index.jsp'/>">SHARE BAR!</a>
+					<a class="navbar-brand" href="<c:url value='/index.jsp'/>"><img src="<c:url value='/img/SHAREBAR.png'/>" style="height: 32x; width: 32px; float:left; position:relative; bottom:5px; right:0px;">&nbsp;&nbsp;SHARE BAR!</a>
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px">
-					<div class="form-group">
-						<select class="form-control" id="id_select" name="searchSelector">
-							<option value="location">地區</option>
-							<option value="itemName">物品</option>
-						</select>
+					<div class="input-group">
+						<div class="form-group">
+							<select id="id_select" name="searchSelector" class="form-control" style="width:75px">
+								<option value="location">地區</option>
+								<option value="itemName">物品</option>
+							</select>
+						</div>
+						<div class="form-group">
+	    					<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search">
+	  					</div>
+	  					<div class="form-group">
+	    					<div class="input-group-btn">
+	      						<button id="id_submit" class="btn btn-default" type="submit" style="height:34px">
+	        						<i class="glyphicon glyphicon-search"></i>
+	      						</button>
+	    					</div>
+	    				</div>
 					</div>
-					<div class="form-group">
-						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search" required/></td>
-					</div>
-						<button type="submit" id="id_submit" class="btn btn-default">Submit</button>
+					
+<!-- 					<div class="form-group"> -->
+<!-- 						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search"/></td> -->
+<!-- 					</div> -->
+<!-- 						<button type="submit" id="id_submit" class="btn btn-default">Submit</button> -->
 					<table id="latlng"></table>
 				</form>
 				<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
@@ -93,7 +107,7 @@ div#navbar {
 	<script>
 		var geocoder;
 		var googleAutocomplete;
-		var input;
+		var headerInput;
 	    var availableTags = [
 	        "ActionScript",
 	        "AppleScript",
@@ -177,7 +191,6 @@ div#navbar {
 						});
 				}
 
-			
 	    	// 物品自動完成
 // 	    	$("#id_search").on("autocompletechange", function(){
 // 				var searchBar = $("#id_search").val();
@@ -192,11 +205,24 @@ div#navbar {
 // 			});
 	    	
 	    	// 表單驗證
+	    	$('#id_form').on("submit", function(event){
+	    		var searchBar = $("#id_search").val(); 
+	    		if (searchBar == ""){
+	    			event.preventDefault();
+	    		}
+	    	});
+	    	
 // 			$('#id_form').validate({
 // 				event: "blur",
 // 				rules: {
 // 					searchBar: "required",
 // 				},
+// 				highlight: function (element) {
+		           	
+// 		        },
+// 		        unhighlight: function (element) {
+		            
+// 		        },
 // 				messages: {
 // 					searchBar: "",
 // 				},
@@ -216,9 +242,9 @@ div#navbar {
 // 		    			types: ['address']
 						types: ['geocode']
 		    		};
-		    input = document.getElementById('id_search');
+		    headerInput = document.getElementById('id_search');
 // 			map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-			googleAutocomplete = new google.maps.places.Autocomplete(input, options);
+			googleAutocomplete = new google.maps.places.Autocomplete(headerInput, options);
 			geocoder = new google.maps.Geocoder();
 		}
 
@@ -227,7 +253,7 @@ div#navbar {
 // 			alert($("#id_select").val());
 			if($("#id_select").find(":selected").val() === "itemName") {
 				$("#id_search").autocomplete({source: availableTags});
-				google.maps.event.clearInstanceListeners(input);
+				google.maps.event.clearInstanceListeners(headerInput);
 				$('#id_search').autocomplete('enable');
 			} else {
 				$('#id_search').autocomplete('disable');
@@ -236,12 +262,12 @@ div#navbar {
 						types: ['geocode']
 // 		    			types: ['address']
 		    		};
-				googleAutocomplete = new google.maps.places.Autocomplete(input, options);
+				googleAutocomplete = new google.maps.places.Autocomplete(headerInput, options);
 			}
 		});
 		
 		// 更改搜尋條件
-		$("#id_search").on("change", function(event){
+		$("#id_select").on("change", function(event){
 // 			event.preventDefault();
 			var searchSelector = $("#id_select").find(":selected").val();
 // 			alert(searchSelector);
@@ -297,7 +323,7 @@ div#navbar {
 	        	function success(position) {
 	        		var lat = position.coords.latitude;
 	        		var lng = position.coords.longitude;
-	     			alert(lat + ", " + lng);
+// 	     			alert(lat + ", " + lng);
 	     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
@@ -325,6 +351,6 @@ div#navbar {
 			}
 		}	
 	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+<!-- 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script> -->
 </body>
 </html>

@@ -9,10 +9,11 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel=stylesheet type="text/css" href="../css/share.css">
 <title>Profile Page</title>
 <script type="text/javascript">
 $(function(){
-	$("#header").load("../header.jsp");
+// 	$("#header").load("../header.jsp");
 	
 	//XD
 	$('div.box').hover(over);
@@ -101,7 +102,7 @@ div#review_div{
 div#review_sum_div{
 	top: 5px;
     right: 5px;
-    width: 35%;
+    width: 40%;
     height: 20px;
     position: absolute;
     background-color: #ffffff;
@@ -116,6 +117,11 @@ div.progress{
     width: 90%;
     position: absolute;
     height: 5px;
+}
+
+p.review_p{
+	font-family:cursive;
+	margin:10px 10px;
 }
 
 /* XD */
@@ -144,6 +150,7 @@ div.progress{
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <c:url value="/" var="root"></c:url>
+<jsp:include page="../header.jsp"></jsp:include>
 <div id="header"></div>
 <div class="container" id="basic_info">
 <div class="row">
@@ -172,8 +179,8 @@ div.progress{
 <div class="row">
 <div id="review_div" class="col-md-3 col-sm-4 col-xs-12">
 <div id="review_progress" class="progress">
-  <div id="review_progress_bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
-  </div>
+<div id="review_progress_bar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+</div>
 </div>
 <div id="review_sum_div"><span id="show_good_span" class="glyphicon glyphicon-thumbs-up"></span>  <span id="show_normal_span" class="glyphicon glyphicon-minus"></span>  <span id="show_bad_span" class="glyphicon glyphicon-thumbs-down"></span></div>
 <fieldset>
@@ -279,17 +286,42 @@ div.progress{
   </div><!-- end of tab content col -->
 </div><!-- end of #other_info.row -->
 </div><!-- end of other_info -->
+<c:import url="../footer.jsp"></c:import>
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
+<!-- login dialog -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Alert!</h4>
+      </div>
+      <div class="modal-body">
+        This function need to login first.<br>
+        Do you want to login?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button id="ModalLogin" type="button" class="btn btn-primary">Login</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- login dialog -->
 <script type="text/javascript">
 $("#follow_button").click(function(){
 	var button = $(this);
 	var status = button.attr("follow_status");
 	var member_no = button.attr("member_no");
-	console.log("follow status: "+status);
-	console.log("member no: "+member_no);
+// 	console.log("follow status: "+status);
+// 	console.log("member no: "+member_no);
 	if(status == "follow"){
 		$.post("FollowChange.do",{"id":member_no,"status":status},function(data){
 			if(data == "success"){
-				console.log("success");
+// 				console.log("success");
 				button.attr("follow_status","unfollow");
 				button.val("follow");
 				button.attr("class","btn btn-default");
@@ -301,16 +333,22 @@ $("#follow_button").click(function(){
 	if(status == "unfollow"){
 		$.post("FollowChange.do",{"id":member_no,"status":status},function(data){
 			if(data == "success"){
-				console.log("success");
+// 				console.log("success");
 				button.attr("follow_status","follow");
 				button.val("unfollow");
 				button.attr("class","btn btn-danger");
 			}else if(data == "nonLogin"){
-				alert("you have to login first!");
+// 				alert("you have to login first!");
+				$('#myModal').modal('show');
 			}
 		});//end of get
 	}
 });//end of click
+
+$("#ModalLogin").click(function(){
+	window.location="${root}secure/login.jsp";
+});
+
 var asgiverReviews = JSON.parse('<%=request.getAttribute("memberasGiver")%>');
 var asgetterReviews = JSON.parse('<%= request.getAttribute("memberasGetter")%>');
 var goodpoint = asgiverReviews.good + asgetterReviews.good;
@@ -337,7 +375,9 @@ if(asgiverReviews.Count != 0){
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
 				+"</div>"
 				+"</a>"
+				+"<p class='review_p'>"
 				+myReview
+				+"</p>"
 				+"</div>"
 				);
 		}else if(myRate==2){
@@ -348,7 +388,9 @@ if(asgiverReviews.Count != 0){
 					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
 					+"</div>"
 					+"</a>"
+					+"<p class='review_p'>"
 					+myReview
+					+"</p>"
 					+"</div>"
 					);
 		}else if(myRate==1){
@@ -359,7 +401,9 @@ if(asgiverReviews.Count != 0){
 					+"<img class='review_img' src='/SHAREBAR/profileImages/"+getterPhoto+"' height='40px'/>"
 					+"</div>"
 					+"</a>"
+					+"<p class='review_p'>"
 					+myReview
+					+"</p>"
 					+"</div>"
 					);
 		}
@@ -388,7 +432,9 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 			+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
 			+"</div>"
 			+"</a>"
+			+"<p class='review_p'>"
 			+myReview
+			+"</p>"
 			+"</div>"
 			);
 	}else if(myRate==2){
@@ -399,7 +445,9 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
 				+"</div>"
 				+"</a>"
+				+"<p class='review_p'>"
 				+myReview
+				+"</p>"
 				+"</div>"
 				);
 	}else if(myRate==1){
@@ -410,7 +458,9 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 				+"<img class='review_img' src='/SHAREBAR/profileImages/"+giverPhoto+"' height='40px'/>"
 				+"</div>"
 				+"</a>"
+				+"<p class='review_p'>"
 				+myReview
+				+"</p>"
 				+"</div>"
 				);
 	}

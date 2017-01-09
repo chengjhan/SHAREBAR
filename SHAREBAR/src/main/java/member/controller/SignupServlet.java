@@ -1,7 +1,5 @@
 package member.controller;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,6 +20,7 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
@@ -153,6 +152,9 @@ public class SignupServlet extends HttpServlet {
 		if(member_email == null || member_email.length() == 0){
 			errors.put("id", "id is required.");
 		}
+		if(isValidEmailAddress(member_email)){
+			errors.put("id", "This is not a valid email address");
+		}
 		if(password == null || password.length()==0){
 			errors.put("password", "password is required.");
 		}
@@ -197,7 +199,7 @@ public class SignupServlet extends HttpServlet {
 			return;
 		}else{
 //			System.out.println(bean.getMember_email());
-			System.out.println(rootpath+getMD5(member_email)+"."+fileExtend);
+//			System.out.println(rootpath+getMD5(member_email)+"."+fileExtend);
 			writeTo(getMD5(member_email)+"."+fileExtend, filePart, rootpath);
 			sendActivatedMail(bean.getEmail());
 			String path = request.getContextPath();
@@ -233,20 +235,31 @@ public class SignupServlet extends HttpServlet {
 				String ip = (InetAddress.getLocalHost()).toString();
 				ip = ip.substring(ip.indexOf("/")+1);
 				message.setText(
-						"Please click the link below to activate your account,\n\n http://"+ip+":8080/Project/secure/signup.controller?token="
+						"Please click the link below to activate your account,\n\n http://"+ip+":8080/SHAREBAR/secure/signup.controller?token="
 								+ getMD5(email));
-				System.out.println("Please click the link below to activate your account,\n\n http://"+ip+":8080/Project/secure/signup.controller?token="
+				System.out.println("Please click the link below to activate your account,\n\n http://"+ip+":8080/SHAREBAR/secure/signup.controller?token="
 						+ getMD5(email));
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Transport.send(message);
-			System.out.println("Done");
+			System.out.println("Email send");
 		} catch (MessagingException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
+	
+	protected boolean isValidEmailAddress(String email) {
+		   boolean result = true;
+		   try {
+		      InternetAddress emailAddr = new InternetAddress(email);
+		      emailAddr.validate();
+		   } catch (AddressException ex) {
+		      result = false;
+		   }
+		   return result;
+		}
 
 }

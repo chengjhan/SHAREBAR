@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<link rel="shortcut icon" href="<c:url value='/favicon.ico'/>" type="image/x-icon" />
 <link type="text/css" rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
 <link type="text/css" rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <link type="text/css" rel="stylesheet" href="../js/jquery-chatbox/jquery.ui.chatbox.css" />
@@ -55,6 +55,7 @@
 	display:none;
 }
 
+
 /* .item_pic{ */
 /* 	cursor: pointer; */
 /* } */
@@ -78,8 +79,22 @@ time{
 /* 	background-color: #A9D3FF; */
 }
 
-
-
+ #followshow.btn-default:hover,#followshow.btn-defaulta:active{   
+   	background-color: white;   
+ }   
+  #followshow.btn-change:hover{   
+   	background-color: #c9302c;   
+ }  
+ 
+/*  #id_footer{ */
+/* 	width:100%; */
+/* 	text-align:center; */
+/* 	position: fixed; */
+/*     bottom: 0; */
+/*     height: 50px; */
+/*     background-color:#333; */
+/* } */
+ 
 </style>
 </head>
 <body>
@@ -88,20 +103,20 @@ time{
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <c:url value="/" var="root"></c:url>
-<div id="header"></div>
+<c:import url="../header.jsp"></c:import>
 <div class="container">
 <div class="row">
 <div class="col-md-7">
 <div class="">
 	<div class="row">
-	<div style="margin:20px">
-	<div  id="picgroup" class="img-rounded" style="position:relative;width:60%;height:60%;margin:0 auto;">
+	<div style="margin-bottom:20px">
+	<div  id="picgroup" class="img-rounded" style="position:relative;width:70%;height:70%;margin:0 auto;">
 	<span id="prev-btn" class="glyphicon glyphicon-chevron-left finger pull-left" style="position:absolute;font-size:350%;left:0;left:-80px;top:calc(50% - 20px);"></span>
 	<span id="next-btn" class="glyphicon glyphicon-chevron-right finger pull-right" style="position:absolute;font-size:350%;right:0;right:-80px;top:calc(50% - 20px);"></span>
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 		<c:if test="${stat.first}">
-				<img class="show_pic img-responsive" id="showpic" alt="item_image" order="1" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute;">
-				<img class="show_pic img-responsive" id="showpic2" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:1;position:relative;">
+				<img class="show_pic img-responsive" id="showpic" alt="item_image" order="1" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute; -webkit-user-select: none;-moz-user-select: none;overflow: hidden;">
+				<img class="show_pic img-responsive" id="showpic2" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:1;position:relative; -webkit-user-select: none;-moz-user-select: none;overflow: hidden;">
 		</c:if>
 	</c:forEach>
 	</div>
@@ -122,8 +137,8 @@ time{
 </div>
 
 
-<div class="col-md-5 share-clean" style="vertical-align:top">
-<div class="row">
+<div class="col-md-5" style="vertical-align:top">
+<div class="row share-clean" style="margin-left:0;margin-right:0">
 <div class="col-lg-12 col-md-12 col-sm-6" style="margin-top:15px">
 
 <span class="glyphicon glyphicon-user"></span><strong>分享人：</strong>
@@ -156,22 +171,39 @@ time{
 	</c:url>
 	
 	<a href="${path}">
-		<input type="button" value="Edit" class="btn btn-primary" style="margin:5px;width:100%">
+		<input type="button" value="Edit" class="btn btn-primary" style="width:100%">
 	</a>
 	</c:when>
 	<c:otherwise>
-	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :5px;width:100%;height:45px ">
-	<input type="button" value="追蹤按鈕" class="btn btn-success" style="margin:5px;width:100%;height:45px" >
-	<input type="button" id="report" value="檢舉商品" class="btn btn-default" style="margin:5px;width:100%;height:45px">
+		<div class="input-group" style="width:100%;">
+	   	<input id="followtext" type="button" class="form-control btn btn-default" value="追蹤按鈕	" style="margin :5px 0;height:45px;z-index: 0">
+	    <div class="input-group-btn">
+	    <button id="followshow" class="btn btn-default" style="height:45px;cursor:auto" >
+	    <i class="glyphicon glyphicon-heart">
+	    </i></button>
+		</div>
+		</div>
 			<c:if test="${ itembean.done == 0 }">
-				<input type="button" id="ask" value="提出分享請求" class="btn btn-success" style="margin :5px;width:100%;height:45px">
-			</c:if>
+			<input type="button" id="ask" value="提出分享請求" class="btn btn-success" style="margin :5px 0;width:49%;height:45px">
+		</c:if>
 		<c:if test="${ itembean.done == 1 && item.getter_id == user_id }">
-			<input type="button" id="done" value="成交" class="btn btn-success" style="margin :5px;width:100%;height:45px">
+			<input type="button" id="done" value="成交" class="btn btn-success" style="margin :5px 0;width:49%;height:45px">
 		</c:if>
 		<c:if test="${ itembean.done == 1 && item.getter_id != user_id }">
-			<input type="button" id="done" value="已鎖定" class="btn btn-danger" style="margin :5px;width:100%;height:45px">
+			<input type="button" id="done" value="已鎖定" class="btn btn-danger" style="margin :5px 0;width:49%;height:45px">
 		</c:if>
+	<input type="button" id="report" value="檢舉商品" class="btn btn-danger" style="margin:5px 0;width:49%;height:45px">
+			
+		
+<!-- 	<button value="追蹤按鈕" class="btn btn-default" style="margin:5px 0;width:100%;height:45px" > -->
+<!-- 		<span id="followtext" style="display:inline-block;position: relative;top:6px">追蹤按鈕</span> -->
+<!-- 		<span id="followshow" style="border-left:inherit;position: relative;width:20%;float: right;height: 43px;top:-5.5px;right:-12px;"> -->
+<!-- 		<i class="glyphicon glyphicon-heart" style="top:calc(50% - 8px);"></i> -->
+<!-- 		</span> -->
+<!-- 	</button> -->
+	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :5px 0;width:100%;height:45px ">
+	
+
 	</c:otherwise>
 	</c:choose>
 	</div>
@@ -184,9 +216,10 @@ time{
 
 </div><!-- end of basic_info -->
 
-<div class="container">
+<div class="container" style="margin-top:30px">
 <div class="row">
-<div class="col-md-7" id="other-info">
+<div class="col-md-7">
+<div class="share-clean">
 <ul class="nav nav-tabs">
 <li class="active"><a data-toggle="tab" href="#descrption">分享描述</a></li>
 <li><a data-toggle="tab" href="#message">討論</a></li>
@@ -225,11 +258,12 @@ time{
     </div>
   </div>
 </div>
+</div>
 <div id="other-info" class="col-md-5">
-<h3 class="text-center" style="margin:5px 0px 20px 0px">
+<h3 class="text-center" style="margin:15px 0px 10px 0px">
 <strong>分享者資訊</strong>
 </h3>
-<div class="alert alert-info" role="alert" style="height:170px">	
+<div class="share-clean" role="alert" style="height:170px">	
 <a href="${root}member/profile.controller?id=${itembean.member_id.member_no}" class="alert-link">
 <div>
 <img alt="${follow.member_followed.nickname}" src="${root}profileImages/${itembean.member_id.photo}" class="img-rounded pull-left" width="120" height="120" style="margin-right:45px">
@@ -245,7 +279,7 @@ time{
 </div>
 <div id="dialog"></div>
 <div id="board"></div>
-<div id="footer"></div>
+<c:import url="../footer.jsp"></c:import>
 <script type="text/javascript">
 
 // location.replace('http://localhost:8080/SHAREBAR/secure/login.jsp');
@@ -257,9 +291,6 @@ var item_status = "未提出"
 var getNextOffset = function() { return count*215; };
 var count = 0;
 var checklogin = "http://localhost:8080${root}secure/login.jsp";
-
-$("#header").load("../header.jsp");
-$("#footer").load("../footer.jsp");
 
 $(function(){
 	//判斷是否追蹤	
@@ -273,13 +304,13 @@ $(function(){
 			function(data){
 		itemstatus = data;
 		if(itemstatus==1){
-			$('input[value="追蹤按鈕"]').toggleClass("btn-danger");
-			$('input[value="追蹤按鈕"]').attr("value","取消追蹤");
+			$("#followtext").attr("value","取消追蹤")
+			$("#followshow").toggleClass("btn-change");
 		}
 	})
 	
 	//追隨按鈕
-	$('input[value="追蹤按鈕"]').click(function(){
+	$('#followtext').click(function(){
 		if(user_id == ""){
 			location.assign(checklogin);
 		}
@@ -289,11 +320,14 @@ $(function(){
 			
 			function(data){
 					change.attr("following",data);
-					change.toggleClass("btn-danger");
 					if(data==1){
-						change.attr("value","取消追蹤")	
+						$("#followtext").attr("value","取消追蹤")
+						$("#followshow").toggleClass("btn-change");
 					}
-					else{change.attr("value","追蹤按鈕")}
+					else{
+						$("#followtext").attr("value","追蹤按鈕")
+						 $("#followshow").toggleClass("btn-change");
+					}
 				})
 	})
 	//切換圖片功能
@@ -301,19 +335,33 @@ $(function(){
 	$(".item_pic").click(function(){
 		if(!$("#showpic").is(":animated")){
 			showpic=$(this).attr("src");
+			var chackorder = $("#showpic").attr("order");
+			var thisorder = $(this).attr("order")
 			showpic2=$("#showpic").attr("src");
 			$("#showpic2").attr("src",showpic2);
 			$("#showpic").attr("src",showpic);
-			$("#showpic").effect( "slide", "200" );
 			var order =  $(this).attr("order");
 			$("#showpic").attr("order",order)
+			if(chackorder > thisorder){
+				$("#showpic2").hide("slide", { direction: "right" }, "300" ,function(){
+				$("#showpic2").show();					
+				});
+				$("#showpic").effect("slide",{direction:"left"},300);
+			}
+			if(chackorder < thisorder){
+				$("#showpic2").hide("slide", { direction: "left" }, "300",function(){
+				$("#showpic2").show();					
+				} );
+				$("#showpic").effect("slide",{direction:"right"},300);
+			}
+			$("#showpic2").show();
+// 			$("#showpic").effect( "slide", "200" );
+		
 		}
 	})
 	
 	//切換圖片prev-btn next-btn
 	var thisorder =null;
-	
-	
 	$("#picgroup>span").click(function(){
 		var maxpic=$("#piccount").attr("maxpic")
 		var thisid = $(this).attr("id");
@@ -338,7 +386,18 @@ $(function(){
 			showpic2=$("#showpic").attr("src");
 			$("#showpic2").attr("src",showpic2);
 			$("#showpic").attr("src",showpic)
-			$("#showpic").effect( "slide", "200" );
+			if("next-btn" == thisid){
+				$("#showpic2").hide("slide", { direction: "left" }, "300",function(){
+					$("#showpic2").show();					
+					} );
+					$("#showpic").effect("slide",{direction:"right"},300);
+			}
+			if("prev-btn" == thisid){
+				$("#showpic2").hide("slide", { direction: "right" }, "300" ,function(){
+					$("#showpic2").show();					
+					});
+					$("#showpic").effect("slide",{direction:"left"},300);
+			}
 		}
 	})
 	
@@ -573,7 +632,9 @@ $(function(){
     
     //檢舉按鈕
 	$('div #report').click(function() {
-	
+		if(user_id == ""){
+			location.assign(checklogin);
+		}
         BootstrapDialog.show({
 	        title: '檢舉這個物品',
             message:       	 

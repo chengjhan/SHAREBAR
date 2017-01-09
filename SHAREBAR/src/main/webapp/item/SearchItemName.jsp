@@ -8,6 +8,7 @@
 <title>依物品搜尋</title>
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel=stylesheet type="text/css" href="../css/share.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
@@ -34,7 +35,7 @@ html, body {
 
 #wrapper {
 	position: absolute;
-	top: 52px;
+	top: 56px;
 	bottom: 0;
 	left: 0;
 	right: 0;
@@ -224,7 +225,7 @@ html, body {
 	
 <!-- header -->
 	<div style="z-index:1000">
-		<nav class="navbar navbar-default">
+		<nav class="navbar navbar-default" style="height:56px">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -236,27 +237,48 @@ html, body {
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px">
-					<select id="id_select" name="searchSelector" class="form-control">
-						<option value="location">地區</option>
-						<option value="itemName">物品</option>
-					</select>
-					<div class="form-group">
-						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="" style="width: 300px" /></td>
+					<div class="input-group">
+						<div class="form-group">
+							<select id="id_select" name="searchSelector" class="form-control" style="width:75px">
+								<option value="location">地區</option>
+								<option value="itemName">物品</option>
+							</select>
+						</div>
+						<div class="form-group">
+	    					<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search">
+	  					</div>
+	  					<div class="form-group">
+	    					<div class="input-group-btn">
+	      						<button id="id_submit" class="btn btn-default" type="submit" style="height:34px">
+	        						<i class="glyphicon glyphicon-search"></i>
+	      						</button>
+	    					</div>
+	    				</div>
 					</div>
-					<button type="submit" id="id_submit" class="btn btn-default">Submit</button>
+<!-- 					<div class="form-group"> -->
+<!-- 						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="" style="width: 300px" /></td> -->
+<!-- 					</div> -->
+<!-- 					<button type="submit" id="id_submit" class="btn btn-default">Submit</button> -->
 					<table id="latlng"></table>
 				</form>
 				<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
 					<c:choose>
 						<c:when test="${empty user eq true}">
-							<li class="class_li"><a href="<c:url value='/secure/signup.jsp'/>"><span class="glyphicon glyphicon-plus"></span>Sign Up</a></li>
-							<li class="class_li"><a href="<c:url value='/secure/login.jsp'/>"><span class="glyphicon glyphicon-log-out"></span>Login</a></li>
+							<li class="class_li"><a href="<c:url value='/secure/signup.jsp'/>"><span class="glyphicon glyphicon-plus"></span> &nbsp; Sign Up</a></li>
+							<li class="class_li"><a href="<c:url value='/secure/login.jsp'/>"><span class="glyphicon glyphicon-log-out"></span> &nbsp; Login</a></li>
+						</c:when>
+						<c:when test="${user.member_no eq 1}">
+							<li class="class_li"><a href="<c:url value='/administrator/gm_view01.jsp'/>"><span class="glyphicon glyphicon-wrench"></span> &nbsp; Administrator</a></li>
+							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
+							<li class="class_li"><a href="<c:url value='/maillist.do'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:7px; right:5px; visibility: hidden;"></span>Mail</a></li>								
+							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
+							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
 						</c:when>
 						<c:otherwise>
-							<li class="class_li"><a href="<c:url value='/member/userProfile.jsp'/>"><span class="glyphicon glyphicon-user"></span>${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
-							<li class="class_li"><a href="<c:url value='/member/inbox.jsp'/>"><span class="glyphicon glyphicon-envelope"></span>Mail</a></li>
-							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
-							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span>Share</a></li>
+							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
+							<li class="class_li"><a href="<c:url value='/maillist.do'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:7px; right:5px; visibility: hidden;"></span>Mail</a></li>								
+							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
+							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
 						</c:otherwise>
 					</c:choose>
 				</ul>
@@ -384,7 +406,7 @@ html, body {
 		});
 		
 		// 更改搜尋條件
-		$("#id_search").on("change", function(event){
+		$("#id_select").on("change", function(event){
 //			event.preventDefault();
 			var searchSelector = $("#id_select").find(":selected").val();
 // 			alert(searchSelector);
@@ -440,7 +462,7 @@ html, body {
 	        	function success(position) {
 	        		var lat = position.coords.latitude;
 	        		var lng = position.coords.longitude;
-	     			alert(lat + ", " + lng);
+// 	     			alert(lat + ", " + lng);
 	     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
@@ -579,7 +601,7 @@ html, body {
 					// 顯示物品圖片列表
 					var imageSrc = "${root}item-image/" + item.imageBean[0].image_photo;
 // 					alert(imageSrc);
-					var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
+					var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img img-rounded", "src": imageSrc});
 					var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
 					var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
 					var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
@@ -593,17 +615,17 @@ html, body {
 					console.log(user);
 					if(user == undefined){
 						user = 0;
-					}
-//						alert(user)
-					if(user != 0){
+// 						alert(user)
+					} else if(user != 0){
 						if(user != item.member_id.member_no){
+// 							alert(item.member_id.member_no)
 							itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-// 							alert(item.imageBean.length);
-							for(var i = 0; i < item.imageBean.length; i++){
-// 								alert(item.imageBean[i].image_photo);
+// 							alert(item.member_id.member_no + "," + item.follow_items.length)
+							for(var i = 0; i < item.follow_items.length; i++){
 								if(item.follow_items[i] != null){
 // 									alert(item.follow_items[i].member_id.member_no);
 									if(user == item.follow_items[i].member_id.member_no){
+// 										alert(item.follow_items[i].status)
 										if(item.follow_items[i].status == 1){
 											itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
 										}
@@ -613,7 +635,7 @@ html, body {
 							itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
 							itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
 						}
- 					}
+					}
 					
 					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_a);
 					var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";
@@ -772,7 +794,7 @@ html, body {
 						// 顯示物品圖片列表
 						var imageSrc = "${root}item-image/" + item.imageBean[0].image_photo;
 // 	 					alert(imageSrc);
-						var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
+						var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img img-rounded", "src": imageSrc});
 						var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
 						var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
 						var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
@@ -786,17 +808,17 @@ html, body {
 						console.log(user);
 						if(user == undefined){
 							user = 0;
-						}
-// 						alert(user)
-						if(user != 0){
+//	 						alert(user)
+						} else if(user != 0){
 							if(user != item.member_id.member_no){
+// 	 							alert(item.member_id.member_no)
 								itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-//	 							alert(item.imageBean.length);
-								for(var i = 0; i < item.imageBean.length; i++){
-//	 								alert(item.imageBean[i].image_photo);
+// 	 							alert(item.member_id.member_no + "," + item.follow_items.length)
+								for(var i = 0; i < item.follow_items.length; i++){
 									if(item.follow_items[i] != null){
 //	 									alert(item.follow_items[i].member_id.member_no);
 										if(user == item.follow_items[i].member_id.member_no){
+//	 										alert(item.follow_items[i].status)
 											if(item.follow_items[i].status == 1){
 												itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
 											}
@@ -806,7 +828,7 @@ html, body {
 								itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
 								itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
 							}
-	 					}
+						}
 						
 						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_a);
 						var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";
@@ -948,6 +970,63 @@ html, body {
 
 	        	},
 			});
+			
+			//檢查信箱未讀功能
+			var user_id = Number("${user.member_no}");
+	   		checkMail();
+	   		//定時檢查
+	   		window.setInterval(function(){
+	   			checkMail();
+	   			console.log("checkMail_OK!");
+	        },3000);
+	        					
+			function checkMail(){
+					$.post("${pageContext.request.contextPath}/mailUnreaded.controller",{user : user_id}, function(data){
+						switch (data){							
+							case "0": 
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_0.png");
+								$("#mailNumber").css("visibility","hidden");
+								break;
+							case "1":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_1.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "2":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_2.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "3":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_3.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "4":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_4.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "5":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_5.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "6":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_6.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "7":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_7.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							case "8":
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_8.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							default:
+								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_9.png");
+								$("#mailNumber").css("visibility","visible");
+								break;
+							}
+		
+						});
+				}
 			
 			// body
 			// 標記變色-全部變色

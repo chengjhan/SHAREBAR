@@ -8,6 +8,7 @@
 <title>刊登分享物</title>
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel=stylesheet type="text/css" href="../css/share.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
@@ -27,16 +28,11 @@ html, body {
 	width: 100%;
 }
 
-.container {
-	width: 500px;
-	float: left;
-}
-
 #id_insert_form {
 	width: 1000px;
 	height: auto;
 	margin: 0 auto;
-	margin-top: 50px;
+	margin-top: 20px;
 }
 
 #id_image_form {
@@ -89,9 +85,31 @@ html, body {
 	margin: auto;
 	text-align: center;
 }
+
+
+#map-canvas {
+	width: 565px;
+	height: 480px;
+	margin: 0;
+	padding: 0;
+}
+
+#address {
+	background-color: #fff;
+	font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 10px;
+	padding: 5px 11px 5px 13px;
+    text-overflow: ellipsis;
+    width: 430px;
+    position:absolute;
+}
 </style>
 </head>
 <body>
+	<jsp:include page="../header.jsp"></jsp:include>
+	
 	<%@ page import="org.springframework.web.context.WebApplicationContext"%>
 	<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 	<%@ page import="category.model.*"%>
@@ -113,12 +131,11 @@ html, body {
 		}
 		request.setAttribute("classNameList", stringList);
 	%>
-<%-- 	<p>${classNameList}</p> --%>
-	<div id="header"></div>
-	<div class="wrapper">
+	
+	<div class="container-fluid">
 		<form id="id_insert_form" action="<c:url value="/item/share.controller" />" method="post" enctype="multipart/form-data">
 			<div>
-				<div id="id_image_form" class="container">
+				<div id="id_image_form" class="container" style="width:500px;float:left;">
 					<div id="id_image_div1" class="form-group image-preview">
 						<label for="id_image_photo1" id="id_image_label1">封面照片</label>
 						<input type="file" id="id_image_photo1" name="image_photo1">
@@ -136,7 +153,8 @@ html, body {
 						<input type="file" id="id_image_photo4" name="image_photo4">
 					</div>
 				</div>
-				<div id="id_item_form" class="container">
+
+				<div id="id_item_form" class="container col-sm-6 col-md-6 share-clean">
 					<legend>分享物品</legend>
 					<div class="form-group">
 						<label for="id_item_name">名稱</label>
@@ -151,10 +169,17 @@ html, body {
 							</c:forEach>
 						</select>
 					</div>
-					<div class="form-group">
-						<label for="id_location">地點</label>
+					<label for="id_location">地點</label>
+					<div class="form-group input-group">
+						<div class="input-group-btn">
+							<a class="btn btn-default" href="#myMapModal" data-toggle="modal" title="由地圖選取" style="height:34px">
+	        					<i class="glyphicon glyphicon-search"></i>
+	      					</a>
+    						</div>
 						<input type="text" id="id_location" name="location" class="form-control" placeholder="地區，地址">
+						<span class="input-group-addon"><i id="id_location_ok" class="glyphicon glyphicon-remove"></i></span>
 					</div>
+					<div id="id_latlng" style='display:none'></div>
 					<div class="form-group">
 						<label for="id_end_date">結束日期</label>
 						<input type="text" id="id_end_date" name="end_date" class="form-control" readonly="readonly" placeholder="刊登至...">
@@ -164,13 +189,40 @@ html, body {
 						<textarea id="id_item_description" name="item_description" class="form-control" placeholder="50字以內"></textarea>
 					</div>
 					<div class="form-group">
-						<input type="submit" id="id_submit" class="btn btn-default" value="刊登">
+						<input type="submit" id="id_submit" class="btn btn-primary" value="刊登">
 						<span id="span_error"></span>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
+	
+	<!-- 地圖modal -->
+	<div class="modal fade" id="myMapModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<input type="text" id="address">
+					<input type="text" id="lat" style="display:none">
+					<input type="text" id="lon" style="display:none">
+				</div>
+				<div class="modal-body">
+					<div class="container">
+						<div class="row">
+							<div id="map-canvas" class=""></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" id="id_modal_btn" class="btn btn-primary" data-dismiss="modal">確定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 成功訊息 -->
 	<div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog" style="width:300px">
 			<div class="modal-content">
@@ -188,15 +240,74 @@ html, body {
 		</div>
 	</div>
 	
+	<jsp:include page="../footer.jsp"></jsp:include>
+	
 	<script>
 		var geocoder;
 		var lat;
 		var lng;
 		var input;
+		var map;
+		var googleAutocomplete;
+		var marker;
+		var markerArray = [];
+		var address;
+		var strAddress;
+		var clickLat;
+		var clickLon;
+		var inputLat;
+		var inputLng;
+		var divLatLng = $("#id_latlng");
+		var headerInput;
 		
 		// 初始化
 		function initMap() {
-			// 地址自動完成
+			
+			// modal地圖
+			map = new google.maps.Map(document.getElementById("map-canvas"), {
+				center : { lat: 25.0329636, lng: 121.5654268 },
+				zoom : 15,
+				minZoom : 2
+			});
+			
+			address = document.getElementById('address');
+			map.controls[google.maps.ControlPosition.TOP_LEFT].push(address);
+			
+			google.maps.event.addListener(map, "click", function(event) {
+				deleteMarkers();
+
+				clickLat = event.latLng.lat();
+				clickLon = event.latLng.lng();
+// 				alert(clickLat + "," + clickLon)
+
+				document.getElementById("lat").value = clickLat.toFixed(6);
+				document.getElementById("lon").value = clickLon.toFixed(6);
+
+				marker = new google.maps.Marker({
+					position : new google.maps.LatLng(clickLat, clickLon),
+					draggable : true,
+					map : map
+				});
+				markerArray.push(marker);
+				
+				var LatLng = { lat: clickLat, lng: clickLon };
+				
+				var geocoder = new google.maps.Geocoder();
+				geocoder.geocode({ 'location': LatLng }, function(results, status) {
+					if (status === google.maps.GeocoderStatus.OK) {
+						if (results[0]) {
+							strAddress = results[0].formatted_address;
+							$("#address").val(results[0].formatted_address);
+						} 
+					}
+				});
+			});
+			
+			// 搜尋列地址自動完成
+			headerInput = document.getElementById('id_search');
+			googleAutocomplete = new google.maps.places.Autocomplete(headerInput, options);
+			
+			// 表單地址自動完成
 		    var defaultBounds = new google.maps.LatLngBounds(
 		    			new google.maps.LatLng(26, 124),
 		    			new google.maps.LatLng(23, 120)
@@ -210,7 +321,6 @@ html, body {
 		}
 		
 		$(function() {
-			$("#header").load("../header.jsp");
 			
 			// 日期選擇器
 			$("#id_end_date").datepicker({
@@ -260,11 +370,11 @@ html, body {
                 	item_name: "required",
                 	class_name: "required",
                 	location: "required",
-//                 	image_photo1: "required"
-                	image_photo1: {
-                		required: true,
-                		accept: "jpg, png, jpeg, gif",
-                	},
+                	image_photo1: "required"
+//                 	image_photo1: {
+//                 		required: true,
+//                 		accept: "jpg, png, jpeg, gif",
+//                 	},
 				},
 				messages: {
 					image_photo1: "請上傳封面照片",
@@ -277,7 +387,7 @@ html, body {
 		        unhighlight: function (element) {
 		            $(element).removeClass('error');
 // 		            $("#id_image_label1").removeClass('error');
-		            $("#id_image_div1").css("background-color", "#ffffff");
+// 		            $("#id_image_div1").css("background-color", "#ffffff");
 		        },
 				errorPlacement: function(error, element) {
 					if(element.is("#id_image_photo1")){
@@ -285,31 +395,90 @@ html, body {
 					}
 				},
 				submitHandler: function(){
-					$(this).submit();
+// 					$(this).submit();
 				},
 			});
 		});
 		
-		// 取得經緯度
-		$("#id_location").on("change", function(event){
+		// 輸入地址取得經緯度
+		$("#id_location").on("change", getLatLng);
+		$("#id_location").keypress(function (event) {
+		    if (event.which === 13){
+		    	getLatLng(event);
+		    }
+		});
+		function getLatLng(event){
 // 			event.preventDefault();
 			var id_location = $("#id_location").val();
-			alert(id_location);
+// 			alert(id_location);
 			geocoder.geocode({ 'address': id_location }, function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
 					lat = results[0].geometry.location.lat();
 					lng = results[0].geometry.location.lng();
-					alert(lat + " ," + lng);
-					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-					var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-					var divLatLng = $("<div style='display:none'></div>").append([inputLat, inputLng]);
+// 					alert(lat + " ," + lng);
+					inputLat = $("<input name='latitude' style='display:none'>").val(lat);
+					inputLng = $("<input name='longitude' style='display:none'>").val(lng);
+					divLatLng.empty();
+					divLatLng.append([inputLat, inputLng]);
 // 					var divLatLnf = $("<div style='display:none'></div>").append(tdLatLng)
 					$("#id_item_form").append(divLatLng);
+					$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-ok");
 				} else {
 					alert("請輸入詳細地址");
+					$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-remove")
 				}
 			});
+		}
+		
+		// 點地圖取得經緯度
+		$("#id_modal_btn").on("click", function(){
+			$("#id_location").val(strAddress);
+			inputLat = $("<input name='latitude' style='display:none'>").val(clickLat);
+// 			alert(clickLat);
+			inputLng = $("<input name='longitude' style='display:none'>").val(clickLon);
+// 			alert(clickLon);
+			divLatLng.empty();
+			divLatLng.append([inputLat, inputLng]);
+			$("#id_item_form").append(divLatLng);
+			if(typeof(clickLat) == "number" && typeof(clickLon) == "number"){
+				$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-ok");
+			}
 		});
+		
+		$('#myMapModal').on('show.bs.modal', function() {
+			resizeMap();
+		})
+
+		function resizeMap() {
+			if (typeof map == "undefined")
+				return;
+			setTimeout(function() {
+				resizingMap();
+			}, 400);
+		}
+
+		function resizingMap() {
+			if (typeof map == "undefined")
+				return;
+			var center = map.getCenter();
+			google.maps.event.trigger(map, "resize");
+			map.setCenter(center);
+		}
+		
+		function deleteMarkers() {
+			clearMarkers();
+			markerArray = [];
+		}
+
+		function clearMarkers() {
+			setMapOnAll(null);
+		}
+
+		function setMapOnAll(map) {
+			for (var i = 0; i < markerArray.length; i++) {
+				markerArray[i].setMap(map);
+			}
+		}
 		
 		// 成功訊息
 		$("#id_insert_form").on("submit", function(){
@@ -319,9 +488,10 @@ html, body {
 			var id_image_photo1 = $("#id_image_photo1").val();
 			if(id_item_name != "" && id_class_name != "" && id_location != "" && id_image_photo1 != ""){
 				$("#myModal").modal();
+				$(this).submit();
 			}
 		})
 	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
 </body>
 </html>

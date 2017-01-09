@@ -8,6 +8,7 @@
 <title>修改分享物資訊</title>
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel=stylesheet type="text/css" href="../css/share.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
@@ -115,9 +116,9 @@ html, body {
 	%>
 <%-- 	<p>${classNameList}</p> --%>
 	<div id="header"></div>
-	<div class="wrapper">
+	<div class="container-fluid">
 		<form id="id_update_form" action="<c:url value="/item/update.controller" />" method="post" enctype="multipart/form-data">
-			<div>
+			<div class="row">
 				<div id="id_image_form" class="container">
 					<div id="id_image_div1" class="form-group image-preview">
 						<label for="id_image_photo1" id="id_image_label1">封面照片</label>
@@ -140,7 +141,7 @@ html, body {
 						<input type="text" name="image_id4" value="${param.image_id4}" style='display:none'>
 					</div>
 				</div>
-				<div id="id_item_form" class="container">
+				<div id="id_item_form" class="container col-sm-6 col-md-6 share-clean">
 					<legend>修改分享物資訊</legend>
 					<div style='display:none'>
 						<input type="text" name="item_id" value="${param.item_id}">
@@ -158,9 +159,16 @@ html, body {
 							</c:forEach>
 						</select>
 					</div>
-					<div class="form-group">
-						<label for="id_location">地點</label>
+					<label for="id_location">地點</label>
+					<div class="form-group input-group">
 						<input type="text" id="id_location" name="location" class="form-control" placeholder="地區，地址" value="${param.location}">
+						<span class="input-group-addon"><i id="id_location_search" class="glyphicon glyphicon-search"></i></span>
+						<span class="input-group-addon"><i id="id_location_ok" class="glyphicon glyphicon-remove"></i></span>
+<!-- 						<div class="input-group-btn"> -->
+<!--       						<button class="btn btn-default" type="button"> -->
+<!--         						<i class="glyphicon glyphicon-search"></i> -->
+<!--       						</button> -->
+<!--     					</div> -->
 					</div>
 					<div class="form-group">
 						<label for="id_end_date">結束日期</label>
@@ -171,7 +179,7 @@ html, body {
 						<textarea id="id_item_description" name="item_description" class="form-control" placeholder="50字以內">${param.item_description}</textarea>
 					</div>
 					<div class="form-group">
-						<input type="submit" id="id_submit" class="btn btn-default" value="修改">
+						<input type="submit" id="id_submit" class="btn btn-primary" value="修改">
 						<span id="span_error"></span>
 					</div>
 				</div>
@@ -194,7 +202,6 @@ html, body {
 			</div>
 		</div>
 	</div>
-	
 	<script>
 		var geocoder;
 		var lat;
@@ -218,6 +225,7 @@ html, body {
 		
 		$(function() {
 			$("#header").load("../header.jsp");
+			$("#footer").load("../footer.jsp");
 			
 			// 日期選擇器
 			$("#id_end_date").datepicker({
@@ -267,11 +275,11 @@ html, body {
                 	item_name: "required",
                 	class_name: "required",
                 	location: "required",
-//                 	image_photo1: "required",
-                	image_photo1: {
-                		required: true,
-                		accept: "jpg, png, jpeg, gif",
-                	},
+                	image_photo1: "required",
+//                 	image_photo1: {
+//                 		required: true,
+//                 		accept: "jpg, png, jpeg, gif",
+//                 	},
 				},
 				messages: {
 					image_photo1: "請上傳封面照片",
@@ -301,12 +309,13 @@ html, body {
 		$("#id_location").on("change", function(event){
 // 			event.preventDefault();
 			var id_location = $("#id_location").val();
-			alert(id_location);
+// 			alert(id_location);
 			geocoder.geocode({ 'address': id_location }, function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
 					lat = results[0].geometry.location.lat();
 					lng = results[0].geometry.location.lng();
-					alert(lat + " ," + lng);
+// 					alert(lat + " ," + lng);
+					$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-ok");
 					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
 					var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
 					var divLatLng = $("<div style='display:none'></div>").append([inputLat, inputLng]);
@@ -314,6 +323,7 @@ html, body {
 					$("#id_item_form").append(divLatLng);
 				} else {
 					alert("請輸入詳細地址");
+					$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-remove")
 				}
 			});
 		});
@@ -326,9 +336,11 @@ html, body {
 			var id_image_photo1 = $("#id_image_photo1").val();
 			if(id_item_name != "" && id_class_name != "" && id_location != "" && id_image_photo1 != ""){
 				$("#myModal").modal();
+				$(this).submit();
 			}
 		})
 	</script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
+	<div id="footer"></div>
 </body>
 </html>

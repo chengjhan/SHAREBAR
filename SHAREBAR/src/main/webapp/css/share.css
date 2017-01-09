@@ -1,13 +1,164 @@
 @CHARSET "UTF-8";
 
 body{
-	background-color: #fafffd;
+	background-color: #f2f2f2;	
+    font-family:cursive , Microsoft YaHei , Arial , PMingLiU , MingLiU;
 }
+/* share bar 顏色 */
+.navbar-default .navbar-brand {
+    color: #137eda;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #137eda;
+  background-color: transparent;
+}
+
+
 .share-block{
 	background-color:#f4f1bb;
 }
 .share-clean{
 	background-color:#fff;
-	-moz-border-radius:20px;
-	padding:10px;
+	border-radius:10px;
+	padding:20px;
+}
+
+.btn-share1 {
+  color: #323d3c;
+  background-color:#9bc1bc; 
+  border-color: #99bdb9;
+}
+.btn-share1:focus,
+.btn-share1.focus {
+  color: #fff;
+  background-color: #8aaba7;
+  border-color: #323d3c;
+}
+.btn-share1.hover {
+  color: #fff;
+  background-color: #8aaba7;
+  border-color: #323d3c;
+}
+.navbar{
+/* 	background-color: #aec3b0; */
+	background-color: #fff;
+	border-color: #a8baa9;
+}
+
+.finger{
+	cursor:pointer;
+}
+
+.btn-change {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:hover,
+.btn-change.hover {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:focus,
+.btn-change.focus {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active,
+.btn-change.active,
+.open > .dropdown-toggle.btn-success {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active:hover,
+.btn-change.active:hover,
+.open > .dropdown-toggle.btn-change:hover,
+.btn-success:active:focus,
+.btn-success.active:focus,
+.open > .dropdown-toggle.btn-change:focus,
+.btn-change:active.focus,
+.btn-change.active.focus,
+.open > .dropdown-toggle.btn-change.focus {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active,
+.btn-change.active,
+.open > .dropdown-toggle.btn-change {
+  background-image: none;
+}
+
+
+
+/* 下面目前沒用到 */
+.btn-change {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:hover,
+.btn-change.hover {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:focus,
+.btn-change.focus {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active,
+.btn-change.active,
+.open > .dropdown-toggle.btn-success {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active:hover,
+.btn-change.active:hover,
+.open > .dropdown-toggle.btn-change:hover,
+.btn-success:active:focus,
+.btn-success.active:focus,
+.open > .dropdown-toggle.btn-change:focus,
+.btn-change:active.focus,
+.btn-change.active.focus,
+.open > .dropdown-toggle.btn-change.focus {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active,
+.btn-change.active,
+
+/* 下面目前沒用到 */
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-color: #778579;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: #778579;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+/*     background-color: #9aab9b; */
+/*      background-color: #fff; */
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #5a635a;
+}
+
+.navbar-default .navbar-toggle {
+  border-color: #aec3b0;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #aec3b0;
 }
