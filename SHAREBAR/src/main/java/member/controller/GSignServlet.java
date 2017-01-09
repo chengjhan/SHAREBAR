@@ -73,8 +73,8 @@ public class GSignServlet extends HttpServlet {
 	}
 
 	private static final long serialVersionUID = 1L;
-	private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
+//	private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+//	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
 	@Autowired
 	MemberService memberService;
@@ -107,7 +107,6 @@ public class GSignServlet extends HttpServlet {
 			out.write("alreadyLogin");
 			return;
 		}
-
 		String idTokenString = request.getParameter("id_token");
 		String userId = request.getParameter("ID");
 		String name = request.getParameter("Name");
@@ -115,23 +114,23 @@ public class GSignServlet extends HttpServlet {
 		String familyName = request.getParameter("Family Name");
 		String givenName = request.getParameter("Given Name");
 		String email = request.getParameter("Email");
-		System.out.println("id_token:" + idTokenString);
+//		System.out.println("id_token:" + idTokenString);
 
 		MemberBean mb1 = memberService.findByG(userId);
 		if (mb1 != null) {
 			if (mb1.getFacebook() != null) {
 				if (mb1.getFacebook().equals(userId)) {
-					System.out.println("login...");
+//					System.out.println("login...");
 					request.getSession().setAttribute("user", mb1);
 					out.write("GLoginSuccess");
 					return;
 				}else{
-					System.out.println("system error");
+//					System.out.println("system error");
 					out.write("GLoginfail");
 					return;
 				}
 			} else if (mb1.getFacebook() == null) {
-				System.out.println("login fail, account exist...");
+//				System.out.println("login fail, account exist...");
 				out.write("AccountExist");
 				return;
 			}
@@ -142,11 +141,11 @@ public class GSignServlet extends HttpServlet {
 				saveImage(pictureUrl,
 						rootpath + getMD5(email) + "." + pictureUrl.substring(pictureUrl.lastIndexOf(".")));
 				request.getSession().setAttribute("user", result);
-				System.out.println("sign and login...");
+//				System.out.println("sign and login...");
 				out.write("GSignAndLoginSuccess");
 				return;
 			}else{
-				System.out.println("system error");
+//				System.out.println("system error");
 				out.write("GLoginfail");
 				return;
 			}

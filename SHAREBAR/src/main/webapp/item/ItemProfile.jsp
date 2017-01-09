@@ -55,18 +55,6 @@
 	display:none;
 }
 
-/* .item_pic{ */
-/* 	cursor: pointer; */
-/* } */
-
-
-/* #info_div>[class*='col-']{ */
-
-/* } */
-/* .follow_list>img{ */
-/* 	width:155; */
-/* 	height:155; */
-/* } */
 
 /*XD*/
 time{

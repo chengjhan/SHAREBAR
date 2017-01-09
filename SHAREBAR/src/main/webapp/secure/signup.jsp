@@ -125,9 +125,31 @@ session.setAttribute("from",from);
 			<div id="ajaxCheck" style="color:red"></div>
 		</form>
 	</div>
+	
+	<!-- login dialog -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Alert!</h4>
+      </div>
+      <div class="modal-body">
+        You are already login.<br>
+        Do you want to logout first?
+      </div>
+      <div class="modal-footer">
+        <button id="ModalNo" type="button" class="btn btn-default" >No</button>
+        <button id="ModalLogout" type="button" class="btn btn-primary">Logout</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- login dialog -->
+	
 	<script>
 	var from = "${from}";
-	if(from!=="undefined"){from = from.substring(from.lastIndexOf("SHAREBAR/")+9);console.log(from)}
+	if(from!=="undefined"){from = from.substring(from.lastIndexOf("SHAREBAR/")+9)}
 	
 	$("#submitbtn").click(function(event){
 		var stat = $("#act_check").attr("account");
@@ -248,8 +270,9 @@ session.setAttribute("from",from);
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
-				else{window.location="${root}"}	
+				$('#myModal').modal('show');
+// 				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
+// 				else{window.location="${root}"}	
 			}
 		});
 	}
@@ -258,6 +281,14 @@ session.setAttribute("from",from);
     	  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     	  return re.test(email);
     	}
+    
+    $("#ModalLogout").click(function(){
+    	window.location="${root}secure/logout.jsp";
+    });
+    $("#ModalNo").click(function(){
+    	if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
+    	else{window.location="${root}"}
+    });
 	</script>
 </body>
 </html>
