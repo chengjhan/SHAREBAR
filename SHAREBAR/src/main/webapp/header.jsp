@@ -42,7 +42,7 @@ div#navbar {
 </head>
 <c:url value="/" var="root"></c:url>
 <body>
-		<div class="navbar navbar-light navbar-default navbar-static-top">
+		<div class="navbar navbar-light navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -106,7 +106,7 @@ div#navbar {
 	<script>
 		var geocoder;
 		var googleAutocomplete;
-		var input;
+		var headerInput;
 	    var availableTags = [
 	        "ActionScript",
 	        "AppleScript",
@@ -241,9 +241,9 @@ div#navbar {
 // 		    			types: ['address']
 						types: ['geocode']
 		    		};
-		    input = document.getElementById('id_search');
+		    headerInput = document.getElementById('id_search');
 // 			map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-			googleAutocomplete = new google.maps.places.Autocomplete(input, options);
+			googleAutocomplete = new google.maps.places.Autocomplete(headerInput, options);
 			geocoder = new google.maps.Geocoder();
 		}
 
@@ -252,7 +252,7 @@ div#navbar {
 // 			alert($("#id_select").val());
 			if($("#id_select").find(":selected").val() === "itemName") {
 				$("#id_search").autocomplete({source: availableTags});
-				google.maps.event.clearInstanceListeners(input);
+				google.maps.event.clearInstanceListeners(headerInput);
 				$('#id_search').autocomplete('enable');
 			} else {
 				$('#id_search').autocomplete('disable');
@@ -261,12 +261,12 @@ div#navbar {
 						types: ['geocode']
 // 		    			types: ['address']
 		    		};
-				googleAutocomplete = new google.maps.places.Autocomplete(input, options);
+				googleAutocomplete = new google.maps.places.Autocomplete(headerInput, options);
 			}
 		});
 		
 		// 更改搜尋條件
-		$("#id_search").on("change", function(event){
+		$("#id_select").on("change", function(event){
 // 			event.preventDefault();
 			var searchSelector = $("#id_select").find(":selected").val();
 // 			alert(searchSelector);
@@ -322,7 +322,7 @@ div#navbar {
 	        	function success(position) {
 	        		var lat = position.coords.latitude;
 	        		var lng = position.coords.longitude;
-	     			alert(lat + ", " + lng);
+// 	     			alert(lat + ", " + lng);
 	     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
@@ -350,6 +350,6 @@ div#navbar {
 			}
 		}	
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+<!-- 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script> -->
 </body>
 </html>
