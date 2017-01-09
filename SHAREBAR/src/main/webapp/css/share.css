@@ -2,6 +2,7 @@
 
 body{
 	background-color: #f2f2f2;
+	height:60%;
 }
 /* share bar 顏色 */
 .navbar-default .navbar-brand {
@@ -12,7 +13,10 @@ body{
   color: #137eda;
   background-color: transparent;
 }
-
+  .wrap{min-height:100%}
+html{
+height:100%;
+}
 
 .share-block{
 	background-color:#f4f1bb;

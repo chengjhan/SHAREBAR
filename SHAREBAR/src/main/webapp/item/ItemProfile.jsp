@@ -22,9 +22,6 @@
 <script type="text/javascript" src="../js/bootstrap-dialog/bootstrap-dialog.js"></script>
 
 <title>Profile Page</title>
-
-<link rel=stylesheet type="text/css" href="../css/share.css">
-
 <style>
 #basic_info{
 	top:100px;
@@ -54,6 +51,7 @@
 .newmessage{
 	display:none;
 }
+
 
 
 /* .item_pic{ */

@@ -33,10 +33,12 @@
   	color: #ff302e;
   	font-weight:bold;
   }
+
 </style>
 </head>
 <body>
 <c:import url="../header.jsp"></c:import>
+	<div class="wrap">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
@@ -239,6 +241,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<div id="board"></div>
 <c:import url="../footer.jsp"></c:import>
