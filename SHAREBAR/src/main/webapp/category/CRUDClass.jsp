@@ -126,12 +126,13 @@
 			</div>
 		</div>
 		
-		<div class="col-md-6">
+		<div class="col-md-8">
 <!-- 			    <div class="jumbotron"> -->
 		
 		
 		
 		<c:url value="/" var="root"></c:url>
+		<div class="container">
 		<div class="wrapper">
 			<div class="container left">
 				<form action="<c:url value="/category/crud.controller" />" method="post" enctype="multipart/form-data">
@@ -211,6 +212,7 @@
 					</table>
 				</div>
 			</div>
+		</div>
 		</div>
 		
 <!-- 				</div> -->

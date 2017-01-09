@@ -35,7 +35,7 @@ html, body {
 
 #wrapper {
 	position: absolute;
-	top: 56px;
+	top: 67px;
 	bottom: 0;
 	left: 0;
 	right: 0;
@@ -223,75 +223,8 @@ html, body {
 </head>
 <body>
 	<c:url value="/" var="root"></c:url>
-<!-- 	<div id="header"></div> -->
+	<jsp:include page="../header.jsp"></jsp:include>
 
-<!-- header -->
-<!-- <div class="container"> -->
-	<div style="z-index:1000">
-		<nav class="navbar navbar-light navbar-default navbar-static-top" style="height:56px">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-						    <span class="icon-bar"></span>
-        					<span class="icon-bar"></span>
-        					<span class="icon-bar"></span>  
-					</button>
-					<a class="navbar-brand" href="<c:url value='/index.jsp'/>">SHARE BAR!</a>
-				</div>
-				<div id="navbar" class="collapse navbar-collapse">
-				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px">
-					<div class="input-group">
-						<div class="form-group">
-							<select id="id_select" name="searchSelector" class="form-control" style="width:75px">
-								<option value="location">地區</option>
-								<option value="itemName">物品</option>
-							</select>
-						</div>
-						<div class="form-group">
-	    					<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search">
-	  					</div>
-	  					<div class="form-group">
-	    					<div class="input-group-btn">
-	      						<button id="id_submit" class="btn btn-default" type="submit" style="height:34px">
-	        						<i class="glyphicon glyphicon-search"></i>
-	      						</button>
-	    					</div>
-	    				</div>
-					</div>
-<!-- 					<div class="form-group"> -->
-<!-- 						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="" style="width: 300px" /></td> -->
-<!-- 					</div> -->
-<!-- 					<button type="submit" id="id_submit" class="btn btn-default">Submit</button> -->
-					<table id="latlng"></table>
-				</form>
-				<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
-					<c:choose>
-						<c:when test="${empty user eq true}">
-							<li class="class_li"><a href="<c:url value='/secure/signup.jsp'/>"><span class="glyphicon glyphicon-plus"></span> &nbsp; Sign Up</a></li>
-							<li class="class_li"><a href="<c:url value='/secure/login.jsp'/>"><span class="glyphicon glyphicon-log-out"></span> &nbsp; Login</a></li>
-						</c:when>
-						<c:when test="${user.member_no eq 1}">
-							<li class="class_li"><a href="<c:url value='/administrator/gm_view01.jsp'/>"><span class="glyphicon glyphicon-wrench"></span> &nbsp; Administrator</a></li>
-							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
-							<li class="class_li"><a href="<c:url value='/maillist.do'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
-							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
-							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
-						</c:when>
-						<c:otherwise>
-							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
-							<li class="class_li"><a href="<c:url value='/maillist.do'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
-							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
-							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
-						</c:otherwise>
-					</c:choose>
-				</ul>
-				</div>
-			</div>
-		</nav>
-	</div>
-<!-- </div> -->
-
-<!-- body -->
 	<div id="wrapper" class="container-fluid">
 		<div class="row">
 			<!--
@@ -362,138 +295,6 @@ html, body {
 	
 	<script>
 	
-		// 這裡開始是header
-		var geocoder;
-		var googleAutocomplete;
-		var input;
-	    var availableTags = [
-	        "ActionScript",
-	        "AppleScript",
-	        "Asp",
-	        "BASIC",
-	        "C",
-	        "C++",
-	        "Clojure",
-	        "COBOL",
-	        "ColdFusion",
-	        "Erlang",
-	        "Fortran",
-	        "Groovy",
-	        "Haskell",
-	        "Java",
-	        "JavaScript",
-	        "Lisp",
-	        "Perl",
-	        "PHP",
-	        "Python",
-	        "Ruby",
-	        "Scala",
-	        "Scheme"
-	    ];
-	    
-		// 切換自動完成
-		$("#id_select").on("change", function() {
-// 			alert($("#id_select").val());
-			if($("#id_select").find(":selected").val() === "itemName") {
-				$("#id_search").autocomplete({source: availableTags});
-				google.maps.event.clearInstanceListeners(input);
-				$('#id_search').autocomplete('enable');
-			} else {
-				$('#id_search').autocomplete('disable');
-				var options = {
-// 			    	types: ['establishment']
-					types: ['geocode']
-// 			    	types: ['address']
-		    	};
-				googleAutocomplete = new google.maps.places.Autocomplete(input, options);
-			}
-		});
-		
-		// 更改搜尋條件
-		$("#id_select").on("change", function(event){
-// 			event.preventDefault();
-			var searchSelector = $("#id_select").find(":selected").val();
-// 			alert(searchSelector);
-			var searchBar = $("#id_search").val();
-// 			alert(searchBar);
-			
-			// 找地區
-			if(searchSelector == "location"){
-				geocoder.geocode({ 'address': searchBar }, function(results, status) {
-			        if (status == google.maps.GeocoderStatus.OK) {
-// 			        	var lat = results[0].geometry.location.lat();
-// 						var lng = results[0].geometry.location.lng();
-// 						alert(lat + ", " + lng);
-// 						alert(results[0].geometry.viewport);
-// 						var bounds = results[0].geometry.viewport;
-// 			            var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-// 						var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-// 						var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
-// 						var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng, inputBounds]);
-// 						var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-// 						$("#latlng").append(trLatLnf);
-			        } else if (searchBar == "") {
-// 			        	alert("searchBar = null");
-// 			        	if (navigator.geolocation) {
-// 							navigator.geolocation.getCurrentPosition(success, error);
-// 			        	}
-// 			        	function success(position) {
-// 			        		var lat = position.coords.latitude;
-// 			        		var lng = position.coords.longitude;
-// 			     			alert(lat + ", " + lng);
-// 			     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
-// 			    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
-// 			    				if (status == google.maps.GeocoderStatus.OK) {
-// 			    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-// 									var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-// 									var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng]);
-// 									var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-// 									$("#latlng").append(trLatLnf);
-// 			    				}
-// 			    			})
-// 			    		}
-			        } else {
-			            alert("請輸入詳細地址");
-			        }
-			    });
-			}
-			
-			// 找物品
-			if(searchSelector == "itemName"){
-				if (navigator.geolocation) {
-					navigator.geolocation.getCurrentPosition(success, error);
-	        	}
-	        	function success(position) {
-	        		var lat = position.coords.latitude;
-	        		var lng = position.coords.longitude;
-// 	     			alert(lat + ", " + lng);
-	     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
-	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
-	    				if (status == google.maps.GeocoderStatus.OK) {
-	    					var bounds = results[0].geometry.viewport;
-// 	    					alert(bounds);
-	    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-							var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-							var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
-							var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng, inputBounds]);
-							var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-							$("#latlng").append(trLatLnf);
-	    				}
-	    			});
-	    		}
-			}
-		});
-		
-		function error(error) {
-			switch(error.code) {
-				case 0: alert(error.message); break;
-				case 1: alert("使用者拒絕使用"); break;
-				case 2: alert("瀏覽器無法處理"); break;
-				case 3: alert("瀏覽器時間到了無法取得位置"); break;
-				default: alert("who knows"); break;
-			}
-		}	
-	
 		// 這裡開始是body
 		var map;
 		var itemArray = [];
@@ -514,8 +315,8 @@ html, body {
 //		    	types: ['address']
 				types: ['geocode']
 		    };
-		    input = document.getElementById('id_search');
-			googleAutocomplete = new google.maps.places.Autocomplete(input, options);
+		    headerInput = document.getElementById('id_search');
+			googleAutocomplete = new google.maps.places.Autocomplete(headerInput, options);
 			geocoder = new google.maps.Geocoder();
 			
 			// body初始化

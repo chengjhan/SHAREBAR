@@ -170,7 +170,7 @@
 			</c:forEach>		
 	
 	
-			
+			<c:if test="${not empty item2}">
 				<tr>	
 					<td class="st1" align="center"><a href="${path}">${item2.item_id}</a></td>
 					<td class="st1" align="center">${item2.item_name}</td>
@@ -179,7 +179,7 @@
 					<td class="st1" align="center">${item2.latitude}</td>
 					<td class="st1" align="center">${item2.block}</td>		
 				</tr>
-			
+			</c:if>
 	
 	</table>
 	
