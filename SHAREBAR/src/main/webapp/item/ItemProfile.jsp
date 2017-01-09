@@ -176,7 +176,14 @@ time{
 	</a>
 	</c:when>
 	<c:otherwise>
-	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :5px 0;width:49%;height:45px ">
+		<div class="input-group" style="width:100%;">
+	   	<input id="followtext" type="button" class="form-control btn btn-default" value="追蹤按鈕	" style="margin :5px 0;height:45px;z-index: 0">
+	    <div class="input-group-btn">
+	    <button id="followshow" class="btn btn-default" style="height:45px;cursor:auto" >
+	    <i class="glyphicon glyphicon-heart">
+	    </i></button>
+		</div>
+		</div>
 			<c:if test="${ itembean.done == 0 }">
 			<input type="button" id="ask" value="提出分享請求" class="btn btn-success" style="margin :5px 0;width:49%;height:45px">
 		</c:if>
@@ -186,14 +193,8 @@ time{
 		<c:if test="${ itembean.done == 1 && item.getter_id != user_id }">
 			<input type="button" id="done" value="已鎖定" class="btn btn-danger" style="margin :5px 0;width:49%;height:45px">
 		</c:if>
-			<div class="input-group" style="width:100%;">
-	   		<input id="followtext" type="button" class="form-control btn btn-default" value="追蹤按鈕	" style="margin :5px 0;height:45px;z-index: 0">
-	    	<div class="input-group-btn">
-	        <button id="followshow" class="btn btn-default" style="height:45px;cursor:auto" >
-	        <i class="glyphicon glyphicon-heart">
-	        </i></button>
-			</div>
-			</div>
+	<input type="button" id="report" value="檢舉商品" class="btn btn-danger" style="margin:5px 0;width:49%;height:45px">
+			
 		
 <!-- 	<button value="追蹤按鈕" class="btn btn-default" style="margin:5px 0;width:100%;height:45px" > -->
 <!-- 		<span id="followtext" style="display:inline-block;position: relative;top:6px">追蹤按鈕</span> -->
@@ -201,8 +202,8 @@ time{
 <!-- 		<i class="glyphicon glyphicon-heart" style="top:calc(50% - 8px);"></i> -->
 <!-- 		</span> -->
 <!-- 	</button> -->
+	<input type="button" id="chat" value="私訊分享者" class="btn btn-primary" style="margin :5px 0;width:100%;height:45px ">
 	
-	<input type="button" id="report" value="檢舉商品" class="btn btn-danger" style="margin:5px 0;width:100%;height:45px">
 
 	</c:otherwise>
 	</c:choose>
