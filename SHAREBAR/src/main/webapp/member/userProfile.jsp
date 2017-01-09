@@ -436,7 +436,6 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 			+"</div>"
 	);
 }
-}
 </script>
 </body>
 </html>
