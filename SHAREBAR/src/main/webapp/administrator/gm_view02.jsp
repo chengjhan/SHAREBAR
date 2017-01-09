@@ -54,7 +54,7 @@
 		<div class="col-md-2"></div>
 	</div>
 	
-	
+	<div class="row" >
 	<div class="col-md-2"></div>
 	
 	<div class="col-md-2">
@@ -169,7 +169,7 @@
 			</c:forEach>		
 	
 	
-			
+			<c:if test="${not empty item2}">
 				<tr>	
 					<td class="st1" align="center"><a href="${path}">${item2.item_id}</a></td>
 					<td class="st1" align="center">${item2.item_name}</td>
@@ -178,7 +178,7 @@
 					<td class="st1" align="center">${item2.latitude}</td>
 					<td class="st1" align="center">${item2.block}</td>		
 				</tr>
-			
+			</c:if>
 	
 	</table>
 	
@@ -192,6 +192,8 @@
 <!-- 每頁不同的內容到這裡結束 -->
 <!-- 			</div> -->
 	</div>
-	
+	</div>
+<div style="height:330px"></div>
+<c:import url="/footer.jsp"></c:import>
 </body>
 </html>
