@@ -410,7 +410,7 @@ html, body {
 		});
 		
 		// 更改搜尋條件
-		$("#id_search").on("change", function(event){
+		$("#id_select").on("change", function(event){
 // 			event.preventDefault();
 			var searchSelector = $("#id_select").find(":selected").val();
 // 			alert(searchSelector);
@@ -466,7 +466,7 @@ html, body {
 	        	function success(position) {
 	        		var lat = position.coords.latitude;
 	        		var lng = position.coords.longitude;
-	     			alert(lat + ", " + lng);
+// 	     			alert(lat + ", " + lng);
 	     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
