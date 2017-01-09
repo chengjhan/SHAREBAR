@@ -24,9 +24,6 @@
 <script type="text/javascript" src="js/bootstrap-dialog/bootstrap-dialog.js"></script>
 
 <style>
-  body{
-    font-family:cursive , Microsoft YaHei , Arial , PMingLiU , MingLiU;
-	}
   .ui-effects-transfer {
     border: 1px solid #305388;
     background-color:#305388;
