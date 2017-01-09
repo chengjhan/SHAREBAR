@@ -54,6 +54,7 @@
 		<div class="col-md-2"></div>
 	</div>
 	
+	<div class="row" >
 	<div class="col-md-2"></div>
 	
 	<div class="col-md-2">
@@ -143,6 +144,8 @@
 <!-- 每頁不同的內容到這裡結束 -->
 <!-- 			</div> -->
 	</div>
-
+	</div>
+<div style="height:330px"></div>
+<c:import url="/footer.jsp"></c:import>
 </body>
 </html>

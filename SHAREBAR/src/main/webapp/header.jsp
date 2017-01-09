@@ -42,19 +42,21 @@ div#navbar {
 </head>
 <c:url value="/" var="root"></c:url>
 <body>
-		<div class="navbar navbar-light navbar-default navbar-static-top">
+		<div class="navbar navbar-light navbar-default">
 			<div class="container-fluid">
-				<div class="navbar-header">
+				<div class="navbar-header" style="padding-bottom:9px">
 					
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
 						    <span class="icon-bar"></span>
         					<span class="icon-bar"></span>
         					<span class="icon-bar"></span>  
 					</button>
-					<a class="navbar-brand" href="<c:url value='/index.jsp'/>"><img src="<c:url value='/img/SHAREBAR.png'/>" style="height: 32x; width: 32px; float:left; position:relative; bottom:5px; right:0px;">&nbsp;&nbsp;SHARE BAR!</a>
+<%-- 					<a class="navbar-brand" href="<c:url value='/index.jsp'/>"><img src="<c:url value='/img/SHAREBAR.png'/>" style="height: 32x; width: 32px; float:left; position:relative; bottom:5px; right:0px;">&nbsp;&nbsp;SHARE BAR!</a> --%>
+					<a class="navbar-brand" href="<c:url value='/index.jsp'/>"><img src="<c:url value='/img/SHAREBAR.png'/>" style="height: 40x; width: 40px; float:left; position:relative; bottom:5px; right:0px;"></a>
+					
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
-				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px">
+				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px;padding-top:1px">
 					<div class="input-group">
 						<div class="form-group">
 							<select id="id_select" name="searchSelector" class="form-control" style="width:75px">
@@ -67,7 +69,7 @@ div#navbar {
 	  					</div>
 	  					<div class="form-group">
 	    					<div class="input-group-btn">
-	      						<button id="id_submit" class="btn btn-default" type="submit" style="height:34px">
+	      						<button id="id_submit" class="btn btn-default" type="submit" style="height:40px">
 	        						<i class="glyphicon glyphicon-search"></i>
 	      						</button>
 	    					</div>
@@ -80,7 +82,7 @@ div#navbar {
 <!-- 						<button type="submit" id="id_submit" class="btn btn-default">Submit</button> -->
 					<table id="latlng"></table>
 				</form>
-				<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
+				<ul class="nav navbar-nav navbar-right" style="margin-right: 5px;">
 					<c:choose>
 						<c:when test="${empty user eq true}">
 							<li class="class_li"><a href="<c:url value='/secure/signup.jsp'/>"><span class="glyphicon glyphicon-plus"></span> &nbsp; Sign Up</a></li>
@@ -90,7 +92,7 @@ div#navbar {
 							<li class="class_li"><a href="<c:url value='/administrator/gm_view01.jsp'/>"><span class="glyphicon glyphicon-wrench"></span> &nbsp; Administrator</a></li>
 							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
 							<li class="class_li"><a href="<c:url value='/maillist.do'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
-							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
+							<li class="class_li" style="border-right: 1px solid #E6E6E6;height:59px"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
 							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
 						</c:when>
 						<c:otherwise>
@@ -107,7 +109,7 @@ div#navbar {
 	<script>
 		var geocoder;
 		var googleAutocomplete;
-		var input;
+		var headerInput;
 	    var availableTags = [
 	        "ActionScript",
 	        "AppleScript",
@@ -242,9 +244,9 @@ div#navbar {
 // 		    			types: ['address']
 						types: ['geocode']
 		    		};
-		    input = document.getElementById('id_search');
+		    headerInput = document.getElementById('id_search');
 // 			map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-			googleAutocomplete = new google.maps.places.Autocomplete(input, options);
+			googleAutocomplete = new google.maps.places.Autocomplete(headerInput, options);
 			geocoder = new google.maps.Geocoder();
 		}
 
@@ -253,7 +255,7 @@ div#navbar {
 // 			alert($("#id_select").val());
 			if($("#id_select").find(":selected").val() === "itemName") {
 				$("#id_search").autocomplete({source: availableTags});
-				google.maps.event.clearInstanceListeners(input);
+				google.maps.event.clearInstanceListeners(headerInput);
 				$('#id_search').autocomplete('enable');
 			} else {
 				$('#id_search').autocomplete('disable');
@@ -262,12 +264,12 @@ div#navbar {
 						types: ['geocode']
 // 		    			types: ['address']
 		    		};
-				googleAutocomplete = new google.maps.places.Autocomplete(input, options);
+				googleAutocomplete = new google.maps.places.Autocomplete(headerInput, options);
 			}
 		});
 		
 		// 更改搜尋條件
-		$("#id_search").on("change", function(event){
+		$("#id_select").on("change", function(event){
 // 			event.preventDefault();
 			var searchSelector = $("#id_select").find(":selected").val();
 // 			alert(searchSelector);
@@ -323,7 +325,7 @@ div#navbar {
 	        	function success(position) {
 	        		var lat = position.coords.latitude;
 	        		var lng = position.coords.longitude;
-	     			alert(lat + ", " + lng);
+// 	     			alert(lat + ", " + lng);
 	     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
@@ -351,6 +353,6 @@ div#navbar {
 			}
 		}	
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+<!-- 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script> -->
 </body>
 </html>

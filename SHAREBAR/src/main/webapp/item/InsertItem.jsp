@@ -28,11 +28,20 @@ html, body {
 	width: 100%;
 }
 
+.form-control {
+	height: 40px
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
 #id_insert_form {
 	width: 1000px;
 	height: auto;
 	margin: 0 auto;
-	margin-top: 50px;
+	margin-top: 20px;
+	margin-bottom: 50px;
 }
 
 #id_image_form {
@@ -108,6 +117,8 @@ html, body {
 </style>
 </head>
 <body>
+	<jsp:include page="../header.jsp"></jsp:include>
+	
 	<%@ page import="org.springframework.web.context.WebApplicationContext"%>
 	<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 	<%@ page import="category.model.*"%>
@@ -237,7 +248,8 @@ html, body {
 			</div>
 		</div>
 	</div>
-	<div id="footer"></div>
+	
+	<jsp:include page="../footer.jsp"></jsp:include>
 	
 	<script>
 		var geocoder;
@@ -255,9 +267,12 @@ html, body {
 		var inputLat;
 		var inputLng;
 		var divLatLng = $("#id_latlng");
+		var headerInput;
 		
 		// 初始化
 		function initMap() {
+			
+			// modal地圖
 			map = new google.maps.Map(document.getElementById("map-canvas"), {
 				center : { lat: 25.0329636, lng: 121.5654268 },
 				zoom : 15,
@@ -297,7 +312,11 @@ html, body {
 				});
 			});
 			
-			// 地址自動完成
+			// 搜尋列地址自動完成
+			headerInput = document.getElementById('id_search');
+			googleAutocomplete = new google.maps.places.Autocomplete(headerInput, options);
+			
+			// 表單地址自動完成
 		    var defaultBounds = new google.maps.LatLngBounds(
 		    			new google.maps.LatLng(26, 124),
 		    			new google.maps.LatLng(23, 120)
@@ -311,7 +330,6 @@ html, body {
 		}
 		
 		$(function() {
-			$("#footer").load("../footer.jsp");
 			
 			// 日期選擇器
 			$("#id_end_date").datepicker({
@@ -483,6 +501,6 @@ html, body {
 			}
 		})
 	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
 </body>
 </html>
