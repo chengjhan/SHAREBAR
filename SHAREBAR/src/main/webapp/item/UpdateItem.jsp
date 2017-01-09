@@ -159,9 +159,16 @@ html, body {
 							</c:forEach>
 						</select>
 					</div>
-					<div class="form-group">
-						<label for="id_location">地點</label>
+					<label for="id_location">地點</label>
+					<div class="form-group input-group">
 						<input type="text" id="id_location" name="location" class="form-control" placeholder="地區，地址" value="${param.location}">
+						<span class="input-group-addon"><i id="id_location_search" class="glyphicon glyphicon-search"></i></span>
+						<span class="input-group-addon"><i id="id_location_ok" class="glyphicon glyphicon-remove"></i></span>
+<!-- 						<div class="input-group-btn"> -->
+<!--       						<button class="btn btn-default" type="button"> -->
+<!--         						<i class="glyphicon glyphicon-search"></i> -->
+<!--       						</button> -->
+<!--     					</div> -->
 					</div>
 					<div class="form-group">
 						<label for="id_end_date">結束日期</label>
@@ -268,11 +275,11 @@ html, body {
                 	item_name: "required",
                 	class_name: "required",
                 	location: "required",
-//                 	image_photo1: "required",
-                	image_photo1: {
-                		required: true,
-                		accept: "jpg, png, jpeg, gif",
-                	},
+                	image_photo1: "required",
+//                 	image_photo1: {
+//                 		required: true,
+//                 		accept: "jpg, png, jpeg, gif",
+//                 	},
 				},
 				messages: {
 					image_photo1: "請上傳封面照片",
@@ -302,12 +309,13 @@ html, body {
 		$("#id_location").on("change", function(event){
 // 			event.preventDefault();
 			var id_location = $("#id_location").val();
-			alert(id_location);
+// 			alert(id_location);
 			geocoder.geocode({ 'address': id_location }, function(results, status) {
 				if (status == google.maps.GeocoderStatus.OK) {
 					lat = results[0].geometry.location.lat();
 					lng = results[0].geometry.location.lng();
-					alert(lat + " ," + lng);
+// 					alert(lat + " ," + lng);
+					$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-ok");
 					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
 					var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
 					var divLatLng = $("<div style='display:none'></div>").append([inputLat, inputLng]);
@@ -315,6 +323,7 @@ html, body {
 					$("#id_item_form").append(divLatLng);
 				} else {
 					alert("請輸入詳細地址");
+					$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-remove")
 				}
 			});
 		});
@@ -327,6 +336,7 @@ html, body {
 			var id_image_photo1 = $("#id_image_photo1").val();
 			if(id_item_name != "" && id_class_name != "" && id_location != "" && id_image_photo1 != ""){
 				$("#myModal").modal();
+				$(this).submit();
 			}
 		})
 	</script>

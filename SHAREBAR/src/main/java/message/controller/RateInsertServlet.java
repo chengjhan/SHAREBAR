@@ -16,7 +16,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import item.model.ItemService;
 
-@WebServlet("/rateInsert.do")
+@WebServlet("/rateInsert.ajax")
 public class RateInsertServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

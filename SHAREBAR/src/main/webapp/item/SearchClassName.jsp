@@ -34,7 +34,7 @@ html, body {
 
 #wrapper {
 	position: absolute;
-	top: 52px;
+	top: 54px;
 	bottom: 0;
 	left: 0;
 	right: 0;
