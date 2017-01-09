@@ -20,16 +20,14 @@
 }
 
 #basic_info>.row{ 
-/* 	display: table;  */
 	display: flex;
  } 
 #basic_info>.row>[class*='col-']{
  	display: table-cell;
  	float: none; 
 	vertical-align:center;
-	flex: 1; /* additionally, equal width */
+	flex: 1;
 	padding: 1em;
-/* 	border: solid; */
 	horizontal-align:center;
 	text-align:center;
 }
@@ -96,6 +94,23 @@ p.review_p{
 	margin:10px 10px;
 }
 
+.boxIan {
+    position: relative;
+    width:    100%; /* desired width */
+}
+.boxIan:before {
+    content:     "";
+    display:     block;
+    padding-top: 100%; /* initial ratio of 1:1*/
+}
+
+.contentIan {
+    position: absolute;
+    top:      0;
+    left:     0;
+    bottom:   0;
+    right:    0;
+}
 /* XD */
 .textellipsis{
 	 text-overflow:ellipsis;
@@ -111,11 +126,7 @@ p.review_p{
 	position: relative;
 	right: 0px;
 	bottom: 30px;
-/* 	height: 30px; */
 }
-
-
-
 </style>
 </head>
 <body>
@@ -187,8 +198,8 @@ p.review_p{
 		<a href="${root}item/itemdetail.controller?id=${item.item_id}">
 		<c:forEach var="image" items="${item.imageBean}" varStatus="stat">
 			<c:if test="${stat.first}">
-				<div class="img_container">
-					<img alt="item_image" src="${root}item-image/${image.image_photo}" class="follow_list">
+				<div class="img_container boxIan">
+					<img alt="item_image" src="${root}item-image/${image.image_photo}" class="follow_list contentIan">
 				</div>
 			</c:if>
 		</c:forEach>
@@ -210,8 +221,8 @@ p.review_p{
 		<div class="col-md-2 col-sm-3 col-xs-4">
 		<div class="thumbnail">
 		<a href="${root}member/profile.controller?id=${follow.member_followed.member_no}">
-		<div class="img_container">
-		<img alt="${follow.member_followed.nickname}" src="${root}profileImages/${follow.member_followed.photo}" class="follow_list">
+		<div class="img_container boxIan">
+		<img alt="${follow.member_followed.nickname}" src="${root}profileImages/${follow.member_followed.photo}" class="follow_list contentIan">
 		</div>
 		<div class="caption">
 		<p class="textellipsis">${follow.member_followed.nickname}:${follow.member_followed.member_no}:${follow.relation}</p>
@@ -233,8 +244,8 @@ p.review_p{
 		<div class="col-md-2 col-sm-3 col-xs-4">
 		<div class="thumbnail">
 		<a href="${root}member/profile.controller?id=${followed.member_follow.member_no}">
-		<div class="img_container">
-		<img alt="${followed.member_follow.nickname}" src="${root}profileImages/${followed.member_follow.photo}" class="follow_list">
+		<div class="img_container boxIan">
+		<img alt="${followed.member_follow.nickname}" src="${root}profileImages/${followed.member_follow.photo}" class="follow_list contentIan">
 		</div>
 		<div class="caption">
 		<p class="textellipsis">${followed.member_follow.nickname}:${followed.member_followed.member_no}:${followed.relation}</p>
@@ -254,12 +265,12 @@ p.review_p{
 		<c:forEach var="followitems" items="${user.follow_items}">
 		<c:if test="${followitems.status eq 1}">
 		<div class="col-md-2 col-sm-3 col-xs-4">
-		<div class="thumbnail box">
+		<div class="thumbnail">
 		<a href="${root}item/itemdetail.controller?id=${followitems.itemBean.item_id}">
 		<c:forEach var="image" items="${followitems.itemBean.imageBean}" varStatus="stat">
 			<c:if test="${stat.first}">
-				<div class="img_container">
-					<img alt="${followitems.itemBean.item_name}" src="${root}item-image/${image.image_photo}" class="follow_list">
+				<div class="img_container boxIan">
+					<img alt="${followitems.itemBean.item_name}" src="${root}item-image/${image.image_photo}" class="follow_list contentIan">
 				</div>
 			</c:if>
 		</c:forEach>

@@ -62,8 +62,13 @@ display:none;
 .nbs-flexisel-item img {
     max-width: 100%;
     cursor: pointer;
-    position: relative;
+/*     position: relative; */
     margin: 10px;
+    position: absolute;
+    top:      0;
+    left:     0;
+    bottom:   0;
+    right:    0;
 }
 
 /*** Navigation ***/
