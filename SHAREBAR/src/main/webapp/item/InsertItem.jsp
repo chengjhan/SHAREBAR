@@ -28,11 +28,20 @@ html, body {
 	width: 100%;
 }
 
+.form-control {
+	height: 40px
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
 #id_insert_form {
 	width: 1000px;
 	height: auto;
 	margin: 0 auto;
 	margin-top: 20px;
+	margin-bottom: 50px;
 }
 
 #id_image_form {
