@@ -56,6 +56,19 @@
 }
 
 
+/* .item_pic{ */
+/* 	cursor: pointer; */
+/* } */
+
+
+/* #info_div>[class*='col-']{ */
+
+/* } */
+/* .follow_list>img{ */
+/* 	width:155; */
+/* 	height:155; */
+/* } */
+
 /*XD*/
 time{
 	margin-left: 10px;
@@ -66,8 +79,22 @@ time{
 /* 	background-color: #A9D3FF; */
 }
 
-
-
+ #followshow.btn-default:hover,#followshow.btn-defaulta:active{   
+   	background-color: white;   
+ }   
+  #followshow.btn-change:hover{   
+   	background-color: #c9302c;   
+ }  
+ 
+/*  #id_footer{ */
+/* 	width:100%; */
+/* 	text-align:center; */
+/* 	position: fixed; */
+/*     bottom: 0; */
+/*     height: 50px; */
+/*     background-color:#333; */
+/* } */
+ 
 </style>
 </head>
 <body>
@@ -76,7 +103,7 @@ time{
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <c:url value="/" var="root"></c:url>
-<div id="header"></div>
+<c:import url="../header.jsp"></c:import>
 <div class="container">
 <div class="row">
 <div class="col-md-7">
@@ -88,8 +115,8 @@ time{
 	<span id="next-btn" class="glyphicon glyphicon-chevron-right finger pull-right" style="position:absolute;font-size:350%;right:0;right:-80px;top:calc(50% - 20px);"></span>
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 		<c:if test="${stat.first}">
-				<img class="show_pic img-responsive" id="showpic" alt="item_image" order="1" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute;">
-				<img class="show_pic img-responsive" id="showpic2" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:1;position:relative;">
+				<img class="show_pic img-responsive" id="showpic" alt="item_image" order="1" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute; -webkit-user-select: none;-moz-user-select: none;overflow: hidden;">
+				<img class="show_pic img-responsive" id="showpic2" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:1;position:relative; -webkit-user-select: none;-moz-user-select: none;overflow: hidden;">
 		</c:if>
 	</c:forEach>
 	</div>
@@ -158,7 +185,22 @@ time{
 		<c:if test="${ itembean.done == 1 && item.getter_id != user_id }">
 			<input type="button" id="done" value="已鎖定" class="btn btn-danger" style="margin :5px 0;width:49%;height:45px">
 		</c:if>
-	<input type="button" value="追蹤按鈕" class="btn btn-success" style="margin:5px 0;width:100%;height:45px" >
+			<div class="input-group" style="width:100%;">
+	   		<input id="followtext" type="button" class="form-control btn btn-default" value="追蹤按鈕	" style="margin :5px 0;height:45px;z-index: 0">
+	    	<div class="input-group-btn">
+	        <button id="followshow" class="btn btn-default" style="height:45px;cursor:auto" >
+	        <i class="glyphicon glyphicon-heart">
+	        </i></button>
+			</div>
+			</div>
+		
+<!-- 	<button value="追蹤按鈕" class="btn btn-default" style="margin:5px 0;width:100%;height:45px" > -->
+<!-- 		<span id="followtext" style="display:inline-block;position: relative;top:6px">追蹤按鈕</span> -->
+<!-- 		<span id="followshow" style="border-left:inherit;position: relative;width:20%;float: right;height: 43px;top:-5.5px;right:-12px;"> -->
+<!-- 		<i class="glyphicon glyphicon-heart" style="top:calc(50% - 8px);"></i> -->
+<!-- 		</span> -->
+<!-- 	</button> -->
+	
 	<input type="button" id="report" value="檢舉商品" class="btn btn-danger" style="margin:5px 0;width:100%;height:45px">
 
 	</c:otherwise>
@@ -236,7 +278,7 @@ time{
 </div>
 <div id="dialog"></div>
 <div id="board"></div>
-<div id="footer"></div>
+<c:import url="../footer.jsp"></c:import>
 <script type="text/javascript">
 
 // location.replace('http://localhost:8080/SHAREBAR/secure/login.jsp');
@@ -248,9 +290,6 @@ var item_status = "未提出"
 var getNextOffset = function() { return count*215; };
 var count = 0;
 var checklogin = "http://localhost:8080${root}secure/login.jsp";
-
-$("#header").load("../header.jsp");
-$("#footer").load("../footer.jsp");
 
 $(function(){
 	//判斷是否追蹤	
@@ -264,13 +303,13 @@ $(function(){
 			function(data){
 		itemstatus = data;
 		if(itemstatus==1){
-			$('input[value="追蹤按鈕"]').toggleClass("btn-danger");
-			$('input[value="追蹤按鈕"]').attr("value","取消追蹤");
+			$("#followtext").attr("value","取消追蹤")
+			$("#followshow").toggleClass("btn-change");
 		}
 	})
 	
 	//追隨按鈕
-	$('input[value="追蹤按鈕"]').click(function(){
+	$('#followtext').click(function(){
 		if(user_id == ""){
 			location.assign(checklogin);
 		}
@@ -280,11 +319,14 @@ $(function(){
 			
 			function(data){
 					change.attr("following",data);
-					change.toggleClass("btn-danger");
 					if(data==1){
-						change.attr("value","取消追蹤")	
+						$("#followtext").attr("value","取消追蹤")
+						$("#followshow").toggleClass("btn-change");
 					}
-					else{change.attr("value","追蹤按鈕")}
+					else{
+						$("#followtext").attr("value","追蹤按鈕")
+						 $("#followshow").toggleClass("btn-change");
+					}
 				})
 	})
 	//切換圖片功能
@@ -292,19 +334,33 @@ $(function(){
 	$(".item_pic").click(function(){
 		if(!$("#showpic").is(":animated")){
 			showpic=$(this).attr("src");
+			var chackorder = $("#showpic").attr("order");
+			var thisorder = $(this).attr("order")
 			showpic2=$("#showpic").attr("src");
 			$("#showpic2").attr("src",showpic2);
 			$("#showpic").attr("src",showpic);
-			$("#showpic").effect( "slide", "200" );
 			var order =  $(this).attr("order");
 			$("#showpic").attr("order",order)
+			if(chackorder > thisorder){
+				$("#showpic2").hide("slide", { direction: "right" }, "300" ,function(){
+				$("#showpic2").show();					
+				});
+				$("#showpic").effect("slide",{direction:"left"},300);
+			}
+			if(chackorder < thisorder){
+				$("#showpic2").hide("slide", { direction: "left" }, "300",function(){
+				$("#showpic2").show();					
+				} );
+				$("#showpic").effect("slide",{direction:"right"},300);
+			}
+			$("#showpic2").show();
+// 			$("#showpic").effect( "slide", "200" );
+		
 		}
 	})
 	
 	//切換圖片prev-btn next-btn
 	var thisorder =null;
-	
-	
 	$("#picgroup>span").click(function(){
 		var maxpic=$("#piccount").attr("maxpic")
 		var thisid = $(this).attr("id");
@@ -329,7 +385,18 @@ $(function(){
 			showpic2=$("#showpic").attr("src");
 			$("#showpic2").attr("src",showpic2);
 			$("#showpic").attr("src",showpic)
-			$("#showpic").effect( "slide", "200" );
+			if("next-btn" == thisid){
+				$("#showpic2").hide("slide", { direction: "left" }, "300",function(){
+					$("#showpic2").show();					
+					} );
+					$("#showpic").effect("slide",{direction:"right"},300);
+			}
+			if("prev-btn" == thisid){
+				$("#showpic2").hide("slide", { direction: "right" }, "300" ,function(){
+					$("#showpic2").show();					
+					});
+					$("#showpic").effect("slide",{direction:"left"},300);
+			}
 		}
 	})
 	
@@ -564,7 +631,9 @@ $(function(){
     
     //檢舉按鈕
 	$('div #report').click(function() {
-	
+		if(user_id == ""){
+			location.assign(checklogin);
+		}
         BootstrapDialog.show({
 	        title: '檢舉這個物品',
             message:       	 

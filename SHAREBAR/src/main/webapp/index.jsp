@@ -109,7 +109,7 @@ pageContext.setAttribute("items",beans);
 	</c:forEach>                                                        
 </ul>
 </div>
-
+<c:import url="/footer.jsp"></c:import>
 <script type="text/javascript">
 $(function(){
     $("#flexiselDemo1").flexisel({

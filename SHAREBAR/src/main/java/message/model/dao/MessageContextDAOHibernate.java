@@ -30,9 +30,23 @@ public class MessageContextDAOHibernate implements MessageContextDAO{
 
 	@Override
 	public List<MessageContextBean> select(int item_id, int requester_id){
+//		int top = 5;
+//		int startPoint = 0;
+//		int endPoint = 5;
 		@SuppressWarnings("unchecked")
 		Query<MessageContextBean> query = getSession().createQuery(
+//		@SuppressWarnings({ "unchecked" })
+//		Query<MessageContextBean> query = getSession().createNativeQuery(
 				"from MessageContextBean where item_id = ? and member_id_listener = ? or item_id = ? and member_id_speaker = ?"); 
+//				"from MessageContextBean a where a.messageNo in ( SELECT b.messageNo from MessageContextBean b where b.itemBean.item_id = ? and b.memberBean_listener.member_no = ? or b.itemBean.item_id = ? and b.memberBean_speaker.member_no = ? ORDER BY b.messageNo DESC LIMIT 0,5 ) ORDER BY a.messageNo ASC"); 				
+//				"select * from ( select TOP(?) * , ROW_NUMBER() OVER(ORDER BY messageNo DESC) row from messageContext where item_id = ? and member_id_listener = ? or item_id = ? and member_id_speaker = ? ORDER BY messageNo DESC ) a WHERE row >= ? AND row <? ORDER BY a.messageNo ASC");
+//		query.setParameter(0, top);
+//		query.setParameter(1, item_id);
+//		query.setParameter(2, requester_id);
+//		query.setParameter(3, item_id);
+//		query.setParameter(4, requester_id);
+//		query.setParameter(5, startPoint);
+//		query.setParameter(6, endPoint);
 		query.setParameter(0, item_id);
 		query.setParameter(1, requester_id);
 		query.setParameter(2, item_id);

@@ -286,7 +286,7 @@ p.review_p{
   </div><!-- end of tab content col -->
 </div><!-- end of #other_info.row -->
 </div><!-- end of other_info -->
-
+<c:import url="../footer.jsp"></c:import>
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
   Launch demo modal
 </button>
@@ -311,7 +311,6 @@ p.review_p{
   </div>
 </div>
 <!-- login dialog -->
-
 <script type="text/javascript">
 $("#follow_button").click(function(){
 	var button = $(this);

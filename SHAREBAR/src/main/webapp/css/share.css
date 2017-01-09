@@ -45,10 +45,95 @@ body{
 	border-color: #a8baa9;
 }
 
-
 .finger{
 	cursor:pointer;
 }
+
+.btn-change {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:hover,
+.btn-change.hover {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:focus,
+.btn-change.focus {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active,
+.btn-change.active,
+.open > .dropdown-toggle.btn-success {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active:hover,
+.btn-change.active:hover,
+.open > .dropdown-toggle.btn-change:hover,
+.btn-success:active:focus,
+.btn-success.active:focus,
+.open > .dropdown-toggle.btn-change:focus,
+.btn-change:active.focus,
+.btn-change.active.focus,
+.open > .dropdown-toggle.btn-change.focus {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active,
+.btn-change.active,
+.open > .dropdown-toggle.btn-change {
+  background-image: none;
+}
+
+
+
+/* 下面目前沒用到 */
+.btn-change {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:hover,
+.btn-change.hover {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:focus,
+.btn-change.focus {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active,
+.btn-change.active,
+.open > .dropdown-toggle.btn-success {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active:hover,
+.btn-change.active:hover,
+.open > .dropdown-toggle.btn-change:hover,
+.btn-success:active:focus,
+.btn-success.active:focus,
+.open > .dropdown-toggle.btn-change:focus,
+.btn-change:active.focus,
+.btn-change.active.focus,
+.open > .dropdown-toggle.btn-change.focus {
+    color: #fff;
+    background-color:#c9302c;
+    border-color: #d43f3a;
+}
+.btn-change:active,
+.btn-change.active,
 
 /* 下面目前沒用到 */
 
