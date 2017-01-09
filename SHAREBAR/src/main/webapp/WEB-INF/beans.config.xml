@@ -16,7 +16,6 @@
 <!-- 		<property name="username" value="sa"></property> -->
 <!-- 		<property name="password" value="password"></property> -->
 <!-- 	</bean> -->
-
 	
 	<bean id="dataSource"
 		class="org.springframework.jndi.JndiObjectFactoryBean">

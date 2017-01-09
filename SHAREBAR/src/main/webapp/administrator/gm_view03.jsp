@@ -101,11 +101,13 @@
 	<table class="table table-striped">	
 				<tr align="center">
 					<td class="st1">#</td>
-					<td class="st1">MemberID</td>
-					<td class="st1">檢舉人帳號</td>
+					<td class="st1">檢舉人ID</td>					
 					<td class="st1">檢舉人暱稱</td>
-					<td class="st1">ItemID</td>
+					<td class="st1">檢舉人帳號</td>
+					<td class="st1">被檢舉物ID</td>
 					<td class="st1">被檢舉物名稱</td>
+					<td class="st1">被檢舉會員ID</td>
+					<td class="st1">被檢舉會員暱稱</td>
 					<td class="st1">違規描述</td>
 					<td class="st1">檢舉時間</td>
 <!-- 					<td class="st1">&nbsp;&nbsp;封鎖&nbsp;&nbsp;</td> -->
@@ -122,10 +124,12 @@
 				<tr>
 					<td align="center" class="st1">${element3.report_id}</td>
 					<td align="center" class="st1"><a href="${root}member/profile.controller?id=${element3.reporting_member_id.member_no}">${element3.reporting_member_id.member_no}</a></td>
-					<td                class="st1"><a href="${root}member/profile.controller?id=${element3.reporting_member_id.member_no}">${element3.reporting_member_id.email}</a></td>
 					<td align="center" class="st1"><a href="${root}member/profile.controller?id=${element3.reporting_member_id.member_no}">${element3.reporting_member_id.nickname}</a></td>
+					<td                class="st1"><a href="${root}member/profile.controller?id=${element3.reporting_member_id.member_no}">${element3.reporting_member_id.email}</a></td>
 					<td align="center" class="st1"><a href="${root}item/itemdetail.controller?id=${element3.reported_item_id.item_id}">${element3.reported_item_id.item_id}</a></td>
 					<td align="center" class="st1"><a href="${root}item/itemdetail.controller?id=${element3.reported_item_id.item_id}">${element3.reported_item_id.item_name}</a></td>
+					<td align="center" class="st1"><a href="${root}member/profile.controller?id=${element3.reported_item_id.member_id.member_no}">${element3.reported_item_id.member_id.member_no}</a></td>
+					<td align="center" class="st1"><a href="${root}member/profile.controller?id=${element3.reported_item_id.member_id.member_no}">${element3.reported_item_id.member_id.nickname}</a></td>
 					<td class="st1">${element3.context}</td>		
 					<td class="st1">&nbsp; ${element3.time} &nbsp;</td>
 <%-- 					<td align="center" class="st1"><a href="${path}">封鎖</a></td> --%>
