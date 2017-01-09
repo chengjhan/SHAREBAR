@@ -8,6 +8,7 @@
 <title>依物品搜尋</title>
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../css/share.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
@@ -34,7 +35,7 @@ html, body {
 
 #wrapper {
 	position: absolute;
-	top: 54px;
+	top: 67px;
 	bottom: 0;
 	left: 0;
 	right: 0;
@@ -221,51 +222,8 @@ html, body {
 </head>
 <body>
 	<c:url value="/" var="root"></c:url>
+	<jsp:include page="../header.jsp"></jsp:include>
 	
-<!-- header -->
-	<div style="z-index:1000">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-						    <span class="icon-bar"></span>
-        					<span class="icon-bar"></span>
-        					<span class="icon-bar"></span>  
-					</button>
-					<a class="navbar-brand" href="<c:url value='/index.jsp'/>">SHARE BAR!</a>
-				</div>
-				<div id="navbar" class="collapse navbar-collapse">
-				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px">
-					<select id="id_select" name="searchSelector" class="form-control">
-						<option value="location">地區</option>
-						<option value="itemName">物品</option>
-					</select>
-					<div class="form-group">
-						<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="" style="width: 300px" /></td>
-					</div>
-					<button type="submit" id="id_submit" class="btn btn-default">Submit</button>
-					<table id="latlng"></table>
-				</form>
-				<ul class="nav navbar-nav navbar-right" style="margin-right: 5px">
-					<c:choose>
-						<c:when test="${empty user eq true}">
-							<li class="class_li"><a href="<c:url value='/secure/signup.jsp'/>"><span class="glyphicon glyphicon-plus"></span>Sign Up</a></li>
-							<li class="class_li"><a href="<c:url value='/secure/login.jsp'/>"><span class="glyphicon glyphicon-log-out"></span>Login</a></li>
-						</c:when>
-						<c:otherwise>
-							<li class="class_li"><a href="<c:url value='/member/userProfile.jsp'/>"><span class="glyphicon glyphicon-user"></span>${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
-							<li class="class_li"><a href="<c:url value='/member/inbox.jsp'/>"><span class="glyphicon glyphicon-envelope"></span>Mail</a></li>
-							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
-							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span>Share</a></li>
-						</c:otherwise>
-					</c:choose>
-				</ul>
-				</div>
-			</div>
-		</nav>
-	</div>
-
-<!-- body -->
 	<div id="wrapper" class="container-fluid">
 		<div class="row">
 			<!--
@@ -307,11 +265,11 @@ html, body {
 								<span>．</span>
 							</div>
 							<div style="float:left">
-								<span>物品</span>
+								<span>分類</span>
 								<span>．</span>
 							</div>
 							<div>
-								<span>${searchBar}</span>
+								<span>${param.name}</span>
 							</div>
 						</div>
 						<div style="font-size:14px">
@@ -335,145 +293,11 @@ html, body {
 	</div>
 	
 	<script>
-	
-		// 這裡開始是header
-		var geocoder;
-		var googleAutocomplete;
-		var input;
-	    var availableTags = [
-	        "ActionScript",
-	        "AppleScript",
-	        "Asp",
-	        "BASIC",
-	        "C",
-	        "C++",
-	        "Clojure",
-	        "COBOL",
-	        "ColdFusion",
-	        "Erlang",
-	        "Fortran",
-	        "Groovy",
-	        "Haskell",
-	        "Java",
-	        "JavaScript",
-	        "Lisp",
-	        "Perl",
-	        "PHP",
-	        "Python",
-	        "Ruby",
-	        "Scala",
-	        "Scheme"
-	    ];
-	    
-		// 切換自動完成
-		$("#id_select").on("change", function() {
-// 			alert($("#id_select").val());
-			if($("#id_select").find(":selected").val() === "itemName") {
-				$("#id_search").autocomplete({source: availableTags});
-				google.maps.event.clearInstanceListeners(input);
-				$('#id_search').autocomplete('enable');
-			} else {
-				$('#id_search').autocomplete('disable');
-				var options = {
-// 			    	types: ['establishment']
-					types: ['geocode']
-//			   		types: ['address']
-		    	};
-				googleAutocomplete = new google.maps.places.Autocomplete(input, options);
-			}
-		});
-		
-		// 更改搜尋條件
-		$("#id_search").on("change", function(event){
-//			event.preventDefault();
-			var searchSelector = $("#id_select").find(":selected").val();
-// 			alert(searchSelector);
-			var searchBar = $("#id_search").val();
-// 			alert(searchBar);
-			
-			// 找地區
-			if(searchSelector == "location"){
-				geocoder.geocode({ 'address': searchBar }, function(results, status) {
-			        if (status == google.maps.GeocoderStatus.OK) {
-// 			        	var lat = results[0].geometry.location.lat();
-// 						var lng = results[0].geometry.location.lng();
-// 						alert(lat + ", " + lng);
-// 						alert(results[0].geometry.viewport);
-// 						var bounds = results[0].geometry.viewport;
-// 			            var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-// 						var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-// 						var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
-// 						var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng, inputBounds]);
-// 						var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-// 						$("#latlng").append(trLatLnf);
-			        } else if (searchBar == "") {
-// 			        	alert("searchBar = null");
-// 			        	if (navigator.geolocation) {
-// 							navigator.geolocation.getCurrentPosition(success, error);
-// 			        	}
-// 			        	function success(position) {
-// 			        		var lat = position.coords.latitude;
-// 			        		var lng = position.coords.longitude;
-// 			     			alert(lat + ", " + lng);
-// 			     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
-// 			    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
-// 			    				if (status == google.maps.GeocoderStatus.OK) {
-// 			    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-// 									var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-// 									var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng]);
-// 									var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng)
-// 									$("#latlng").append(trLatLnf);
-// 			    				}
-// 			    			})
-// 			    		}
-			        } else {
-			            alert("請輸入詳細地址");
-			        }
-			    });
-			}
-			
-			// 找物品
-			if(searchSelector == "itemName"){
-				if (navigator.geolocation) {
-					navigator.geolocation.getCurrentPosition(success, error);
-	        	}
-	        	function success(position) {
-	        		var lat = position.coords.latitude;
-	        		var lng = position.coords.longitude;
-	     			alert(lat + ", " + lng);
-	     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
-	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
-	    				if (status == google.maps.GeocoderStatus.OK) {
-	    					var bounds = results[0].geometry.viewport;
-// 	    					alert(bounds);
-	    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
-							var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-							var inputBounds = $("<input name='bounds' style='display:none'>").val(bounds);
-							var tdLatLng = $("<td style='display:none'></td>").append([inputLat, inputLng, inputBounds]);
-							var trLatLnf = $("<tr style='display:none'></tr>").append(tdLatLng);
-							$("#latlng").append(trLatLnf);
-	    				}
-	    			});
-	    		}
-			}
-		});
-		
-		function error(error) {
-			switch(error.code) {
-				case 0: alert(error.message); break;
-				case 1: alert("使用者拒絕使用"); break;
-				case 2: alert("瀏覽器無法處理"); break;
-				case 3: alert("瀏覽器時間到了無法取得位置"); break;
-				default: alert("who knows"); break;
-			}
-		}
-		
-//===============================================================================================================================
-
-		// 這裡開始是body
 		var map;
 		var itemArray = [];
 		var markerArray = [];
+		var geocoder;
+		var bounds;
 		
 		// 地圖初始化
 		function initMap() {
@@ -490,54 +314,58 @@ html, body {
 // 		    	types: ['address']
 				types: ['geocode']
 		    };
-		    input = document.getElementById('id_search');
-			googleAutocomplete = new google.maps.places.Autocomplete(input, options);
+		    headerInput = document.getElementById('id_search');
+			googleAutocomplete = new google.maps.places.Autocomplete(headerInput, options);
 			geocoder = new google.maps.Geocoder();
 			
 			// body初始化
-			var centerLocation = {
-				lat : 23.583234,
-				lng : 120.5825975
+			var currentLat;
+			var currentLng;
+			var currentLatLng;
+			var swLat;
+			var swLng;
+			var neLat;
+			var neLng;
+			
+			if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(success, error);
+	        }
+			
+			function success(position) {
+				currentLat = position.coords.latitude;
+				currentLng = position.coords.longitude;
+//      		alert(currentLat + ", " + currentLng);
+     			currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
+//      		alert(currentLatLng);
+    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
+    				if (status == google.maps.GeocoderStatus.OK) {
+    					bounds = results[0].geometry.viewport;
+    					map.fitBounds(bounds);
+//     					alert(bounds);
+    				}
+    			});
+    		}
+			
+			function error(error) {
+				switch(error.code) {
+					case 0: alert(error.message); break;
+					case 1: alert("使用者拒絕使用"); break;
+					case 2: alert("瀏覽器無法處理"); break;
+					case 3: alert("瀏覽器時間到了無法取得位置"); break;
+					default: alert("who knows"); break;
+				}
 			}
+
 			map = new google.maps.Map(document.getElementById("map"), {
-				center : centerLocation,
+				center : currentLatLng,
 				zoom : 8,
 				minZoom : 2
 			});
 			
 			// 由搜尋列第一次搜尋
-			var swLat = ${param.swLat};
-// 			alert(swLat);
-			var swLng = ${param.swLng};
-// 			alert(swLng);
-			var swMarker = new google.maps.Marker({
-   				position: {lat: swLat, lng: swLng},
-//    			map: map
-   			});
-			var neLat = ${param.neLat};
-// 			alert(neLat);
-			var neLng = ${param.neLng};
-// 			alert(neLng);
-			var neMarker = new google.maps.Marker({
-   				position: {lat: neLat, lng: neLng},
-//    			map: map
-   			});
-			var bounds = new google.maps.LatLngBounds();
-			bounds.extend(swMarker.position);
-			bounds.extend(neMarker.position);
-			map.fitBounds(bounds);
-// 			var itemLatLng = { lat: ${bean.latitude}, lng: ${bean.longitude} };
-// 			var marker = new google.maps.Marker({
-//    			position: itemLatLng,
-//    			map: map
-//    		});
-// 			var table = $("#itemList>tbody");
 			var photo = $("#left_content")
 			var class_id = "${param.id}";
 			var number = $("#id_number_span");
-			var currentLat = ${param.lat};
-			var currentLng = ${param.lng};
-			var currentLatLng = { lat: currentLat, lng: currentLng };
 			var centerLocation = $("#id_center_span");
 			
 			// 取得現在地址
@@ -545,7 +373,7 @@ html, body {
 			geocoder.geocode({'location': currentLatLng}, function(results, status) {
 				if (status === google.maps.GeocoderStatus.OK) {
 					if (results[0]) {
-//						alert(results[0].formatted_address);
+						alert(results[0].formatted_address);
 						centerLocation.append(results[0].formatted_address);
 					} 
 				}
@@ -553,10 +381,11 @@ html, body {
 			
 			$.getJSON("searchClassName.ajax", {
 				"class_id": class_id,
-				"swLat": swLat,
-				"swLng": swLng,
-				"neLat": neLat,
-				"neLng": neLng
+				"bounds": bounds
+// 				"swLat": swLat,
+// 				"swLng": swLng,
+// 				"neLat": neLat,
+// 				"neLng": neLng
 			}, function(data){
 // 				table.empty();
 // 				photo.empty();

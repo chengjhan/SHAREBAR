@@ -119,7 +119,7 @@ pageContext.setAttribute("classes",classBeans);
 <div class="category_slide">
 <c:forEach var="category" items="${classes}">
 <div class="boxIan">
-<a href="${root}item/itemdetail.controller?id=${item.item_id}">
+<a href="${root}item/SearchClassName.jsp?id=${category.class_id}&name=${category.class_name}">
 <img class="contentIan" data-lazy="${root}category-image/${category.image}">
 </a>
 </div>

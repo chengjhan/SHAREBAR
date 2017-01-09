@@ -41,11 +41,29 @@ public class SearchClassNameAjax extends HttpServlet {
 
 		// 接受資料
 		String tempClass_id = request.getParameter("class_id");
+		String tempBounds = request.getParameter("bounds");
 		String temp_swLat = request.getParameter("swLat");
 		String temp_swLng = request.getParameter("swLng");
 		String temp_neLat = request.getParameter("neLat");
 		String temp_neLng = request.getParameter("neLng");
-
+		
+		System.out.println("tempBounds");
+		
+		if (tempBounds != null && tempBounds.length() != 0) {
+			String[] arrayBounds = tempBounds.split(" ");
+//			for (String aBounds : arrayBounds) {
+//				System.out.println(aBounds);
+//			}
+			temp_swLat = arrayBounds[0].substring(2, arrayBounds[0].indexOf(","));
+			temp_swLng = arrayBounds[1].substring(0, arrayBounds[1].indexOf(")"));
+			temp_neLat = arrayBounds[2].substring(1, arrayBounds[2].indexOf(","));
+			temp_neLng = arrayBounds[3].substring(0, arrayBounds[3].indexOf(")"));
+			System.out.println("swLat = " + temp_swLat);
+			System.out.println("swLng = " + temp_swLng);
+			System.out.println("neLat = " + temp_neLat);
+			System.out.println("neLng = " + temp_neLng);
+		}
+		
 		// 驗證資料
 
 		// 轉換資料
