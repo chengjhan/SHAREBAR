@@ -136,6 +136,7 @@ p.review_p{
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <c:url value="/" var="root"></c:url>
 <jsp:include page="../header.jsp"></jsp:include>
+<div class="wrap">
 <div class="container" id="basic_info">
 <div class="row" id="basic_info_row">
 
@@ -447,6 +448,9 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 			+"</div>"
 	);
 }
+
 </script>
+</div>
+<c:import url="../footer.jsp"></c:import>
 </body>
 </html>
