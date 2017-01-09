@@ -13,7 +13,7 @@
 <title>Profile Page</title>
 <script type="text/javascript">
 $(function(){
-	$("#header").load("../header.jsp");
+// 	$("#header").load("../header.jsp");
 	
 	//XD
 	$('div.box').hover(over);
@@ -150,6 +150,7 @@ p.review_p{
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <c:url value="/" var="root"></c:url>
+<jsp:include page="../header.jsp"></jsp:include>
 <div id="header"></div>
 <div class="container" id="basic_info">
 <div class="row">
@@ -285,7 +286,7 @@ p.review_p{
   </div><!-- end of tab content col -->
 </div><!-- end of #other_info.row -->
 </div><!-- end of other_info -->
-
+<c:import url="../footer.jsp"></c:import>
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
   Launch demo modal
 </button>
@@ -310,7 +311,6 @@ p.review_p{
   </div>
 </div>
 <!-- login dialog -->
-
 <script type="text/javascript">
 $("#follow_button").click(function(){
 	var button = $(this);

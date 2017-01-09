@@ -26,7 +26,7 @@
 
 <!-- 以下name請勿再使用 -->
 <!-- searchSelector, searchBar -->
-
+<link rel=stylesheet type="text/css" href="css/share.css">
 <style>
 div#navbar {
 	width: 100%;
@@ -350,6 +350,6 @@ div#navbar {
 			}
 		}	
 	</script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
 </body>
 </html>

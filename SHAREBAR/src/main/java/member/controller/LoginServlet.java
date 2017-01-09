@@ -92,7 +92,7 @@ public class LoginServlet extends HttpServlet {
 						String target = (String) request.getSession().getAttribute("target");
 						if (from != null) {
 							from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-							if (!from.equals("secure/login.jsp") && !from.equals("secure/signup.jsp")) {
+							if (!from.equals("secure/login.jsp") && !from.equals("secure/signup.jsp") && from.trim().length()!=0 && from!=null) {
 								response.sendRedirect(path + "/" + from);
 							} else {
 								response.sendRedirect(path + "/index.jsp");
@@ -118,8 +118,8 @@ public class LoginServlet extends HttpServlet {
 
 					if (from != null) {
 						from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-						System.out.println(from);
-						if (!from.equals("secure/login.jsp") && !from.equals("secure/signup.jsp")) {
+//						System.out.println(from);
+						if (!from.equals("secure/login.jsp") && !from.equals("secure/signup.jsp") && from.trim().length()!=0 && from!=null) {
 							response.sendRedirect(path + "/" + from);
 						} else {
 							response.sendRedirect(path + "/index.jsp");

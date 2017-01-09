@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:url value="/" var="root"></c:url>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,6 +13,7 @@
 <meta name="google-signin-client_id"
 	content="307771007729-rmscbeafik1eh81eo2v9rtv4bb5n1tml.apps.googleusercontent.com">
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel=stylesheet type="text/css" href="../css/share.css">
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src="../js/bootstrap-validator.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script><!-- GSignIn -->
@@ -55,16 +58,16 @@ img#imgPreview{
 </style>
 </head>
 <%
-String from = request.getHeader("Referer"); 
-session.setAttribute("from",from);
-// if(session.getAttribute("user")!=null){
-// 	from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-// 	String path = request.getContextPath();
-// 	response.sendRedirect(path + "/" + from);
-// }
+String from = request.getHeader("Referer");
+String temp = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+if(temp.equals("secure/login.jsp") || temp.equals("secure/signup.jsp")){
+	
+}else{
+session.setAttribute("from",from);	
+}
 %>
 <body>
-<div id="header"></div>
+<jsp:include page="../header.jsp"></jsp:include>
 	<div id="sign_up_div" class="row">
 		<form id="sign_up" data-toggle="validator" action="signup.controller" method="POST" enctype="multipart/form-data">
 			<div class="form-group">
@@ -122,9 +125,31 @@ session.setAttribute("from",from);
 			<div id="ajaxCheck" style="color:red"></div>
 		</form>
 	</div>
-	<div id="footer"></div>
+	
+	<!-- login dialog -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Alert!</h4>
+      </div>
+      <div class="modal-body">
+        You are already login.<br>
+        Do you want to logout first?
+      </div>
+      <div class="modal-footer">
+        <button id="ModalNo" type="button" class="btn btn-default" >No</button>
+        <button id="ModalLogout" type="button" class="btn btn-primary">Logout</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- login dialog -->
+	
 	<script>
-	$("#header").load("../header.jsp");
+	var from = "${from}";
+	if(from!=="undefined"){from = from.substring(from.lastIndexOf("SHAREBAR/")+9)}
 	
 	$("#submitbtn").click(function(event){
 		var stat = $("#act_check").attr("account");
@@ -208,11 +233,11 @@ session.setAttribute("from",from);
 		
 		$.post("tokensignin",{"id_token":id_token,"ID":profile.getId(),"Name":profile.getName(),"Given Name":profile.getGivenName(),"Family Name":profile.getFamilyName(),"Image URL":profile.getImageUrl(),"Email":profile.getEmail()},function(responseText){
 			if(responseText == "GLoginSuccess"){
-				console.log(responseText);
+// 				console.log(responseText);
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
 				else{window.location="${root}"}	
 			}else if(responseText == "AccountExist"){
 				gapi.auth2.getAuthInstance().signOut().then(function() {
@@ -221,32 +246,33 @@ session.setAttribute("from",from);
 				$("#Gerror").empty();
 				$("#Gerror").append( "<p style='color:red'>connecting error please try other method.</p>" );
 			}else if(responseText == "GSignAndLoginSuccess"){
-				console.log(responseText);
+// 				console.log(responseText);
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
+				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
 				else{window.location="${root}"}	
 			}else if(responseText == "InvalidIdToken"){
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				console.log(responseText);
+// 				console.log(responseText);
 				$("#Gerror").empty();
 				$("#Gerror").append( "<p style='color:red'>connecting error please try other method.</p>" );
 			}else if(responseText == "GLoginfail"){
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				console.log(responseText);
+// 				console.log(responseText);
 				$("#Gerror").empty();
 				$("#Gerror").append( "<p style='color:red'>the account with this email is already exist</p>" );
 			}else if(responseText == "alreadyLogin"){
 				gapi.auth2.getAuthInstance().signOut().then(function() {
 					console.log('User signed out.');
 				});
-				if(from!="/secure/login.jsp" && from!="/secure/signup.jsp"){window.location = "${from}";}
-				else{window.location="${root}"}	
+				$('#myModal').modal('show');
+// 				if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
+// 				else{window.location="${root}"}	
 			}
 		});
 	}
@@ -255,8 +281,14 @@ session.setAttribute("from",from);
     	  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     	  return re.test(email);
     	}
-
     
+    $("#ModalLogout").click(function(){
+    	window.location="${root}secure/logout.jsp";
+    });
+    $("#ModalNo").click(function(){
+    	if(from!="secure/login.jsp" && from!="secure/signup.jsp" && typeof from !== "undefined"){window.location = "${from}";}
+    	else{window.location="${root}"}
+    });
 	</script>
 </body>
 </html>
