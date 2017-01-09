@@ -165,6 +165,8 @@ time{
 		<c:param name="item_id" value="${itembean.item_id}" />
 		<c:param name="item_name" value="${itembean.item_name}" />
 		<c:param name="location" value="${itembean.location}" />
+		<c:param name="latitude" value="${itembean.latitude}" />
+		<c:param name="longitude" value="${itembean.longitude}" />
 		<c:param name="class_name" value="${itembean.classBean.class_name}" />						
 		<c:param name="end_date" value="${itembean.end_date}" />
 		<c:param name="item_description" value="${itembean.item_description}" />
