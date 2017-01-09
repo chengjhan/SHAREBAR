@@ -60,7 +60,7 @@
 </div>
 <div class="col-lg-3 col-sm-3 text-center">
 <strong>
-<img src="<c:url value='/img/SHAREBAR.png'/>" style="position:relative; top:25px; right:0px;; height: 96x; width: 96px;">
+<img src="<c:url value='/img/SHAREBAR_origin.png'/>" style="position:relative; top:15px; right:0px;; height: 96x; width: 96px;">
 </strong>
 </div>
 </div>

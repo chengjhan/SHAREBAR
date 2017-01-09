@@ -8,6 +8,7 @@
 <title>SHARE BAR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="<c:url value='favicon.ico'/>" type="image/x-icon" />
+
 <link type="text/css" rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
 <link type="text/css" rel="stylesheet" href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <link type="text/css" rel="stylesheet" href="js/jquery-chatbox/jquery.ui.chatbox.css" />
@@ -23,16 +24,23 @@
 <script type="text/javascript" src="js/bootstrap-dialog/bootstrap-dialog.js"></script>
 
 <style>
+  body{
+    font-family:cursive , Microsoft YaHei , Arial , PMingLiU , MingLiU;
+	}
   .ui-effects-transfer {
-    border: 1px solid #e3e3e3;
-    background-color:#e3e3e3;
+    border: 1px solid #305388;
+    background-color:#305388;
     opacity: 0.5;
     filter:alpha(opacity=50); 
-  }
+  	}
   #read{
   	color: #ff302e;
   	font-weight:bold;
-  }
+  	}
+  .table-hover > tbody > tr:hover {
+  	color: white;
+  	background-color: #637897;
+	}
 </style>
 </head>
 <body>
@@ -240,7 +248,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="board"></div>
+	<div id="board" style="height: 300px"></div>
 <c:import url="../footer.jsp"></c:import>
 </body>
 <script>
