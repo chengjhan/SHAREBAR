@@ -181,7 +181,7 @@ time{
 		<div class="input-group" style="width:100%;">
 	   	<input id="followtext" type="button" class="form-control btn btn-default" value="追蹤按鈕	" style="margin :5px 0;height:45px;z-index: 0">
 	    <div class="input-group-btn">
-	    <button id="followshow" class="btn btn-default" style="height:45px;cursor:auto" >
+	    <button id="followshow" class="btn btn-default" style="height:45px;cursor:auto;z-index:0" >
 	    <i class="glyphicon glyphicon-heart">
 	    </i></button>
 		</div>
@@ -289,7 +289,7 @@ time{
 
 var socket = null;
 var user_id = Number("${user.member_no}");
-var user_name = "${user.nickname}";
+var user_name ="${user.nickname}";
 var item_status = "未提出"
 var getNextOffset = function() { return count*215; };
 var count = 0;

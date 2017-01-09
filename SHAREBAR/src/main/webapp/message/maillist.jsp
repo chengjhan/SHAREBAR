@@ -42,7 +42,9 @@
   	color: white;
   	background-color: #637897;
 	}
->>>>>>> branch 'master' of https://github.com/EEIT90Team4/SHAREBAR.git
+	th,td{
+/* 	text-align:center; */
+	}
 </style>
 </head>
 <body>
