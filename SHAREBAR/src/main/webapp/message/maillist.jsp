@@ -26,6 +26,7 @@
 <style>
   body{
     font-family:cursive , Microsoft YaHei , Arial , PMingLiU , MingLiU;
+	height: 58.5px;
 	}
   .ui-effects-transfer {
     border: 1px solid #305388;

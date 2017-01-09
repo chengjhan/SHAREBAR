@@ -35,6 +35,7 @@
 </head>
 
 <body>
+<div class="wrap">
 <c:import url="../header.jsp"></c:import>
 <!-- <div id="header"></div> -->
 	<div class="row">
@@ -193,7 +194,7 @@
 <!-- 			</div> -->
 	</div>
 	</div>
-<div style="height:330px"></div>
+</div>
 <c:import url="/footer.jsp"></c:import>
 </body>
 </html>

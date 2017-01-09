@@ -75,10 +75,12 @@ ItemService itemService = (ItemService) context.getBean("itemService");
 List<ItemBean> beans = itemService.selectByNew();
 pageContext.setAttribute("items",beans);
 %>
+
+
 <c:import url="header.jsp"></c:import>
 <%-- <jsp:include page="header.jsp"></jsp:include> --%>
 <!-- <div id="header"></div> -->
-
+<div class="wrap">
 <div class="clearout"></div>
 <div>
 <legend id="flexi_intro">Find Newest stuff here free!</legend>
@@ -109,7 +111,7 @@ pageContext.setAttribute("items",beans);
 	</c:forEach>                                                        
 </ul>
 </div>
-<c:import url="/footer.jsp"></c:import>
+
 <script type="text/javascript">
 $(function(){
     $("#flexiselDemo1").flexisel({
@@ -144,5 +146,7 @@ $(function(){
 	
 });
 </script>
+<</div>
+<c:import url="/footer.jsp"></c:import>
 </body>
 </html>
