@@ -4,6 +4,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="js/Carousel-Plugin-flexisel/css/style.css">
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="js/Carousel-Plugin-flexisel/js/jquery.flexisel.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+
 <head>
 <style>
 .textellipsis{
@@ -21,7 +34,7 @@ div.img_container{
     display:inline-block;
 }
 .item_container{
-	width:75%;
+	width:100%;
 	height:100%;
 }
 li.flexisel_li{
@@ -43,60 +56,83 @@ div.item_descrip{
 	margin-left:25px;
 }
 .nbs-flexisel-item img{
-    max-width: 95%;
+    max-width: 60%;
     cursor: pointer;
     position: relative;
     margin: 10px;
 }
-}
 </style>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="js/Carousel-Plugin-flexisel/css/style.css">
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="js/Carousel-Plugin-flexisel/js/jquery.flexisel.js"></script>
 <title>Home Page</title>
 </head>
-<body>
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@ page import="java.util.*"%>
 <%@ page import="item.model.ItemBean" %>
 <%@ page import="item.model.ItemService" %>
+<%@ page import="category.model.*" %>
 <%
 WebApplicationContext context = (WebApplicationContext) WebApplicationContextUtils.getWebApplicationContext(application);
 ItemService itemService = (ItemService) context.getBean("itemService");
+ClassService classService = (ClassService) context.getBean("classService");
+List<ClassBean> classBeans = classService.selectByRandom();
+// List<String> classID = new ArrayList();
+// for(ClassBean temp : classBeans){
+// 	String Classid = ""+temp.getClass_id();
+// 	out.println(Classid);
+// 	classID.add(Classid);
+// }
+// out.println(classBeans);
 List<ItemBean> beans = itemService.selectByNew();
 pageContext.setAttribute("items",beans);
+pageContext.setAttribute("classes",classBeans);
 %>
-<c:import url="header.jsp"></c:import>
+<body>
+<jsp:include page="header.jsp"></jsp:include>
+<script>
+if (navigator.geolocation) {
+	navigator.geolocation.getCurrentPosition(success, error);
+}
+console.log(bounds);
+</script>
 <%-- <jsp:include page="header.jsp"></jsp:include> --%>
 <!-- <div id="header"></div> -->
+
+
+<div id="flexisel_container" style="height:300px">
+<ul id="classflexi"> 
+	<c:forEach var="category" items="${classes}">
+		<li class="flexisel_li">
+		<div class="thumbnail item_list">
+		<div class="item_container" style="width:87%">
+		<a href="${root}item/searchClassName.ajax?class_id=${category.class_id}&">
+		</a>
+		<figcaption class="textellipsis">
+		<div class="item_descrip">
+		<span class="glyphicon glyphicon-file"></span> ${category.class_name}<br>
+		</div>
+		</figcaption>
+		</div>
+		</li>
+	</c:forEach>                                                        
+</ul>
+</div>
+
+
 
 <div class="clearout"></div>
 <div>
 <legend id="flexi_intro">Find Newest stuff here free!</legend>
 </div>
-<div id="flexisel_container">
-<ul id="flexiselDemo1"> 
+<div id="flexisel_container" style="height:300px">
+<ul id="itemflexi"> 
 	<c:forEach var="item" items="${items}">
 		<li class="flexisel_li">
-		<div class="thumbnail item_list">
-		<figure class="item_container" style="width:87%">
+		<div class="thumbnail class_list">
+		<div class="class_container" style="width:87%">
 		<a href="${root}item/itemdetail.controller?id=${item.item_id}">
-		<c:forEach var="image" items="${item.imageBean}" varStatus="stat">
-				<c:if test="${stat.first}">
-					<div class="img_container">
-						<img alt="item_image" src="${root}item-image/${image.image_photo}" class="follow_list">
-					</div>
-				</c:if>
-		</c:forEach>
+			<div class="img_container">
+				<img alt="item_image" src="${root}item-image/${image.image_photo}" class="follow_list">
+			</div>
 		</a>
 		<figcaption class="textellipsis">
 		<div class="item_descrip">
@@ -104,7 +140,7 @@ pageContext.setAttribute("items",beans);
 		<span class="glyphicon glyphicon-home"></span> ${item.location}
 		</div>
 		</figcaption>
-		</figure>
+		</div>
 		</li>
 	</c:forEach>                                                        
 </ul>
@@ -112,11 +148,41 @@ pageContext.setAttribute("items",beans);
 <c:import url="/footer.jsp"></c:import>
 <script type="text/javascript">
 $(function(){
-    $("#flexiselDemo1").flexisel({
-        visibleItems: 5,
-        itemsToScroll: 2,
-        animationSpeed: 500,
-        infinite: true,
+    $("#itemflexi").flexisel({
+        visibleItems: 3,
+        itemsToScroll: 3,
+        animationSpeed: 200,
+        infinite: false,
+        navigationTargetSelector: null,
+        autoPlay: {
+            enable: false,
+            interval: 3000,
+            pauseOnHover: true
+        },
+        responsiveBreakpoints: { 
+            portrait: { 
+                changePoint:480,
+                visibleItems: 3,
+                itemsToScroll: 3
+            }, 
+            landscape: { 
+                changePoint:640,
+                visibleItems: 3,
+                itemsToScroll: 3
+            },
+            tablet: { 
+                changePoint:768,
+                visibleItems: 4,
+                itemsToScroll: 4
+            }
+        }
+    });
+    
+    $("#classflexi").flexisel({
+        visibleItems: 3,
+        itemsToScroll: 3,
+        animationSpeed: 200,
+        infinite: false,
         navigationTargetSelector: null,
         autoPlay: {
             enable: false,

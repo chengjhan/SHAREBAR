@@ -89,6 +89,12 @@ public class ClassService {
 		}
 		return result;
 	}
+	
+	@Transactional(readOnly = true)
+	public List<ClassBean> selectByRandom(){
+		List<ClassBean> result = classDao.selectRandom();
+		return result;
+	}
 
 	public static void main(String[] args) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("beans.config.xml");

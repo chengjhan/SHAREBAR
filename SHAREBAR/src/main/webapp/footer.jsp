@@ -31,7 +31,13 @@
     height: 50px;
     background-color:#333;
 }*/
-
+footer{
+	bottom:0;
+	right:0;
+	left:0;
+	height:100%;
+	width:100%;
+}
 </style>
 </head>
 <body>

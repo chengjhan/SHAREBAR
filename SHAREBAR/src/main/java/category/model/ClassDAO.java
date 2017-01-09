@@ -21,4 +21,6 @@ public interface ClassDAO {
 
 	Set<ItemBean> selectByClass(int class_id);
 
+	List<ClassBean> selectRandom();
+
 }

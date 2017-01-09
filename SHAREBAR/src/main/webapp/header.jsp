@@ -107,6 +107,9 @@ div#navbar {
 			</div>
 		</div>
 	<script>
+	        		var lat;
+	        		var lng;
+	        		var bounds;
 		var geocoder;
 		var googleAutocomplete;
 		var headerInput;
@@ -322,14 +325,16 @@ div#navbar {
 				if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(success, error);
 	        	}
+			}
+		});
 	        	function success(position) {
-	        		var lat = position.coords.latitude;
-	        		var lng = position.coords.longitude;
+	        		lat = position.coords.latitude;
+	        		lng = position.coords.longitude;
 // 	     			alert(lat + ", " + lng);
 	     			var currentLatLng = { lat: position.coords.latitude, lng: position.coords.longitude }
 	    			geocoder.geocode({ 'location': currentLatLng }, function(results, status) {
 	    				if (status == google.maps.GeocoderStatus.OK) {
-	    					var bounds = results[0].geometry.viewport;
+	    					bounds = results[0].geometry.viewport;
 // 	    					alert(bounds);
 	    					var inputLat = $("<input name='latitude' style='display:none'>").val(lat);
 							var inputLng = $("<input name='longitude' style='display:none'>").val(lng);
@@ -340,8 +345,6 @@ div#navbar {
 	    				}
 	    			});
 	    		}
-			}
-		});
 		
 		function error(error) {
 			switch(error.code) {
