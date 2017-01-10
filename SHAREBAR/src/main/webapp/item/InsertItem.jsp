@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>刊登分享物</title>
+<link rel="shortcut icon" href="<c:url value='favicon.ico'/>" type="image/x-icon" />
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <link rel=stylesheet type="text/css" href="../css/share.css">
@@ -28,11 +29,20 @@ html, body {
 	width: 100%;
 }
 
+.form-control {
+	height: 40px
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
 #id_insert_form {
 	width: 1000px;
 	height: auto;
 	margin: 0 auto;
 	margin-top: 20px;
+	margin-bottom: 50px;
 }
 
 #id_image_form {
@@ -172,8 +182,8 @@ html, body {
 					<label for="id_location">地點</label>
 					<div class="form-group input-group">
 						<div class="input-group-btn">
-							<a class="btn btn-default" href="#myMapModal" data-toggle="modal" title="由地圖選取" style="height:34px">
-	        					<i class="glyphicon glyphicon-search"></i>
+							<a class="btn btn-default" href="#myMapModal" data-toggle="modal" title="由地圖選取" style="height:40px">
+	        					<i class="glyphicon glyphicon-search" style="padding-top:4px"></i>
 	      					</a>
     						</div>
 						<input type="text" id="id_location" name="location" class="form-control" placeholder="地區，地址">

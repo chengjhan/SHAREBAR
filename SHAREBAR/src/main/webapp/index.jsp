@@ -4,6 +4,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" -->
+<!-- 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+<!-- <link rel="stylesheet" href="js/Carousel-Plugin-flexisel/css/style.css"> -->
+<link rel="stylesheet" href="js/slick/slick.css">
+<link rel="stylesheet" href="js/slick/slick-theme.css">
+<link rel="stylesheet" href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<!-- <script -->
+<!--   src="https://code.jquery.com/jquery-3.1.1.min.js" -->
+<!--   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" -->
+<!--   crossorigin="anonymous"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+<script src="js/slick/slick.js"></script>
+<!-- <script src="js/Carousel-Plugin-flexisel/js/jquery.flexisel.js"></script> -->
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script> -->
+<c:url value="/" var="root"></c:url>
 <head>
 <style>
 .textellipsis{
@@ -12,137 +34,136 @@
 	 white-space: nowrap;
 }
 
-div.img_container{
-	width: 105%;
-    height: 80%;
-    padding: 0px;
-/*     border:1px solid gray;  /* you can remove this */ */
-/*     box-sizing:border-box; /* you can remove this */ */
-    display:inline-block;
-}
-.item_container{
-	width:75%;
-	height:100%;
-}
-li.flexisel_li{
-	text-align:center;
-	vertical-align:center;
-}
-#flexi_intro{
-	margin-left:auto;
-	margin-right:auto;
-	text-align:center;
-}
-div.nbs-flexisel-inner{
-	border: 0px solid #ccc;
-}
-div.item_list{
-	border:none;
-}
-div.item_descrip{
-	margin-left:25px;
-}
-.nbs-flexisel-item img{
-    max-width: 95%;
-    cursor: pointer;
+    * {
+      box-sizing: border-box;
+    }
+
+    .slick-slider {
+        width: 50%;
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .slick-slide {
+      margin: 0px 20px;
+    }
+
+    .slick-slide img {
+    width: 100%;
+
+    }
+
+    .slick-prev:before,
+    .slick-next:before {
+        color: black;
+    }
+.boxIan {
     position: relative;
-    margin: 10px;
+    width:    100%; /* desired width */
 }
+.boxIan:before {
+    content:     "";
+    display:     block;
+    padding-top: 100%; /* initial ratio of 1:1*/
+}
+
+.contentIan {
+    position: absolute;
+    height: 100%;
+    top:      0;
+    left:     0;
+    bottom:   0;
+    right:    0;
+}
+.item_slide .contentIan {
+    position: absolute;
+    height: 80%;
+    top:      0;
+    left:     0;
+    bottom:   0;
+    right:    0;
+}
+h3 {
+    font-size: 36px;
+    margin: 20px auto;
+    text-align: center;
+}
+.intro{
+	position:absolute;
+	bottom:0;
+	right:0;
+	background-color:black;
+	color:white;
+	width:100%;
 }
 </style>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="js/Carousel-Plugin-flexisel/css/style.css">
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="js/Carousel-Plugin-flexisel/js/jquery.flexisel.js"></script>
 <title>Home Page</title>
 </head>
-<body>
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@ page import="java.util.*"%>
 <%@ page import="item.model.ItemBean" %>
 <%@ page import="item.model.ItemService" %>
+<%@ page import="category.model.*" %>
 <%
 WebApplicationContext context = (WebApplicationContext) WebApplicationContextUtils.getWebApplicationContext(application);
 ItemService itemService = (ItemService) context.getBean("itemService");
+ClassService classService = (ClassService) context.getBean("classService");
+List<ClassBean> classBeans = classService.selectByRandom();
 List<ItemBean> beans = itemService.selectByNew();
 pageContext.setAttribute("items",beans);
+pageContext.setAttribute("classes",classBeans);
 %>
-<c:import url="header.jsp"></c:import>
-<%-- <jsp:include page="header.jsp"></jsp:include> --%>
-<!-- <div id="header"></div> -->
 
-<div class="clearout"></div>
-<div>
-<legend id="flexi_intro">Find Newest stuff here free!</legend>
+<body>
+<jsp:include page="header.jsp"></jsp:include>
+
+
+<div class="wrap">
+
+<h3>Category <small>Choose the category you want!</small></h3>
+<div class="category_slide">
+<c:forEach var="category" items="${classes}">
+<div class="boxIan">
+<a href="${root}item/SearchClassName.jsp?id=${category.class_id}&name=${category.class_name}">
+<img class="contentIan" data-lazy="${root}category-image/${category.image}">
+</a>
 </div>
-<div id="flexisel_container">
-<ul id="flexiselDemo1"> 
-	<c:forEach var="item" items="${items}">
-		<li class="flexisel_li">
-		<div class="thumbnail item_list">
-		<figure class="item_container" style="width:87%">
-		<a href="${root}item/itemdetail.controller?id=${item.item_id}">
-		<c:forEach var="image" items="${item.imageBean}" varStatus="stat">
-				<c:if test="${stat.first}">
-					<div class="img_container">
-						<img alt="item_image" src="${root}item-image/${image.image_photo}" class="follow_list">
-					</div>
-				</c:if>
-		</c:forEach>
-		</a>
-		<figcaption class="textellipsis">
-		<div class="item_descrip">
-		<span class="glyphicon glyphicon-file"></span> ${item.item_name}<br>
-		<span class="glyphicon glyphicon-home"></span> ${item.location}
-		</div>
-		</figcaption>
-		</figure>
-		</li>
-	</c:forEach>                                                        
-</ul>
+</c:forEach>
 </div>
-<c:import url="/footer.jsp"></c:import>
+
+<h3>Items <small>Find newest items here!</small></h3>
+<div class="item_slide">
+<c:forEach var="item" items="${items}">
+<div class="boxIan">
+<a href="${root}item/itemdetail.controller?id=${item.item_id}">
+<c:forEach var="image" items="${item.imageBean}" varStatus="stat">
+	<c:if test="${stat.first}">
+			<img alt="item_image" data-lazy="${root}item-image/${image.image_photo}" class="contentIan">
+	</c:if>
+</c:forEach>
+</a>
+<div class="intro textellipsis"><span class="glyphicon glyphicon-gift"></span>${item.item_name} <br><span class="glyphicon glyphicon-map-marker"></span> ${item.location} </div>
+</div>
+</c:forEach>
+</div>
+
+
+</div><!-- end of wrap -->
 <script type="text/javascript">
-$(function(){
-    $("#flexiselDemo1").flexisel({
-        visibleItems: 5,
-        itemsToScroll: 2,
-        animationSpeed: 500,
-        infinite: true,
-        navigationTargetSelector: null,
-        autoPlay: {
-            enable: false,
-            interval: 3000,
-            pauseOnHover: true
-        },
-        responsiveBreakpoints: { 
-            portrait: { 
-                changePoint:480,
-                visibleItems: 3,
-                itemsToScroll: 3
-            }, 
-            landscape: { 
-                changePoint:640,
-                visibleItems: 3,
-                itemsToScroll: 3
-            },
-            tablet: { 
-                changePoint:768,
-                visibleItems: 4,
-                itemsToScroll: 4
-            }
-        }
-    });
-	
-});
+$(".category_slide").slick({
+	  lazyLoad: 'ondemand',
+	  slidesToShow: 3,
+	  slidesToScroll: 1
+	});
+$(".item_slide").slick({
+	  lazyLoad: 'ondemand',
+	  slidesToShow: 3,
+	  slidesToScroll: 1
+	});
 </script>
+<c:import url="/footer.jsp"></c:import>
 </body>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+
 </html>

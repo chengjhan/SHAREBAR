@@ -1,7 +1,8 @@
 @CHARSET "UTF-8";
 
 body{
-	background-color: #f2f2f2;	
+	background-color: #f2f2f2;
+	height:69%;
     font-family:cursive , Microsoft YaHei , Arial , PMingLiU , MingLiU;
 }
 /* share bar 顏色 */
@@ -13,7 +14,30 @@ body{
   color: #137eda;
   background-color: transparent;
 }
+.wrap{
+	min-height:100%
+}
+html{
+height:100%;
+}
 
+.boxIan {
+    position: relative;
+    width:    100%; /* desired width */
+}
+.boxIan:before {
+    content:     "";
+    display:     block;
+    padding-top: 100%; /* initial ratio of 1:1*/
+}
+
+.contentIan {
+    position: absolute;
+    top:      0;
+    left:     0;
+    bottom:   0;
+    right:    0;
+}
 
 .share-block{
 	background-color:#f4f1bb;

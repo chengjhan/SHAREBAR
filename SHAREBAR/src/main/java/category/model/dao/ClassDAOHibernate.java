@@ -84,6 +84,17 @@ public class ClassDAOHibernate implements ClassDAO {
 		Set<ItemBean> set = selectById(class_id).getItemBean();
 		return set;
 	}
+	
+	@Override
+	public List<ClassBean> selectRandom(){
+		Query query = this.getSession().createQuery("from ClassBean order by rand() desc");
+		query.setMaxResults(10);
+		List<ClassBean> list = query.getResultList();
+		if(list!=null){
+			return list;
+		}
+		return null;
+	}
 
 	public static void main(String[] args) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("beans.config.xml");

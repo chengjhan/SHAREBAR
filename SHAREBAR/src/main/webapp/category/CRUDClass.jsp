@@ -92,10 +92,11 @@
 	%>
 <c:import url="../header.jsp"></c:import>
 <!--    <div id="header"></div> -->
+<div class="container-fluid">   
    <div class="row">
-   		<div class="col-md-2">
+   		<div class="col-md-1">
 		</div>
-	    <div class="col-md-8">
+	    <div class="col-md-10">
 			<nav class="navbar navbar-default">
 				<div class="container-fluid">
 					<!-- Brand and toggle get grouped for better mobile display -->
@@ -106,14 +107,15 @@
 				<!-- /.container-fluid -->
 			</nav>
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-1">
 		</div>
 	</div>
+</div>
 	
-	
+<div class="container-fluid">	
 	<div class="row">
 	
-		<div class="col-md-2">
+		<div class="col-md-1">
 		</div>
 		<div class="col-md-2">
 			<div class="list-group">
@@ -125,12 +127,13 @@
 			</div>
 		</div>
 		
-		<div class="col-md-6">
+		<div class="col-md-9">
 <!-- 			    <div class="jumbotron"> -->
 		
 		
 		
 		<c:url value="/" var="root"></c:url>
+		<div class="container">
 		<div class="wrapper">
 			<div class="container left">
 				<form action="<c:url value="/category/crud.controller" />" method="post" enctype="multipart/form-data">
@@ -211,11 +214,16 @@
 				</div>
 			</div>
 		</div>
+		</div>
 		
 <!-- 				</div> -->
 	</div>
 	
 	</div>
+</div>
+	
+	<c:import url="/footer.jsp"></c:import>
+	
 	<script>
 // 		$(function(){
 // 			$("#header").load("../header.jsp");
@@ -251,4 +259,5 @@
 		});
 	</script>
 </body>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
 </html>

@@ -58,8 +58,10 @@ public class LoginServlet extends HttpServlet {
 			if (from != null) {
 				from = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
 				response.sendRedirect(path + "/" + from);
+				return;
 			} else {
 				response.sendRedirect(path + "/index.jsp");
+				return;
 			}
 		}
 		String email = request.getParameter("email");
