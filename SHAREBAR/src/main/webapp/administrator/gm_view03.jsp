@@ -24,10 +24,11 @@
 </head>
 
 <body>
+<c:import url="../header.jsp"></c:import>
 <div class="wrap">
 <c:url value="/" var="root"></c:url>
-<c:import url="../header.jsp"></c:import>
 
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-1"></div>
 		   <div class="col-md-10">
@@ -44,7 +45,9 @@
 			</div>
 		<div class="col-md-1"></div>
 	</div>
+</div>	
 	
+<div class="container-fluid">	
 	<div class="row" >
 	<div class="col-md-1"></div>
 	
@@ -136,6 +139,7 @@
 	</div>
 	<div class="col-md-1"></div>
 	</div>
+</div>
 </div>
 <div style="height:65px"></div>
 <c:import url="/footer.jsp"></c:import>
