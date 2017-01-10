@@ -198,7 +198,12 @@ html, body {
 						<span class="input-group-addon"><i id="id_location_ok" class="glyphicon glyphicon-remove"></i></span>
 					</div>
 					<div id="id_latlng" style='display:none'>
-					
+						<div id="id_lat_div">
+							<input id="id_lat_input" name='latitude' value='${param.latitude}' style="display:none">
+						</div>
+						<div id="id_lng_div">
+							<input id="id_lng_input" name='longitude' value='${param.longitude}' style="display:none">
+						</div>
 					</div>
 					<div class="form-group">
 						<label for="id_end_date">結束日期</label>
@@ -277,6 +282,10 @@ html, body {
 		var clickLon;
 		var inputLat;
 		var inputLng;
+		var divLat = $("#id_lat_div");
+		var divLng = $("#id_lng_div");
+		var divLatHaveInput;
+		var divLngHaveInput;
 		var divLatLng = $("#id_latlng");
 		var headerInput;
 		
@@ -341,7 +350,6 @@ html, body {
 		}
 		
 		$(function() {
-			
 			// 日期選擇器
 			$("#id_end_date").datepicker({
 				dateFormat: 'yy-mm-dd',
@@ -418,6 +426,14 @@ html, body {
 // 					$(this).submit();
 				},
 			});
+			
+			var lat_input = $("#id_lat_input");
+			var lng_input = $("#id_lng_input");
+			if(lat_input.val() == 0 || lng_input.val() == 0){
+				$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-remove");
+			}else{
+				$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-ok");
+			}
 		});
 		
 		// 輸入地址取得經緯度
@@ -437,15 +453,16 @@ html, body {
 					lng = results[0].geometry.location.lng();
 // 					alert(lat + " ," + lng);
 					inputLat = $("<input name='latitude' style='display:none'>").val(lat);
+					divLat.empty();
+					divLatHaveInput = divLat.append(inputLat);
 					inputLng = $("<input name='longitude' style='display:none'>").val(lng);
-					divLatLng.empty();
-					divLatLng.append([inputLat, inputLng]);
-// 					var divLatLnf = $("<div style='display:none'></div>").append(tdLatLng)
-					$("#id_item_form").append(divLatLng);
+					divLng.empty();
+					divLngHaveInput = divLng.append(inputLng);
+					divLatLng.append(divLatHaveInput).append(divLngHaveInput);
 					$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-ok");
 				} else {
 					alert("請輸入詳細地址");
-					$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-remove")
+					$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-remove");
 				}
 			});
 		}
@@ -455,11 +472,14 @@ html, body {
 			$("#id_location").val(strAddress);
 			inputLat = $("<input name='latitude' style='display:none'>").val(clickLat);
 // 			alert(clickLat);
-			inputLng = $("<input name='longitude' style='display:none'>").val(clickLon);
+			inputLat = $("<input name='latitude' style='display:none'>").val(clickLat);
+			divLat.empty();
+			divLatHaveInput = divLat.append(inputLat);
 // 			alert(clickLon);
-			divLatLng.empty();
-			divLatLng.append([inputLat, inputLng]);
-			$("#id_item_form").append(divLatLng);
+			inputLng = $("<input name='longitude' style='display:none'>").val(clickLon);
+			divLng.empty();
+			divLngHaveInput = divLng.append(inputLng);
+			divLatLng.append(divLatHaveInput).append(divLngHaveInput);
 			if(typeof(clickLat) == "number" && typeof(clickLon) == "number"){
 				$("#id_location_ok").removeAttr("class").attr("class", "glyphicon glyphicon-ok");
 			}
