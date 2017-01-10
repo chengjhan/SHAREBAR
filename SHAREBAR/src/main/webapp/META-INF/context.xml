@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <context>
-<!-- 	<Resource name="jdbc/xxx" auth="Container" type="javax.sql.DataSource" -->
-<!-- 				maxTotal="100" maxIdle="30" maxWaitMillis="10000" -->
-<!-- 				username="sa" password="password" -->
-<!-- 				driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" -->
-<!-- 				url="jdbc:sqlserver://localhost:1433;database=test3"/> -->
-
 	<Resource name="jdbc/xxx" auth="Container" type="javax.sql.DataSource"
 				maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-				username="EEIT90Team4@sharebarsql" password="EEit90123123"
+				username="sa" password="password"
 				driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-				url="jdbc:sqlserver://sharebarsql.database.windows.net:1433;database=test3"/>
+				url="jdbc:sqlserver://localhost:1433;database=test3"/>
+
+<!-- 	<Resource name="jdbc/xxx" auth="Container" type="javax.sql.DataSource" -->
+<!-- 				maxTotal="100" maxIdle="30" maxWaitMillis="10000" -->
+<!-- 				username="EEIT90Team4@sharebarsql" password="EEit90123123" -->
+<!-- 				driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" -->
+<!-- 				url="jdbc:sqlserver://sharebarsql.database.windows.net:1433;database=test3"/> -->
 </context>

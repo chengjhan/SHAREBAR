@@ -39,7 +39,7 @@ if(from != null){
 		session.setAttribute("from",from);	
 	}
 }else{
-	session.setAttribute("from", "${root}");
+	session.setAttribute("from", pageContext.getAttribute("root"));
 }
 %>
 <body>
