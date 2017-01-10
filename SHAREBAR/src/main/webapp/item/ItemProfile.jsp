@@ -577,7 +577,8 @@ $(function(){
 						$("#ask").attr("id","done");
 						var msg = "對你的分享進行了請求。";
 						var windowcode = itemid + "_" + item_host + "_" + user_id; 
-						socket.send(JSON.stringify({content : msg, item : itemid, requester : user_id, title : item_name, speaker : user_id, listener : item_host, user : user_name, windowcode : windowcode}));			
+						socket.send(JSON.stringify({content : msg, item : itemid, requester : user_id, title : item_name, speaker : user_id, listener : item_host, user : user_name, windowcode : windowcode}));
+						$.post("messageInsert.ajax",{content : msg, item : itemid, speaker : user_id, listener : listener});			
 					}, 1000)						
 			});
 		}
