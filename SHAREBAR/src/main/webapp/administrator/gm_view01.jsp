@@ -196,7 +196,7 @@
 </div>	
 	
 </div>
-<div style="height:65px"></div>
+<!-- <div style="height:40px"></div> -->
 <c:import url="/footer.jsp"></c:import>
 </body>
 </html>
