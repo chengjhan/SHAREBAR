@@ -102,7 +102,7 @@
 	<table class="table table-striped">	
 				<tr align="center">
 					<td class="st1">信件編號</td>
-					<td class="st1">會員ID</td>
+					<td class="st1">會員編號</td>
 					<td class="st1">投訴時間</td>			
 					<td class="st1">信件內容</td>
 					<td class="st1">回覆時間</td>
@@ -137,6 +137,7 @@
 	<div class="col-md-1"></div>
 	</div>
 </div>
+<div style="height:65px"></div>
 <c:import url="/footer.jsp"></c:import>
 </body>
 </html>

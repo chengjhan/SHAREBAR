@@ -66,7 +66,7 @@
 	
 	
 	<div class="row">
-		<div class="col-sm-6">
+		<div class="col-sm-5">
 			<form action="<c:url value="/administrator/SelectBlockItemServlet"/>" method="get">
 				<table>
 					<tr>
@@ -93,7 +93,7 @@
 		
 		
 	
-		<div class="col-sm-6">
+		<div class="col-sm-7">
 			<form action="<c:url value="/administrator/UpdateItemBlockServlet"/>" method="get">
 				<table>
 					<tr>
@@ -185,6 +185,7 @@
 	<div class="col-md-1"></div>
 	</div>
 </div>
+<div style="height:65px"></div>
 <c:import url="/footer.jsp"></c:import>
 </body>
 </html>

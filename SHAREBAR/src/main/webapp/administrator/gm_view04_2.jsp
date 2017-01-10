@@ -97,8 +97,9 @@
 			<div >
 				<td><label>信件編號:</label></td>
 				<td><input type="text" name="mail_id" value="${param.mail_id}" id="mail" placeholder="請輸入信件編號" ></td>
-				<div><textarea style="width:500px;height:200px;" id="reply">請輸入回覆內容...</textarea></div>							
-				<div><input  type="button" id="send" value="發送郵件" class="btn btn-default"></div>	
+				<div><textarea style="width:500px;height:200px;" id="reply">請輸入回覆內容...</textarea></div>	
+				<div>&nbsp;</div>						
+				<div style="padding-left:418px"><input  type="button" id="send" value="發送郵件" class="btn btn-success"></div>	
 			</div>
 
 <script>
@@ -122,6 +123,7 @@
 	<div class="col-md-1"></div>
 	</div>
 </div>
+<div style="height:65px"></div>
 <c:import url="/footer.jsp"></c:import>
 </body>
 </html>
