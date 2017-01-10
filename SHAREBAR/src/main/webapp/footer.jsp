@@ -31,7 +31,6 @@
     height: 50px;
     background-color:#333;
 }*/
-
 </style>
 </head>
 <body>
@@ -58,15 +57,13 @@
 <p><a href="<c:url value='/index.jsp'/>">Instagram</a></p>
 </div>
 </div>
-<div class="col-lg-3 col-sm-3 text-center">
-<strong>
-<img src="<c:url value='/img/SHAREBAR_origin.png'/>" style="position:relative; top:15px; right:0px;; height: 96x; width: 96px;">
-</strong>
+<div class="col-lg-3 col-sm-3 hidden-xs text-center">
+<img src="<c:url value='/img/SHAREBAR.png'/>" style="position:relative;height: 114px; width:114px;">
 </div>
 </div>
 </div>
 </div>
-<div class="panel-footer" style="background-color:#98c1d9;height:60px">
+<div class="panel-footer" style="background-color:#98c1d9;height:60px;">
 <div class="container">
 <div class="pull-left">
 Copyright 2017 © 

@@ -22,9 +22,6 @@
 <script type="text/javascript" src="../js/bootstrap-dialog/bootstrap-dialog.js"></script>
 
 <title>Profile Page</title>
-
-<link rel=stylesheet type="text/css" href="../css/share.css">
-
 <style>
 #basic_info{
 	top:100px;
@@ -45,7 +42,7 @@
 }
 .show_pic{
 	width: 100%;
-/* 	height:420px; */
+ 	height:100%;
 /* 	margin:15px; */
 }
 .finger{
@@ -56,9 +53,11 @@
 }
 
 
-/* .item_pic{ */
-/* 	cursor: pointer; */
-/* } */
+
+.item_pic{
+	width: 100%;
+	height: 100%;
+} 
 
 
 /* #info_div>[class*='col-']{ */
@@ -111,12 +110,14 @@ time{
 	<div class="row">
 	<div style="margin-bottom:20px">
 	<div  id="picgroup" class="img-rounded" style="position:relative;width:70%;height:70%;margin:0 auto;">
-	<span id="prev-btn" class="glyphicon glyphicon-chevron-left finger pull-left" style="position:absolute;font-size:350%;left:0;left:-80px;top:calc(50% - 20px);"></span>
-	<span id="next-btn" class="glyphicon glyphicon-chevron-right finger pull-right" style="position:absolute;font-size:350%;right:0;right:-80px;top:calc(50% - 20px);"></span>
+	<span id="prev-btn" class="glyphicon glyphicon-chevron-left finger pull-left" style="position:absolute;font-size:300%;left:0;left:-15%;top:calc(50% - 20px);"></span>
+	<span id="next-btn" class="glyphicon glyphicon-chevron-right finger pull-right" style="position:absolute;font-size:300%;right:0;right:-15%;top:calc(50% - 20px);"></span>
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 		<c:if test="${stat.first}">
-				<img class="show_pic img-responsive" id="showpic" alt="item_image" order="1" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute; -webkit-user-select: none;-moz-user-select: none;overflow: hidden;">
-				<img class="show_pic img-responsive" id="showpic2" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:1;position:relative; -webkit-user-select: none;-moz-user-select: none;overflow: hidden;">
+			<div class="boxIan">
+				<img class="show_pic contentIan" id="showpic" alt="item_image" order="1" src="${root}item-image/${image.image_photo}" style="z-index:2;position:absolute; -webkit-user-select: none;-moz-user-select: none;overflow: hidden;">
+				<img class="show_pic contentIan" id="showpic2" alt="item_image" src="${root}item-image/${image.image_photo}" style="z-index:1;position:absolute; -webkit-user-select: none;-moz-user-select: none;overflow: hidden;">
+			</div>
 		</c:if>
 	</c:forEach>
 	</div>
@@ -128,7 +129,9 @@ time{
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 			<div class="col-md-3 col-sm-3 hidden-xs finger">
 			<div class="thumbnail">
-				<img class="item_pic" order="${stat.count}" alt="item_image" src="${root}item-image/${image.image_photo}" width="80" height="auto">
+			<div class="boxIan">
+				<img class="item_pic contentIan" order="${stat.count}" alt="item_image" src="${root}item-image/${image.image_photo}">
+			</div>
 			</div>
 			</div>
 	</c:forEach>
@@ -178,7 +181,7 @@ time{
 		<div class="input-group" style="width:100%;">
 	   	<input id="followtext" type="button" class="form-control btn btn-default" value="追蹤按鈕	" style="margin :5px 0;height:45px;z-index: 0">
 	    <div class="input-group-btn">
-	    <button id="followshow" class="btn btn-default" style="height:45px;cursor:auto" >
+	    <button id="followshow" class="btn btn-default" style="height:45px;cursor:auto;z-index:0" >
 	    <i class="glyphicon glyphicon-heart">
 	    </i></button>
 		</div>
@@ -286,7 +289,7 @@ time{
 
 var socket = null;
 var user_id = Number("${user.member_no}");
-var user_name = "${user.nickname}";
+var user_name ="${user.nickname}";
 var item_status = "未提出"
 var getNextOffset = function() { return count*215; };
 var count = 0;
@@ -425,7 +428,7 @@ $(function(){
 	function onOpen(evt){
 	}
 	function onClose(evt){
-		alert("websocket close")
+// 		alert("websocket close")
 	}
 	function onMessage(evt){
 	var messagecontain = JSON.parse(evt);
@@ -672,4 +675,6 @@ $(function(){
 });
 </script>
 </body>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+
 </html>

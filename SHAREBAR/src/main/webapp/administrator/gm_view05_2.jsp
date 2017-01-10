@@ -35,6 +35,7 @@ border-collapse:collapse;
 </head>
 
 <body>
+<div class="wrap">
 <c:import url="../header.jsp"></c:import>
 <!-- <div id="header"></div>		 -->
    <div class="container">
@@ -101,6 +102,9 @@ border-collapse:collapse;
 <!-- 每頁不同的內容到這裡結束 -->
 			</div>
 	</div>
-<div id="footer"></div>	
+</div>	
+<c:import url="/footer.jsp"></c:import>
 </body>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+
 </html>

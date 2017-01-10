@@ -20,86 +20,21 @@
 	<%@ page import="java.util.List"%>
 	<%@ page import="org.json.JSONArray"%>
 	<%@ page import="org.json.JSONObject"%>
-	<%
+	<%@ page import="category.model.*" %>
+<%
 		WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(application);
 
 		ItemService itemService = (ItemService) context.getBean("itemService");
+		ClassService classService = (ClassService) context.getBean("classService");
 		ItemBean selectByNameBean = new ItemBean();
 		// 		selectByNameBean.setItem_name("機");
 		// 		List<ItemBean> bean = itemService.selectByName(selectByNameBean);
-		List<ItemBean> list = itemService.selectByNew();
-		MemberBean bean = new MemberBean();
-		bean.setMember_no(9);
-		// 		pageContext.setAttribute("items",list);
-
-		List<Object[]> results = itemService.selectGiveReview(bean);
-		int resultsCount = 0;
-		List<String> resultList = new ArrayList<String>();
-		JSONArray ja = new JSONArray();
-		if (results != null) {
-			for (Object[] result : results) {
-				MemberBean getter = (MemberBean) result[0];
-				int member_no = getter.getMember_no();
-				String member_photo = getter.getPhoto();
-				Integer giverRate = (Integer) result[1];
-				String giverReview = (String) result[2];
-				JSONObject jo = new JSONObject();
-				jo.put("getterID", member_no);
-				jo.put("getterPhoto", member_photo);
-				jo.put("giverRate", giverRate);
-				jo.put("giverReview", giverReview);
-				ja.put(jo);
-				resultsCount++;
-			}
-			JSONObject giverReviews = new JSONObject();
-			giverReviews.put("giverReviews", ja);
-			giverReviews.put("Count", resultsCount);
-			pageContext.setAttribute("giverReviews", giverReviews);
-		}else{
-			JSONObject giverReviews = new JSONObject();
-			giverReviews.put("giverReviews","");
-			giverReviews.put("Count",0);
+		List<ClassBean> list = classService.selectByRandom();
+		for(ClassBean bean : list){
+			out.print(bean.getClass_id()+"    ");
 		}
 
-		results = itemService.selectGetReview(bean);
-		resultsCount = 0;
-		JSONArray getja = new JSONArray();
-		if (results != null) {
-			for (Object[] result : results) {
-				MemberBean giver = (MemberBean) result[0];
-				int member_no = giver.getMember_no();
-				String member_photo = giver.getPhoto();
-				Integer getterRate = (Integer) result[1];
-				String getterReview = (String) result[2];
-				JSONObject jo = new JSONObject();
-				jo.put("giverID", member_no);
-				jo.put("givererPhoto", member_photo);
-				jo.put("getterRate", getterRate);
-				jo.put("getterReview", getterReview);
-				getja.put(jo);
-				resultsCount++;
-			}
-			JSONObject getReviews = new JSONObject();
-			getReviews.put("getReviews", getja);
-			getReviews.put("Count", resultsCount);
-			pageContext.setAttribute("getterReviews", getReviews);
-		}else{
-			JSONObject getReviews = new JSONObject();
-			getReviews.put("getReviews","");
-			getReviews.put("Count",0);
-			pageContext.setAttribute("getterReviews", getReviews);
-		}
-	%>
-	<script>
-var asgiverReviews = '<%=pageContext.getAttribute("giverReviews")%>';
-var asgetterReviews = '<%= pageContext.getAttribute("getterReviews")%>';
-giverReviews = JSON.parse(giverReviews);
-getterReviews = JSON.parse(getterReviews);
-console.log(giverReviews.giverReviews);
-console.log(getterReviews.getReviews);
-</script>
-	<%-- 	<c:forEach var="item" items="${items}"> --%>
-	<%-- 	item_no:${item.item_id}<br> --%>
-	<%-- 	</c:forEach> --%>
+
+%>
 </body>
 </html>

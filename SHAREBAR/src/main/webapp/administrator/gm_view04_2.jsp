@@ -6,7 +6,6 @@
 <html>
 <style>
 
-
 </style>
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -14,29 +13,26 @@
   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- <script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script> -->
-<script type="text/javascript">
-// $(function(){
-// 	$("#header").load("../header.jsp");
-	
-// 	$("#footer").load("../footer.jsp");
-// });
-</script>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>後台系統_回覆會員信件</title>
 <link rel="shortcut icon" href="<c:url value='/favicon.ico'/>" type="image/x-icon" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css"> -->
+<link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
 <c:import url="../header.jsp"></c:import>
-<!-- <div id="header"></div> -->
+<div class="wrap">
+
+<div class="container-fluid">
 	<div class="row">
-		<div class="col-md-2"></div>
-		   <div class="col-md-8">
-				<nav class="navbar navbar-default">
+		<div class="col-md-1"></div>
+		   <div class="col-md-10">
+				<nav class="navbar">
 					<div class="container-fluid">
 						<!-- Brand and toggle get grouped for better mobile display -->
 						<div class="navbar-header">
@@ -47,11 +43,13 @@
 					<!-- /.container-fluid -->
 				</nav>
 			</div>
-		<div class="col-md-2"></div>
+		<div class="col-md-1"></div>
 	</div>
+</div>	
 	
+<div class="container-fluid">	
 	<div class="row" >
-	<div class="col-md-2"></div>
+	<div class="col-md-1"></div>
 	
 	<div class="col-md-2">
 		<div class="list-group">
@@ -65,7 +63,7 @@
 	
 	
 	
-	<div class="col-md-6">
+	<div class="col-md-8">
 <!-- 		    <div class="jumbotron"> -->
 				
 				
@@ -102,8 +100,9 @@
 			<div >
 				<td><label>信件編號:</label></td>
 				<td><input type="text" name="mail_id" value="${param.mail_id}" id="mail" placeholder="請輸入信件編號" ></td>
-				<div><textarea style="width:500px;height:200px;" id="reply">請輸入回覆內容...</textarea></div>							
-				<div><input  type="button" id="send" value="發送郵件" class="btn btn-default"></div>	
+				<div><textarea style="width:500px;height:200px;" id="reply">請輸入回覆內容...</textarea></div>	
+				<div>&nbsp;</div>						
+				<div style="padding-left:418px"><input  type="button" id="send" value="發送郵件" class="btn btn-success"></div>	
 			</div>
 
 <script>
@@ -124,8 +123,13 @@
 <!-- 每頁不同的內容到這裡結束 -->
 <!-- 			</div> -->
 	</div>
+	<div class="col-md-1"></div>
 	</div>
-<div style="height:230px"></div>
+</div>	
+</div>
+<!-- <div style="height:65px"></div> -->
 <c:import url="/footer.jsp"></c:import>
 </body>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+
 </html>

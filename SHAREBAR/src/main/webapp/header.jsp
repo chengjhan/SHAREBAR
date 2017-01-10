@@ -26,7 +26,7 @@
 
 <!-- 以下name請勿再使用 -->
 <!-- searchSelector, searchBar -->
-<link rel=stylesheet type="text/css" href="css/share.css">
+<link rel=stylesheet type="text/css" href="<%=request.getContextPath()%>/css/share.css">
 <style>
 div#navbar {
 	width: 100%;
@@ -38,34 +38,38 @@ div#navbar {
 	margin-left: 5px;
 	margin-right: 5px;
 }
+
+.class_li > a > span{
+	padding-top:7px
+}
 </style>
 </head>
 <c:url value="/" var="root"></c:url>
 <body>
 		<div class="navbar navbar-light navbar-default">
 			<div class="container-fluid">
-				<div class="navbar-header" style="padding-bottom:9px">
+				<div class="navbar-header">
 					
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
 						    <span class="icon-bar"></span>
         					<span class="icon-bar"></span>
         					<span class="icon-bar"></span>  
 					</button>
-<%-- 					<a class="navbar-brand" href="<c:url value='/index.jsp'/>"><img src="<c:url value='/img/SHAREBAR.png'/>" style="height: 32x; width: 32px; float:left; position:relative; bottom:5px; right:0px;">&nbsp;&nbsp;SHARE BAR!</a> --%>
-					<a class="navbar-brand" href="<c:url value='/index.jsp'/>"><img src="<c:url value='/img/SHAREBAR.png'/>" style="height: 40x; width: 40px; float:left; position:relative; bottom:5px; right:0px;"></a>
+					<a class="navbar-brand" style="margin-top: 7px" href="<c:url value='/index.jsp'/>"><img src="<c:url value='/img/SHAREBAR.png'/>" style="height: 32x; width: 32px; float:left; position:relative; bottom:5px; right:0px;">&nbsp;&nbsp;SHARE BAR!</a>
+<%-- 					<a class="navbar-brand" href="<c:url value='/index.jsp'/>"><img src="<c:url value='/img/SHAREBAR.png'/>" style="height: 45x; width: 45px; float:left; position:relative; bottom:5px; right:0px;"></a> --%>
 					
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
-				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px;padding-top:1px">
+				<form id="id_form" class="navbar-form navbar-left" action="<c:url value="/item/search.controller" />" method="get" style="margin-right: 5px;padding:0px;padding-top:4px;padding-bottom:5px">
 					<div class="input-group">
 						<div class="form-group">
-							<select id="id_select" name="searchSelector" class="form-control" style="width:75px">
+							<select id="id_select" name="searchSelector" class="form-control" style="width:75px;height: 40px">
 								<option value="location">地區</option>
 								<option value="itemName">物品</option>
 							</select>
 						</div>
 						<div class="form-group">
-	    					<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search">
+	    					<input type="text" id="id_search" name="searchBar" class="form-control" placeholder="Search" style="height: 40px">
 	  					</div>
 	  					<div class="form-group">
 	    					<div class="input-group-btn">
@@ -92,13 +96,13 @@ div#navbar {
 							<li class="class_li"><a href="<c:url value='/administrator/gm_view01.jsp'/>"><span class="glyphicon glyphicon-wrench"></span> &nbsp; Administrator</a></li>
 							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
 							<li class="class_li"><a href="<c:url value='/maillist.do'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
-							<li class="class_li" style="border-right: 1px solid #E6E6E6;height:59px"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
+							<li class="class_li" style="border-right: 1px solid #E6E6E6;height:65px"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
 							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
 						</c:when>
 						<c:otherwise>
 							<li class="class_li"><a href="<c:url value='/member/profile.controller?id=${user.member_no}'/>"><span class="glyphicon glyphicon-user"></span> &nbsp; ${user.nickname}<img class="img-circle" alt="user_photo" src="${root}profileImages/${user.photo}" width="24" height="24"></a></li>
 							<li class="class_li"><a href="<c:url value='/maillist.do'/>"><span class="glyphicon glyphicon-envelope"><img id="mailNumber" src="<c:url value='/img/number16px_0.png'/>" style="position:relative; top:10px; right:5px; visibility: hidden;"></span>Mail</a></li>								
-							<li class="class_li" style="border-right: 1px solid #E6E6E6"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
+							<li class="class_li" style="border-right: 1px solid #E6E6E6;height:65px"><a href="<c:url value='/secure/logout.jsp'/>"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Logout</a></li>
 							<li class="class_li"><a href="<c:url value='/item/InsertItem.jsp'/>"><span class="glyphicon glyphicon-gift"></span> &nbsp; Share</a></li>
 						</c:otherwise>
 					</c:choose>
@@ -107,6 +111,7 @@ div#navbar {
 			</div>
 		</div>
 	<script>
+
 		var geocoder;
 		var googleAutocomplete;
 		var headerInput;
@@ -322,6 +327,8 @@ div#navbar {
 				if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(success, error);
 	        	}
+			}
+		});
 	        	function success(position) {
 	        		var lat = position.coords.latitude;
 	        		var lng = position.coords.longitude;
@@ -340,8 +347,6 @@ div#navbar {
 	    				}
 	    			});
 	    		}
-			}
-		});
 		
 		function error(error) {
 			switch(error.code) {
@@ -353,6 +358,6 @@ div#navbar {
 			}
 		}	
 	</script>
-<!-- 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script> -->
+<!-- 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script> -->
 </body>
 </html>

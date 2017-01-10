@@ -143,16 +143,17 @@ public class CRUDClassServlet extends HttpServlet {
 		// 呼叫Model
 		String path_image = request.getServletContext().getRealPath("/category-image/");
 		String path_icon = request.getServletContext().getRealPath("/category-icon/");
-
+		
+		
 		String newImageFilename = class_name + "." + getExtension(iconFilename);
 		writeTo(newImageFilename, image, path_image);
-
+	
 		String newIconFilename = class_name + "." + getExtension(iconFilename);
 		writeTo(newIconFilename, icon, path_icon);
-
+	
 		String newIcon_afterFilename = class_name + "a." + getExtension(icon_afterFilename);
 		writeTo(newIcon_afterFilename, icon_after, path_icon);
-
+		
 		ClassBean bean = new ClassBean();
 		bean.setClass_id(class_id);
 		bean.setClass_name(class_name);
