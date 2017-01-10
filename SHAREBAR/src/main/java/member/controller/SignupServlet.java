@@ -152,9 +152,9 @@ public class SignupServlet extends HttpServlet {
 		if(member_email == null || member_email.length() == 0){
 			errors.put("id", "id is required.");
 		}
-		if(isValidEmailAddress(member_email)){
-			errors.put("id", "This is not a valid email address");
-		}
+//		if(isValidEmailAddress(member_email)){
+//			errors.put("id", "This is not a valid email address");
+//		}
 		if(password == null || password.length()==0){
 			errors.put("password", "password is required.");
 		}
