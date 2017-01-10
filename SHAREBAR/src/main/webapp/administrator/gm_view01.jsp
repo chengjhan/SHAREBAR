@@ -24,9 +24,10 @@
 </head>
 
 <body>
-<div class="wrap">
 <c:import url="../header.jsp"></c:import>
+<div class="wrap">
 
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-1"></div>
 	    <div class="col-md-10">
@@ -43,7 +44,9 @@
 		</div>
 		<div class="col-md-1"></div>
 	</div>
-	
+</div>
+
+<div class="container-fluid">	
 	<div class="row">
 	<div class="col-md-1"></div>
 	
@@ -63,7 +66,7 @@
 				
 <!-- 每頁不同的內容從這裡開始 -->
 	<div class="row">
-		<div class="col-sm-6">		
+		<div class="col-sm-5">		
 			<form action="<c:url value="/administrator/SelectBlockMemberServlet"/>" method="get">
 				<table>
 					<tr>
@@ -89,7 +92,7 @@
 	
 
 	
-		<div class="col-sm-6">	
+		<div class="col-sm-7">	
 			<form action="<c:url value="/administrator/UpdateMemberBlockServlet"/>" method="get">
 				<table>
 					<tr>
@@ -129,7 +132,7 @@
 <!-- 	<h3>搜尋會員結果</h3> -->
 	<div>&nbsp;</div>
 	<table class="table table-striped">	
-<!-- 	<thead> -->
+
 				<tr align="center">
 					<td class="st1">會員編號</td>
 					<td class="st1">封鎖日期</td>
@@ -140,7 +143,7 @@
 					<td class="st1">認證狀態</td>
 					
 				</tr>
-<!-- 	</thead> -->
+
 			<c:if test="${not empty members}">
 			<c:forEach var="element1" items="${members}">
 				<c:url value="gm_view01.jsp" var="path">
@@ -190,7 +193,10 @@
 	</div>
 	<div class="col-md-1"></div>
 	</div>
+</div>	
+	
 </div>
+<!-- <div style="height:40px"></div> -->
 <c:import url="/footer.jsp"></c:import>
 </body>
 </html>

@@ -24,9 +24,10 @@
 </head>
 
 <body>
-<div class="wrap">
 <c:import url="../header.jsp"></c:import>
+<div class="wrap">
 
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-1"></div>
 		   <div class="col-md-10">
@@ -43,7 +44,9 @@
 			</div>
 		<div class="col-md-1"></div>
 	</div>
+</div>	
 	
+<div class="container-fluid">	
 	<div class="row" >
 	<div class="col-md-1"></div>
 	
@@ -102,7 +105,7 @@
 	<table class="table table-striped">	
 				<tr align="center">
 					<td class="st1">信件編號</td>
-					<td class="st1">會員ID</td>
+					<td class="st1">會員編號</td>
 					<td class="st1">投訴時間</td>			
 					<td class="st1">信件內容</td>
 					<td class="st1">回覆時間</td>
@@ -136,7 +139,9 @@
 	</div>
 	<div class="col-md-1"></div>
 	</div>
+</div>	
 </div>
+<!-- <div style="height:65px"></div> -->
 <c:import url="/footer.jsp"></c:import>
 </body>
 </html>
