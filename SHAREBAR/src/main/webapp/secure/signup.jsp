@@ -191,29 +191,32 @@ if(from != null){
 	var from = "${from}";
 	if(from!=="undefined"){from = from.substring(from.lastIndexOf("SHAREBAR/")+9)}
 	
-	$("#submitbtn").click(function(event){
-		var stat = $("#act_check").attr("account");
-		if(stat=="exist"){
-			event.preventDefault();
-			$("#ajaxCheck").html("<p style='font-weight:bold'>This account is already exist, please change your email.</p>")
-		}
-	});//end of click
 		
 	$(function(){
-		
 		$('.image-editor').cropit();
+		
+		$("#submitbtn").click(function(event){
+			var stat = $("#act_check").attr("account");
+			var imageData = $('.image-editor').cropit('export');
+	        $('.hidden-image-data').val(imageData);
+			if(stat=="exist"){
+				event.preventDefault();
+				$("#ajaxCheck").html("<p style='font-weight:bold'>This account is already exist, please change your email.</p>")
+			}
+		});//end of click
+		
 
-        $('form').submit(function() {
-          // Move cropped image data to hidden input
-          var imageData = $('.image-editor').cropit('export');
-          $('.hidden-image-data').val(imageData);
-          $('.cropit-image-zoom-input').prop('disable', true);
-//           $('.cropit-image-input').prop('disabled', true);
+//         $('form').submit(function() {
+//           // Move cropped image data to hidden input
+//           var imageData = $('.image-editor').cropit('export');
+//           $('.hidden-image-data').val(imageData);
+//           $('.cropit-image-zoom-input').prop('disable', true);
+// //           $('.cropit-image-input').prop('disabled', true);
 
-          // Print HTTP request params
-//           var formValue = $(this).serialize();
-//           $('#result-data').text(formValue);
-        });
+//           // Print HTTP request params
+// //           var formValue = $(this).serialize();
+// //           $('#result-data').text(formValue);
+//         });
 		//check account
 		$("#member_email").change(function(){
 			var emailID = $("#member_email").val();
