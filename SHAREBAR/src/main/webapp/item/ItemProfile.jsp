@@ -289,7 +289,7 @@ time{
 
 var socket = null;
 var user_id = Number("${user.member_no}");
-var user_name = "${user.nickname}";
+var user_name ="${user.nickname}";
 var item_status = "未提出"
 var getNextOffset = function() { return count*215; };
 var count = 0;
