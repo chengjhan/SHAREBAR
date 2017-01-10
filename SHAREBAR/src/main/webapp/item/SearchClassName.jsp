@@ -297,7 +297,6 @@ html, body {
 		var itemArray = [];
 		var markerArray = [];
 		var geocoder;
-		var bounds;
 		
 		// 地圖初始化
 		function initMap() {
@@ -326,6 +325,7 @@ html, body {
 			var swLng;
 			var neLat;
 			var neLng;
+			var bounds;
 			
 			if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(success, error);
@@ -363,7 +363,7 @@ html, body {
 			});
 			
 			// 由搜尋列第一次搜尋
-			var photo = $("#left_content")
+			var photo = $("#left_content");
 			var class_id = "${param.id}";
 			var number = $("#id_number_span");
 			var centerLocation = $("#id_center_span");
@@ -378,14 +378,13 @@ html, body {
 					} 
 				}
 			});
-			
+
 			$.getJSON("searchClassName.ajax", {
 				"class_id": class_id,
-				"bounds": bounds
-// 				"swLat": swLat,
-// 				"swLng": swLng,
-// 				"neLat": neLat,
-// 				"neLng": neLng
+				"swLat": swLat,
+				"swLng": swLng,
+				"neLat": neLat,
+				"neLng": neLng
 			}, function(data){
 // 				table.empty();
 // 				photo.empty();
@@ -507,9 +506,9 @@ html, body {
 			});
 			
 			// 移動地圖即時變更物品
-			map.addListener('dragend', moveMap);
+// 			map.addListener('dragend', moveMap);
 // 			map.addListener('zoom_changed', moveMap);
-// 			map.addListener('idle', moveMap);
+			map.addListener('idle', moveMap);
 
 			function moveMap() {
 				// 清除所有地圖標記
