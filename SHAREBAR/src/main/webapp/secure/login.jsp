@@ -39,7 +39,7 @@ if(from != null){
 		session.setAttribute("from",from);	
 	}
 }else{
-	session.setAttribute("from", "index.jsp");
+	session.setAttribute("from", "${root}");
 }
 %>
 <body>
