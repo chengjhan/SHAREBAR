@@ -208,17 +208,11 @@ if(from != null){
           var imageData = $('.image-editor').cropit('export');
           $('.hidden-image-data').val(imageData);
           $('.cropit-image-zoom-input').prop('disable', true);
-          $('.cropit-image-input').prop('disabled', true);
-//           console.log(imageData);
+//           $('.cropit-image-input').prop('disabled', true);
 
           // Print HTTP request params
 //           var formValue = $(this).serialize();
 //           $('#result-data').text(formValue);
-
-          // Prevent the form from actually submitting
-//           return false;
-          alert("send");
-          return true;
         });
 		//check account
 		$("#member_email").change(function(){
