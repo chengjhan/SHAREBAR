@@ -428,7 +428,7 @@ $(function(){
 	function onOpen(evt){
 	}
 	function onClose(evt){
-		alert("websocket close")
+// 		alert("websocket close")
 	}
 	function onMessage(evt){
 	var messagecontain = JSON.parse(evt);

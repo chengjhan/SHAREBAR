@@ -94,23 +94,6 @@ p.review_p{
 	margin:10px 10px;
 }
 
-.boxIan {
-    position: relative;
-    width:    100%; /* desired width */
-}
-.boxIan:before {
-    content:     "";
-    display:     block;
-    padding-top: 100%; /* initial ratio of 1:1*/
-}
-
-.contentIan {
-    position: absolute;
-    top:      0;
-    left:     0;
-    bottom:   0;
-    right:    0;
-}
 /* XD */
 .textellipsis{
 	 text-overflow:ellipsis;
@@ -266,7 +249,7 @@ p.review_p{
 		<c:forEach var="followitems" items="${user.follow_items}">
 		<c:if test="${followitems.status eq 1}">
 		<div class="col-md-2 col-sm-3 col-xs-4">
-		<div class="thumbnail">
+		<div class="thumbnail box">
 		<a href="${root}item/itemdetail.controller?id=${followitems.itemBean.item_id}">
 		<c:forEach var="image" items="${followitems.itemBean.imageBean}" varStatus="stat">
 			<c:if test="${stat.first}">
