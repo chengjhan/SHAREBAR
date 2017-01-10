@@ -14,6 +14,7 @@
 <link rel=stylesheet type="text/css" href="../css/share.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script><!-- GSignIn -->
+<script>window.history.forward();</script>
 <title>Login</title>
 <style type="text/css">
 .error{
@@ -39,7 +40,7 @@ if(from != null){
 		session.setAttribute("from",from);	
 	}
 }else{
-	session.setAttribute("from", "${root}");
+	session.setAttribute("from", pageContext.getAttribute("root"));
 }
 %>
 <body>

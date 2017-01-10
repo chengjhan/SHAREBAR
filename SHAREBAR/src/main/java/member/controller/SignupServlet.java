@@ -1,5 +1,8 @@
 package member.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.imageio.ImageIO;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -142,29 +146,34 @@ public class SignupServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String member_nickname = request.getParameter("member_nickname");
 		String member_description = request.getParameter("member_description");
-		Part filePart = request.getPart("member_photo");
-		String header = filePart.getHeader("Content-Disposition");
-        String filename = header.substring(header.indexOf("filename=\"") + 10, header.lastIndexOf("\""));
-        String fileExtend = getExtension(filename);
+		String imageData = request.getParameter("image-data");
+//		Part filePart = request.getPart("member_photo");
+//		String header = filePart.getHeader("Content-Disposition");
+//        String filename = header.substring(header.indexOf("filename=\"") + 10, header.lastIndexOf("\""));
+//        String fileExtend = getExtension(filename);
 //        System.out.println("filename= "+filename);
         
 		//驗證資料
-		if(member_email == null || member_email.length() == 0){
+		if(member_email == null || member_email.trim().length() == 0){
 			errors.put("id", "id is required.");
 		}
 //		if(isValidEmailAddress(member_email)){
 //			errors.put("id", "This is not a valid email address");
 //		}
-		if(password == null || password.length()==0){
+		if(password == null || password.trim().length()==0){
 			errors.put("password", "password is required.");
 		}
-		if(member_nickname==null || member_nickname.length()==0){
+		if(member_nickname==null || member_nickname.trim().length()==0){
 			errors.put("nickname", "nickname is required.");
 		}
-		if(member_description==null || member_description.length()==0){
+		if(member_description==null || member_description.trim().length()==0){
 			errors.put("description", "description is required.");
 		}
-		if(filename==null || filename.length()==0){
+//		if(filename==null || filename.length()==0){
+//			errors.put("photo", "photo is required");
+//		}
+		
+		if(imageData==null || imageData.trim().length()==0){
 			errors.put("photo", "photo is required");
 		}
 		
@@ -173,25 +182,25 @@ public class SignupServlet extends HttpServlet {
 					"/secure/signup.jsp").forward(request, response);
 			return;
 		}
-		//轉換photo to byte[]
-//	    InputStream fileContent = filePart.getInputStream();
-//	    ByteArrayOutputStream ByteArrayOutputStream = null;
-//		try {
-//			BufferedInputStream bis = new BufferedInputStream(fileContent);
-//			byte[] contents = new byte[8192];
-//			int byteRead = 0;
-//			ByteArrayOutputStream = new ByteArrayOutputStream(5000);
-//			while((byteRead = bis.read(contents))!=-1){
-//				ByteArrayOutputStream.write(contents);
-//			}
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		
+		String base64Image = imageData.split(",")[1];
+		BufferedImage bufImg = null;
+		try {
+			byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+			ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+			bufImg = ImageIO.read(bis);
+			bis.close();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			errors.put("system", "base64 convert error");
+			request.getRequestDispatcher(
+					"/secure/signup.jsp").forward(request, response);
+			return;
+		}
 		
 		//Service
-		MemberBean bean = memberService.normalSignUp(member_email, getMD5(password), member_nickname, getMD5(member_email)+"."+fileExtend, member_description, last_name, first_name, country, city, getMD5(member_email));
+		MemberBean bean = memberService.normalSignUp(member_email, getMD5(password), member_nickname, getMD5(member_email)+".png", member_description, last_name, first_name, country, city, getMD5(member_email));
 		
 		if(bean == null){
 			errors.put("system", "sign up error, please try other email account");
@@ -200,7 +209,18 @@ public class SignupServlet extends HttpServlet {
 		}else{
 //			System.out.println(bean.getMember_email());
 //			System.out.println(rootpath+getMD5(member_email)+"."+fileExtend);
-			writeTo(getMD5(member_email)+"."+fileExtend, filePart, rootpath);
+//			writeTo(getMD5(member_email)+"."+fileExtend, filePart, rootpath);
+			File imgOutFile = new File(rootpath+getMD5(member_email)+".png");
+			try {
+				ImageIO.write(bufImg, "png", imgOutFile);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				errors.put("system", "file write error");
+				request.getRequestDispatcher(
+						"/secure/signup.jsp").forward(request, response);
+				return;
+			}
 			sendActivatedMail(bean.getEmail());
 			String path = request.getContextPath();
 			response.sendRedirect(path+"/secure/signup_success.jsp");
@@ -237,8 +257,8 @@ public class SignupServlet extends HttpServlet {
 				message.setText(
 						"Please click the link below to activate your account,\n\n http://sharebar.southeastasia.cloudapp.azure.com:8080/SHAREBAR/secure/signup.controller?token="
 								+ getMD5(email));
-				System.out.println("Please click the link below to activate your account,\n\n http://"+ip+":8080/SHAREBAR/secure/signup.controller?token="
-						+ getMD5(email));
+//				System.out.println("Please click the link below to activate your account,\n\n http://"+ip+":8080/SHAREBAR/secure/signup.controller?token="
+//						+ getMD5(email));
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

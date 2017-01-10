@@ -110,8 +110,8 @@ time{
 	<div class="row">
 	<div style="margin-bottom:20px">
 	<div  id="picgroup" class="img-rounded" style="position:relative;width:70%;height:70%;margin:0 auto;">
-	<span id="prev-btn" class="glyphicon glyphicon-chevron-left finger pull-left" style="position:absolute;font-size:300%;left:0;left:-15%;top:calc(50% - 20px);"></span>
-	<span id="next-btn" class="glyphicon glyphicon-chevron-right finger pull-right" style="position:absolute;font-size:300%;right:0;right:-15%;top:calc(50% - 20px);"></span>
+	<span id="prev-btn" class="glyphicon glyphicon-chevron-left finger pull-left" style="position:absolute;font-size:300%;left:0;left:-13%;top:calc(50% - 20px);"></span>
+	<span id="next-btn" class="glyphicon glyphicon-chevron-right finger pull-right" style="position:absolute;font-size:300%;right:0;right:-13%;top:calc(50% - 20px);"></span>
 	<c:forEach var="image" items="${itembean.imageBean}" varStatus="stat">
 		<c:if test="${stat.first}">
 			<div class="boxIan">

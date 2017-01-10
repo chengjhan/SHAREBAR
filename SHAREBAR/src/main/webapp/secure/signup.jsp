@@ -7,7 +7,11 @@
 <head>
 <link rel="stylesheet"
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+    <script src="../js/cropit-master/jquery.cropit.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-signin-client_id"
@@ -17,6 +21,7 @@
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src="../js/bootstrap-validator.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script><!-- GSignIn -->
+<script>window.history.forward();</script>
 <title>SignUp</title>
 <style type="text/css">
 html, body {
@@ -55,6 +60,26 @@ img#imgPreview{
 	font-family: Arial, Helvetica, sans-serif;
 	color:red;
 }
+
+
+/* for cropit */
+      .cropit-preview {
+        background-color: #f8f8f8;
+        background-size: cover;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-top: 7px;
+        width: 250px;
+        height: 250px;
+      }
+
+      .cropit-preview-image-container {
+        cursor: move;
+      }
+
+      .image-size-label {
+        margin-top: 10px;
+      }
 </style>
 </head>
 <%
@@ -67,7 +92,7 @@ if(from != null){
 		session.setAttribute("from",from);	
 	}
 }else{
-	session.setAttribute("from", "index.jsp");
+	session.setAttribute("from", pageContext.getAttribute("root"));
 }
 %>
 <body>
@@ -117,11 +142,23 @@ if(from != null){
 			<label for="member_description">Description:</label><textarea type="text" class="form-control" id="member_description" name="member_description" maxlength="50" data-error="Please introduce yourself" required>${param.member_description}</textarea>
 			<div class="help-block with-errors">${errors.description}</div>
 			</div>
+			
+			
 			<div class="form-group">
-			<label for="member_photo">Image:</label><input type="file" class="form-control-file" id="member_photo" name="member_photo" accept="image/x-png" data-error="Please input a png file" required><br>
-			<img id="imgPreview"alt="your image" src="profilePerson.png" >
+			<div class="image-editor">
+			<label for="member_photo">Image:</label>
+			<input type="file" class="form-control-file cropit-image-input" id="member_photo" name="member_photo" accept="image/x-png" data-error="Please input a png file" required><br>
+			<div class="cropit-preview"></div>
+        	<div class="image-size-label">
+          	Resize image
+       		</div>
+       		<input type="range" class="cropit-image-zoom-input"/>
+        	<input type="hidden" name="image-data" class="hidden-image-data" />
+        	</div>
 			<div class="help-block with-errors">${errors.photo}</div>
 			</div>
+			
+			
 			<div class="form-group">
 			<button id="submitbtn" type="submit" class="btn btn-primary">Send</button> <button type="reset" class="btn btn-primary">Reset</button>
 			</div>
@@ -155,15 +192,32 @@ if(from != null){
 	var from = "${from}";
 	if(from!=="undefined"){from = from.substring(from.lastIndexOf("SHAREBAR/")+9)}
 	
-	$("#submitbtn").click(function(event){
-		var stat = $("#act_check").attr("account");
-		if(stat=="exist"){
-			event.preventDefault();
-			$("#ajaxCheck").html("<p style='font-weight:bold'>This account is already exist, please change your email.</p>")
-		}
-	});//end of click
 		
 	$(function(){
+		$('.image-editor').cropit();
+		
+		$("#submitbtn").click(function(event){
+			var stat = $("#act_check").attr("account");
+			var imageData = $('.image-editor').cropit('export');
+	        $('.hidden-image-data').val(imageData);
+			if(stat=="exist"){
+				event.preventDefault();
+				$("#ajaxCheck").html("<p style='font-weight:bold'>This account is already exist, please change your email.</p>")
+			}
+		});//end of click
+		
+
+//         $('form').submit(function() {
+//           // Move cropped image data to hidden input
+//           var imageData = $('.image-editor').cropit('export');
+//           $('.hidden-image-data').val(imageData);
+//           $('.cropit-image-zoom-input').prop('disable', true);
+// //           $('.cropit-image-input').prop('disabled', true);
+
+//           // Print HTTP request params
+// //           var formValue = $(this).serialize();
+// //           $('#result-data').text(formValue);
+//         });
 		//check account
 		$("#member_email").change(function(){
 			var emailID = $("#member_email").val();
