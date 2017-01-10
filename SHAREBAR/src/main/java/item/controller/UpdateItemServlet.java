@@ -239,34 +239,54 @@ public class UpdateItemServlet extends HttpServlet {
 			String newImage2Filename = result.getItem_id() + "_2." + getExtension(image2Filename);
 			writeTo(newImage2Filename, image2, path);
 			ImageBean imageBean2 = new ImageBean();
-			imageBean2.setImage_id(image_id2);
-			imageBean2.setItemBean(itemBean);
-			imageBean2.setImage_photo(newImage2Filename);
-			imageService.update(imageBean2);
+			if(image_id2 == 0){
+				imageBean2.setItemBean(itemBean);
+				imageBean2.setImage_photo(newImage2Filename);
+				imageService.insert(imageBean2);
+			}else{
+				imageBean2.setImage_id(image_id2);
+				imageBean2.setItemBean(itemBean);
+				imageBean2.setImage_photo(newImage2Filename);
+				imageService.update(imageBean2);
+			}
 		}
 		if (image3Filename != null && image3Filename.length() != 0) {
 			String newImage3Filename = result.getItem_id() + "_3." + getExtension(image3Filename);
 			writeTo(newImage3Filename, image3, path);
 			ImageBean imageBean3 = new ImageBean();
-			imageBean3.setImage_id(image_id3);
-			imageBean3.setItemBean(itemBean);
-			imageBean3.setImage_photo(newImage3Filename);
-			imageService.update(imageBean3);
+			if(image_id3 == 0){
+				imageBean3.setItemBean(itemBean);
+				imageBean3.setImage_photo(newImage3Filename);
+				imageService.insert(imageBean3);
+			}else{
+				imageBean3.setImage_id(image_id3);
+				imageBean3.setItemBean(itemBean);
+				imageBean3.setImage_photo(newImage3Filename);
+				imageService.update(imageBean3);
+			}
 		}
 		if (image4Filename != null && image4Filename.length() != 0) {
 			String newImage4Filename = result.getItem_id() + "_4." + getExtension(image4Filename);
 			writeTo(newImage4Filename, image4, path);
 			ImageBean imageBean4 = new ImageBean();
-			imageBean4.setImage_id(image_id4);
-			imageBean4.setItemBean(itemBean);
-			imageBean4.setImage_photo(newImage4Filename);
-			imageService.update(imageBean4);
+			if(image_id4 == 0){
+				imageBean4.setItemBean(itemBean);
+				imageBean4.setImage_photo(newImage4Filename);
+				imageService.insert(imageBean4);
+			}else{
+				imageBean4.setImage_id(image_id4);
+				imageBean4.setItemBean(itemBean);
+				imageBean4.setImage_photo(newImage4Filename);
+				imageService.update(imageBean4);
+			}
 		}
 
 		// 根據Model的執行結果，顯示View
 		if (result != null && result1 != null) {
-			RequestDispatcher rd = request.getRequestDispatcher("/item/itemdetail.controller?id=" + item_id);
-			rd.forward(request, response);
+//			RequestDispatcher rd = request.getRequestDispatcher("/item/itemdetail.controller?id=" + item_id);
+//			rd.forward(request, response);
+			String root = request.getContextPath();
+			response.sendRedirect(root + "/item/itemdetail.controller?id=" + item_id);
 			return;
 		} 
 	}

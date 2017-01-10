@@ -92,10 +92,11 @@
 	%>
 <c:import url="../header.jsp"></c:import>
 <!--    <div id="header"></div> -->
+<div class="container-fluid">   
    <div class="row">
-   		<div class="col-md-2">
+   		<div class="col-md-1">
 		</div>
-	    <div class="col-md-8">
+	    <div class="col-md-10">
 			<nav class="navbar navbar-default">
 				<div class="container-fluid">
 					<!-- Brand and toggle get grouped for better mobile display -->
@@ -106,14 +107,15 @@
 				<!-- /.container-fluid -->
 			</nav>
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-1">
 		</div>
 	</div>
+</div>
 	
-	
+<div class="container-fluid">	
 	<div class="row">
 	
-		<div class="col-md-2">
+		<div class="col-md-1">
 		</div>
 		<div class="col-md-2">
 			<div class="list-group">
@@ -125,7 +127,7 @@
 			</div>
 		</div>
 		
-		<div class="col-md-8">
+		<div class="col-md-9">
 <!-- 			    <div class="jumbotron"> -->
 		
 		
@@ -218,7 +220,10 @@
 	</div>
 	
 	</div>
+</div>
+	
 	<c:import url="/footer.jsp"></c:import>
+	
 	<script>
 // 		$(function(){
 // 			$("#header").load("../header.jsp");
