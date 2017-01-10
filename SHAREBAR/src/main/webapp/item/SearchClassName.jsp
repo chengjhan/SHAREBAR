@@ -409,14 +409,43 @@ html, body {
 					// 顯示物品圖片列表
 					var imageSrc = "${root}item-image/" + item.imageBean[0].image_photo;
 // 					alert(imageSrc);
-					var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
+					var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img img-rounded", "src": imageSrc});
 					var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
-					var itemMember_img = "<img src='${root}item-icon/member.png' class='item_member_img'>";
+					var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
 					var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
-					var itemMember_a = $("<a></a>").attr("href", "https://www.google.com.tw").append(itemMember_div);
-					var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-					var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
-					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_div);
+					var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);					
+					
+					var itemFollow_img;
+					var itemFollow_div;
+					var itemFollow_a;
+					
+					var user = ${user.member_no}
+					console.log(user);
+					if(user == undefined){
+						user = 0;
+// 						alert(user)
+					} else if(user != 0){
+						if(user != item.member_id.member_no){
+// 							alert(item.member_id.member_no)
+							itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
+// 							alert(item.member_id.member_no + "," + item.follow_items.length)
+							for(var i = 0; i < item.follow_items.length; i++){
+								if(item.follow_items[i] != null){
+// 									alert(item.follow_items[i].member_id.member_no);
+									if(user == item.follow_items[i].member_id.member_no){
+// 										alert(item.follow_items[i].status)
+										if(item.follow_items[i].status == 1){
+											itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
+										}
+									}
+								}
+							}
+							itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
+							itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
+						}
+					}
+					
+					var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_a);
 					var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";
 					var itemName_span = $("<span class='item_name_p'></span>").append(itemItemName_a);
 					var dot_span = $("<span></span>").append("．");
@@ -573,14 +602,43 @@ html, body {
 						// 顯示物品圖片列表
 						var imageSrc = "${root}item-image/" + item.imageBean[0].image_photo;
 // 	 					alert(imageSrc);
-						var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img", "src": imageSrc});
+						var itemImage_img = $("<img>", {"id": "img" + count, "class": "item_image_img img-rounded", "src": imageSrc});
 						var itemImage_a = $("<a></a>").attr("href", "${root}item/itemdetail.controller?id=" + item.item_id).append(itemImage_img);
-						var itemMember_img = "<img src='${root}item-icon/member.png' class='item_member_img'>";
+						var itemMember_img = "<img src='${root}profileImages/" + item.member_id.photo + "' class='item_member_img'>";
 						var itemMember_div = $("<div class='item_member_div'></div>").append(itemMember_img);
-						var itemMember_a = $("<a></a>").attr("href", "https://www.google.com.tw").append(itemMember_div);
-						var itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
-						var itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
-						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_div);
+						var itemMember_a = $("<a></a>").attr("href", "${root}member/profile.controller?id=" + item.member_id.member_no).append(itemMember_div);					
+						
+						var itemFollow_img;
+						var itemFollow_div;
+						var itemFollow_a;
+						
+						var user = ${user.member_no}
+						console.log(user);
+						if(user == undefined){
+							user = 0;
+//	 						alert(user)
+						} else if(user != 0){
+							if(user != item.member_id.member_no){
+//	 							alert(item.member_id.member_no)
+								itemFollow_img = "<img src='${root}item-icon/follow.png' id='id_item_follow_img' class='item_follow_img'>";
+//	 							alert(item.member_id.member_no + "," + item.follow_items.length)
+								for(var i = 0; i < item.follow_items.length; i++){
+									if(item.follow_items[i] != null){
+//	 									alert(item.follow_items[i].member_id.member_no);
+										if(user == item.follow_items[i].member_id.member_no){
+//	 										alert(item.follow_items[i].status)
+											if(item.follow_items[i].status == 1){
+												itemFollow_img = "<img src='${root}item-icon/followed.png' id='id_item_follow_img' class='item_follow_img'>";
+											}
+										}
+									}
+								}
+								itemFollow_div = $("<div class='item_follow_div'></div>").append(itemFollow_img);
+								itemFollow_a = $("<a></a>").attr("class", "id_item_follow_a").attr("value", item.item_id).append(itemFollow_div);						
+							}
+						}
+						
+						var itemImage_div = $("<div class='item_image_div'></div>").append(itemImage_a).append(itemMember_a).append(itemFollow_a);
 						var itemItemName_a = "<a href='${root}item/itemdetail.controller?id=" + item.item_id + "' class='item_name_a'>" + item.item_name + "</a>";
 						var itemName_span = $("<span class='item_name_p'></span>").append(itemItemName_a);
 						var dot_span = $("<span></span>").append("．");
@@ -620,34 +678,34 @@ html, body {
 						// 資訊視窗
 						var contentString =
 							'<div id="id_infowindow_div">' + 
-							'<div>' +
-								'<a href="${root}item/itemdetail.controller?id=' + item_id + '">' +
-									'<div id="id_infoimage_div">' +
-										'<img id="id_infoimage_img" src="${root}item-image/' + image_photo + '">' + 
-									'</div>' +
-								'</a>' +
 								'<div>' +
-									'<div id="id_infotext_div">' +
-										'<div style="float:left;padding-bottom:4px">' +
-											'<span>' +
-												'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotitle_a">' + item_name + '</a>' +
-										 	'</span>' +
-										'</div>' +	
-										'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
-											'<div style="float:left">' +
-												'<span>．</span>' +
-												'<span>' + class_name + '</span>' +	
-											'</div>' +
-										'</a>' +
-										'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
-											'<div>' +
-												'<p style="width:190px;overflow:hidden;margin:0px">' + location + '</p>' +	
-											'</div>' +
-										'</a>' +
+									'<a href="${root}item/itemdetail.controller?id=' + item_id + '">' +
+										'<div id="id_infoimage_div">' +
+											'<img id="id_infoimage_img" src="${root}item-image/' + image_photo + '">' + 
+										'</div>' +
+									'</a>' +
+									'<div>' +
+										'<div id="id_infotext_div">' +
+											'<div style="float:left;padding-bottom:4px">' +
+												'<span>' +
+													'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotitle_a">' + item_name + '</a>' +
+											 	'</span>' +
+											'</div>' +	
+											'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
+												'<div style="float:left">' +
+													'<span>．</span>' +
+													'<span>' + class_name + '</span>' +	
+												'</div>' +
+											'</a>' +
+											'<a href="${root}item/itemdetail.controller?id=' + item_id + '" class="infotext_a">' +
+												'<div>' +
+													'<p style="width:190px;overflow:hidden;margin:0px">' + location + '</p>' +	
+												'</div>' +
+											'</a>' +
+										'</div>' +
 									'</div>' +
 								'</div>' +
-							'</div>' +
-						'</div>';
+							'</div>';
 						var infoWindow = new google.maps.InfoWindow();
 						addInfoWindow(marker, contentString);
 					}
@@ -723,15 +781,15 @@ html, body {
 			
 			// body
 			// 愛心變色
-			$(document).on("mouseover", "#id_item_follow_img", function(){
-				$(this).removeAttr("src").attr("src", "${root}item-icon/follow_a.png");
-			});
-			$(document).on("mouseout", "#id_item_follow_img", function(){
-				$(this).removeAttr("src").attr("src", "${root}item-icon/follow.png");
-			});
-			$(document).on("click", "#id_item_follow_img", function(){
-				$(this).removeAttr("src").attr("src", "${root}item-icon/followed.png");
-			});
+// 			$(document).on("mouseover", "#id_item_follow_img", function(){
+// 				$(this).removeAttr("src").attr("src", "${root}item-icon/follow_a.png");
+// 			});
+// 			$(document).on("mouseout", "#id_item_follow_img", function(){
+// 				$(this).removeAttr("src").attr("src", "${root}item-icon/follow.png");
+// 			});
+// 			$(document).on("click", "#id_item_follow_img", function(){
+// 				$(this).removeAttr("src").attr("src", "${root}item-icon/followed.png");
+// 			});
 			
 			// 標記變色-全部變色
 // 			$(document).on("mouseover", ".item_bean_div", function(){
@@ -783,6 +841,42 @@ html, body {
 					url: "${root}category-icon/" + class_name + ".png"
 			    });
 				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
+			});
+			
+			// 追蹤按鈕-愛心變色
+			$(document).on("mouseover", "#id_item_follow_img", function(){
+				if($(this).attr("src") == "${root}item-icon/follow.png"){
+					$(this).removeAttr("src").attr("src", "${root}item-icon/follow_a.png");					
+				}
+			});
+			$(document).on("mouseout", "#id_item_follow_img", function(){
+				if($(this).attr("src") == "${root}item-icon/follow_a.png"){
+					$(this).removeAttr("src").attr("src", "${root}item-icon/follow.png");					
+				}
+			});
+			$(document).on("click", "#id_item_follow_img", function(){
+				if($(this).attr("src") == "${root}item-icon/follow_a.png" || $(this).attr("src") == "${root}item-icon/follow.png"){
+					$(this).removeAttr("src").attr("src", "${root}item-icon/followed.png");					
+				}else{
+					$(this).removeAttr("src").attr("src", "${root}item-icon/follow.png");
+				}
+			});
+			
+			// 追蹤按鈕-修改資料庫
+			$(document).on("click", ".id_item_follow_a", function(){
+				var $this = $(this);
+				var item_id = $this.attr("value");
+				$.get("followItem.do", {
+					"MemberID": "${user.member_no}",
+					"ItemID": item_id
+				},
+				function(data){
+// 					if(data == 1) {
+// 						$("$this a").attr("img", "${root}item-icon/followed.png");
+// 					} else {
+// 						$("$this a").attr("img", "${root}item-icon/follow.png");
+// 					}
+				});
 			});
 		});
 	</script>

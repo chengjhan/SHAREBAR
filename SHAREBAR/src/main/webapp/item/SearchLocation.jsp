@@ -772,63 +772,6 @@ html, body {
 	        	},
 			});
 			
-			//檢查信箱未讀功能
-			var user_id = Number("${user.member_no}");
-	   		checkMail();
-	   		//定時檢查
-	   		window.setInterval(function(){
-	   			checkMail();
-	   			console.log("checkMail_OK!");
-	        },3000);
-	        					
-			function checkMail(){
-					$.post("${pageContext.request.contextPath}/mailUnreaded.controller",{user : user_id}, function(data){
-						switch (data){							
-							case "0": 
-								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_0.png");
-								$("#mailNumber").css("visibility","hidden");
-								break;
-							case "1":
-								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_1.png");
-								$("#mailNumber").css("visibility","visible");
-								break;
-							case "2":
-								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_2.png");
-								$("#mailNumber").css("visibility","visible");
-								break;
-							case "3":
-								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_3.png");
-								$("#mailNumber").css("visibility","visible");
-								break;
-							case "4":
-								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_4.png");
-								$("#mailNumber").css("visibility","visible");
-								break;
-							case "5":
-								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_5.png");
-								$("#mailNumber").css("visibility","visible");
-								break;
-							case "6":
-								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_6.png");
-								$("#mailNumber").css("visibility","visible");
-								break;
-							case "7":
-								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_7.png");
-								$("#mailNumber").css("visibility","visible");
-								break;
-							case "8":
-								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_8.png");
-								$("#mailNumber").css("visibility","visible");
-								break;
-							default:
-								$("#mailNumber").attr("src","${pageContext.request.contextPath}/img/number16px_9.png");
-								$("#mailNumber").css("visibility","visible");
-								break;
-							}
-		
-						});
-				}
-			
 			// body
 			// 標記變色-全部變色
 // 			$(document).on("mouseover", ".item_bean_div", function(){
