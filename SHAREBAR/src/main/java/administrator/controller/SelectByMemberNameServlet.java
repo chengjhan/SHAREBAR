@@ -61,7 +61,7 @@ public class SelectByMemberNameServlet extends HttpServlet {
 			rd.forward(request, response);
 			return;
 		}else{
-			errors.put("system","can't find the member");
+			errors.put("member_email","can't find the member");
 			RequestDispatcher rd = request.getRequestDispatcher("gm_view01.jsp");
 			rd.forward(request, response);
 			return;
