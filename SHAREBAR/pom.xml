@@ -61,7 +61,7 @@
 
 		<dependency>
 			<groupId>com.microsoft.sqlserver.jdbc</groupId>
-			<artifactId>sqljdbc</artifactId>
+			<artifactId>sqlserver</artifactId>
 			<version>42</version>
 		</dependency>
 

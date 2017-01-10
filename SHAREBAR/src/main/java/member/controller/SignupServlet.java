@@ -235,7 +235,7 @@ public class SignupServlet extends HttpServlet {
 				String ip = (InetAddress.getLocalHost()).toString();
 				ip = ip.substring(ip.indexOf("/")+1);
 				message.setText(
-						"Please click the link below to activate your account,\n\n http://"+ip+":8080/SHAREBAR/secure/signup.controller?token="
+						"Please click the link below to activate your account,\n\n http://sharebar.southeastasia.cloudapp.azure.com:8080/SHAREBAR/secure/signup.controller?token="
 								+ getMD5(email));
 				System.out.println("Please click the link below to activate your account,\n\n http://"+ip+":8080/SHAREBAR/secure/signup.controller?token="
 						+ getMD5(email));

@@ -59,11 +59,15 @@ img#imgPreview{
 </head>
 <%
 String from = request.getHeader("Referer");
-String temp = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-if(temp.equals("secure/login.jsp") || temp.equals("secure/signup.jsp")){
+if(from != null){
+	String temp = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+	if(temp.equals("secure/login.jsp") || temp.equals("secure/signup.jsp")){
 	
+	}else{
+		session.setAttribute("from",from);	
+	}
 }else{
-session.setAttribute("from",from);	
+	session.setAttribute("from", "index.jsp");
 }
 %>
 <body>
