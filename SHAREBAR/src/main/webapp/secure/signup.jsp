@@ -148,7 +148,7 @@ if(from != null){
 			<div class="form-group">
 			<div class="image-editor">
 			<label for="member_photo">Image:</label>
-			<input type="file" class="form-control-file cropit-image-input" id="member_photo" name="member_photo" accept="image/x-png" data-error="Please input a png file" required><br>
+			<input type="file" class="form-control-file cropit-image-input" id="member_photo" name="member_photo" accept="image/*" data-error="Please input a png file" required><br>
 			<div class="cropit-preview"></div>
         	<div class="image-size-label">
           	Resize image

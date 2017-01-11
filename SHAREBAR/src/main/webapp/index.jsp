@@ -69,6 +69,25 @@
     display:     block;
     padding-top: 100%; /* initial ratio of 1:1*/
 }
+.boxIan2{
+position: absolute;
+background-color:black;
+height: 100%;
+top:      0;
+left:     0;
+bottom:   0;
+right:    0;
+z-index: 1;
+opacity: 0;
+text-align:center;
+}
+
+.boxIan2:hover{
+opacity: 1;
+background: rgba(0,0,0,0.5);
+transition-duration:500ms;
+
+}
 
 .contentIan {
     position: absolute;
@@ -77,6 +96,9 @@
     left:     0;
     bottom:   0;
     right:    0;
+}
+.contentIan:hover{
+opacity:0.5; 
 }
 .item_slide .contentIan {
     position: absolute;
@@ -98,6 +120,7 @@ h3 {
 	background-color:black;
 	color:white;
 	width:100%;
+	height:20%;
 }
 
 
@@ -181,6 +204,9 @@ pageContext.setAttribute("classes",classBeans);
 <c:forEach var="category" items="${classes}">
 <div class="boxIan">
 <a href="${root}item/SearchClassName.jsp?id=${category.class_id}&name=${category.class_name}">
+<div class="boxIan2">
+<p style="opacity: 1;color: white;position: relative;font-size:50px;bottom:-40%;font-family:cursive Microsoft JhengHei;font-weight:bold">${category.class_name}</p>
+</div>
 <img class="contentIan" data-lazy="<%=request.getContextPath()%>/category-image/${category.image}">
 </a>
 </div>
@@ -206,6 +232,9 @@ pageContext.setAttribute("classes",classBeans);
 
 </div><!-- end of wrap -->
 <script type="text/javascript">
+$(function(){
+	$('.coverflow').css('max-width',$('.coverflow img').width());
+})
 $(".category_slide").slick({
 	  lazyLoad: 'ondemand',
 	  slidesToShow: 3,
@@ -216,10 +245,6 @@ $(".item_slide").slick({
 	  slidesToShow: 3,
 	  slidesToScroll: 1
 	});
-$(function(){
-// 	$('.coverflow').css('margin-top','-20px');
-	$('.coverflow').css('max-width',$('.coverflow img').width());
-})
 </script>
 <c:import url="/footer.jsp"></c:import>
 </body>
