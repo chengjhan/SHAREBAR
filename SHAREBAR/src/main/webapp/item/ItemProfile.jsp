@@ -21,7 +21,7 @@
 <script type="text/javascript" src="../js/jquery-chatbox/chatboxManager.js"></script>
 <script type="text/javascript" src="../js/bootstrap-dialog/bootstrap-dialog.js"></script>
 
-<title>Profile Page</title>
+<title>SHARE BAR</title>
 <style>
 #basic_info{
 	top:100px;
@@ -583,7 +583,7 @@ $(function(){
 						var msg = "對你的分享進行了請求。";
 						var windowcode = itemid + "_" + item_host + "_" + user_id; 
 						socket.send(JSON.stringify({content : msg, item : itemid, requester : user_id, title : item_name, speaker : user_id, listener : item_host, user : user_name, windowcode : windowcode}));
-						$.post("messageInsert.ajax",{content : msg, item : itemid, speaker : user_id, listener : listener});			
+						$.post("../messageInsert.ajax",{content : msg, item : itemid, speaker : user_id, listener : item_host});			
 					}, 1000)						
 			});
 		}
@@ -632,7 +632,7 @@ $(function(){
        	$("#" + windowcode).chatbox("option", "boxManager").addMsg(message.user, message.content);
       	//若正在關注此視窗設為已讀
    		if( $("#" + windowcode).attr("data-readed") == 0 ){
-			$.post("mailReaded.ajax",{item : message.item, speaker : message.speaker, listener : message.listener});
+			$.post("../mailReaded.ajax",{item : message.item, speaker : message.speaker, listener : message.listener});
     		}
         } 
     
@@ -678,5 +678,4 @@ $(function(){
 </script>
 </body>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
-
 </html>

@@ -222,5 +222,4 @@ $(function(){
 <c:import url="/footer.jsp"></c:import>
 </body>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
-
 </html>

@@ -62,6 +62,7 @@ div.list-group{
 		<div class="list-group">
 			<a href="changeInfo.jsp" class="list-group-item">CHANGE PROFILE</a>
 			<a href="changePassword.jsp" class="list-group-item">CHANGE PASSWORD</a>
+			<a href="changeProfilePhoto.jsp" class="list-group-item">CHANGE PHOTO</a>
 		</div>
 	</div>
 	<div class="col-md-9">
@@ -84,4 +85,6 @@ div.list-group{
 	<script>
 	</script>
 </body>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
+
 </html>
