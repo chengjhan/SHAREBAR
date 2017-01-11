@@ -30,13 +30,16 @@ div#g-signin2{
 </style>
 </head>
 <%
-String from = request.getHeader("Referer"); 
-session.setAttribute("from",from);
-String temp = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-if(temp.equals("secure/login.jsp") || temp.equals("secure/signup.jsp")){
+String from = request.getHeader("Referer");
+if(from != null){
+	String temp = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+	if(temp.equals("secure/login.jsp") || temp.equals("secure/signup.jsp")){
 	
+	}else{
+		session.setAttribute("from",from);	
+	}
 }else{
-session.setAttribute("from",from);	
+	session.setAttribute("from", "${root}");
 }
 %>
 <body>

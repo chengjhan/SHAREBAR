@@ -197,7 +197,9 @@ html, body {
 						<input type="text" id="id_location" name="location" class="form-control" placeholder="地區，地址" value="${param.location}">
 						<span class="input-group-addon"><i id="id_location_ok" class="glyphicon glyphicon-remove"></i></span>
 					</div>
-					<div id="id_latlng" style='display:none'></div>
+					<div id="id_latlng" style='display:none'>
+					
+					</div>
 					<div class="form-group">
 						<label for="id_end_date">結束日期</label>
 						<input type="text" id="id_end_date" name="end_date" class="form-control" readonly="readonly" placeholder="刊登至..." value="${param.end_date}">
@@ -511,6 +513,5 @@ html, body {
 		})
 	</script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJznZ1ht-uJFa-tBJBpYYtzQ2609ba2Eg&libraries=places&callback=initMap&language=zh-TW"></script>
-	<div id="footer"></div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<c:url value="/" var="root"></c:url>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <%
@@ -40,7 +40,7 @@
 		// 			}
 		// 		});
 		setTimeout(function() {
-			window.location = "http://localhost:8080/SHAREBAR/index.jsp"
+			window.location = "${root}";
 		}, 500);
 	</script>
 </body>

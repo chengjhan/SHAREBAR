@@ -59,11 +59,15 @@ img#imgPreview{
 </head>
 <%
 String from = request.getHeader("Referer");
-String temp = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
-if(temp.equals("secure/login.jsp") || temp.equals("secure/signup.jsp")){
+if(from != null){
+	String temp = from.substring(from.lastIndexOf("SHAREBAR/") + 9);
+	if(temp.equals("secure/login.jsp") || temp.equals("secure/signup.jsp")){
 	
+	}else{
+		session.setAttribute("from",from);	
+	}
 }else{
-session.setAttribute("from",from);	
+	session.setAttribute("from", "index.jsp");
 }
 %>
 <body>
@@ -92,7 +96,7 @@ session.setAttribute("from",from);
 			<div class="form-group">
 			<label for="member_email">Account name(email):</label>
 			<div class="input-group">
-			<input type="email" class="form-control" id="member_email" name="member_email" placeholder="Email" value="${param.memberemail}" data-error="Bruh, that email address is invalid" required/>
+			<input type="email" class="form-control" id="member_email" name="member_email" placeholder="Email" value="${param.member_email}" data-error="Bruh, that email address is invalid" required/>
 			<div class="input-group-addon"><span id="act_check" class="glyphicon glyphicon-question-sign"></span></div>
 			</div>
 			<div class="help-block with-errors">${errors.id}</div>
