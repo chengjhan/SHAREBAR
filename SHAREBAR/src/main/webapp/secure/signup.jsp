@@ -21,6 +21,7 @@
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 <script src="../js/bootstrap-validator.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script><!-- GSignIn -->
+<script>window.history.forward();</script>
 <title>SignUp</title>
 <style type="text/css">
 html, body {

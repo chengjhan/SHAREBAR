@@ -179,7 +179,7 @@ pageContext.setAttribute("classes",classBeans);
 <c:forEach var="category" items="${classes}">
 <div class="boxIan">
 <a href="${root}item/SearchClassName.jsp?id=${category.class_id}&name=${category.class_name}">
-<img class="contentIan" data-lazy="${root}category-image/${category.image}">
+<img class="contentIan" data-lazy="<%=request.getContextPath()%>/category-image/${category.image}">
 </a>
 </div>
 </c:forEach>
@@ -189,10 +189,10 @@ pageContext.setAttribute("classes",classBeans);
 <div class="item_slide">
 <c:forEach var="item" items="${items}">
 <div class="boxIan">
-<a href="${root}item/itemdetail.controller?id=${item.item_id}">
+<a href="<%=request.getContextPath()%>/item/itemdetail.controller?id=${item.item_id}">
 <c:forEach var="image" items="${item.imageBean}" varStatus="stat">
 	<c:if test="${stat.first}">
-			<img alt="item_image" data-lazy="${root}item-image/${image.image_photo}" class="contentIan">
+			<img alt="item_image" data-lazy="<%=request.getContextPath()%>/item-image/${image.image_photo}" class="contentIan">
 	</c:if>
 </c:forEach>
 </a>
