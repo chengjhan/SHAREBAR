@@ -295,7 +295,7 @@ var user_name ="${user.nickname}";
 var item_status = "未提出"
 var getNextOffset = function() { return count*215; };
 var count = 0;
-var checklogin = "${root}secure/login.jsp";
+var checklogin = "<%=request.getContextPath()%>/secure/login.jsp";
 
 $(function(){
 	//判斷是否追蹤	
@@ -409,8 +409,8 @@ $(function(){
 	//留言版websocket
 	var webSocket = null;
 	function initwebsocket(){
-		webSocket = new WebSocket('ws://localhost:8080/SHAREBAR/item/MessageBoardWebSocket');
-
+		webSocket = new WebSocket('wss://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/item/MessageBoardWebSocket');
+	
 		webSocket.onopen = function(evt){
 			onOpen(evt);
 		};
@@ -563,7 +563,7 @@ $(function(){
 	})
 	
 	function startConnection(){
-	    var url = 'ws://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket/'+user_id;
+	    var url = 'wss://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket/'+user_id;
 	    socket = new WebSocket(url);	
 	    socket.onmessage = function(event) {
 	        addMessage(event.data);
