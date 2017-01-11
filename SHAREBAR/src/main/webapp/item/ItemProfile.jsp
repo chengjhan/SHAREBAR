@@ -295,7 +295,7 @@ var user_name ="${user.nickname}";
 var item_status = "未提出"
 var getNextOffset = function() { return count*215; };
 var count = 0;
-var checklogin = "http://localhost:8080${root}secure/login.jsp";
+var checklogin = "${root}secure/login.jsp";
 
 $(function(){
 	//判斷是否追蹤	
