@@ -282,7 +282,7 @@ public class UpdateItemServlet extends HttpServlet {
 		}
 
 		// 根據Model的執行結果，顯示View
-		if (result != null && result1 != null) {
+		if (result != null) {
 //			RequestDispatcher rd = request.getRequestDispatcher("/item/itemdetail.controller?id=" + item_id);
 //			rd.forward(request, response);
 			String root = request.getContextPath();

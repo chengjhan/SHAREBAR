@@ -21,8 +21,8 @@
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css"> -->
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-</head>
-
+<link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
+<script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <body>
 <c:import url="../header.jsp"></c:import>
 <div class="wrap">
@@ -104,7 +104,7 @@
 					</tr>
 					<tr>
 <!-- 						<td><label>封鎖日期:&nbsp;</label></td> -->
-						<td><input type="text" name="member_block" value="${param.member_block}" class="form-control" placeholder="輸入日期:yyyy-mm-dd">${errors.member_block }</td>
+						<td><input type="text" id="blockdate" name="member_block" value="${param.member_block}" class="form-control" placeholder="輸入日期:yyyy-mm-dd">${errors.member_block }</td>
 						<td align="right"><input type="submit" value="封鎖會員" class="btn btn-danger">${errors.system}</td>
 					</tr>	
 				</table>		
@@ -199,6 +199,17 @@
 <!-- <div style="height:40px"></div> -->
 <c:import url="/footer.jsp"></c:import>
 </body>
+<script>
+$(function() {
+	
+	// 日期選擇器
+	$("#blockdate").datepicker({
+		dateFormat: 'yy-mm-dd',
+		minDate : "+1d",
+		maxDate : "+1y"
+	});
+});
+</script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
 
 </html>

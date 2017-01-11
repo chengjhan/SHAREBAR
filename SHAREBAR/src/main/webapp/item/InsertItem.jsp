@@ -10,7 +10,12 @@
 <link rel=stylesheet type="text/css" href="../css/share.css">
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-<script src="../js/jquery-3.1.1.min.js"></script>
+<!-- <script src="../js/jquery-3.1.1.min.js"></script> -->
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script src="../js/cropit-master/jquery.cropit.js"></script>
 <script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script src="../js/jquery.uploadPreview.min.js"></script>
@@ -43,10 +48,6 @@ html, body {
 	margin: 0 auto;
 	margin-top: 20px;
 	margin-bottom: 50px;
-}
-
-#id_image_form {
-	margin-top: 20px;
 }
 
 #id_item_description {
@@ -115,6 +116,28 @@ html, body {
     width: 430px;
     position:absolute;
 }
+
+
+.cropit-preview {
+        background-color: #f8f8f8;
+        background-size: cover;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-top: 7px;
+        width: 200px;
+        height: 200px;
+      }
+
+      .cropit-preview-image-container {
+        cursor: move;
+      }
+
+      .image-size-label {
+        margin-top: 10px;
+      }
+.image-editor {
+	margin-right:25px
+}
 </style>
 </head>
 <body>
@@ -146,22 +169,67 @@ html, body {
 		<form id="id_insert_form" action="<c:url value="/item/share.controller" />" method="post" enctype="multipart/form-data">
 			<div>
 				<div id="id_image_form" class="container" style="width:500px;float:left;">
-					<div id="id_image_div1" class="form-group image-preview">
-						<label for="id_image_photo1" id="id_image_label1">封面照片</label>
-						<input type="file" id="id_image_photo1" name="image_photo1">
+				
+					<div class="form-group" style="float:left">
+						<div class="image-editor">
+							<label for="id_image_photo1" id="id_image_label1">封面照片</label>
+							<input type="file" id="id_image_photo1" name="image_photo1" class="form-control-file cropit-image-input" style="width:200px" accept="image/x-png" data-error="Please input a png file" required><br>
+							<div class="cropit-preview"></div>
+        					<div class="image-size-label"></div>
+       						<input type="range" class="cropit-image-zoom-input" style="width:200px"/>
+        					<input type="hidden" name="image-data" class="hidden-image-data" />
+        				</div>
 					</div>
-					<div id="id_image_div2" class="form-group image-preview">
-						<label for="id_image_photo2" id="id_image_label2">選擇照片</label>
-						<input type="file" id="id_image_photo2" name="image_photo2">
+					
+					<div class="form-group" style="float:left">
+						<div class="image-editor">
+							<label for="id_image_photo2" id="id_image_label2">選擇照片</label>
+							<input type="file" id="id_image_photo2" name="image_photo2" class="form-control-file cropit-image-input" style="width:200px" accept="image/x-png" data-error="Please input a png file"><br>
+							<div class="cropit-preview"></div>
+        					<div class="image-size-label"></div>
+       						<input type="range" class="cropit-image-zoom-input" style="width:200px"/>
+        					<input type="hidden" name="image-data" class="hidden-image-data" />
+        				</div>
 					</div>
-					<div id="id_image_div3" class="form-group image-preview">
-						<label for="id_image_photo3" id="id_image_label3">選擇照片</label>
-						<input type="file" id="id_image_photo3" name="image_photo3">
+					
+					<div class="form-group" style="float:left">
+						<div class="image-editor">
+							<label for="id_image_photo3" id="id_image_label3">選擇照片</label>
+							<input type="file" id="id_image_photo3" name="image_photo3" class="form-control-file cropit-image-input" style="width:200px" accept="image/x-png" data-error="Please input a png file"><br>
+							<div class="cropit-preview"></div>
+        					<div class="image-size-label"></div>
+       						<input type="range" class="cropit-image-zoom-input" style="width:200px"/>
+        					<input type="hidden" name="image-data" class="hidden-image-data" />
+        				</div>
 					</div>
-					<div id="id_image_div4" class="form-group image-preview">
-						<label for="id_image_photo4" id="id_image_label4">選擇照片</label>
-						<input type="file" id="id_image_photo4" name="image_photo4">
+					
+					<div class="form-group" style="float:left">
+						<div class="image-editor">
+							<label for="id_image_photo4" id="id_image_label4">選擇照片</label>
+							<input type="file" id="id_image_photo4" name="image_photo4" class="form-control-file cropit-image-input" style="width:200px" accept="image/x-png" data-error="Please input a png file"><br>
+							<div class="cropit-preview"></div>
+        					<div class="image-size-label"></div>
+       						<input type="range" class="cropit-image-zoom-input" style="width:200px"/>
+        					<input type="hidden" name="image-data" class="hidden-image-data" />
+        				</div>
 					</div>
+				
+<!-- 					<div id="id_image_div1" class="form-group image-preview"> -->
+<!-- 						<label for="id_image_photo1" id="id_image_label1">封面照片</label> -->
+<!-- 						<input type="file" id="id_image_photo1" name="image_photo1"> -->
+<!-- 					</div> -->
+<!-- 					<div id="id_image_div2" class="form-group image-preview"> -->
+<!-- 						<label for="id_image_photo2" id="id_image_label2">選擇照片</label> -->
+<!-- 						<input type="file" id="id_image_photo2" name="image_photo2"> -->
+<!-- 					</div> -->
+<!-- 					<div id="id_image_div3" class="form-group image-preview"> -->
+<!-- 						<label for="id_image_photo3" id="id_image_label3">選擇照片</label> -->
+<!-- 						<input type="file" id="id_image_photo3" name="image_photo3"> -->
+<!-- 					</div> -->
+<!-- 					<div id="id_image_div4" class="form-group image-preview"> -->
+<!-- 						<label for="id_image_photo4" id="id_image_label4">選擇照片</label> -->
+<!-- 						<input type="file" id="id_image_photo4" name="image_photo4"> -->
+<!-- 					</div> -->
 				</div>
 
 				<div id="id_item_form" class="container col-sm-6 col-md-6 share-clean">
@@ -339,39 +407,54 @@ html, body {
 				maxDate : "+1y"
 			});
 			
+			
+			$('.image-editor').cropit();
+			
+			$("#id_submit").click(function(event){
+// 				var stat = $("#act_check").attr("account");
+				var imageData = $('.image-editor').cropit('export');
+		        $('.hidden-image-data').val(imageData);
+// 				if(stat=="exist"){
+// 					event.preventDefault();
+// 					$("#ajaxCheck").html("<p style='font-weight:bold'>This account is already exist, please change your email.</p>")
+// 				}
+			});//end of click
+			
+			
+			
 			// 照片預覽
-			$.uploadPreview({
-				input_field: "#id_image_photo1",	// Default: .image-upload
-				preview_box: "#id_image_div1",		// Default: .image-preview
-				label_field: "#id_image_label1",	// Default: .image-label
-				label_default: "選擇照片",			// Default: Choose File
-				label_selected: "更換照片",			// Default: Change File
-				no_label: false						// Default: false
-			});
-			$.uploadPreview({
-				input_field: "#id_image_photo2",
-				preview_box: "#id_image_div2",
-				label_field: "#id_image_label2",
-				label_default: "選擇照片",
-				label_selected: "更換照片",
-				no_label: false
-			});
-			$.uploadPreview({
-				input_field: "#id_image_photo3",
-				preview_box: "#id_image_div3",
-				label_field: "#id_image_label3",
-				label_default: "選擇照片",
-				label_selected: "更換照片",
-				no_label: false
-			});
-			$.uploadPreview({
-				input_field: "#id_image_photo4",
-				preview_box: "#id_image_div4",
-				label_field: "#id_image_label4",
-				label_default: "選擇照片",
-				label_selected: "更換照片",
-				no_label: false
-			});
+// 			$.uploadPreview({
+// 				input_field: "#id_image_photo1",	// Default: .image-upload
+// 				preview_box: "#id_image_div1",		// Default: .image-preview
+// 				label_field: "#id_image_label1",	// Default: .image-label
+// 				label_default: "選擇照片",			// Default: Choose File
+// 				label_selected: "更換照片",			// Default: Change File
+// 				no_label: false						// Default: false
+// 			});
+// 			$.uploadPreview({
+// 				input_field: "#id_image_photo2",
+// 				preview_box: "#id_image_div2",
+// 				label_field: "#id_image_label2",
+// 				label_default: "選擇照片",
+// 				label_selected: "更換照片",
+// 				no_label: false
+// 			});
+// 			$.uploadPreview({
+// 				input_field: "#id_image_photo3",
+// 				preview_box: "#id_image_div3",
+// 				label_field: "#id_image_label3",
+// 				label_default: "選擇照片",
+// 				label_selected: "更換照片",
+// 				no_label: false
+// 			});
+// 			$.uploadPreview({
+// 				input_field: "#id_image_photo4",
+// 				preview_box: "#id_image_div4",
+// 				label_field: "#id_image_label4",
+// 				label_default: "選擇照片",
+// 				label_selected: "更換照片",
+// 				no_label: false
+// 			});
 			
 			// 表單驗證
 			$('#id_insert_form').validate({
