@@ -38,12 +38,13 @@
   	color: white;
   	background-color: #637897;
 	}
-	th,td{
-/* 	text-align:center; */
+  .table-hover tbody tr:hover a {
+  	color: white;
 	}
 </style>
 </head>
 <body>
+<c:url value="/" var="root"></c:url>
 <c:import url="../header.jsp"></c:import>
 	<div class="wrap">
 	<div class="container-fluid">
@@ -108,8 +109,8 @@
 												</c:if>
 												</td>												
 												<td><input id="chat" type="button" value="聊天" class="btn btn-info"></td>													
-												<td>${share_mail[1]}</td>
-												<td>${share_mail[3]}</td>
+												<td><a href="${root}item/itemdetail.controller?id=${share_mail[0]}">${share_mail[1]}</a></td>
+												<td><a href="${root}member/profile.controller?id=${share_mail[2]}">${share_mail[3]}</a></td>
 												<td>${share_mail[4]}</td>
 												<td>											
 												<c:if test="${ share_mail[7] != share_mail[2] && share_mail[8] eq 0 }">
@@ -179,8 +180,8 @@
 													</c:if>
 												</td>												
 												<td><input id="chat" type="button" value="聊天" class="btn btn-info"></td>
-												<td>${request_mail[1]}</td>
-												<td>${request_mail[3]}</td>
+												<td><a href="${root}item/itemdetail.controller?id=${request_mail[0]}">${request_mail[1]}</a></td>
+												<td><a href="${root}member/profile.controller?id=${request_mail[2]}">${request_mail[3]}</a></td>
 												<td>${request_mail[4]}</td>
 												<td>											
 												<c:if test="${ request_mail[7] != user.member_no && request_mail[9] eq 0 }">
@@ -464,7 +465,7 @@ var count = 0;
 			}
 		
         function startConnection(){
-		    var url = 'ws://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket/'+user_id;
+		    var url = 'wss://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket/'+user_id;
 		    socket = new WebSocket(url);	
 		    socket.onmessage = function(event) {
 		        addMessage(event.data);
@@ -585,8 +586,8 @@ var count = 0;
 								'<div id="image" style="display:none;">&nbsp;&nbsp;&nbsp;<img src="img/loading_s.gif"></div>' + 
                 			'</td>' + 
                 			'<td><input id="chat" type="button" value="聊天" class="btn btn-info"></td>' +
-                			'<td>' + title_str + '</td>' +
-                			'<td>' + target_str + '</td>' +
+                			'<td>' + '<a href="${root}item/itemdetail.controller?id=' + item_id + '">' + title_str + '</td>' +
+                			'<td>' + '<a href="${root}member/profile.controller?id=' + requester_id + '">' + target_str + '</td>' +
                 			'<td>' + dateTime.toLocaleString() + '</td>' +
                 			'<td>' + 
                 				'<input id="rate" type="button" value="評價" class="btn btn-success" style="visibility:hidden;">' +

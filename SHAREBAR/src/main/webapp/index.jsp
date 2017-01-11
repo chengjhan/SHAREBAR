@@ -10,6 +10,7 @@
 <!-- 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 <!-- <link rel="stylesheet" href="js/Carousel-Plugin-flexisel/css/style.css"> -->
 <link rel="stylesheet" href="js/slick/slick.css">
+<link rel="shortcut icon" href="<c:url value='favicon.ico'/>" type="image/x-icon" />
 <link rel="stylesheet" href="js/slick/slick-theme.css">
 <link rel="stylesheet" href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css"/>

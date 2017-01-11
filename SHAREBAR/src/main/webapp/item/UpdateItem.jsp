@@ -10,7 +10,12 @@
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <link rel=stylesheet type="text/css" href="../css/share.css">
-<script src="../js/jquery-3.1.1.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<!-- <script src="../js/jquery-3.1.1.min.js"></script> -->
+<script src="../js/cropit-master/jquery.cropit.js"></script>
 <script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script src="../js/jquery.uploadPreview.min.js"></script>
@@ -115,6 +120,28 @@ html, body {
     width: 430px;
     position:absolute;
 }
+
+
+.cropit-preview {
+        background-color: #f8f8f8;
+        background-size: cover;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-top: 7px;
+        width: 200px;
+        height: 200px;
+      }
+
+      .cropit-preview-image-container {
+        cursor: move;
+      }
+
+      .image-size-label {
+        margin-top: 10px;
+      }
+.image-editor {
+	margin-right:25px
+}
 </style>
 </head>
 <body>
@@ -146,26 +173,71 @@ html, body {
 		<form id="id_update_form" action="<c:url value="/item/update.controller" />" method="post" enctype="multipart/form-data">
 			<div class="row">
 				<div id="id_image_form" class="container" style="width:500px;float:left;">
-					<div id="id_image_div1" class="form-group image-preview">
-						<label for="id_image_photo1" id="id_image_label1">封面照片</label>
-						<input type="file" id="id_image_photo1" name="image_photo1">
-						<input type="text" name="image_id1" value="${param.image_id1}" style='display:none'>
+				
+					<div class="form-group" style="float:left">
+						<div class="image-editor">
+							<label for="id_image_photo1" id="id_image_label1">封面照片</label>
+							<input type="file" id="id_image_photo1" name="image_photo1" class="form-control-file cropit-image-input" style="width:200px"><br>
+							<div class="cropit-preview"></div>
+        					<div class="image-size-label"></div>
+       						<input type="range" class="cropit-image-zoom-input" style="width:200px"/>
+        					<input type="hidden" name="image-data" class="hidden-image-data" />
+        				</div>
 					</div>
-					<div id="id_image_div2" class="form-group image-preview">
-						<label for="id_image_photo2" id="id_image_label2">選擇照片</label>
-						<input type="file" id="id_image_photo2" name="image_photo2">
-						<input type="text" name="image_id2" value="${param.image_id2}" style='display:none'>
+					
+					<div class="form-group" style="float:left">
+						<div class="image-editor">
+							<label for="id_image_photo2" id="id_image_label2">選擇照片</label>
+							<input type="file" id="id_image_photo2" name="image_photo2" class="form-control-file cropit-image-input" style="width:200px" accept="image/x-png" data-error="Please input a png file"><br>
+							<div class="cropit-preview"></div>
+        					<div class="image-size-label"></div>
+       						<input type="range" class="cropit-image-zoom-input" style="width:200px"/>
+        					<input type="hidden" name="image-data" class="hidden-image-data" />
+        				</div>
 					</div>
-					<div id="id_image_div3" class="form-group image-preview">
-						<label for="id_image_photo3" id="id_image_label3">選擇照片</label>
-						<input type="file" id="id_image_photo3" name="image_photo3">
-						<input type="text" name="image_id3" value="${param.image_id3}" style='display:none'>
+					
+					<div class="form-group" style="float:left">
+						<div class="image-editor">
+							<label for="id_image_photo3" id="id_image_label3">選擇照片</label>
+							<input type="file" id="id_image_photo3" name="image_photo3" class="form-control-file cropit-image-input" style="width:200px" accept="image/x-png" data-error="Please input a png file"><br>
+							<div class="cropit-preview"></div>
+        					<div class="image-size-label"></div>
+       						<input type="range" class="cropit-image-zoom-input" style="width:200px"/>
+        					<input type="hidden" name="image-data" class="hidden-image-data" />
+        				</div>
 					</div>
-					<div id="id_image_div4" class="form-group image-preview">
-						<label for="id_image_photo4" id="id_image_label4">選擇照片</label>
-						<input type="file" id="id_image_photo4" name="image_photo4">
-						<input type="text" name="image_id4" value="${param.image_id4}" style='display:none'>
+					
+					<div class="form-group" style="float:left">
+						<div class="image-editor">
+							<label for="id_image_photo4" id="id_image_label4">選擇照片</label>
+							<input type="file" id="id_image_photo4" name="image_photo4" class="form-control-file cropit-image-input" style="width:200px" accept="image/x-png" data-error="Please input a png file"><br>
+							<div class="cropit-preview"></div>
+        					<div class="image-size-label"></div>
+       						<input type="range" class="cropit-image-zoom-input" style="width:200px"/>
+        					<input type="hidden" name="image-data" class="hidden-image-data" />
+        				</div>
 					</div>
+				
+<!-- 					<div id="id_image_div1" class="form-group image-preview"> -->
+<!-- 						<label for="id_image_photo1" id="id_image_label1">封面照片</label> -->
+<!-- 						<input type="file" id="id_image_photo1" name="image_photo1"> -->
+<%-- 						<input type="text" name="image_id1" value="${param.image_id1}" style='display:none'> --%>
+<!-- 					</div> -->
+<!-- 					<div id="id_image_div2" class="form-group image-preview"> -->
+<!-- 						<label for="id_image_photo2" id="id_image_label2">選擇照片</label> -->
+<!-- 						<input type="file" id="id_image_photo2" name="image_photo2"> -->
+<%-- 						<input type="text" name="image_id2" value="${param.image_id2}" style='display:none'> --%>
+<!-- 					</div> -->
+<!-- 					<div id="id_image_div3" class="form-group image-preview"> -->
+<!-- 						<label for="id_image_photo3" id="id_image_label3">選擇照片</label> -->
+<!-- 						<input type="file" id="id_image_photo3" name="image_photo3"> -->
+<%-- 						<input type="text" name="image_id3" value="${param.image_id3}" style='display:none'> --%>
+<!-- 					</div> -->
+<!-- 					<div id="id_image_div4" class="form-group image-preview"> -->
+<!-- 						<label for="id_image_photo4" id="id_image_label4">選擇照片</label> -->
+<!-- 						<input type="file" id="id_image_photo4" name="image_photo4"> -->
+<%-- 						<input type="text" name="image_id4" value="${param.image_id4}" style='display:none'> --%>
+<!-- 					</div> -->
 				</div>
 				<div id="id_item_form" class="container col-sm-6 col-md-6 share-clean">
 					<legend>修改分享物資訊</legend>
@@ -195,14 +267,14 @@ html, body {
 	      					</a>
     						</div>
 						<input type="text" id="id_location" name="location" class="form-control" placeholder="地區，地址" value="${param.location}">
-						<span class="input-group-addon"><i id="id_location_ok" class="glyphicon glyphicon-remove"></i></span>
+						<span class="input-group-addon"><i id="id_location_ok" class="glyphicon glyphicon-ok"></i></span>
 					</div>
 					<div id="id_latlng" style='display:none'>
 						<div id="id_lat_div">
-							<input id="id_lat_input" name='latitude' value='${param.latitude}' style="display:none">
+							<input id="id_lat_input" name='latitude' value='${param.latitude}'>
 						</div>
 						<div id="id_lng_div">
-							<input id="id_lng_input" name='longitude' value='${param.longitude}' style="display:none">
+							<input id="id_lng_input" name='longitude' value='${param.longitude}'>
 						</div>
 					</div>
 					<div class="form-group">
@@ -357,39 +429,51 @@ html, body {
 				maxDate : "+1y"
 			});
 			
+			$('.image-editor').cropit();
+			
+			$("#id_submit").click(function(event){
+// 				var stat = $("#act_check").attr("account");
+				var imageData = $('.image-editor').cropit('export');
+		        $('.hidden-image-data').val(imageData);
+// 				if(stat=="exist"){
+// 					event.preventDefault();
+// 					$("#ajaxCheck").html("<p style='font-weight:bold'>This account is already exist, please change your email.</p>")
+// 				}
+			});//end of click
+			
 			// 照片預覽
-			$.uploadPreview({
-				input_field: "#id_image_photo1",	// Default: .image-upload
-				preview_box: "#id_image_div1",		// Default: .image-preview
-				label_field: "#id_image_label1",	// Default: .image-label
-				label_default: "選擇照片",			// Default: Choose File
-				label_selected: "更換照片",			// Default: Change File
-				no_label: false						// Default: false
-			});
-			$.uploadPreview({
-				input_field: "#id_image_photo2",
-				preview_box: "#id_image_div2",
-				label_field: "#id_image_label2",
-				label_default: "選擇照片",
-				label_selected: "更換照片",
-				no_label: false
-			});
-				$.uploadPreview({
-				input_field: "#id_image_photo3",
-				preview_box: "#id_image_div3",
-				label_field: "#id_image_label3",
-				label_default: "選擇照片",
-				label_selected: "更換照片",
-				no_label: false
-			});
-			$.uploadPreview({
-				input_field: "#id_image_photo4",
-				preview_box: "#id_image_div4",
-				label_field: "#id_image_label4",
-				label_default: "選擇照片",
-				label_selected: "更換照片",
-				no_label: false
-			});
+// 			$.uploadPreview({
+// 				input_field: "#id_image_photo1",	// Default: .image-upload
+// 				preview_box: "#id_image_div1",		// Default: .image-preview
+// 				label_field: "#id_image_label1",	// Default: .image-label
+// 				label_default: "選擇照片",			// Default: Choose File
+// 				label_selected: "更換照片",			// Default: Change File
+// 				no_label: false						// Default: false
+// 			});
+// 			$.uploadPreview({
+// 				input_field: "#id_image_photo2",
+// 				preview_box: "#id_image_div2",
+// 				label_field: "#id_image_label2",
+// 				label_default: "選擇照片",
+// 				label_selected: "更換照片",
+// 				no_label: false
+// 			});
+// 				$.uploadPreview({
+// 				input_field: "#id_image_photo3",
+// 				preview_box: "#id_image_div3",
+// 				label_field: "#id_image_label3",
+// 				label_default: "選擇照片",
+// 				label_selected: "更換照片",
+// 				no_label: false
+// 			});
+// 			$.uploadPreview({
+// 				input_field: "#id_image_photo4",
+// 				preview_box: "#id_image_div4",
+// 				label_field: "#id_image_label4",
+// 				label_default: "選擇照片",
+// 				label_selected: "更換照片",
+// 				no_label: false
+// 			});
 			
 			// 表單驗證
 			$('#id_update_form').validate({
@@ -398,29 +482,29 @@ html, body {
                 	item_name: "required",
                 	class_name: "required",
                 	location: "required",
-                	image_photo1: "required",
+//                 	image_photo1: "required",
 //                 	image_photo1: {
 //                 		required: true,
 //                 		accept: "jpg, png, jpeg, gif",
 //                 	},
 				},
 				messages: {
-					image_photo1: "請上傳封面照片",
+// 					image_photo1: "請上傳封面照片",
 				},
 				highlight: function (element) {
 		            $(element).addClass('error');
 // 		            $("#id_image_label1").addClass('error');
-		            $("#id_image_div1").css("background-color", "#FFD2D2");
+// 		            $("#id_image_div1").css("background-color", "#FFD2D2");
 		        },
 		        unhighlight: function (element) {
 		            $(element).removeClass('error');
 // 		            $("#id_image_label1").removeClass('error');
-		            $("#id_image_div1").css("background-color", "#ffffff");
+// 		            $("#id_image_div1").css("background-color", "#ffffff");
 		        },
 				errorPlacement: function(error, element) {
-					if(element.is("#id_image_photo1")){
-						error.appendTo(element.siblings("span"));						
-					}
+// 					if(element.is("#id_image_photo1")){
+// 						error.appendTo(element.siblings("span"));						
+// 					}
 				},
 				submitHandler: function(){
 // 					$(this).submit();
@@ -452,10 +536,10 @@ html, body {
 					lat = results[0].geometry.location.lat();
 					lng = results[0].geometry.location.lng();
 // 					alert(lat + " ," + lng);
-					inputLat = $("<input name='latitude' style='display:none'>").val(lat);
+					inputLat = $("<input name='latitude'>").val(lat);
 					divLat.empty();
 					divLatHaveInput = divLat.append(inputLat);
-					inputLng = $("<input name='longitude' style='display:none'>").val(lng);
+					inputLng = $("<input name='longitude'>").val(lng);
 					divLng.empty();
 					divLngHaveInput = divLng.append(inputLng);
 					divLatLng.append(divLatHaveInput).append(divLngHaveInput);
@@ -470,13 +554,13 @@ html, body {
 		// 點地圖取得經緯度
 		$("#id_modal_btn").on("click", function(){
 			$("#id_location").val(strAddress);
-			inputLat = $("<input name='latitude' style='display:none'>").val(clickLat);
+			inputLat = $("<input name='latitude'>").val(clickLat);
 // 			alert(clickLat);
-			inputLat = $("<input name='latitude' style='display:none'>").val(clickLat);
+			inputLat = $("<input name='latitude'>").val(clickLat);
 			divLat.empty();
 			divLatHaveInput = divLat.append(inputLat);
 // 			alert(clickLon);
-			inputLng = $("<input name='longitude' style='display:none'>").val(clickLon);
+			inputLng = $("<input name='longitude'>").val(clickLon);
 			divLng.empty();
 			divLngHaveInput = divLng.append(inputLng);
 			divLatLng.append(divLatHaveInput).append(divLngHaveInput);
