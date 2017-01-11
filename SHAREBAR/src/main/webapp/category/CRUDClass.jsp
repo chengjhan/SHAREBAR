@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert and update</title>
+<title>分類管理</title>
 <link rel="shortcut icon" href="<c:url value='/favicon.ico'/>" type="image/x-icon" />
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
