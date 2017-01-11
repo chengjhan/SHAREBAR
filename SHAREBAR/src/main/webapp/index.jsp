@@ -96,6 +96,7 @@ h3 {
 	background-color:black;
 	color:white;
 	width:100%;
+	height:20%;
 }
 
 
