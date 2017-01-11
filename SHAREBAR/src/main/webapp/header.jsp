@@ -15,10 +15,10 @@
 <!-- 引用header時需要import以下六個plugin，置於根目錄的js資料夾內 -->
 
 <!-- <link rel="stylesheet" href="js/bootstrap-3.3.7-dist/css/bootstrap.min.css"> -->
-<link rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css"/>
+<!-- <link rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.css"/> -->
 <!-- <script src="js/jquery-3.1.1.min.js"></script> -->
 <!-- <script src="js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script> -->
-<script src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<!-- <script src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script> -->
 <!-- <script src="js/jquery.validate.min.js"></script> -->
 
 <!-- 以下id請勿再使用 -->
