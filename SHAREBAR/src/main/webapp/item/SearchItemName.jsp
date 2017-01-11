@@ -77,7 +77,9 @@ html, body {
 }
 
 .item_image_div {
-	width: 100%;
+/* 	width: 100%; */
+	width:330.6px;
+	height:330.6px;
 	z-index: 1;
 	position: relative;
 }
