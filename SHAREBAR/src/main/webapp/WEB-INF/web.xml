@@ -30,15 +30,6 @@
     <url-pattern>/member/userProfile.jsp</url-pattern>
     <url-pattern>/item/InsertItem.jsp</url-pattern>
   </filter-mapping>
-<!--   <filter> -->
-<!--   	<filter-name>PreventLoginFilter</filter-name> -->
-<!--   	<filter-class>filter.PreventLoginFilter</filter-class> -->
-<!--   </filter> -->
-<!--   <filter-mapping> -->
-<!--   	<filter-name>PreventLoginFilter</filter-name> -->
-<!--   	<url-pattern>/secure/login.jsp</url-pattern> -->
-<!--   	<url-pattern>/secure/signup.jsp</url-pattern> -->
-<!--   </filter-mapping> -->
   <resource-ref>
     <res-ref-name>jdbc/xxx</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>

@@ -6,7 +6,11 @@
 <head>
 <link rel="stylesheet"
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script src="../js/cropit-master/jquery.cropit.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -49,6 +53,25 @@ div.list-group{
 	padding: 1em;
 	horizontal-align:center;
 }
+
+/* for cropit */
+      .cropit-preview {
+        background-color: #f8f8f8;
+        background-size: cover;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-top: 7px;
+        width: 250px;
+        height: 250px;
+      }
+
+      .cropit-preview-image-container {
+        cursor: move;
+      }
+
+      .image-size-label {
+        margin-top: 10px;
+      }
 </style>
 
 </head>
@@ -65,32 +88,25 @@ div.list-group{
 		</div>
 	</div>
 	<div class="col-md-9">
-		<form id="sign_up" data-toggle="validator" action="update.do" method="POST" enctype="multipart/form-data">
+		<form id="sign_up" data-toggle="validator" action="updateProfilePhoto.do" method="POST">
 			<legend>Update info: </legend>
+			
+			
 			<div class="form-group">
-			<label for="first_name">First name:</label><input type="text" class="form-control" id="first_name" name="first_name" value="${user.first_name}" required>
+			<div class="image-editor">
+			<label for="member_photo">Image:</label>
+			<input type="file" class="form-control-file cropit-image-input" id="member_photo" name="member_photo" accept="image/x-png" data-error="Please input a png file" required><br>
+			<div class="cropit-preview"></div>
+        	<div class="image-size-label">
+          	Resize image
+       		</div>
+       		<input type="range" class="cropit-image-zoom-input"/ style="width:30%">
+        	<input type="hidden" name="image-data" class="hidden-image-data" />
+        	</div>
+			<div class="help-block with-errors">${errors.photo}</div>
 			</div>
-			<div class="form-group">
-			<label for="last_name">Last name:</label><input type="text" class="form-control" id="last_name" name="last_name" value="${user.last_name}" required>
-			</div>
-			<div class="form-group">
-			<label for="country">Country:</label><input type="text" class="form-control" id="country" name="country" value="${user.country}" required>
-			</div>
-			<div class="form-group">
-			<label for="city">City:</label><input type="text" class="form-control" id="city" name="city" value="${user.city}" required>
-			</div>
-			<div class="form-group">
-			<label for="member_nickname">Presented name:</label></label><input type="text" class="form-control" id="member_nickname" name="member_nickname" value="${user.nickname}" data-error="This is what other user would see" required>${errors.nickname}
-			<div class="help-block with-errors"></div>
-			</div>
-			<div class="form-group">
-			<label for="member_description">Description:</label><textarea type="text" class="form-control" id="member_description" name="member_description" maxlength="50" data-error="Please introduce yourself" required>${user.description}</textarea>${errors.description}
-			<div class="help-block with-errors"></div>
-			</div>
-<!-- 			<div class="form-group"> -->
-<%-- 			<label for="member_photo">Image:</label><input type="file" class="form-control-file" id="member_photo" name="member_photo" accept="image/x-png" data-error="Please input a png file" required>${errors.photo}<br><br><br> --%>
-<%-- 			<img id="imgPreview"alt="your image" src="${root}profileImages/${user.photo}" > --%>
-<!-- 			</div> -->
+			
+
 			<div class="form-group">
 			<button type="submit" class="btn btn-primary">Store</button> <button type="reset" class="btn btn-primary">Reset</button>
 			</div>
@@ -99,5 +115,20 @@ div.list-group{
 	</div>
 	</div>
 	</div>
+	<script>
+	$(function() {
+        $('.image-editor').cropit();
+
+        $('form').submit(function() {
+          // Move cropped image data to hidden input
+          var imageData = $('.image-editor').cropit('export');
+          $('.hidden-image-data').val(imageData);
+          $('.cropit-image-zoom-input').prop('disable', true);
+          $('.cropit-image-input').prop('disabled', true);
+
+          return true;
+        });
+      });
+	</script>
 </body>
 </html>
