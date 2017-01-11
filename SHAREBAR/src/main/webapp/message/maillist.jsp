@@ -465,7 +465,7 @@ var count = 0;
 			}
 		
         function startConnection(){
-		    var url = 'ws://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket/'+user_id;
+		    var url = 'wss://${pageContext.request.getServerName()}:${pageContext.request.getServerPort()}${pageContext.request.contextPath}/websocket/'+user_id;
 		    socket = new WebSocket(url);	
 		    socket.onmessage = function(event) {
 		        addMessage(event.data);
