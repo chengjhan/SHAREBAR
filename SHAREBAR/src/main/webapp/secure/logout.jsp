@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SHARE BAR</title>
+<link rel="shortcut icon" href="<c:url value='/favicon.ico'/>" type="image/x-icon" />
 <!-- GSignIn -->
 <meta name="google-signin-client_id"
 	content="113677232132-der9mtb9vq1bi5j7aj56k99bcvhj1kj2.apps.googleusercontent.com">
@@ -14,7 +16,6 @@
 <!-- GSignIn -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<title>Logout</title>
 </head>
 <%
 
