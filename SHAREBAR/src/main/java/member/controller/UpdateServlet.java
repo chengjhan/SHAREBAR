@@ -102,12 +102,12 @@ public class UpdateServlet extends HttpServlet {
 		String city = request.getParameter("city");
 		String member_nickname = request.getParameter("member_nickname");
 		String member_description = request.getParameter("member_description");
-		Part filePart = request.getPart("member_photo");
-		String filename = "";
-		try{
-        filename = getFilename(filePart);
-		}catch(NullPointerException e){System.out.println("can't read file");}
-        String fileExtend = getExtension(filename);
+//		Part filePart = request.getPart("member_photo");
+//		String filename = "";
+//		try{
+//        filename = getFilename(filePart);
+//		}catch(NullPointerException e){System.out.println("can't read file");}
+//        String fileExtend = getExtension(filename);
         
 		if(member_nickname==null || member_nickname.length()==0){
 			errors.put("nickname", "nickname is required.");
@@ -115,9 +115,9 @@ public class UpdateServlet extends HttpServlet {
 		if(member_description==null || member_description.length()==0){
 			errors.put("description", "description is required.");
 		}
-		if(filename==null || filename.length()==0){
-			errors.put("photo", "photo is required");
-		}
+//		if(filename==null || filename.length()==0){
+//			errors.put("photo", "photo is required");
+//		}
 		
 		if(errors!=null && !errors.isEmpty()) {
 			request.getRequestDispatcher(
@@ -132,12 +132,12 @@ public class UpdateServlet extends HttpServlet {
 		userBean.setCity(city);
 		userBean.setNickname(member_nickname);
 		userBean.setDescription(member_description);
-		userBean.setPhoto(getMD5(userBean.getEmail())+"."+fileExtend);
+//		userBean.setPhoto(getMD5(userBean.getEmail())+"."+fileExtend);
 		
 		
 		userBean = memberService.update(userBean);
 		if(userBean != null){
-			writeTo(getMD5(userBean.getEmail())+"."+fileExtend, filePart, rootpath);
+//			writeTo(getMD5(userBean.getEmail())+"."+fileExtend, filePart, rootpath);
 			String path = request.getContextPath();
 			response.sendRedirect(path+"/member/userProfile.jsp");
 		}else{
