@@ -97,6 +97,11 @@ h3 {
 	color:white;
 	width:100%;
 }
+
+
+
+
+
 </style>
 <title>Home Page</title>
 </head>
@@ -119,9 +124,56 @@ pageContext.setAttribute("classes",classBeans);
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 
-
 <div class="wrap">
 
+<div class="container coverflow">
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img src="<%=request.getContextPath()%>/img/sharing.jpg" alt="...">
+      <div class="carousel-caption">
+      <div>
+       <h3>歡迎來到SHARE BAR</h3>
+       <p>開始分享吧!</p>
+      </div>
+      </div>
+    </div>
+    <div class="item">
+      <img src="<%=request.getContextPath()%>/img/sharing2.jpg" alt="...">
+      <div class="carousel-caption">
+      <h3>清楚的地圖資訊</h3>
+      <p>來自世界個地的分享</p>
+      </div>
+    </div>
+    <div class="item">
+      <img src="<%=request.getContextPath()%>/img/sharing3.jpg" alt="...">
+      <div class="carousel-caption">
+       <h3>隨時隨地可以分享</h3>
+       <p>使用手機也可以輕鬆分享</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+</div>
+ 
 <h3>Category <small>Choose the category you want!</small></h3>
 <div class="category_slide">
 <c:forEach var="category" items="${classes}">
@@ -162,6 +214,10 @@ $(".item_slide").slick({
 	  slidesToShow: 3,
 	  slidesToScroll: 1
 	});
+$(function(){
+// 	$('.coverflow').css('margin-top','-20px');
+	$('.coverflow').css('max-width',$('.coverflow img').width());
+})
 </script>
 <c:import url="/footer.jsp"></c:import>
 </body>
