@@ -7,9 +7,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>刊登分享物</title>
 <link rel="shortcut icon" href="<c:url value='favicon.ico'/>" type="image/x-icon" />
+<link rel=stylesheet type="text/css" href="../css/share.css">
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-<link rel=stylesheet type="text/css" href="../css/share.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="../js/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>

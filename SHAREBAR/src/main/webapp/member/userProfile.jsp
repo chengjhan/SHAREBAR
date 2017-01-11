@@ -16,6 +16,8 @@
   integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
   crossorigin="anonymous"></script>
 <link rel=stylesheet type="text/css" href="../css/share.css">
+
+
 <title>Profile Page</title>
 <style>
 #basic_info{
@@ -440,4 +442,5 @@ $.each(asgetterReviews.getterReviews,function(index,getterReview){
 </div>
 <c:import url="../footer.jsp"></c:import>
 </body>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script>
 </html>
