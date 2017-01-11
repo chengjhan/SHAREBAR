@@ -26,6 +26,7 @@
 <!-- <script src="js/Carousel-Plugin-flexisel/js/jquery.flexisel.js"></script> -->
 <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkzrteoqOx4_KZZAHCXBE41sXnaXOzrRc&libraries=places&callback=initMap&language=zh-TW"></script> -->
 <c:url value="/" var="root"></c:url>
+
 <head>
 <style>
 .textellipsis{
