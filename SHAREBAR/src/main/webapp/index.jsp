@@ -205,6 +205,9 @@ pageContext.setAttribute("classes",classBeans);
 
 </div><!-- end of wrap -->
 <script type="text/javascript">
+$(function(){
+	$('.coverflow').css('max-width',$('.coverflow img').width());
+})
 $(".category_slide").slick({
 	  lazyLoad: 'ondemand',
 	  slidesToShow: 3,
@@ -215,10 +218,6 @@ $(".item_slide").slick({
 	  slidesToShow: 3,
 	  slidesToScroll: 1
 	});
-$(function(){
-// 	$('.coverflow').css('margin-top','-20px');
-	$('.coverflow').css('max-width',$('.coverflow img').width());
-})
 </script>
 <c:import url="/footer.jsp"></c:import>
 </body>
