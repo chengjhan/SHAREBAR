@@ -84,7 +84,8 @@ text-align:center;
 
 .boxIan2:hover{
 opacity: 1;
-background: rgba(0,0,0,0.5)
+background: rgba(0,0,0,0.5);
+transition-duration:500ms;
 
 }
 
