@@ -130,7 +130,7 @@ div.list-group{
           return true;
         });
         
-        $(".cropit-preview-image").attr("src","<%=request.getContextPath()%>/profileImages/${user.photo}");
+        $(".cropit-preview-image").attr('src','<%=request.getContextPath()%>/profileImages/${user.photo}');
       });
 	</script>
 </body>
