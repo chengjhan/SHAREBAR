@@ -3,7 +3,8 @@
 body{
 	background-color: #f2f2f2;
 	height:69%;
-    font-family:cursive , Microsoft YaHei , Arial , PMingLiU , MingLiU;
+    /*font-family:cursive , Microsoft YaHei , Arial , PMingLiU , MingLiU;*/
+    font-family:PenultimateLight, 微軟正黑體;
 }
 /* share bar 顏色 */
 .navbar-default .navbar-brand {

@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SHARE BAR</title>
+<link rel="shortcut icon" href="<c:url value='/favicon.ico'/>" type="image/x-icon" />
 <link rel="shortcut icon" href="<c:url value='favicon.ico'/>" type="image/x-icon" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-signin-client_id"
@@ -16,7 +18,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script><!-- GSignIn -->
 <script>window.history.forward();</script>
-<title>Login</title>
 <style type="text/css">
 .error{
 	color: #F00;
