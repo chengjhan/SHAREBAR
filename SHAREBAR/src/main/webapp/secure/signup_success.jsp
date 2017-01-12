@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SHARE BAR</title>
+<link rel="shortcut icon" href="<c:url value='/favicon.ico'/>" type="image/x-icon" />
 <meta http-equiv="refresh" content="3; url=<c:url value='/index.jsp'/>" />
-<title>SIGN UP SUCCESS!</title>
 </head>
 <body>
 <h1>Welcome, you have sign up success! This page would auto change in few seconds.</h1>

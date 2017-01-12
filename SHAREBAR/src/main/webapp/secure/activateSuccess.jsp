@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SHARE BAR</title>
+<link rel="shortcut icon" href="<c:url value='/favicon.ico'/>" type="image/x-icon" />
 <meta http-equiv="refresh" content="3; url=<c:url value='/index.jsp'/>" />
-<title>Activating...</title>
 </head>
 <body>
 <h1>Activate Success. This page would automatically redirect to home page.</h1>

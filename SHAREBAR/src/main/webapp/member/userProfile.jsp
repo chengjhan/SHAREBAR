@@ -4,8 +4,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="shortcut icon" href="<c:url value='favicon.ico'/>" type="image/x-icon" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SHARE BAR</title>
+<link rel="shortcut icon" href="<c:url value='/favicon.ico'/>" type="image/x-icon" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
@@ -19,7 +20,6 @@
 <link rel=stylesheet type="text/css" href="../css/share.css">
 <script src="../js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <link rel="stylesheet" href="../js/jquery-ui-1.12.1.custom/jquery-ui.css">
-<title>Profile Page</title>
 <style>
 #basic_info{
 	top:150px;

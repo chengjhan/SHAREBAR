@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>分類管理</title>
+<title>SHARE BAR</title>
 <link rel="shortcut icon" href="<c:url value='/favicon.ico'/>" type="image/x-icon" />
 <link rel="stylesheet" href="../js/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
@@ -36,7 +36,7 @@
 	overflow: hidden;
 	background-color: #ffffff;
 	color: #ecf0f1;
-	float: left;
+/* 	float: left; */
 /* 	margin: 10px; */
 	border: silver 1px solid;
 }
@@ -147,25 +147,25 @@
 							<input type="text" id="id_class_name" class="form-control" name="class_name" value="${param.class_name}">
 						</div>
 						<div>
-							<div style="width:150px;height:150px;float:left">
-								<img src="${root}category-image/${param.image}" style="width:100%">
-							</div>
+<!-- 							<div style="width:150px;height:150px;float:left"> -->
+<%-- 								<img src="${root}category-image/${param.image}" style="width:100%"> --%>
+<!-- 							</div> -->
 							<div id="id_image_div" class="form-group image-preview">
 								<label for="id_image_input" id="id_image_label">分類照片</label>
 								<input type="file" id="id_image_input" name="image">
 							</div>
 						</div>
-							<div style="width:150px;height:150px;float:left">
-								<img src="${root}category-icon/${param.icon}">
-							</div>
+<!-- 							<div style="width:150px;height:150px;float:left"> -->
+<%-- 								<img src="${root}category-icon/${param.icon}"> --%>
+<!-- 							</div> -->
 							<div id="id_icon_div" class="form-group image-preview">
 								<label for="id_icon_input" id="id_icon_label">地圖標記</label>
 								<input type="file" id="id_icon_input" name="icon">
 							</div>
 						<div>
-							<div style="width:150px;height:150px;float:left">
-								<img src="${root}category-icon/${param.icon_after}">
-							</div>
+<!-- 							<div style="width:150px;height:150px;float:left"> -->
+<%-- 								<img src="${root}category-icon/${param.icon_after}"> --%>
+<!-- 							</div> -->
 							<div id="id_icon_after_div" class="form-group image-preview">
 								<label for="id_icon_after_input" id="id_icon_after_label">地圖標記（後）</label>
 								<input type="file" id="id_icon_after_input" name="icon_after">
