@@ -52,7 +52,9 @@
 	display:none;
 }
 
-
+.ui-chatbox{
+	z-index: 10;
+}
 
 .item_pic{
 	width: 100%;
